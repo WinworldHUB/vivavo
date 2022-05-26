@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Dashboard",
+    "icon": "la-home"
+  },
+  {
+    "title": "Sales",
+    "icon": "la-briefcase"
+  },
+  {
+    "title": "Enrollment",
+    "icon": "la-address-card"
+  },
+  {
+    "title": "My Geneology",
+    "icon": "la-project-diagram"
+  },
+  {
+    "title": "Analysis",
+    "icon": "la-chart-bar"
+  },
+  {
+    "title": "Announcements",
+    "icon": "la-bullhorn"
+  },
+  {
+    "title": "VMail",
+    "icon": "la-file-invoice-dollar"
+  }
+]
