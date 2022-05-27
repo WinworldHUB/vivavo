@@ -1,5 +1,6 @@
 /* eslint-disable react/style-prop-object */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Component } from "react";
 import PageLayout from "../../components/PageLayout";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import { Link } from "react-router-dom";

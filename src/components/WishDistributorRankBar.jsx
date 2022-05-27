@@ -1,3 +1,5 @@
+import React, { Component, useState } from "react";
+
 export default function WishDistributorRankBar({ currentProgress }) {
   const leftPosition = {
     left: (currentProgress ?? "20") + "%",

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import React, { Component, useState } from "react";
 
 export default function WishUploadFiles({ addButtonTitle }) {
   const [addedfiles, setFiles] = useState([]);

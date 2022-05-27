@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/style-prop-object */
-import { useState } from "react";
+import React, { Component, useState } from "react";
 import PageLayout from "../../components/PageLayout";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -22,7 +22,7 @@ export default function ProfileDashboard() {
   const [isBankFlipped, setBankFlipped] = useState(false);
   const [areAddressesSame, setAddressesSame] = useState(false);
 
-  const distributorProfileMessage = function () {
+  const distributorProfileMessage = function() {
     return (
       <>
         <code>
@@ -33,7 +33,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const doFlip = function (value, type) {
+  const doFlip = function(value, type) {
     switch (type) {
       case "flipProfileDetails":
         setProfileFlipped(value);
@@ -59,11 +59,11 @@ export default function ProfileDashboard() {
     return true;
   };
 
-  const commonEditHeader = function (title, value, type) {
+  const commonEditHeader = function(title, value, type) {
     return (
       <div className="row align-items-middle">
         <div className="col-8">
-          <h3>{title ?? " "}</h3>
+          <h3>{title ?? ""}</h3>
         </div>
         <div className="col-4 text-right">
           <a onClick={() => doFlip(value, type)}>
@@ -74,11 +74,11 @@ export default function ProfileDashboard() {
     );
   };
 
-  const commonHeader = function (title, value, type) {
+  const commonHeader = function(title, value, type) {
     return (
       <div className="row align-items-end">
         <div className="col-8">
-          <h3>{title ?? " "}</h3>
+          <h3>{title ?? ""}</h3>
         </div>
         <div className="col-4 text-right">
           <button
@@ -92,7 +92,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const commonFooter = function (value, type) {
+  const commonFooter = function(value, type) {
     console.log(value);
     return (
       <button className="btn btn-success" onClick={() => doFlip(value, type)}>
@@ -101,7 +101,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const profileCardFront = function () {
+  const profileCardFront = function() {
     return (
       <div className="bg-transparent border-0 box-shadow-0">
         <div className="row d-flex align-items-center pt-0">
@@ -165,7 +165,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const profileCardBack = function () {
+  const profileCardBack = function() {
     return (
       <div className="card border-0 box-shadow-0 onhover-shadow onhover-change-border">
         <div className="card-header">
@@ -264,7 +264,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const personalDetailsFront = function () {
+  const personalDetailsFront = function() {
     return (
       <div className="row">
         <div className="col-5">Date of birth:</div>
@@ -325,7 +325,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const personalDetailsBack = function () {
+  const personalDetailsBack = function() {
     return (
       <>
         <div className="form-group row">
@@ -553,7 +553,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const contactDetailsFront = function () {
+  const contactDetailsFront = function() {
     return (
       <div className="row">
         <div className="col-5">Permanent Address:</div>
@@ -583,7 +583,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const contactDetailsBack = function () {
+  const contactDetailsBack = function() {
     return (
       <>
         <h5>Permanent Address:</h5>
@@ -838,7 +838,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const bankDetailsFront = function () {
+  const bankDetailsFront = function() {
     return (
       <div className="row">
         <div className="col-5">Account Holder Name:</div>
@@ -869,7 +869,7 @@ export default function ProfileDashboard() {
     );
   };
 
-  const bankDetailsBack = function () {
+  const bankDetailsBack = function() {
     return (
       <>
         <div className="form-group row">

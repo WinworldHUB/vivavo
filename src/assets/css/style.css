@@ -366,3 +366,8 @@ ul[role="tablist"] {
   background-color: #fff;
   border: #307c17 solid 3px;
 }
+
+.wish-mh-200 {
+  min-height: 200px;
+  height: 200px;
+}

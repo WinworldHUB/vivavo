@@ -1,3 +1,4 @@
+import React, { Component, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WishSimpleCard from "./WishSimpleCard";
 
@@ -11,7 +12,7 @@ export default function WishLinkCard({
 
   const cardArrow = function () {
     return (
-      <Link to={linkTo ?? "/"}>
+      <Link to={linkTo}>
         <i className="las la-angle-right"></i>
       </Link>
     );

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Component } from "react";
 import DocumentCard from "../../components/DocumentCard";
 import PageLayout from "../../components/PageLayout";
 

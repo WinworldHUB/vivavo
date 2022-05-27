@@ -75,3 +75,7 @@ $(document).ready(function () {
     }
   });
 });
+
+$(document).on("resize", function () {
+  console.log("div resized");
+});
