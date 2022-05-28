@@ -752,10 +752,10 @@ export default function PlaceOrder() {
             <li className="nav-item">
               <a
                 className="nav-link active"
-                id="base-tab1"
+                id="main-tab1"
                 data-toggle="tab"
-                aria-controls="tab1"
-                href="#tab1"
+                aria-controls="maintab1"
+                href="#maintab1"
                 aria-expanded="true"
               >
                 Indusviva Wallet
@@ -764,10 +764,10 @@ export default function PlaceOrder() {
             <li className="nav-item">
               <a
                 className="nav-link"
-                id="base-tab2"
+                id="main-tab2"
                 data-toggle="tab"
-                aria-controls="tab2"
-                href="#tab2"
+                aria-controls="maintab2"
+                href="#maintab2"
                 aria-expanded="false"
               >
                 Online Payment (PayU)
@@ -776,10 +776,10 @@ export default function PlaceOrder() {
             <li className="nav-item">
               <a
                 className="nav-link"
-                id="base-tab3"
+                id="main-tab3"
                 data-toggle="tab"
-                aria-controls="tab3"
-                href="#tab3"
+                aria-controls="maintab3"
+                href="#maintab3"
                 aria-expanded="false"
               >
                 Wire Transfer
@@ -790,8 +790,8 @@ export default function PlaceOrder() {
             <div
               role="tabpanel"
               className="tab-pane pt-2 active"
-              id="tab1"
-              aria-labelledby="base-tab1"
+              id="maintab1"
+              aria-labelledby="main-tab1"
             >
               <div className="row justify-content-center">
                 <div className="col-md-8">
@@ -838,8 +838,8 @@ export default function PlaceOrder() {
             </div>
             <div
               className="tab-pane pt-2"
-              id="tab2"
-              aria-labelledby="base-tab2"
+              id="maintab2"
+              aria-labelledby="main-tab2"
             >
               <div className="row justify-content-center">
                 <div className="col-md-8">
@@ -879,8 +879,8 @@ export default function PlaceOrder() {
             </div>
             <div
               className="tab-pane pt-2"
-              id="tab3"
-              aria-labelledby="base-tab3"
+              id="maintab3"
+              aria-labelledby="main-tab3"
             >
               <p>
                 For wire transfer or bank transfer you can use following
@@ -1051,15 +1051,20 @@ export default function PlaceOrder() {
           </div>
         </div>
       </WishModal>
-      <WishModal id="dlgAddMoney" title="Add Money" noFooter>
+      <WishModal
+        id="dlgAddMoney"
+        title="Add Money"
+        noFooter
+        modalSize="modal-lg"
+      >
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <a
               className="nav-link active"
-              id="dlg-tab1"
+              id="base-tab1"
               data-toggle="tab"
-              aria-controls="dlgtab1"
-              href="#dlgtab1"
+              aria-controls="tab1"
+              href="#tab1"
               aria-expanded="true"
             >
               PayU
@@ -1068,10 +1073,10 @@ export default function PlaceOrder() {
           <li className="nav-item">
             <a
               className="nav-link"
-              id="dlg-tab2"
+              id="base-tab2"
               data-toggle="tab"
-              aria-controls="dlgtab2"
-              href="#dlgtab2"
+              aria-controls="tab2"
+              href="#tab2"
               aria-expanded="false"
             >
               Wire Transfer
@@ -1082,113 +1087,81 @@ export default function PlaceOrder() {
           <div
             role="tabpanel"
             className="tab-pane active"
-            id="dlgtab1"
-            aria-labelledby="dlg-tab1"
+            id="tab1"
+            aria-labelledby="base-tab1"
           >
-            <div className="card text-white box-shadow-3 bg-primary">
-              <div className="card-content collapse show">
-                <div className="card-header">
-                  <h4 className="card-title text-white">PayU</h4>
-                  <div className="heading-elements">
-                    <img
-                      src="./assets/app-assets/images/logo/payu-logo.png"
-                      alt="VIVA Wallet"
-                      width="50px"
-                    />
+            <div className="row">
+              <div className="col-sm-6 offset-sm-3">
+                <div className="card text-white box-shadow-3 bg-primary">
+                  <div className="card-content collapse show">
+                    <div className="card-header">
+                      <h4 className="card-title text-white">PayU</h4>
+                      <div className="heading-elements">
+                        <img
+                          src="./assets/app-assets/images/logo/payu-logo.png"
+                          alt="VIVA Wallet"
+                          width="50px"
+                        />
+                      </div>
+                    </div>
+                    <div className="card-body row">
+                      <div className="col-9">
+                        <h5 className="text-white">Add money:</h5>
+                      </div>
+                      <div className="col-3 text-right">
+                        <h5 className="text-white">Rs. {amount}</h5>
+                      </div>
+                    </div>
+                    <div className="card-footer border-top-lighten-5 text-right">
+                      <a
+                        href="#"
+                        className="card-link text-white"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        PAY NOW
+                        <i className="la la-angle-right"></i>
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="card-body row d-flex align-items-baseline">
-                  <div className="col-6">
-                    <h5 className="text-white">Add money:</h5>
-                  </div>
-                  <div className="col-6 text-right">
-                    <input
-                      id="txtGender"
-                      name="txtGender"
-                      className="form-control text-right"
-                      type="text"
-                      required=""
-                      disabled=""
-                      placeholder="Enter amount"
-                      defaultValue={amount}
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="card-footer border-top-lighten-5 text-right">
-                  <a
-                    href="#"
-                    className="card-link text-white"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    PAY NOW
-                    <i className="la la-angle-right"></i>
-                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="tab-pane" id="dlgtab2" aria-labelledby="dlg-tab2">
-            <div className="">
-              <label className="pb-2 pt-2 lead">
-                Upload wire transfer payment reciepts:
-              </label>
-              <WishUploadFiles></WishUploadFiles>
-            </div>
-            <div id="accordion3" className="card-accordion pt-2 ">
-              <div className="collapse-icon accordion-icon-rotate">
-                <div className="card">
-                  <div className="card-header" id="headingGOne">
-                    <h5 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        data-toggle="collapse"
-                        data-target="#accordionC1"
-                        aria-expanded="false"
-                        aria-controls="accordionC1"
-                      >
-                        Bank Details
-                      </button>
-                    </h5>
-                  </div>
-
-                  <div
-                    id="accordionC1"
-                    className="collapse"
-                    aria-labelledby="headingGOne"
-                    data-parent="#accordion3"
-                  >
-                    <div className="card-body">
-                      <table className="table table-borderless table-sm">
-                        <tbody>
-                          <tr>
-                            <td>Bank Name:</td>
-                            <td>AXIS Bank</td>
-                          </tr>
-                          <tr>
-                            <td>Account Number:</td>
-                            <td>26637662777276762</td>
-                          </tr>
-                          <tr>
-                            <td>Account Type:</td>
-                            <td>Current Account</td>
-                          </tr>
-                          <tr>
-                            <td>IFSC Code:</td>
-                            <td>AXIS000190290</td>
-                          </tr>
-                          <tr>
-                            <td>Beneficiary Name:</td>
-                            <td>M. Shanshudeen</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+          <div className="tab-pane" id="tab2" aria-labelledby="base-tab2">
+            <div className="row">
+              <div className="col-sm-6">
+                <label className="pb-2 lead">
+                  Upload wire transfer payment reciepts:
+                </label>
+                <WishUploadFiles></WishUploadFiles>
+              </div>
+              <div className="col-sm-6 border-sm-left pt-2 pt-sm-0 d-none d-sm-block">
+                <label className="lead">Bank Account Details:</label>
+                <table className="table table-borderless table-sm">
+                  <tbody>
+                    <tr>
+                      <td>Bank Name:</td>
+                      <td>AXIS Bank</td>
+                    </tr>
+                    <tr>
+                      <td>Account Number:</td>
+                      <td>26637662777276762</td>
+                    </tr>
+                    <tr>
+                      <td>Account Type:</td>
+                      <td>Current Account</td>
+                    </tr>
+                    <tr>
+                      <td>IFSC Code:</td>
+                      <td>AXIS000190290</td>
+                    </tr>
+                    <tr>
+                      <td>Beneficiary Name:</td>
+                      <td>M. Shanshudeen</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

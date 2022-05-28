@@ -165,7 +165,12 @@ export default function Wallet(props) {
         </div>
       </section>
 
-      <WishModal id="dlgAddMoney" title="Add Money" noFooter>
+      <WishModal
+        id="dlgAddMoney"
+        title="Add Money"
+        noFooter
+        modalSize="modal-lg"
+      >
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <a
@@ -199,98 +204,78 @@ export default function Wallet(props) {
             id="tab1"
             aria-labelledby="base-tab1"
           >
-            <div className="card text-white box-shadow-3 bg-primary">
-              <div className="card-content collapse show">
-                <div className="card-header">
-                  <h4 className="card-title text-white">PayU</h4>
-                  <div className="heading-elements">
-                    <img
-                      src="./assets/app-assets/images/logo/payu-logo.png"
-                      alt="VIVA Wallet"
-                      width="50px"
-                    />
+            <div className="row">
+              <div className="col-sm-6 offset-sm-3">
+                <div className="card text-white box-shadow-3 bg-primary">
+                  <div className="card-content collapse show">
+                    <div className="card-header">
+                      <h4 className="card-title text-white">PayU</h4>
+                      <div className="heading-elements">
+                        <img
+                          src="./assets/app-assets/images/logo/payu-logo.png"
+                          alt="VIVA Wallet"
+                          width="50px"
+                        />
+                      </div>
+                    </div>
+                    <div className="card-body row">
+                      <div className="col-9">
+                        <h5 className="text-white">Add money:</h5>
+                      </div>
+                      <div className="col-3 text-right">
+                        <h5 className="text-white">Rs. {amount}</h5>
+                      </div>
+                    </div>
+                    <div className="card-footer border-top-lighten-5 text-right">
+                      <a
+                        href="#"
+                        className="card-link text-white"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        PAY NOW
+                        <i className="la la-angle-right"></i>
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="card-body row">
-                  <div className="col-9">
-                    <h5 className="text-white">Add money:</h5>
-                  </div>
-                  <div className="col-3 text-right">
-                    <h5 className="text-white">Rs. {amount}</h5>
-                  </div>
-                </div>
-                <div className="card-footer border-top-lighten-5 text-right">
-                  <a
-                    href="#"
-                    className="card-link text-white"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    PAY NOW
-                    <i className="la la-angle-right"></i>
-                  </a>
                 </div>
               </div>
             </div>
           </div>
           <div className="tab-pane" id="tab2" aria-labelledby="base-tab2">
-            <div className="">
-              <label className="pb-2 pt-2 lead">
-                Upload wire transfer payment reciepts:
-              </label>
-              <WishUploadFiles></WishUploadFiles>
-            </div>
-            <div id="accordion3" className="card-accordion pt-2 ">
-              <div className="collapse-icon accordion-icon-rotate">
-                <div className="card">
-                  <div className="card-header" id="headingGOne">
-                    <h5 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        data-toggle="collapse"
-                        data-target="#accordionC1"
-                        aria-expanded="false"
-                        aria-controls="accordionC1"
-                      >
-                        Bank Details
-                      </button>
-                    </h5>
-                  </div>
-
-                  <div
-                    id="accordionC1"
-                    className="collapse"
-                    aria-labelledby="headingGOne"
-                    data-parent="#accordion3"
-                  >
-                    <div className="card-body">
-                      <table className="table table-borderless table-sm">
-                        <tbody>
-                          <tr>
-                            <td>Bank Name:</td>
-                            <td>AXIS Bank</td>
-                          </tr>
-                          <tr>
-                            <td>Account Number:</td>
-                            <td>26637662777276762</td>
-                          </tr>
-                          <tr>
-                            <td>Account Type:</td>
-                            <td>Current Account</td>
-                          </tr>
-                          <tr>
-                            <td>IFSC Code:</td>
-                            <td>AXIS000190290</td>
-                          </tr>
-                          <tr>
-                            <td>Beneficiary Name:</td>
-                            <td>M. Shanshudeen</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <label className="pb-2 lead">
+                  Upload wire transfer payment reciepts:
+                </label>
+                <WishUploadFiles></WishUploadFiles>
+              </div>
+              <div className="col-sm-6 border-sm-left pt-2 pt-sm-0 d-none d-sm-block">
+                <label className="lead">Bank Account Details:</label>
+                <table className="table table-borderless table-sm">
+                  <tbody>
+                    <tr>
+                      <td>Bank Name:</td>
+                      <td>AXIS Bank</td>
+                    </tr>
+                    <tr>
+                      <td>Account Number:</td>
+                      <td>26637662777276762</td>
+                    </tr>
+                    <tr>
+                      <td>Account Type:</td>
+                      <td>Current Account</td>
+                    </tr>
+                    <tr>
+                      <td>IFSC Code:</td>
+                      <td>AXIS000190290</td>
+                    </tr>
+                    <tr>
+                      <td>Beneficiary Name:</td>
+                      <td>M. Shanshudeen</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -370,17 +355,12 @@ export default function Wallet(props) {
         </div>
       </WishModal>
 
-      <WishModal
-        id="dlgTransfer"
-        title="Transfer money"
-        finishTitle="Transfer"
-        modalSize="modal-lg"
-      >
+      <WishModal id="dlgTransfer" title="Transfer money" finishTitle="Transfer">
         <div className="row align-items-center">
-          <div className="col-sm-6">
+          <div className="col-sm-12">
             <div className="row">
               <div className="col-9">
-                <h5 className="">Wallet balance:</h5>
+                <h5 className="">Transferrable balance:</h5>
               </div>
               <div className="col-3 text-right">
                 <h5 className="">Rs. {availableBalance}</h5>
@@ -388,7 +368,7 @@ export default function Wallet(props) {
             </div>
             <div className="form-group row pt-2 align-items-end">
               <h5 htmlFor="txtWithdraw" className="col-6">
-                Distributor:
+                To Distributor:
               </h5>
               <div className="col-6">
                 <div className="input-group">
@@ -436,7 +416,7 @@ export default function Wallet(props) {
               </div>
             </div>
           </div>
-          <div className="col-sm-6 border-left">
+          {/* <div className="col-sm-6 border-left">
             <label>
               Money will be credited to the following bank account (
               <code>your primary account</code>):
@@ -465,7 +445,7 @@ export default function Wallet(props) {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
       </WishModal>
     </PageLayout>
