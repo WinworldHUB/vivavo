@@ -82,7 +82,7 @@ export default function Wallet(props) {
 
   const recentTransactionsFooter = function () {
     return (
-      <Link to="/" className="btn btn-link ml-auto">
+      <Link to="/wallettransactions" className="btn btn-link ml-auto">
         View All <i className="las la-angle-right"></i>
       </Link>
     );

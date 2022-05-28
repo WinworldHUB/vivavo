@@ -23,6 +23,7 @@ import Settings from "./views/personal/Settings";
 import Analysis from "./views/analysis/Analysis";
 import ProfileDashboard from "./views/personal/ProfileDashboard";
 import PlaceOrder from "./views/sales/PlaceOrder";
+import WalletTransactions from "./views/personal/WalletTransactions";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="pcmmembership" element={<PCMMembership />} />
         <Route path="votmmembership" element={<VOTMMembership />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="wallettransactions" element={<WalletTransactions />} />
         <Route path="settings" element={<Settings />} />
         <Route path="test" element={<TestPage />} />
       </Routes>
