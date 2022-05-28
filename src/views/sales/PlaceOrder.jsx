@@ -1,11 +1,20 @@
+/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "../../components/PageLayout";
+import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishUploadFiles from "../../components/WishUploadFiles";
 
 export default function PlaceOrder() {
   const [pageNumber, setPageNumber] = useState(0);
+  const [orderType, setOrderType] = useState(0);
+  const [forSelf, setForSelf] = useState(false);
+  const [amount, setAmount] = useState(11654);
+
+  useEffect(() => {
+    $("#dlgOrderType").modal("show");
+  }, [orderType]);
 
   const increasePageNumber = function () {
     if (pageNumber < 3) {
@@ -20,94 +29,87 @@ export default function PlaceOrder() {
   };
 
   const pageHeader = function (pageIndex) {
-    var value = "";
-
-    switch (pageIndex) {
-      case 0:
-        value = (
-          <>
-            <h2>New Order</h2>
-            <small className="d-flex align-items-center">
-              <span className="text-primary text-bold-600">
-                Customer Details
-              </span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Select Products</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Shipping Details</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Make Payment</span>
-            </small>
-          </>
-        );
-        break;
-
-      case 1:
-        value = (
-          <>
-            <h2>New Order</h2>
-            <small className="d-flex align-items-center">
-              <span className="text-success">Customer Details</span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-primary text-bold-600">
-                Select Products
-              </span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Shipping Details</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Make Payment</span>
-            </small>
-          </>
-        );
-        break;
-
-      case 2:
-        value = (
-          <>
-            <h2>New Order</h2>
-            <small className="d-flex align-items-center">
-              <span className="text-success">Customer Details</span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-success">Select Products</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-primary text-bold-600">
-                Shipping Details
-              </span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-muted">Make Payment</span>
-            </small>
-          </>
-        );
-        break;
-
-      case 3:
-        value = (
-          <>
-            <h2>New Order</h2>
-            <small className="d-flex align-items-center">
-              <span className="text-success">Customer Details</span>
-              &nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-success">Select Products</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-success">Shipping Details</span>&nbsp;
-              <i className="las la-angle-right"></i>&nbsp;
-              <span className="text-primary text-bold-600">Make Payment</span>
-            </small>
-          </>
-        );
-        break;
-
-      default:
-        break;
-    }
-
-    return value;
+    return (
+      <div className="row">
+        <div className="col-8">
+          <h2>New Order</h2>
+        </div>
+        <div className="col-4 text-right">
+          Order Type:{" "}
+          <a
+            className="card-link text-primary"
+            data-toggle="modal"
+            data-target="#dlgOrderType"
+          >
+            {orderType === 0
+              ? "Normal Order"
+              : orderType === 1
+              ? "VOTM Order"
+              : orderType === 2
+              ? "PCM Order"
+              : "Normal Order"}
+          </a>
+        </div>
+        <div className="col-12">
+          <small className="d-flex align-items-center">
+            <span
+              className={
+                "" +
+                (pageIndex === 0
+                  ? "text-primary text-bold-600"
+                  : pageIndex > 0
+                  ? "text-success"
+                  : "text-muted")
+              }
+            >
+              Customer Details
+            </span>
+            &nbsp;
+            <i className="las la-angle-right"></i>&nbsp;
+            <span
+              className={
+                "" +
+                (pageIndex === 1
+                  ? "text-primary text-bold-600"
+                  : pageIndex > 1
+                  ? "text-success"
+                  : "text-muted")
+              }
+            >
+              Select Products
+            </span>
+            &nbsp;
+            <i className="las la-angle-right"></i>&nbsp;
+            <span
+              className={
+                "" +
+                (pageIndex === 2
+                  ? "text-primary text-bold-600"
+                  : pageIndex > 2
+                  ? "text-success"
+                  : "text-muted")
+              }
+            >
+              Shipping Details
+            </span>
+            &nbsp;
+            <i className="las la-angle-right"></i>&nbsp;
+            <span
+              className={
+                "" +
+                (pageIndex === 3
+                  ? "text-primary text-bold-600"
+                  : pageIndex > 3
+                  ? "text-success"
+                  : "text-muted")
+              }
+            >
+              Make Payment
+            </span>
+          </small>
+        </div>
+      </div>
+    );
   };
 
   const pageFooter = function () {
@@ -120,13 +122,16 @@ export default function PlaceOrder() {
           }
           onClick={() => decreasePageNumber()}
         >
-          <i className="las la-angle-left"></i> Back
+          <i className="las la-angle-left"></i> BACK
         </a>
         <a
-          className="card-link lead d-flex align-items-baseline text-primary ml-auto "
+          className={
+            "card-link lead d-flex align-items-baseline text-primary ml-auto " +
+            (pageNumber === 3 ? " hidden " : "")
+          }
           onClick={() => increasePageNumber()}
         >
-          Next <i className="las la-angle-right"></i>
+          PROCEED <i className="las la-angle-right"></i>
         </a>
       </>
     );
@@ -164,7 +169,8 @@ export default function PlaceOrder() {
                 type="checkbox"
                 className="custom-control-input"
                 id="chkSelf"
-                checked=""
+                checked={forSelf}
+                onClick={() => setForSelf(!forSelf)}
               />
               <label
                 className="custom-control-label"
@@ -811,8 +817,9 @@ export default function PlaceOrder() {
                       </div>
                       <div className="card-footer border-top-lighten-5 clearfix bg-gradient-x-purple-blue">
                         <a
-                          href="payment-success.html"
                           className="card-link text-white float-left"
+                          data-toggle="modal"
+                          data-target="#dlgAddMoney"
                         >
                           ADD MONEY
                         </a>
@@ -1002,14 +1009,191 @@ export default function PlaceOrder() {
         footer={pageFooter()}
         body={pageBody(pageNumber)}
       ></WishSimpleCard>
-      {/* <WishSimpleCard
-        body={page1()}
-        header={pageHeader(0)}
-        className={"fade"}
-      ></WishSimpleCard>
-      <WishSimpleCard body={page1()} header={pageHeader(1)}></WishSimpleCard>
-      <WishSimpleCard body={page1()} header={pageHeader(2)}></WishSimpleCard>
-      <WishSimpleCard body={page1()} header={pageHeader(3)}></WishSimpleCard> */}
+      <WishModal
+        id="dlgOrderType"
+        title="Select Order Type"
+        finishTitle="Select"
+      >
+        <div class="form-group row">
+          <div class="col-12 text-center">
+            <div class="btn-group btn-block" id="btnOrderTypes">
+              <a
+                class={
+                  "btn " +
+                  (orderType === 0 ? "btn-primary active" : "btn-light")
+                }
+                aria-current="page"
+                onClick={() => setOrderType(0)}
+              >
+                Normal
+              </a>
+              <a
+                class={
+                  "btn " +
+                  (orderType === 1 ? "btn-primary active" : "btn-light")
+                }
+                aria-current="page"
+                onClick={() => setOrderType(1)}
+              >
+                VOTM
+              </a>
+              <a
+                class={
+                  "btn " +
+                  (orderType === 2 ? "btn-primary active" : "btn-light")
+                }
+                aria-current="page"
+                onClick={() => setOrderType(2)}
+              >
+                PCM
+              </a>
+            </div>
+          </div>
+        </div>
+      </WishModal>
+      <WishModal id="dlgAddMoney" title="Add Money" noFooter>
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <a
+              className="nav-link active"
+              id="dlg-tab1"
+              data-toggle="tab"
+              aria-controls="dlgtab1"
+              href="#dlgtab1"
+              aria-expanded="true"
+            >
+              PayU
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              id="dlg-tab2"
+              data-toggle="tab"
+              aria-controls="dlgtab2"
+              href="#dlgtab2"
+              aria-expanded="false"
+            >
+              Wire Transfer
+            </a>
+          </li>
+        </ul>
+        <div className="tab-content px-1 pt-1">
+          <div
+            role="tabpanel"
+            className="tab-pane active"
+            id="dlgtab1"
+            aria-labelledby="dlg-tab1"
+          >
+            <div className="card text-white box-shadow-3 bg-primary">
+              <div className="card-content collapse show">
+                <div className="card-header">
+                  <h4 className="card-title text-white">PayU</h4>
+                  <div className="heading-elements">
+                    <img
+                      src="./assets/app-assets/images/logo/payu-logo.png"
+                      alt="VIVA Wallet"
+                      width="50px"
+                    />
+                  </div>
+                </div>
+                <div className="card-body row d-flex align-items-baseline">
+                  <div className="col-6">
+                    <h5 className="text-white">Add money:</h5>
+                  </div>
+                  <div className="col-6 text-right">
+                    <input
+                      id="txtGender"
+                      name="txtGender"
+                      className="form-control text-right"
+                      type="text"
+                      required=""
+                      disabled=""
+                      placeholder="Enter amount"
+                      defaultValue={amount}
+                      onChange={(e) => {
+                        setAmount(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="card-footer border-top-lighten-5 text-right">
+                  <a
+                    href="#"
+                    className="card-link text-white"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    PAY NOW
+                    <i className="la la-angle-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="tab-pane" id="dlgtab2" aria-labelledby="dlg-tab2">
+            <div className="">
+              <label className="pb-2 pt-2 lead">
+                Upload wire transfer payment reciepts:
+              </label>
+              <WishUploadFiles></WishUploadFiles>
+            </div>
+            <div id="accordion3" className="card-accordion pt-2 ">
+              <div className="collapse-icon accordion-icon-rotate">
+                <div className="card">
+                  <div className="card-header" id="headingGOne">
+                    <h5 className="mb-0">
+                      <button
+                        className="btn btn-link"
+                        data-toggle="collapse"
+                        data-target="#accordionC1"
+                        aria-expanded="false"
+                        aria-controls="accordionC1"
+                      >
+                        Bank Details
+                      </button>
+                    </h5>
+                  </div>
+
+                  <div
+                    id="accordionC1"
+                    className="collapse"
+                    aria-labelledby="headingGOne"
+                    data-parent="#accordion3"
+                  >
+                    <div className="card-body">
+                      <table className="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>Bank Name:</td>
+                            <td>AXIS Bank</td>
+                          </tr>
+                          <tr>
+                            <td>Account Number:</td>
+                            <td>26637662777276762</td>
+                          </tr>
+                          <tr>
+                            <td>Account Type:</td>
+                            <td>Current Account</td>
+                          </tr>
+                          <tr>
+                            <td>IFSC Code:</td>
+                            <td>AXIS000190290</td>
+                          </tr>
+                          <tr>
+                            <td>Beneficiary Name:</td>
+                            <td>M. Shanshudeen</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </WishModal>
     </PageLayout>
   );
 }

@@ -307,7 +307,7 @@ export default function Wallet(props) {
           <div className="col-sm-6">
             <div className="row">
               <div className="col-9">
-                <h5 className="">Wallet balance:</h5>
+                <h5 className="">Withdrawable balance:</h5>
               </div>
               <div className="col-3 text-right">
                 <h5 className="">Rs. {availableBalance}</h5>

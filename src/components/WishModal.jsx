@@ -55,6 +55,7 @@ export default function WishModal({
             <button
               type="button"
               className="btn btn-danger"
+              data-dismiss="modal"
               onClick={(e) => onFinish && onFinish(e)}
             >
               {finishTitle ?? "Submit"}
