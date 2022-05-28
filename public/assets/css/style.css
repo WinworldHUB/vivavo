@@ -141,6 +141,65 @@ ul[role="tablist"] {
 
 .card {
   transition: all 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.card.fade {
+  opacity: 1;
+  animation-name: FadeIn;
+  animation-duration: 3s;
+  transition-timing-function: linear;
+
+  /* -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1
+  -moz-animation: fadein 2s; /* Firefox < 16
+  -ms-animation: fadein 2s; /* Internet Explorer
+  -o-animation: fadein 2s; /* Opera < 12.1
+  animation: fadein 2s; */
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .onhover-shadow:hover {
@@ -447,3 +506,31 @@ ul[role="tablist"] {
 .link-white a {
   color: white !important;
 }
+
+/* Animation ================================================================= */
+.slide-right {
+  animation: 0.4s slide-right;
+}
+
+@keyframes slide-right {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+.slide-left {
+  animation: 0.4s slide-left;
+}
+
+@keyframes slide-left {
+  from {
+    margin-left: 0%;
+  }
+  to {
+    margin-left: -100%;
+  }
+}
+/* END: Animation ================================================================= */

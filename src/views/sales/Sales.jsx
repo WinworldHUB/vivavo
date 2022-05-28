@@ -23,7 +23,7 @@ export default class Sales extends Component {
                 <code>Daily PV Limit</code>,
                 " before placing new orders.",
               ]}
-              linkTo="/"
+              linkTo="/placeorder"
             ></WishCard>
           </div>
 

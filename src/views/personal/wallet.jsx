@@ -1,6 +1,6 @@
 /* eslint-disable react/style-prop-object */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Component } from "react";
+import React from "react";
 import PageLayout from "../../components/PageLayout";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import { Link } from "react-router-dom";
@@ -82,7 +82,7 @@ export default function Wallet(props) {
 
   const recentTransactionsFooter = function () {
     return (
-      <Link to="/" className="btn btn-link">
+      <Link to="/" className="btn btn-link ml-auto">
         View All <i className="las la-angle-right"></i>
       </Link>
     );

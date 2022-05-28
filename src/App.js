@@ -1,10 +1,6 @@
 //import logo from './logo.svg';
-import React, { Component, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import SignIn from "./views/authentication/signin";
 import Sales from "./views/sales/Sales";
@@ -26,6 +22,7 @@ import Wallet from "./views/personal/wallet";
 import Settings from "./views/personal/Settings";
 import Analysis from "./views/analysis/Analysis";
 import ProfileDashboard from "./views/personal/ProfileDashboard";
+import PlaceOrder from "./views/sales/PlaceOrder";
 
 export default function App() {
   return (
@@ -34,6 +31,7 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="sales" element={<Sales />} />
+        <Route path="placeorder" element={<PlaceOrder />} />
         <Route path="enrollment" element={<Enrollment />} />
         <Route path="mygeneology" element={<MyGeneology />} />
         <Route path="analysis" element={<Analysis />} />

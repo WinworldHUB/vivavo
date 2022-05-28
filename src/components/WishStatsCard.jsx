@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
 

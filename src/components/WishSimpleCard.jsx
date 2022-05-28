@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 
 export default function WishSimpleCard({
   background,
@@ -52,7 +52,7 @@ export default function WishSimpleCard({
         </div>
       )}
       {footer && (
-        <div className="card-footer border-top-lighten-5 ml-auto">{footer}</div>
+        <div className="card-footer border-top-lighten-5 d-flex">{footer}</div>
       )}
     </div>
   );

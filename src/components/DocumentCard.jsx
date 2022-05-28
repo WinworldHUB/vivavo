@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Component, useState } from "react";
+import React from "react";
 import WishSimpleCard from "./WishSimpleCard";
 
 const highlightColor = (cardState) => {

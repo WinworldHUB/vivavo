@@ -5,10 +5,6 @@ export default class WishCard extends Component {
   render() {
     const cardTextColor = this.props.textWhite === true ? " text-white " : "";
 
-    // const cardHasBackground =
-    //   this.props.bgColor === "" || this.props.bgColor === undefined
-    //     ? false
-    //     : true;
     const cardBackground =
       this.props.bgColor === "" || this.props.bgColor === undefined
         ? " box-shadow-0 onhover-shadow onhover-change-border"

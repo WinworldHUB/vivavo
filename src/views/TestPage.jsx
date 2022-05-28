@@ -20,6 +20,7 @@ export default class TestPage extends Component {
         </section>
 
         <WishSimpleCard header={Header()}></WishSimpleCard>
+        
       </PageLayout>
     );
   }
