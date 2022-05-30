@@ -1,21 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
 import WishCard from "../../components/WishCard";
-import WishInfoDialog from "../../components/WishInfoDialog";
 import WishModal from "../../components/WishModal";
 import WishToaster from "../../components/WishToaster";
 
 export default function Sales() {
-  const showMessage = React.useRef(null);
-  const hideMessage = React.useRef(null);
-
-  useEffect(() => {
-    showMessage.current();
-
-    setTimeout(hideMessage.current, 3000);
-  });
-
   return (
     <PageLayout activeSideMenu="2" pageTitle="Sales Dashboard" header="OPTIONS">
       <section className="row">
