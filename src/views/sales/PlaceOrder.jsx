@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
@@ -28,6 +29,13 @@ export default function PlaceOrder() {
     }
   };
 
+  const gotoPageNumber = function (page) {
+    console.log(page);
+    if (page > 0 && page < 4) {
+      setPageNumber(page);
+    }
+  };
+
   const pageHeader = function (pageIndex) {
     return (
       <div className="row">
@@ -52,60 +60,80 @@ export default function PlaceOrder() {
         </div>
         <div className="col-12">
           <small className="d-flex align-items-center">
-            <span
+            <a
               className={
-                "" +
+                "clickable " +
                 (pageIndex === 0
                   ? "text-primary text-bold-600"
                   : pageIndex > 0
                   ? "text-success"
                   : "text-muted")
               }
+              onClick={() => {
+                if (pageIndex > 0) {
+                  setPageNumber(0);
+                }
+              }}
             >
               Customer Details
-            </span>
+            </a>
             &nbsp;
             <i className="las la-angle-right"></i>&nbsp;
-            <span
+            <a
               className={
-                "" +
+                "clickable " +
                 (pageIndex === 1
                   ? "text-primary text-bold-600"
                   : pageIndex > 1
                   ? "text-success"
                   : "text-muted")
               }
+              onClick={() => {
+                if (pageIndex > 1) {
+                  setPageNumber(1);
+                }
+              }}
             >
               Select Products
-            </span>
+            </a>
             &nbsp;
             <i className="las la-angle-right"></i>&nbsp;
-            <span
+            <a
               className={
-                "" +
+                "clickable " +
                 (pageIndex === 2
                   ? "text-primary text-bold-600"
                   : pageIndex > 2
                   ? "text-success"
                   : "text-muted")
               }
+              onClick={() => {
+                if (pageIndex > 2) {
+                  setPageNumber(2);
+                }
+              }}
             >
               Shipping Details
-            </span>
+            </a>
             &nbsp;
             <i className="las la-angle-right"></i>&nbsp;
-            <span
+            <a
               className={
-                "" +
+                "clickable " +
                 (pageIndex === 3
                   ? "text-primary text-bold-600"
                   : pageIndex > 3
                   ? "text-success"
                   : "text-muted")
               }
+              onClick={() => {
+                if (pageIndex > 3) {
+                  setPageNumber(3);
+                }
+              }}
             >
               Make Payment
-            </span>
+            </a>
           </small>
         </div>
       </div>
@@ -169,7 +197,7 @@ export default function PlaceOrder() {
                 type="checkbox"
                 className="custom-control-input"
                 id="chkSelf"
-                checked={forSelf}
+                defaultChecked={forSelf}
                 onClick={() => setForSelf(!forSelf)}
               />
               <label
@@ -191,7 +219,7 @@ export default function PlaceOrder() {
                 placeholder="Customer Name"
                 type="text"
                 className="form-control"
-                disabled="true"
+                disabled={true}
                 defaultValue="John Doe"
               />
             </div>
@@ -204,7 +232,7 @@ export default function PlaceOrder() {
                   placeholder="Delivery Location"
                   type="text"
                   className="form-control"
-                  disabled="true"
+                  disabled={true}
                   defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
                 />
                 <div className="input-group-append">
@@ -228,7 +256,7 @@ export default function PlaceOrder() {
                 placeholder="(City, State / Province, Country)"
                 type="text"
                 className="form-control"
-                disabled="true"
+                disabled={true}
                 defaultValue="Udaipur, Rajasthan, India"
               />
             </div>
@@ -578,7 +606,7 @@ export default function PlaceOrder() {
                       placeholder="Delivery Location"
                       type="text"
                       className="form-control"
-                      disabled="true"
+                      disabled={true}
                       defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
                     />
                     <div className="input-group-append">
@@ -602,7 +630,7 @@ export default function PlaceOrder() {
                     placeholder="(City, State / Province, Country)"
                     type="text"
                     className="form-control"
-                    disabled="true"
+                    disabled={true}
                     defaultValue="Udaipur, Rajasthan, India"
                   />
                 </div>
@@ -823,13 +851,13 @@ export default function PlaceOrder() {
                         >
                           ADD MONEY
                         </a>
-                        <a
-                          href="payment-success.html"
+                        <Link
+                          to="/"
                           className="card-link text-white float-right"
                         >
                           PAY NOW
                           <i className="la la-angle-right"></i>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -864,13 +892,10 @@ export default function PlaceOrder() {
                         </div>
                       </div>
                       <div className="card-footer border-top-lighten-5 text-right">
-                        <a
-                          href="payment-success.html"
-                          className="card-link text-white"
-                        >
+                        <Link to="/" className="card-link text-white">
                           PAY NOW
                           <i className="la la-angle-right"></i>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -927,72 +952,72 @@ export default function PlaceOrder() {
           </div>
         </div>
         <div className="col-sm-4">
-          <div class="card pull-up bg-blue-grey bg-lighten-4">
-            <div class="card-content collapse show">
-              <div class="card-header">
-                <p class="badge badge-lg badge-primary">
+          <div className="card pull-up bg-blue-grey bg-lighten-4">
+            <div className="card-content collapse show">
+              <div className="card-header">
+                <p className="badge badge-lg badge-primary">
                   Order ID: VIVA07289289309
                 </p>
-                <p class="lead pt-1">
+                <p className="lead pt-1">
                   <code>Shipping To:</code> John Doe
                 </p>
-                <p class="lead pt-1">
+                <p className="lead pt-1">
                   <code>Shipping Address:</code>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
                   <br />
                   Udaipur, Rajasthan, India
                 </p>
-                <p class="lead pt-1">
+                <p className="lead pt-1">
                   <code>Shipping Method:</code>
                   Courier
                 </p>
               </div>
-              <div class="card-body pt-2">
+              <div className="card-body pt-2">
                 <h5>Order Details</h5>
-                <table class="border-top" width="100%">
+                <table className="border-top" width="100%">
                   <tbody>
                     <tr>
-                      <td class="pt-1">Total Proucts</td>
-                      <td class="pt-1 text-right">1</td>
+                      <td className="pt-1">Total Proucts</td>
+                      <td className="pt-1 text-right">1</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Total Items</td>
-                      <td class="pt-1 text-right">2</td>
+                      <td className="pt-1">Total Items</td>
+                      <td className="pt-1 text-right">2</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Cart Total PV</td>
-                      <td class="pt-1 text-right">75</td>
+                      <td className="pt-1">Cart Total PV</td>
+                      <td className="pt-1 text-right">75</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Cart Total</td>
-                      <td class="pt-1 text-right">9440</td>
+                      <td className="pt-1">Cart Total</td>
+                      <td className="pt-1 text-right">9440</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Discount/Cart savings</td>
-                      <td class="pt-1 text-right">0</td>
+                      <td className="pt-1">Discount/Cart savings</td>
+                      <td className="pt-1 text-right">0</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Voucher savings</td>
-                      <td class="pt-1 text-right">0</td>
+                      <td className="pt-1">Voucher savings</td>
+                      <td className="pt-1 text-right">0</td>
                     </tr>
                     <tr>
-                      <td class="pt-1">Handling Charge</td>
-                      <td class="pt-1 text-right">297</td>
+                      <td className="pt-1">Handling Charge</td>
+                      <td className="pt-1 text-right">297</td>
                     </tr>
                   </tbody>
-                  <tfoot class="border-top">
+                  <tfoot className="border-top">
                     <tr>
-                      <td class="pt-1">
+                      <td className="pt-1">
                         <strong>Total</strong>
                       </td>
-                      <td class="pt-1 text-right">
+                      <td className="pt-1 text-right">
                         <strong>9737</strong>
                       </td>
                     </tr>
                   </tfoot>
                 </table>
 
-                <h5 class="pt-3">Vouchers / Cupons applied:</h5>
+                <h5 className="pt-3">Vouchers / Cupons applied:</h5>
                 <label for="">V1223456</label>
               </div>
             </div>
@@ -1014,11 +1039,11 @@ export default function PlaceOrder() {
         title="Select Order Type"
         finishTitle="Select"
       >
-        <div class="form-group row">
-          <div class="col-12 text-center">
-            <div class="btn-group btn-block" id="btnOrderTypes">
+        <div className="form-group row">
+          <div className="col-12 text-center">
+            <div className="btn-group btn-block" id="btnOrderTypes">
               <a
-                class={
+                className={
                   "btn " +
                   (orderType === 0 ? "btn-primary active" : "btn-light")
                 }
@@ -1028,7 +1053,7 @@ export default function PlaceOrder() {
                 Normal
               </a>
               <a
-                class={
+                className={
                   "btn " +
                   (orderType === 1 ? "btn-primary active" : "btn-light")
                 }
@@ -1038,7 +1063,7 @@ export default function PlaceOrder() {
                 VOTM
               </a>
               <a
-                class={
+                className={
                   "btn " +
                   (orderType === 2 ? "btn-primary active" : "btn-light")
                 }

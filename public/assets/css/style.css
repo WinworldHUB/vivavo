@@ -1,3 +1,7 @@
+.clickable {
+  cursor: pointer;
+}
+
 .navbar-shadow {
   box-shadow: 0px 5px 14px -5px rgba(92, 91, 91, 0.75);
   -webkit-box-shadow: 0px 5px 14px -5px rgba(92, 91, 91, 0.75);

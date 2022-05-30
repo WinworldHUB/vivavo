@@ -11,7 +11,15 @@ export default function WishModal({
   noFooter,
   modalSize,
   children,
+  infoMode,
 }) {
+  const dialogTitle = function (title) {
+    if (infoMode !== undefined) {
+      return "";
+    } else {
+      return title ?? "Dialog Title";
+    }
+  };
   return (
     <div
       className="modal fade text-left"
@@ -28,9 +36,11 @@ export default function WishModal({
         role="document"
       >
         <div className="modal-content">
-          <div className="modal-header">
+          <div
+            className={"modal-header " + (dialogTitle() === "" ? "hidden" : "")}
+          >
             <h4 className="modal-title" id="basicModalLabel3">
-              {title ?? "Dialog Title"}
+              {dialogTitle()}
             </h4>
             <button
               type="button"
@@ -42,8 +52,10 @@ export default function WishModal({
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div className="modal-body">{children}</div>
-          <div className={"modal-footer " + (noFooter && "d-none")}>
+          <div className="modal-body">{infoMode ?? children}</div>
+          <div
+            className={"modal-footer " + ((noFooter || infoMode) && "d-none")}
+          >
             <button
               type="button"
               className="btn grey btn-secondary"
