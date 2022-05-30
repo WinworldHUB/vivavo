@@ -1,17 +1,19 @@
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishUploadFiles from "../../components/WishUploadFiles";
 
 export default function PlaceOrder() {
+  const location = useLocation();
+
   const [pageNumber, setPageNumber] = useState(0);
-  const [orderType, setOrderType] = useState(0);
+  const [orderType, setOrderType] = useState(location.state.typeOfOrder);
   const [forSelf, setForSelf] = useState(false);
-  const [amount, setAmount] = useState(11654);
+  const amount = 11654;
 
   useEffect(() => {
     $("#dlgOrderType").modal("show");
@@ -26,13 +28,6 @@ export default function PlaceOrder() {
   const decreasePageNumber = function () {
     if (pageNumber > 0) {
       setPageNumber(pageNumber - 1);
-    }
-  };
-
-  const gotoPageNumber = function (page) {
-    console.log(page);
-    if (page > 0 && page < 4) {
-      setPageNumber(page);
     }
   };
 

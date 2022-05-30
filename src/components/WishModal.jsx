@@ -10,10 +10,11 @@ export default function WishModal({
   onCancel,
   noFooter,
   modalSize,
+  hideCancelButton,
   children,
   infoMode,
 }) {
-  const dialogTitle = function (title) {
+  const dialogTitle = function () {
     if (infoMode !== undefined) {
       return "";
     } else {
@@ -58,7 +59,11 @@ export default function WishModal({
           >
             <button
               type="button"
-              className="btn grey btn-secondary"
+              className={
+                "btn grey btn-secondary " +
+                (hideCancelButton &&
+                  (hideCancelButton === true ? "hidden" : ""))
+              }
               data-dismiss="modal"
               onClick={(e) => onCancel && onCancel(e)}
             >

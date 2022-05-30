@@ -50,8 +50,13 @@ export default class WishCard extends Component {
           </div>
           <div className="card-footer border-top-lighten-5 text-right">
             <Link
-              to={this.props.linkTo === "" ? "/" : this.props.linkTo}
+              to={this.props.linkTo === undefined ? "" : this.props.linkTo}
+              state={this.props.linkToState ?? {}}
               className={"card-link " + cardTextColor}
+              data-toggle="modal"
+              data-target={this.props.linkToModal ?? ""}
+              data-keyboard={this.props.modalDisableKeyboard ?? "true"}
+              data-backdrop={this.props.modalStaticBackground ?? "non-static"}
             >
               {cardLinkTitle}
               <i className={"la " + cardLinkIcon}></i>
