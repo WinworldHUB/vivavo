@@ -34,13 +34,13 @@ export default function MyOrders() {
   const renderOrder = function (order) {
     return (
       <WishSimpleCard
-        // background={
-        //   order.Status === "Delivered"
-        //     ? "bg-success bg-lighten-4"
-        //     : order.Status === "Cancelled"
-        //     ? "bg-danger bg-lighten-4"
-        //     : ""
-        // }
+        background={
+          order.Status === "Delivered"
+            ? "bg-success bg-lighten-4"
+            : order.Status === "Cancelled"
+            ? "bg-danger bg-lighten-4"
+            : ""
+        }
         body={
           <div className="row d-flex align-items-center">
             <div className="col-sm-2 text-center">
@@ -64,7 +64,7 @@ export default function MyOrders() {
                     : order.Status === "Cancelled"
                     ? "Cancelled on: "
                     : ""}
-                  {Moment(order.DeliveredOn).format("ddd mm, yyyy")}
+                  {Moment(order.DeliveredOn).format("ddd MM, yyyy")}
                 </div>
               </div>
               <h6>
@@ -165,23 +165,50 @@ export default function MyOrders() {
     );
   };
 
+  const searchOrder = function (order) {
+    if (filterText === "") {
+      return renderOrder(order);
+    } else {
+      var pv = order.PV + "";
+      var price = order.Price + "";
+      var quantity = order.Quantity + "";
+      var searchText = filterText;
+      var itemFound = order.Items.includes(searchText);
+
+      if (
+        order.OrderNo.toLowerCase().includes(searchText) ||
+        itemFound === true ||
+        pv.includes(searchText) ||
+        price.includes(searchText) ||
+        quantity.includes(searchText)
+      ) {
+        return renderOrder(order);
+      }
+    }
+  };
+
   return (
     <PageLayout activeSideMenu="2" pageTitle="My Orders">
       <div className="row">
         <div className="col-12">
-          <div className="form-group row">
-            <div className="col-12">
-              <input
-                id="txtSearch"
-                name="txtSearch"
-                placeholder="Search orders"
-                type="text"
-                className="form-control"
-                value={filterText}
-                onChange={(e) => setFilterText(e.target.value)}
-              />
-            </div>
-          </div>
+          <WishSimpleCard
+            body={
+              <div className="form-group row">
+                <div className="col-12">
+                  <h3>Search Orders</h3>
+                  <input
+                    id="txtSearch"
+                    name="txtSearch"
+                    placeholder="Search orders"
+                    type="text"
+                    className="form-control"
+                    value={filterText}
+                    onChange={(e) => setFilterText(e.target.value)}
+                  />
+                </div>
+              </div>
+            }
+          ></WishSimpleCard>
         </div>
         <div className="col-sm-9">
           {SalesOrders.map((order) => {
@@ -190,20 +217,20 @@ export default function MyOrders() {
               filterCancelled === false &&
               filterReturned === false
             ) {
-              return renderOrder(order);
+              return searchOrder(order);
             } else {
               if (filterDelivered === true && order.Status === "Delivered") {
-                return renderOrder(order);
+                return searchOrder(order);
               } else if (
                 filterCancelled === true &&
                 order.Status === "Cancelled"
               ) {
-                return renderOrder(order);
+                return searchOrder(order);
               } else if (
                 filterReturned === true &&
                 order.Status === "Returned"
               ) {
-                return renderOrder(order);
+                return searchOrder(order);
               }
             }
 
