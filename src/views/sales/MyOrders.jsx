@@ -9,6 +9,7 @@ export default function MyOrders() {
   const [filterDelivered, setFilerDelivered] = useState(false);
   const [filterCancelled, setFilerCancelled] = useState(false);
   const [filterReturned, setFilerReturned] = useState(false);
+  const [filterText, setFilterText] = useState("");
 
   var newOrder = new SalesOrder();
   newOrder.OrderNo = "OD546563564566357";
@@ -167,6 +168,21 @@ export default function MyOrders() {
   return (
     <PageLayout activeSideMenu="2" pageTitle="My Orders">
       <div className="row">
+        <div className="col-12">
+          <div className="form-group row">
+            <div className="col-12">
+              <input
+                id="txtSearch"
+                name="txtSearch"
+                placeholder="Search orders"
+                type="text"
+                className="form-control"
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
         <div className="col-sm-9">
           {SalesOrders.map((order) => {
             if (
