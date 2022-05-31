@@ -9,6 +9,10 @@ export default function MyOrders() {
   const [filterDelivered, setFilerDelivered] = useState(false);
   const [filterCancelled, setFilerCancelled] = useState(false);
   const [filterReturned, setFilerReturned] = useState(false);
+  const [filter30Days, setFilter30Days] = useState(false);
+  const [filter2021, setFilter2021] = useState(false);
+  const [filter2020, setFilter2020] = useState(false);
+  const [filterOlder, setFilterOlder] = useState(false);
   const [filterText, setFilterText] = useState("");
 
   var newOrder = new SalesOrder();
@@ -161,13 +165,91 @@ export default function MyOrders() {
             </div>
           </div>
         </div>
+
+        <div className="lead pt-2">Order Time</div>
+        <div className="form-group row">
+          <div className="col-12">
+            <div className="custom-controls-stacked pt-1">
+              <div className="custom-control custom-checkbox">
+                <input
+                  name="checkbox"
+                  id="checkbox_3"
+                  type="checkbox"
+                  className="custom-control-input"
+                  value="30"
+                  checked={filter30Days}
+                  onChange={() => {
+                    setFilter30Days(!filter30Days);
+                  }}
+                />
+                <label htmlFor="checkbox_3" className="custom-control-label">
+                  Last 30 days
+                </label>
+              </div>
+            </div>
+            <div className="custom-controls-stacked pt-1">
+              <div className="custom-control custom-checkbox">
+                <input
+                  name="checkbox"
+                  id="checkbox_4"
+                  type="checkbox"
+                  className="custom-control-input"
+                  value="2021"
+                  checked={filter2021}
+                  onChange={() => {
+                    setFilter2021(!filter2021);
+                  }}
+                />
+                <label htmlFor="checkbox_4" className="custom-control-label">
+                  2021
+                </label>
+              </div>
+            </div>
+            <div className="custom-controls-stacked pt-1">
+              <div className="custom-control custom-checkbox">
+                <input
+                  name="checkbox"
+                  id="checkbox_5"
+                  type="checkbox"
+                  className="custom-control-input"
+                  value="2020"
+                  checked={filter2020}
+                  onChange={() => {
+                    setFilter2020(!filter2020);
+                  }}
+                />
+                <label htmlFor="checkbox_5" className="custom-control-label">
+                  2020
+                </label>
+              </div>
+            </div>
+            <div className="custom-controls-stacked pt-1">
+              <div className="custom-control custom-checkbox">
+                <input
+                  name="checkbox"
+                  id="checkbox_6"
+                  type="checkbox"
+                  className="custom-control-input"
+                  value="older"
+                  checked={filterOlder}
+                  onChange={() => {
+                    setFilterOlder(!filterOlder);
+                  }}
+                />
+                <label htmlFor="checkbox_6" className="custom-control-label">
+                  Older
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   };
 
   const searchOrder = function (order) {
     if (filterText === "") {
-      return renderOrder(order);
+      return filterByDate(order);
     } else {
       var pv = order.PV + "";
       var price = order.Price + "";
@@ -182,8 +264,35 @@ export default function MyOrders() {
         price.includes(searchText) ||
         quantity.includes(searchText)
       ) {
-        return renderOrder(order);
+        return filterByDate(order);
       }
+    }
+  };
+
+  const filterByDate = function (order) {
+    var orderDate = Moment(order.DeliveredOn).format("DD-MM-YYYY");
+    var lastMonth = Moment().subtract(1, "months").format("DD-MM-YYYY");
+    var orderYear = Number(Moment(order.DeliveredOn).format("yyyy"));
+
+    console.log(
+      filter30Days + " " + filter2021 + " " + filter2020 + " " + filterOlder
+    );
+
+    if (
+      filter30Days === false &&
+      filter2021 === false &&
+      filter2020 === false &&
+      filterOlder === false
+    ) {
+      return renderOrder(order);
+    } else if (filter30Days === true && orderDate > lastMonth) {
+      return renderOrder(order);
+    } else if (filter2021 === true && orderYear === 2021) {
+      return renderOrder(order);
+    } else if (filter2020 === true && orderYear === 2020) {
+      return renderOrder(order);
+    } else if (filterOlder === true && orderYear < 2020) {
+      return renderOrder(order);
     }
   };
 
