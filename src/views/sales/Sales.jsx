@@ -69,7 +69,7 @@ export default function Sales() {
               <code>make payments</code>,
               " for pending orders from here.",
             ]}
-            linkTo="/"
+            linkTo="/myorders"
           ></WishCard>
         </div>
 

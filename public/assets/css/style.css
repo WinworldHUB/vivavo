@@ -511,6 +511,11 @@ ul[role="tablist"] {
   color: white !important;
 }
 
+
+.salesorder-img{
+  width: 90%;
+}
+
 /* Animation ================================================================= */
 .slide-right {
   animation: 0.4s slide-right;
