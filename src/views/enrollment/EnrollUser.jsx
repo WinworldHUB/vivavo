@@ -1,13 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
 import WishLinkCard from "../../components/WishLinkCard";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 
 export default function EnrollUser() {
+  const location = useLocation();
+  const { step } = location.state;
+
   const totalPages = 6;
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(step ?? 0);
   const [termsAgreed, setTermsAgreed] = useState(false);
   const breadcrumbs = [];
   const navigations = [

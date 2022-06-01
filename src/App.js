@@ -26,6 +26,8 @@ import PlaceOrder from "./views/sales/PlaceOrder";
 import WalletTransactions from "./views/personal/WalletTransactions";
 import MyOrders from "./views/sales/MyOrders";
 import EnrollUser from "./views/enrollment/EnrollUser";
+import OngoingEnrollments from "./views/enrollment/OngoingEnrollments";
+import GenerateLink from "./views/enrollment/GenerateLink";
 
 export default function App() {
   return (
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="myorders" element={<MyOrders />} />
         <Route path="enrollment" element={<Enrollment />} />
         <Route path="enrolluser" element={<EnrollUser />} />
+        <Route path="ongoingenrollments" element={<OngoingEnrollments />} />
+        <Route path="generatelink" element={<GenerateLink />} />
         <Route path="mygeneology" element={<MyGeneology />} />
         <Route path="analysis" element={<Analysis />} />
         <Route path="announcements" element={<Announcements />} />

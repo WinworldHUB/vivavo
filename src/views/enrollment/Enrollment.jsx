@@ -36,7 +36,7 @@ export default class Enrollment extends Component {
                 <code>existing</code>,
                 " enrollments or start afresh.",
               ]}
-              linkTo="/"
+              linkTo="/ongoingenrollments"
             ></WishCard>
           </div>
 
@@ -51,7 +51,7 @@ export default class Enrollment extends Component {
                 <code>QR Code</code>,
                 " for doing mobile based enrollment.",
               ]}
-              linkTo="/"
+              linkTo="/generatelink"
             ></WishCard>
           </div>
 
