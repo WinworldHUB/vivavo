@@ -5,11 +5,7 @@ import WishCard from "../../components/WishCard";
 export default class Enrollment extends Component {
   render() {
     return (
-      <PageLayout
-        activeSideMenu="3"
-        pageTitle="Enrollments"
-        header="OPTIONS"
-      >
+      <PageLayout activeSideMenu="3" pageTitle="Enrollments" header="OPTIONS">
         <section className="row">
           <div className="col-md-4 col-sm-6">
             <WishCard
@@ -24,7 +20,7 @@ export default class Enrollment extends Component {
                 <code>new user details</code>,
                 " to enroll him/her into the system.",
               ]}
-              linkTo="/"
+              linkTo="/enrolluser"
             ></WishCard>
           </div>
 

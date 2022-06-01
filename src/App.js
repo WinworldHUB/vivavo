@@ -25,6 +25,7 @@ import ProfileDashboard from "./views/personal/ProfileDashboard";
 import PlaceOrder from "./views/sales/PlaceOrder";
 import WalletTransactions from "./views/personal/WalletTransactions";
 import MyOrders from "./views/sales/MyOrders";
+import EnrollUser from "./views/enrollment/EnrollUser";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="placeorder" element={<PlaceOrder />} />
         <Route path="myorders" element={<MyOrders />} />
         <Route path="enrollment" element={<Enrollment />} />
+        <Route path="enrolluser" element={<EnrollUser />} />
         <Route path="mygeneology" element={<MyGeneology />} />
         <Route path="analysis" element={<Analysis />} />
         <Route path="announcements" element={<Announcements />} />

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PageFooter from "./PageFooter.jsx";
 import PageSideMenu from "./PageSideMenu.jsx";
 import PageTopMenu from "./PageTopMenu.jsx";
@@ -85,13 +86,27 @@ function ContentHeader(props) {
       <div className="col-auto text-right">
         <div className="breadcrumb-wrapper mr-1">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item">
+            {props.breadcrumbs &&
+              props.breadcrumbs.map((breadcrumb, index) => {
+                if (index < props.breadcrumbs.length - 1) {
+                  return (
+                    <li className="breadcrumb-item">
+                      <Link to={breadcrumb.linkTo}>{breadcrumb.title}</Link>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li className="breadcrumb-item active">{breadcrumb.title}</li>
+                  );
+                }
+              })}
+            {/* <li className="breadcrumb-item">
               <a href="index.html">Home</a>
             </li>
             <li className="breadcrumb-item">
               <a href="#">Sales</a>
             </li>
-            <li className="breadcrumb-item active">Place Order</li>
+            <li className="breadcrumb-item active">Place Order</li> */}
           </ol>
         </div>
       </div>

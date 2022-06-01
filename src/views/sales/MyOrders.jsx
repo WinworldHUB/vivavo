@@ -3,6 +3,7 @@ import WishSimpleCard from "../../components/WishSimpleCard";
 import { SalesOrder } from "./data/SalesDataModels";
 import Moment from "moment";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function MyOrders() {
   const SalesOrders = [];
@@ -59,7 +60,7 @@ export default function MyOrders() {
                 <div className="col-6">
                   <h6>
                     Order No:{" "}
-                    <span className="text-primary">{order.OrderNo}</span>
+                    <Link to="/" className="card-link text-primary">{order.OrderNo}</Link>
                   </h6>
                 </div>
                 <div className="col-6 text-right">
@@ -73,7 +74,7 @@ export default function MyOrders() {
               </div>
               <h6>
                 Items:{" "}
-                <span className="text-primary">
+                <span>
                   {order.Items.map(
                     (item, index) =>
                       item + (index < order.Items.length - 1 ? ", " : "")
@@ -83,14 +84,14 @@ export default function MyOrders() {
               <br />
               <div className="row">
                 <div className="col-4">
-                  Price: <span className="text-primary">{order.Price}</span>
+                  Price: <span>{order.Price}</span>
                 </div>
                 <div className="col-4 text-center">
                   Quantity:{" "}
-                  <span className="text-primary">{order.Quantity}</span>
+                  <span>{order.Quantity}</span>
                 </div>
                 <div className="col-4 text-right">
-                  PV: <span className="text-primary">{order.PV}</span>
+                  PV: <span>{order.PV}</span>
                 </div>
               </div>
             </div>

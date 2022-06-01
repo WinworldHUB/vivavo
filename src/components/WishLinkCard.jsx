@@ -7,12 +7,13 @@ export default function WishLinkCard({
   linkTo,
   background,
   showArrow,
+  onClick,
 }) {
   const navigate = useNavigate();
 
   const cardArrow = function () {
     return (
-      <Link to={linkTo}>
+      <Link to={linkTo ?? ""} onClick={(e) => onClick && onClick(e)}>
         <i className="las la-angle-right"></i>
       </Link>
     );
@@ -22,7 +23,9 @@ export default function WishLinkCard({
     return (
       <div className="row d-flex align-items-center">
         <div className="col-10">
-          <Link to={linkTo ?? "/"}>{linkTitle ?? "Link Title"}</Link>
+          <Link to={linkTo ?? ""} onClick={(e) => onClick && onClick(e)}>
+            {linkTitle ?? "Link Title"}
+          </Link>
         </div>
         <div className="col-2 text-right">{showArrow && cardArrow()}</div>
       </div>
@@ -31,7 +34,8 @@ export default function WishLinkCard({
 
   const onCardClicked = function (event) {
     event.preventDefault();
-    navigate(linkTo ?? "/");
+    onClick && onClick(event);
+    navigate(linkTo ?? "");
   };
 
   return (

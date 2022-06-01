@@ -511,10 +511,15 @@ ul[role="tablist"] {
   color: white !important;
 }
 
-
-.salesorder-img{
+.salesorder-img {
   width: 90%;
 }
+
+/* Table Styles ============================================================== */
+.table-borderless td {
+  border: 0 !important;
+}
+/* END: Table Styles ============================================================== */
 
 /* Animation ================================================================= */
 .slide-right {
