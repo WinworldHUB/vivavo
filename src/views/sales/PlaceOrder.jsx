@@ -11,9 +11,12 @@ import WishColoredBar from "../../components/WishColoredBar";
 
 export default function PlaceOrder() {
   const location = useLocation();
+  var typeOfOrder = location.state && location.state.typeOfOrder;
+
+  if (typeOfOrder === null) typeOfOrder = 0;
 
   const [pageNumber, setPageNumber] = useState(0);
-  const [orderType, setOrderType] = useState(location.state.typeOfOrder);
+  const [orderType, setOrderType] = useState(typeOfOrder);
   const [forSelf, setForSelf] = useState(false);
   const [validPincode, setValidPincode] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -1269,7 +1272,11 @@ export default function PlaceOrder() {
           </div>
         </div>
       </WishModal>
-      <WishModal id="dlgSelectLocation" title="Select Location">
+      <WishModal
+        id="dlgSelectLocation"
+        title="Select Location"
+        finishTitle="Select"
+      >
         <div className="row">
           <div className="col-12">
             <div className="form-row">
@@ -1310,10 +1317,7 @@ export default function PlaceOrder() {
                 >
                   {addresses.map((address) => {
                     return (
-                      <a
-                        href="#"
-                        class="list-group-item list-group-item-action"
-                      >
+                      <a class="list-group-item list-group-item-action">
                         {address}
                       </a>
                     );
