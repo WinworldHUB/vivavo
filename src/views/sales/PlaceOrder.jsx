@@ -6,6 +6,8 @@ import PageLayout from "../../components/PageLayout";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishUploadFiles from "../../components/WishUploadFiles";
+import WishToaster from "../../components/WishToaster";
+import WishColoredBar from "../../components/WishColoredBar";
 
 export default function PlaceOrder() {
   const location = useLocation();
@@ -13,7 +15,29 @@ export default function PlaceOrder() {
   const [pageNumber, setPageNumber] = useState(0);
   const [orderType, setOrderType] = useState(location.state.typeOfOrder);
   const [forSelf, setForSelf] = useState(false);
+  const [validPincode, setValidPincode] = useState(0);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
   const amount = 11654;
+  const walletBalance = 2500;
+  const paymentDue = 9737;
+  const mySelf = {
+    Name: "John Doe",
+    Address1: "Viva Tower, No.36",
+    Address2: "V P Deendayal Road, Jayamahal Extension",
+    City: "Bangaluru",
+    State: "Karnataka",
+    Country: "India",
+  };
+
+  const addresses = [
+    "Postmaster 1, Post Office BENSON TOWN (SUB OFFICE)",
+    "Postmaster 2, Post Office BENSON TOWN (SUB OFFICE)",
+    "Postmaster 3, Post Office BENSON TOWN (SUB OFFICE)",
+    "Postmaster 4, Post Office BENSON TOWN (SUB OFFICE)",
+    "Postmaster 5, Post Office BENSON TOWN (SUB OFFICE)",
+    "Postmaster 6, Post Office BENSON TOWN (SUB OFFICE)",
+  ];
 
   useEffect(() => {
     $("#dlgOrderType").modal("show");
@@ -214,8 +238,8 @@ export default function PlaceOrder() {
                 placeholder="Customer Name"
                 type="text"
                 className="form-control"
-                disabled={true}
-                defaultValue="John Doe"
+                disabled={forSelf}
+                defaultValue={forSelf === true ? mySelf.Name : ""}
               />
             </div>
             <div className="form-group">
@@ -227,16 +251,16 @@ export default function PlaceOrder() {
                   placeholder="Delivery Location"
                   type="text"
                   className="form-control"
-                  disabled={true}
-                  defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
+                  disabled={forSelf}
+                  defaultValue={
+                    forSelf === true
+                      ? mySelf.Address1 + ", " + mySelf.Address2
+                      : ""
+                  }
                 />
                 <div className="input-group-append">
                   <div className="input-group-text">
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#dlgSelectLocation"
-                    >
+                    <a data-toggle="modal" data-target="#dlgSelectLocation">
                       <i className="las la-map-marker"></i>
                     </a>
                   </div>
@@ -251,8 +275,12 @@ export default function PlaceOrder() {
                 placeholder="(City, State / Province, Country)"
                 type="text"
                 className="form-control"
-                disabled={true}
-                defaultValue="Udaipur, Rajasthan, India"
+                disabled={forSelf}
+                defaultValue={
+                  forSelf === true
+                    ? mySelf.City + ". " + mySelf.State + ". " + mySelf.Country
+                    : ""
+                }
               />
             </div>
           </form>
@@ -529,157 +557,171 @@ export default function PlaceOrder() {
 
   const page3 = function () {
     return (
-      <section className={"row"}>
+      <section className="row row-eq-height">
         <div className="col-sm-8">
-          <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <a
-                className="nav-link active"
-                id="base-tab1"
-                data-toggle="tab"
-                aria-controls="tab1"
-                href="#tab1"
-                aria-expanded="true"
-              >
-                Shipping Address
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                id="base-tab2"
-                data-toggle="tab"
-                aria-controls="tab2"
-                href="#tab2"
-                aria-expanded="false"
-              >
-                Billing Address
-              </a>
-            </li>
-          </ul>
-          <div className="tab-content px-1 pt-1">
-            <div
-              role="tabpanel"
-              className="tab-pane active"
-              id="tab1"
-              aria-labelledby="base-tab1"
-            >
-              <form>
-                <div className="form-group">
-                  <label for="ddShipping">Shipping Method</label>
-                  <select
-                    title="Shipping Method"
-                    data-placeholder="Select a Shipping Method"
-                    className="select2 form-control"
-                    id="ddShipping"
+          <div className="row h-100 pb-0">
+            <div className="col-12">
+              <ul className="nav nav-tabs">
+                <li className="nav-item">
+                  <a
+                    className="nav-link active"
+                    id="base-tab1"
+                    data-toggle="tab"
+                    aria-controls="tab1"
+                    href="#tab1"
+                    aria-expanded="true"
                   >
-                    <option defaultValue="1" selected>
-                      Store Pickup
-                    </option>
-                    <option defaultValue="2">Courier</option>
-                    <option defaultValue="3">VOTM</option>
-                  </select>
-                </div>
+                    Shipping Address
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    id="base-tab2"
+                    data-toggle="tab"
+                    aria-controls="tab2"
+                    href="#tab2"
+                    aria-expanded="false"
+                  >
+                    Billing Address
+                  </a>
+                </li>
+              </ul>
+              <div className="tab-content px-1 pt-1">
+                <div
+                  role="tabpanel"
+                  className="tab-pane active"
+                  id="tab1"
+                  aria-labelledby="base-tab1"
+                >
+                  <form>
+                    <div className="form-group">
+                      <label for="ddShipping">Shipping Method</label>
+                      <select
+                        title="Shipping Method"
+                        data-placeholder="Select a Shipping Method"
+                        className="select2 form-control"
+                        id="ddShipping"
+                      >
+                        <option defaultValue="1" selected>
+                          Store Pickup
+                        </option>
+                        <option defaultValue="2">Courier</option>
+                        <option defaultValue="3">VOTM</option>
+                      </select>
+                    </div>
 
-                <div className="form-group">
-                  <label for="txtCustomerName">Customer Name</label>
-                  <input
-                    id="txtCustomerName"
-                    name="txtCustomerName"
-                    placeholder="Customer Name"
-                    type="text"
-                    className="form-control"
-                    defaultValue="John Doe"
-                  />
-                </div>
-                <div className="form-group">
-                  <label for="txtDeliveryLocation">Delivery Location</label>
-                  <div className="input-group">
-                    <input
-                      id="txtDeliveryLocation"
-                      name="txtDeliveryLocation"
-                      placeholder="Delivery Location"
-                      type="text"
-                      className="form-control"
-                      disabled={true}
-                      defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
-                    />
-                    <div className="input-group-append">
-                      <div className="input-group-text">
-                        <a
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#dlgSelectLocation"
-                        >
-                          <i className="las la-map-marker"></i>
-                        </a>
+                    <div className="form-group">
+                      <label for="txtCustomerName">Customer Name</label>
+                      <input
+                        id="txtCustomerName"
+                        name="txtCustomerName"
+                        placeholder="Customer Name"
+                        type="text"
+                        className="form-control"
+                        defaultValue="John Doe"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label for="txtDeliveryLocation">Delivery Location</label>
+                      <div className="input-group">
+                        <input
+                          id="txtDeliveryLocation"
+                          name="txtDeliveryLocation"
+                          placeholder="Delivery Location"
+                          type="text"
+                          className="form-control"
+                          disabled={true}
+                          defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
+                        />
+                        <div className="input-group-append">
+                          <div className="input-group-text">
+                            <a
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#dlgSelectLocation"
+                            >
+                              <i className="las la-map-marker"></i>
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    <div className="form-group">
+                      <label for="txtDemographicDetails">
+                        Demographic Details
+                      </label>
+                      <input
+                        id="txtDemographicDetails"
+                        name="txtDemographicDetails"
+                        placeholder="(City, State / Province, Country)"
+                        type="text"
+                        className="form-control"
+                        disabled={true}
+                        defaultValue="Udaipur, Rajasthan, India"
+                      />
+                    </div>
+                  </form>
                 </div>
-                <div className="form-group">
-                  <label for="txtDemographicDetails">Demographic Details</label>
-                  <input
-                    id="txtDemographicDetails"
-                    name="txtDemographicDetails"
-                    placeholder="(City, State / Province, Country)"
-                    type="text"
-                    className="form-control"
-                    disabled={true}
-                    defaultValue="Udaipur, Rajasthan, India"
-                  />
+                <div className="tab-pane" id="tab2" aria-labelledby="base-tab2">
+                  <form>
+                    <div className="form-group">
+                      <label for="txtCustomerName">Customer Name</label>
+                      <input
+                        id="txtCustomerName"
+                        name="txtCustomerName"
+                        placeholder="Customer Name"
+                        type="text"
+                        className="form-control"
+                        defaultValue="John Doe"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label for="txtDeliveryLocation">Billing Address</label>
+                      <div className="input-group">
+                        <input
+                          id="txtDeliveryLocation"
+                          name="txtDeliveryLocation"
+                          placeholder="Delivery Location"
+                          type="text"
+                          className="form-control"
+                          defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
+                        />
+                        <div className="input-group-append">
+                          <div className="input-group-text">
+                            <a
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#dlgSelectLocation"
+                            >
+                              <i className="las la-map-marker"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label for="txtDemographicDetails">
+                        Demographic Details
+                      </label>
+                      <input
+                        id="txtDemographicDetails"
+                        name="txtDemographicDetails"
+                        placeholder="(City, State / Province, Country)"
+                        type="text"
+                        className="form-control"
+                        defaultValue="Udaipur, Rajasthan, India"
+                      />
+                    </div>
+                  </form>
                 </div>
-              </form>
+              </div>
             </div>
-            <div className="tab-pane" id="tab2" aria-labelledby="base-tab2">
-              <form>
-                <div className="form-group">
-                  <label for="txtCustomerName">Customer Name</label>
-                  <input
-                    id="txtCustomerName"
-                    name="txtCustomerName"
-                    placeholder="Customer Name"
-                    type="text"
-                    className="form-control"
-                    defaultValue="John Doe"
-                  />
-                </div>
-                <div className="form-group">
-                  <label for="txtDeliveryLocation">Billing Address</label>
-                  <div className="input-group">
-                    <input
-                      id="txtDeliveryLocation"
-                      name="txtDeliveryLocation"
-                      placeholder="Delivery Location"
-                      type="text"
-                      className="form-control"
-                      defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
-                    />
-                    <div className="input-group-append">
-                      <div className="input-group-text">
-                        <a
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#dlgSelectLocation"
-                        >
-                          <i className="las la-map-marker"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label for="txtDemographicDetails">Demographic Details</label>
-                  <input
-                    id="txtDemographicDetails"
-                    name="txtDemographicDetails"
-                    placeholder="(City, State / Province, Country)"
-                    type="text"
-                    className="form-control"
-                    defaultValue="Udaipur, Rajasthan, India"
-                  />
-                </div>
-              </form>
+            <div className="col-12">
+              <WishColoredBar
+                message="Delivery estimated in 7 days from"
+                bgcolor="info"
+              ></WishColoredBar>
             </div>
           </div>
         </div>
@@ -835,7 +877,7 @@ export default function PlaceOrder() {
                           <label className="lead pb-2">John Doe</label>
                           <br />
                           Your wallet balance is &nbsp;
-                          <code>Rs. 2,500</code>
+                          <code>Rs. {walletBalance}</code>
                         </p>
                       </div>
                       <div className="card-footer border-top-lighten-5 clearfix bg-gradient-x-purple-blue">
@@ -846,13 +888,13 @@ export default function PlaceOrder() {
                         >
                           ADD MONEY
                         </a>
-                        <Link
-                          to="/"
+                        <a
                           className="card-link text-white float-right"
+                          onClick={() => validateWalletPayment()}
                         >
                           PAY NOW
                           <i className="la la-angle-right"></i>
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -1022,6 +1064,46 @@ export default function PlaceOrder() {
     );
   };
 
+  /* Vaidations =======================================================================  */
+  const validateWalletPayment = function () {
+    if (walletBalance < paymentDue) {
+      WishToaster({
+        toastTitle: "Insufficient Balance",
+        toastMessage:
+          "Your wallet has insufficient balance to make this payment.",
+      });
+    } else {
+      WishToaster({
+        toastMessage: "Payment successfull.",
+        toastType: "success",
+      });
+    }
+  };
+
+  const validatePincode = function (pincode) {
+    if (pincode !== "") {
+      const regex = new RegExp("^\\d{6}$");
+      console.log(pincode + ", " + regex.test(pincode));
+      setValidPincode(regex.test(pincode) === true ? 2 : 1);
+    } else {
+      setValidPincode(0);
+      setShowSearchResults(false);
+    }
+
+    return validPincode;
+  };
+
+  const displaySearchResults = function (e) {
+    e.stopPropagation();
+
+    if (validPincode === 2) {
+      setShowSearchResults(true);
+    } else {
+      setShowSearchResults(false);
+    }
+  };
+  /* END: Vaidations ==================================================================  */
+
   return (
     <PageLayout activeSideMenu="2" pageTitle="Place Order">
       <WishSimpleCard
@@ -1182,6 +1264,61 @@ export default function PlaceOrder() {
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </WishModal>
+      <WishModal id="dlgSelectLocation" title="Select Location">
+        <div className="row">
+          <div className="col-12">
+            <div className="form-row">
+              <div className="col-9">
+                <input
+                  id="txtPincode"
+                  name="txtPincode"
+                  type="text"
+                  className="form-control"
+                  placeholder="Pincode"
+                  defaultValue=""
+                  onChange={(e) => validatePincode(e.target.value)}
+                />
+                <small
+                  className={
+                    validPincode === 0 || validPincode === 2
+                      ? "hidden"
+                      : "text-danger"
+                  }
+                >
+                  Invalid pincode
+                </small>
+              </div>
+              <div className="col-3">
+                <button
+                  className="btn btn-block btn-primary"
+                  onClick={(e) => displaySearchResults(e)}
+                >
+                  Search
+                </button>
+              </div>
+              <div className="col-12 pt-2">
+                <div
+                  class={
+                    "list-group file-list " +
+                    (showSearchResults === true ? "" : "hidden")
+                  }
+                >
+                  {addresses.map((address) => {
+                    return (
+                      <a
+                        href="#"
+                        class="list-group-item list-group-item-action"
+                      >
+                        {address}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

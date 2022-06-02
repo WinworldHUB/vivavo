@@ -16,24 +16,24 @@ $("#login").on("click", function () {
 
 $(document).ready(function () {
   // Code for managing self purchase on product order screen
-  $("#chkSelf").on("click", function () {
-    if (this.checked) {
-      $("#chkSelfLabel").text("Buying for self");
-      $("#txtCustomerName").val("John Doe");
-      $("#txtCustomerName").prop("disabled", true);
-      $("#txtDeliveryLocation").val(
-        "Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
-      );
-      $("#txtDemographicDetails").val("Udaipur, Rajasthan, India");
-    } else {
-      $("#chkSelf").text("Buying for others");
-      $("#txtCustomerName").val("");
-      $("#txtCustomerName").prop("disabled", false);
-      $("#txtDeliveryLocation").val("");
-      $("#txtDemographicDetails").val("");
-      //$("#deliveryLocation").prop("disabled", false);
-    }
-  });
+  // $("#chkSelf").on("click", function () {
+  //   if (this.checked) {
+  //     $("#chkSelfLabel").text("Buying for self");
+  //     $("#txtCustomerName").val("John Doe");
+  //     $("#txtCustomerName").prop("disabled", true);
+  //     $("#txtDeliveryLocation").val(
+  //       "Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
+  //     );
+  //     $("#txtDemographicDetails").val("Udaipur, Rajasthan, India");
+  //   } else {
+  //     $("#chkSelf").text("Buying for others");
+  //     $("#txtCustomerName").val("");
+  //     $("#txtCustomerName").prop("disabled", false);
+  //     $("#txtDeliveryLocation").val("");
+  //     $("#txtDemographicDetails").val("");
+  //     //$("#deliveryLocation").prop("disabled", false);
+  //   }
+  // });
 
   $("#btnAccept").on("click", function () {
     if (this.innerText === "Search") {
