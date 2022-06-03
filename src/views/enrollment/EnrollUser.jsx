@@ -88,15 +88,15 @@ export default function EnrollUser() {
 
       case 5:
         return (
-          <div class="row">
-            <div class="col-6">
-              <h4 class="card-title">Sponsor / Placement Details</h4>
+          <div className="row">
+            <div className="col-6">
+              <h4 className="card-title">Sponsor / Placement Details</h4>
             </div>
-            <div class="col-6 text-right">
+            <div className="col-6 text-right">
               <a
                 data-target="#dlgGenology"
                 data-toggle="modal"
-                class="card-link"
+                className="card-link"
               >
                 Select from genology
               </a>
@@ -1386,8 +1386,8 @@ export default function EnrollUser() {
         noFooter
         modalSize="modal-lg"
       >
-        <div class="spinner-grow" role="status">
-          <span class="sr-only">Loading...</span>
+        <div className="spinner-grow" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </WishModal>
     </PageLayout>

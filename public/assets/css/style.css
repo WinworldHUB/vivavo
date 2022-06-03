@@ -403,6 +403,11 @@ ul[role="tablist"] {
   transition: all 0.3s ease-in-out;
 }
 
+.link-dotted {
+  border-bottom: dotted;
+  transition: all 0.3s ease-in-out;
+}
+
 .file-list {
   max-height: 300px;
   overflow-y: auto;

@@ -8,6 +8,8 @@ import WishSimpleCard from "../../components/WishSimpleCard";
 import WishUploadFiles from "../../components/WishUploadFiles";
 import WishToaster from "../../components/WishToaster";
 import WishColoredBar from "../../components/WishColoredBar";
+import WishButtonGroup from "../../components/WishButtonGroup";
+import WishListGroup from "../../components/WishListGroup";
 
 export default function PlaceOrder() {
   const location = useLocation();
@@ -16,10 +18,12 @@ export default function PlaceOrder() {
   if (typeOfOrder === null) typeOfOrder = 0;
 
   const [pageNumber, setPageNumber] = useState(0);
-  const [orderType, setOrderType] = useState(typeOfOrder);
+  const orderType = typeOfOrder;
   const [forSelf, setForSelf] = useState(false);
   const [validPincode, setValidPincode] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
+
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
 
   const amount = 11654;
   const walletBalance = 2500;
@@ -598,24 +602,21 @@ export default function PlaceOrder() {
                   aria-labelledby="base-tab1"
                 >
                   <form>
-                    <div className="form-group">
-                      <label for="ddShipping">Shipping Method</label>
-                      <select
-                        title="Shipping Method"
-                        data-placeholder="Select a Shipping Method"
-                        className="select2 form-control"
-                        id="ddShipping"
+                    <div className="form-row align-items-center pb-2">
+                      <label htmlFor="ddShipping" className="col-4">
+                        Delivery Mode
+                      </label>
+                      <a
+                        className="card-link link-dotted"
+                        data-toggle="modal"
+                        data-target="#dlgDeliveryModes"
                       >
-                        <option defaultValue="1" selected>
-                          Store Pickup
-                        </option>
-                        <option defaultValue="2">Courier</option>
-                        <option defaultValue="3">VOTM</option>
-                      </select>
+                        Select Delivery Mode
+                      </a>
                     </div>
 
                     <div className="form-group">
-                      <label for="txtCustomerName">Customer Name</label>
+                      <label htmlFor="txtCustomerName">Customer Name</label>
                       <input
                         id="txtCustomerName"
                         name="txtCustomerName"
@@ -626,50 +627,41 @@ export default function PlaceOrder() {
                       />
                     </div>
                     <div className="form-group">
-                      <label for="txtDeliveryLocation">Delivery Location</label>
+                      <label htmlFor="txtDeliveryLocation">
+                        Address Line 1
+                      </label>
                       <div className="input-group">
                         <input
-                          id="txtDeliveryLocation"
-                          name="txtDeliveryLocation"
-                          placeholder="Delivery Location"
+                          id="txtDeliveryLocation1"
+                          name="txtDeliveryLocation1"
+                          placeholder="Address Line 1"
                           type="text"
                           className="form-control"
-                          disabled={true}
-                          defaultValue="Toshani Villa, Govardhan Vilas, Near Technoy Motor Service Center, Behind Jeevantara Resort"
+                          defaultValue="Toshani Villa, Govardhan Vilas"
                         />
-                        <div className="input-group-append">
-                          <div className="input-group-text">
-                            <a
-                              href="#"
-                              data-toggle="modal"
-                              data-target="#dlgSelectLocation"
-                            >
-                              <i className="las la-map-marker"></i>
-                            </a>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div className="form-group">
-                      <label for="txtDemographicDetails">
-                        Demographic Details
+                      <label htmlFor="txtDeliveryLocation">
+                        Address Line 2
                       </label>
-                      <input
-                        id="txtDemographicDetails"
-                        name="txtDemographicDetails"
-                        placeholder="(City, State / Province, Country)"
-                        type="text"
-                        className="form-control"
-                        disabled={true}
-                        defaultValue="Udaipur, Rajasthan, India"
-                      />
+                      <div className="input-group">
+                        <input
+                          id="txtDeliveryLocation2"
+                          name="txtDeliveryLocation2"
+                          placeholder="Address Line 2"
+                          type="text"
+                          className="form-control"
+                          defaultValue="Near Technoy Motor Service Center, Behind Jeevantara Resort"
+                        />
+                      </div>
                     </div>
                   </form>
                 </div>
                 <div className="tab-pane" id="tab2" aria-labelledby="base-tab2">
                   <form>
                     <div className="form-group">
-                      <label for="txtCustomerName">Customer Name</label>
+                      <label htmlFor="txtCustomerName">Customer Name</label>
                       <input
                         id="txtCustomerName"
                         name="txtCustomerName"
@@ -680,7 +672,9 @@ export default function PlaceOrder() {
                       />
                     </div>
                     <div className="form-group">
-                      <label for="txtDeliveryLocation">Billing Address</label>
+                      <label htmlFor="txtDeliveryLocation">
+                        Billing Address
+                      </label>
                       <div className="input-group">
                         <input
                           id="txtDeliveryLocation"
@@ -704,7 +698,7 @@ export default function PlaceOrder() {
                       </div>
                     </div>
                     <div className="form-group">
-                      <label for="txtDemographicDetails">
+                      <label htmlFor="txtDemographicDetails">
                         Demographic Details
                       </label>
                       <input
@@ -787,20 +781,12 @@ export default function PlaceOrder() {
                   id="ddVouchers"
                 >
                   <optgroup label="Vouchers">
-                    <option value="V12345" selected>
-                      V122345
-                    </option>
-                    <option value="V123456" selected>
-                      V1223456
-                    </option>
+                    <option defaultValue="V12345">V122345</option>
+                    <option value="V123456">V1223456</option>
                   </optgroup>
                   <optgroup label="Coupons">
-                    <option value="C12345" selected>
-                      C122345
-                    </option>
-                    <option value="C123456" selected>
-                      C1223456
-                    </option>
+                    <option value="C12345">C122345</option>
+                    <option value="C123456">C1223456</option>
                   </optgroup>
                 </select>
               </div>
@@ -1058,7 +1044,7 @@ export default function PlaceOrder() {
                 </table>
 
                 <h5 className="pt-3">Vouchers / Cupons applied:</h5>
-                <label for="">V1223456</label>
+                <label htmlFor="">V1223456</label>
               </div>
             </div>
           </div>
@@ -1107,55 +1093,73 @@ export default function PlaceOrder() {
   };
   /* END: Vaidations ==================================================================  */
 
-  return (
-    <PageLayout activeSideMenu="2" pageTitle="Place Order">
-      <WishSimpleCard
-        header={pageHeader(pageNumber)}
-        footer={pageFooter()}
-        body={pageBody(pageNumber)}
-      ></WishSimpleCard>
+  /*  Modals ============================================================================= */
+  const selectLocationModal = function () {
+    return (
       <WishModal
-        id="dlgOrderType"
-        title="Select Order Type"
+        id="dlgSelectLocation"
+        title="Select Location"
         finishTitle="Select"
       >
-        <div className="form-group row">
-          <div className="col-12 text-center">
-            <div className="btn-group btn-block" id="btnOrderTypes">
-              <a
-                className={
-                  "btn " +
-                  (orderType === 0 ? "btn-primary active" : "btn-light")
-                }
-                aria-current="page"
-                onClick={() => setOrderType(0)}
-              >
-                Normal
-              </a>
-              <a
-                className={
-                  "btn " +
-                  (orderType === 1 ? "btn-primary active" : "btn-light")
-                }
-                aria-current="page"
-                onClick={() => setOrderType(1)}
-              >
-                VOTM
-              </a>
-              <a
-                className={
-                  "btn " +
-                  (orderType === 2 ? "btn-primary active" : "btn-light")
-                }
-                aria-current="page"
-                onClick={() => setOrderType(2)}
-              >
-                PCM
-              </a>
+        <div className="row">
+          <div className="col-12">
+            <div className="form-row">
+              <div className="col-9">
+                <input
+                  id="txtPincode"
+                  name="txtPincode"
+                  type="text"
+                  className="form-control"
+                  placeholder="Pincode"
+                  defaultValue=""
+                  onChange={(e) => validatePincode(e.target.value)}
+                />
+                <small
+                  className={
+                    validPincode === 0 || validPincode === 2
+                      ? "hidden"
+                      : "text-danger"
+                  }
+                >
+                  Invalid pincode
+                </small>
+              </div>
+              <div className="col-3">
+                <button
+                  className="btn btn-block btn-primary"
+                  onClick={(e) => displaySearchResults(e)}
+                >
+                  Search
+                </button>
+              </div>
+              <div className="col-12 pt-2">
+                <div
+                  className={
+                    "list-group file-list " +
+                    (showSearchResults === true ? "" : "hidden")
+                  }
+                >
+                  {addresses.map((address, index) => {
+                    return (
+                      <a
+                        className="list-group-item list-group-item-action"
+                        key={index}
+                      >
+                        {address}
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </WishModal>
+    );
+  };
+
+  const addMoneyModal = function () {
+    return (
       <WishModal
         id="dlgAddMoney"
         title="Add Money"
@@ -1210,10 +1214,10 @@ export default function PlaceOrder() {
                       </div>
                     </div>
                     <div className="card-body row">
-                      <div className="col-9">
+                      <div className="col-6">
                         <h5 className="text-white">Add money:</h5>
                       </div>
-                      <div className="col-3 text-right">
+                      <div className="col-6 text-right">
                         <h5 className="text-white">Rs. {amount}</h5>
                       </div>
                     </div>
@@ -1272,62 +1276,68 @@ export default function PlaceOrder() {
           </div>
         </div>
       </WishModal>
+    );
+  };
+
+  const orderTypeModal = function () {
+    return (
       <WishModal
-        id="dlgSelectLocation"
-        title="Select Location"
+        id="dlgOrderType"
+        title="Select Order Type"
         finishTitle="Select"
       >
-        <div className="row">
-          <div className="col-12">
-            <div className="form-row">
-              <div className="col-9">
-                <input
-                  id="txtPincode"
-                  name="txtPincode"
-                  type="text"
-                  className="form-control"
-                  placeholder="Pincode"
-                  defaultValue=""
-                  onChange={(e) => validatePincode(e.target.value)}
-                />
-                <small
-                  className={
-                    validPincode === 0 || validPincode === 2
-                      ? "hidden"
-                      : "text-danger"
-                  }
-                >
-                  Invalid pincode
-                </small>
-              </div>
-              <div className="col-3">
-                <button
-                  className="btn btn-block btn-primary"
-                  onClick={(e) => displaySearchResults(e)}
-                >
-                  Search
-                </button>
-              </div>
-              <div className="col-12 pt-2">
-                <div
-                  class={
-                    "list-group file-list " +
-                    (showSearchResults === true ? "" : "hidden")
-                  }
-                >
-                  {addresses.map((address) => {
-                    return (
-                      <a class="list-group-item list-group-item-action">
-                        {address}
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+        <WishButtonGroup
+          selectedButtonIndex={orderType}
+          buttons={["Normal", "VOTM", "PCM"]}
+        ></WishButtonGroup>
+      </WishModal>
+    );
+  };
+
+  const deliveryModeModal = function () {
+    return (
+      <WishModal
+        id="dlgDeliveryModes"
+        title="Select Delivery Mode"
+        finishTitle="Select"
+      >
+        <WishButtonGroup
+          buttons={["Store Pickup", "Courier", "VOTM"]}
+          onSelect={setSelectedDeliveryMode}
+        ></WishButtonGroup>
+
+        <div className={"pt-2 " + (selectedDeliveryMode === 0 ? "" : "hidden")}>
+          <WishListGroup
+            title="Stores near you:"
+            subTitle="based on the location provided"
+            items={[
+              "Store 1",
+              "Store 2",
+              "Store 3",
+              "Store 4",
+              "Store 5",
+              "Store 6",
+              "Store 7",
+            ]}
+          ></WishListGroup>
         </div>
       </WishModal>
+    );
+  };
+  /*  END Modals ========================================================================= */
+
+  return (
+    <PageLayout activeSideMenu="2" pageTitle="Place Order">
+      <WishSimpleCard
+        header={pageHeader(pageNumber)}
+        footer={pageFooter()}
+        body={pageBody(pageNumber)}
+      ></WishSimpleCard>
+
+      {orderTypeModal()}
+      {addMoneyModal()}
+      {selectLocationModal()}
+      {deliveryModeModal()}
     </PageLayout>
   );
 }

@@ -26,7 +26,7 @@ export default function Sales() {
           ></WishCard>
         </div>
 
-        <div className="col-md-4 col-sm-6">
+        {/* <div className="col-md-4 col-sm-6">
           <WishCard
             title="PCM"
             icon="la-crown"
@@ -55,17 +55,17 @@ export default function Sales() {
             linkTo="/placeorder"
             linkToState={{ typeOfOrder: 1 }}
           ></WishCard>
-        </div>
+        </div> 
       </section>
 
-      <section className="row">
+      <section className="row">*/}
         <div className="col-md-4 col-sm-6">
           <WishCard
             title="My Orders"
             icon="la-list-alt"
             line1="Know status of your orders using this option."
             line2={[
-              "You can also <code>make payments ",
+              "You can also ",
               <code>make payments</code>,
               " for pending orders from here.",
             ]}
@@ -80,7 +80,7 @@ export default function Sales() {
             line1="Generate and share your store link with your
                     customers."
             line2={[
-              "Copy <code>Store Link ",
+              "Copy Store Link ",
               <code>store link</code>,
               " to clipboard and share ",
               <code>with customers</code>,
@@ -98,6 +98,7 @@ export default function Sales() {
         title="Get Link"
         hideCancelButton={true}
         finishTitle="Copy Link"
+        modalSize="modal-lg"
         onFinish={() =>
           WishToaster({
             toastMessage: "Link copied to clipboard!",
@@ -105,9 +106,9 @@ export default function Sales() {
           })
         }
       >
-        <div class="form-group row">
-          <div class="col-12">
-            <div class="input-group">
+        <div className="form-group row">
+          <div className="col-12">
+            <div className="input-group">
               <input
                 id="txtStoreLink"
                 name="txtStoreLink"
@@ -115,10 +116,10 @@ export default function Sales() {
                 className="form-control"
                 defaultValue="https://vo.indusviva.com/sales/storelink/54asfadf4fa5a"
               />
-              <div class="input-group-append">
-                <div class="input-group-text">
+              <div className="input-group-append">
+                <div className="input-group-text">
                   <Link to="">
-                    <i class="las la-sync"></i>
+                    <i className="las la-sync"></i>
                   </Link>
                 </div>
               </div>
@@ -126,8 +127,8 @@ export default function Sales() {
           </div>
         </div>
         <p className="text-center">
-          Link also shared on your registered mobile number{" "}
-          <code>+91-9009200920</code>
+          <i className="lab la-2x la-whatsapp"></i> Send to your registered mobile
+          number <code>+91-9009200920</code>
         </p>
       </WishModal>
     </PageLayout>
