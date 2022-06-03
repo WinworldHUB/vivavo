@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 export default function WishListGroup({
   title,
   subTitle,
+  action,
+  onActionClick,
   items,
   onSelect,
   selectedItemIndex,
@@ -13,10 +15,35 @@ export default function WishListGroup({
 
   return (
     <div>
-      <h5 className={title === undefined ? "hidden" : ""}>{title ?? ""}</h5>
-      <small className={subTitle === undefined ? "hidden" : ""}>
-        <em>{subTitle ?? ""}</em>
-      </small>
+      <div className="row align-items-center">
+        <div className="col-7">
+          <h5 className={title === undefined ? "hidden" : ""}>{title ?? ""}</h5>
+          <small className={subTitle === undefined ? "hidden" : ""}>
+            <em>{subTitle ?? ""}</em>
+          </small>
+        </div>
+        <div className="col-5 text-right pb-1">
+          <button
+            className={
+              "btn btn-primary " + (action === undefined ? "hidden" : "")
+            }
+            onClick={(e) => {
+              e.stopPropagation();
+              onActionClick && onActionClick();
+            }}
+          >
+            {action ?? ""}
+          </button>
+        </div>
+      </div>
+      {/* <div
+        className={
+          "col-12 pt-1 " +
+          (title === undefined && action === undefined ? "hidden" : "")
+        }
+      >
+        &nbsp;
+      </div> */}
       <div className="list-group file-list" id={uuidv4()}>
         {items.map((item, index) => {
           return (

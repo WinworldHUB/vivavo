@@ -10,6 +10,7 @@ import WishToaster from "../../components/WishToaster";
 import WishColoredBar from "../../components/WishColoredBar";
 import WishButtonGroup from "../../components/WishButtonGroup";
 import WishListGroup from "../../components/WishListGroup";
+import Moment from "moment";
 
 export default function PlaceOrder() {
   const location = useLocation();
@@ -18,12 +19,28 @@ export default function PlaceOrder() {
   if (typeOfOrder === null) typeOfOrder = 0;
 
   const [pageNumber, setPageNumber] = useState(0);
-  const orderType = typeOfOrder;
+  const [orderType, setOrderType] = useState(typeOfOrder);
   const [forSelf, setForSelf] = useState(false);
   const [validPincode, setValidPincode] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
+  const deliveryModes = ["Store Pickup", "Courier", "VOTM"];
+
+  var seventhDay = Moment().add(7, "days").format("DD-MM-YYYY");
+  var fourteenthDay = Moment().add(14, "days").format("DD-MM-YYYY");
+
+  const orderTypes = ["Normal Order", "VOTM Order", "PCM Order"];
+
+  const stores = [
+    "Store 1",
+    "Store 2",
+    "Store 3",
+    "Store 4",
+    "Store 5",
+    "Store 6",
+    "Store 7",
+  ];
 
   const amount = 11654;
   const walletBalance = 2500;
@@ -71,17 +88,11 @@ export default function PlaceOrder() {
         <div className="col-4 text-right">
           Order Type:{" "}
           <a
-            className="card-link text-primary"
+            className="card-link text-primary link-dotted"
             data-toggle="modal"
             data-target="#dlgOrderType"
           >
-            {orderType === 0
-              ? "Normal Order"
-              : orderType === 1
-              ? "VOTM Order"
-              : orderType === 2
-              ? "PCM Order"
-              : "Normal Order"}
+            {orderTypes[orderType]}
           </a>
         </div>
         <div className="col-12">
@@ -250,7 +261,47 @@ export default function PlaceOrder() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="txtDeliveryLocation">Delivery Location</label>
+              <label htmlFor="txtAddressLine1">Address Line 1</label>
+              <input
+                id="txtAddressLine1"
+                name="txtAddressLine1"
+                placeholder="Address Line 1"
+                type="text"
+                className="form-control"
+                disabled={forSelf}
+                defaultValue={forSelf === true ? mySelf.Address1 : ""}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="txtAddressLine2">Address Line 2</label>
+              <input
+                id="txtAddressLine2"
+                name="txtAddressLine2"
+                placeholder="Address Line 2"
+                type="text"
+                className="form-control"
+                disabled={forSelf}
+                defaultValue={forSelf === true ? mySelf.Address2 : ""}
+              />
+            </div>
+            <div className="form-group">
+              <div className="row">
+                <div className="col-6">
+                  <label htmlFor="txtDeliveryLocation">Delivery Location</label>
+                </div>
+                <div className="col-6 text-right">
+                  <a
+                    className={
+                      "card-link link-dotted " +
+                      (forSelf === true ? "" : "hidden")
+                    }
+                    data-toggle="modal"
+                    data-target="#dlgChangeAddress"
+                  >
+                    Change Address
+                  </a>
+                </div>
+              </div>
               <div className="input-group">
                 <input
                   id="txtDeliveryLocation"
@@ -614,47 +665,117 @@ export default function PlaceOrder() {
                         Select Delivery Mode
                       </a>
                     </div>
-
                     <div className="form-group">
-                      <label htmlFor="txtCustomerName">Customer Name</label>
+                      <label htmlFor="txtCustomerName">
+                        {forSelf === true
+                          ? "Distributor Name"
+                          : "Customer Name"}
+                      </label>
                       <input
                         id="txtCustomerName"
                         name="txtCustomerName"
-                        placeholder="Customer Name"
+                        placeholder={
+                          forSelf === true
+                            ? "Distributor Name"
+                            : "Customer Name"
+                        }
                         type="text"
                         className="form-control"
-                        defaultValue="John Doe"
+                        disabled={forSelf}
+                        defaultValue={forSelf === true ? mySelf.Name : ""}
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="txtDeliveryLocation">
-                        Address Line 1
-                      </label>
+                      <label htmlFor="txtAddressLine1">Address Line 1</label>
+                      <input
+                        id="txtAddressLine1"
+                        name="txtAddressLine1"
+                        placeholder="Address Line 1"
+                        type="text"
+                        className="form-control"
+                        disabled={forSelf}
+                        defaultValue={forSelf === true ? mySelf.Address1 : ""}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="txtAddressLine2">Address Line 2</label>
+                      <input
+                        id="txtAddressLine2"
+                        name="txtAddressLine2"
+                        placeholder="Address Line 2"
+                        type="text"
+                        className="form-control"
+                        disabled={forSelf}
+                        defaultValue={forSelf === true ? mySelf.Address2 : ""}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <div className="row">
+                        <div className="col-6">
+                          <label htmlFor="txtDeliveryLocation">
+                            Delivery Location
+                          </label>
+                        </div>
+                        <div className="col-6 text-right">
+                          <a
+                            className={
+                              "card-link link-dotted " +
+                              (forSelf === true ? "" : "hidden")
+                            }
+                            data-toggle="modal"
+                            data-target="#dlgChangeAddress"
+                          >
+                            Change Address
+                          </a>
+                        </div>
+                      </div>
                       <div className="input-group">
                         <input
-                          id="txtDeliveryLocation1"
-                          name="txtDeliveryLocation1"
-                          placeholder="Address Line 1"
+                          id="txtDeliveryLocation"
+                          name="txtDeliveryLocation"
+                          placeholder="Delivery Location"
                           type="text"
                           className="form-control"
-                          defaultValue="Toshani Villa, Govardhan Vilas"
+                          disabled={forSelf}
+                          defaultValue={
+                            forSelf === true
+                              ? mySelf.Address1 + ", " + mySelf.Address2
+                              : ""
+                          }
                         />
+                        <div className="input-group-append">
+                          <div className="input-group-text">
+                            <a
+                              data-toggle="modal"
+                              data-target="#dlgSelectLocation"
+                            >
+                              <i className="las la-map-marker"></i>
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="txtDeliveryLocation">
-                        Address Line 2
+                      <label htmlFor="txtDemographicDetails">
+                        Demographic Details
                       </label>
-                      <div className="input-group">
-                        <input
-                          id="txtDeliveryLocation2"
-                          name="txtDeliveryLocation2"
-                          placeholder="Address Line 2"
-                          type="text"
-                          className="form-control"
-                          defaultValue="Near Technoy Motor Service Center, Behind Jeevantara Resort"
-                        />
-                      </div>
+                      <input
+                        id="txtDemographicDetails"
+                        name="txtDemographicDetails"
+                        placeholder="(City, State / Province, Country)"
+                        type="text"
+                        className="form-control"
+                        disabled={forSelf}
+                        defaultValue={
+                          forSelf === true
+                            ? mySelf.City +
+                              ". " +
+                              mySelf.State +
+                              ". " +
+                              mySelf.Country
+                            : ""
+                        }
+                      />
                     </div>
                   </form>
                 </div>
@@ -713,12 +834,6 @@ export default function PlaceOrder() {
                   </form>
                 </div>
               </div>
-            </div>
-            <div className="col-12">
-              <WishColoredBar
-                message="Delivery estimated in 7 days from"
-                bgcolor="info"
-              ></WishColoredBar>
             </div>
           </div>
         </div>
@@ -792,6 +907,18 @@ export default function PlaceOrder() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="col-12 text-center lead">
+          <WishColoredBar
+            message={
+              "Your order will be delivered between " +
+              seventhDay +
+              " and " +
+              fourteenthDay +
+              " from today's date"
+            }
+            bgcolor="info"
+          ></WishColoredBar>
         </div>
       </section>
     );
@@ -1132,8 +1259,13 @@ export default function PlaceOrder() {
                   Search
                 </button>
               </div>
-              <div className="col-12 pt-2">
-                <div
+              <div
+                className={
+                  "col-12 pt-2 " + (showSearchResults === true ? "" : "hidden")
+                }
+              >
+                <WishListGroup items={addresses}></WishListGroup>
+                {/* <div
                   className={
                     "list-group file-list " +
                     (showSearchResults === true ? "" : "hidden")
@@ -1149,7 +1281,7 @@ export default function PlaceOrder() {
                       </a>
                     );
                   })}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -1289,6 +1421,7 @@ export default function PlaceOrder() {
         <WishButtonGroup
           selectedButtonIndex={orderType}
           buttons={["Normal", "VOTM", "PCM"]}
+          onSelect={setOrderType}
         ></WishButtonGroup>
       </WishModal>
     );
@@ -1302,7 +1435,7 @@ export default function PlaceOrder() {
         finishTitle="Select"
       >
         <WishButtonGroup
-          buttons={["Store Pickup", "Courier", "VOTM"]}
+          buttons={deliveryModes}
           onSelect={setSelectedDeliveryMode}
         ></WishButtonGroup>
 
@@ -1310,17 +1443,25 @@ export default function PlaceOrder() {
           <WishListGroup
             title="Stores near you:"
             subTitle="based on the location provided"
-            items={[
-              "Store 1",
-              "Store 2",
-              "Store 3",
-              "Store 4",
-              "Store 5",
-              "Store 6",
-              "Store 7",
-            ]}
+            items={stores}
           ></WishListGroup>
         </div>
+      </WishModal>
+    );
+  };
+
+  const changeAddressModal = function () {
+    return (
+      <WishModal
+        id="dlgChangeAddress"
+        title="Change Address"
+        finishTitle="Select"
+      >
+        <WishListGroup
+          items={addresses}
+          title="Your saved addresses:"
+          action="New Address"
+        ></WishListGroup>
       </WishModal>
     );
   };
@@ -1338,6 +1479,7 @@ export default function PlaceOrder() {
       {addMoneyModal()}
       {selectLocationModal()}
       {deliveryModeModal()}
+      {changeAddressModal()}
     </PageLayout>
   );
 }
