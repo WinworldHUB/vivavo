@@ -90,13 +90,17 @@ function ContentHeader(props) {
               props.breadcrumbs.map((breadcrumb, index) => {
                 if (index < props.breadcrumbs.length - 1) {
                   return (
-                    <li className="breadcrumb-item">
-                      <Link to={breadcrumb.linkTo}>{breadcrumb.title}</Link>
+                    <li className="breadcrumb-item" key={index}>
+                      <Link key={index} to={breadcrumb.linkTo}>
+                        {breadcrumb.title}
+                      </Link>
                     </li>
                   );
                 } else {
                   return (
-                    <li className="breadcrumb-item active">{breadcrumb.title}</li>
+                    <li className="breadcrumb-item active" key={index}>
+                      {breadcrumb.title}
+                    </li>
                   );
                 }
               })}

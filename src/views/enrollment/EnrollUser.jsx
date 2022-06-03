@@ -8,7 +8,7 @@ import WishSimpleCard from "../../components/WishSimpleCard";
 
 export default function EnrollUser() {
   const location = useLocation();
-  const { step } = location.state;
+  const { step } = location.state ?? 0;
 
   const totalPages = 6;
   const [currentPage, setCurrentPage] = useState(step ?? 0);
@@ -31,8 +31,9 @@ export default function EnrollUser() {
       <div className="row">
         {navigations.map((navigation, index) => {
           return (
-            <div className="col">
+            <div className="col" key={index}>
               <WishLinkCard
+                key={index}
                 linkTitle={navigation}
                 background={
                   currentPage === index
@@ -161,7 +162,7 @@ export default function EnrollUser() {
     return (
       <div>
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddTitle" className="col-4 col-form-label">
+          <label htmlFor="ddTitle" className="col-4 col-form-label">
             Title
           </label>
           <div className="col-8">
@@ -179,10 +180,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtFirstname"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtFirstname" className="col-4 col-form-label">
             First Name
           </label>
           <div className="col-8">
@@ -197,7 +195,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtLastname" className="col-4 col-form-label">
+          <label htmlFor="txtLastname" className="col-4 col-form-label">
             Last Name
           </label>
           <div className="col-8">
@@ -213,10 +211,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="projectinput3"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="projectinput3" className="col-4 col-form-label">
             Date of birth
           </label>
           <div className="col-8">
@@ -237,7 +232,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddLanguage" className="col-4 col-form-label">
+          <label htmlFor="ddLanguage" className="col-4 col-form-label">
             Preferred Language
           </label>
           <div className="col-8">
@@ -266,10 +261,7 @@ export default function EnrollUser() {
                 defaultValue="male"
                 required="required"
               />
-              <label
-                htmlhtmlhtmlFor="rdGender_0"
-                className="custom-control-label"
-              >
+              <label htmlFor="rdGender_0" className="custom-control-label">
                 Male
               </label>
             </div>
@@ -282,20 +274,14 @@ export default function EnrollUser() {
                 defaultValue="female"
                 required="required"
               />
-              <label
-                htmlhtmlhtmlFor="rdGender_1"
-                className="custom-control-label"
-              >
+              <label htmlFor="rdGender_1" className="custom-control-label">
                 Female
               </label>
             </div>
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="ddMartiaialStatus"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="ddMartiaialStatus" className="col-4 col-form-label">
             Maritial Status
           </label>
           <div className="col-8">
@@ -311,10 +297,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="ddProfession"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="ddProfession" className="col-4 col-form-label">
             Profession
           </label>
           <div className="col-8">
@@ -333,10 +316,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="ddMonthlyIncome"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="ddMonthlyIncome" className="col-4 col-form-label">
             Monhtly Income
           </label>
           <div className="col-8">
@@ -356,10 +336,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtAadharCard"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtAadharCard" className="col-4 col-form-label">
             Aadhar Card
           </label>
           <div className="col-8">
@@ -373,7 +350,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtGST" className="col-4 col-form-label">
+          <label htmlFor="txtGST" className="col-4 col-form-label">
             GST Number
           </label>
           <div className="col-8">
@@ -394,10 +371,7 @@ export default function EnrollUser() {
     return (
       <div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtDistiName"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtDistiName" className="col-4 col-form-label">
             Full Name
           </label>
           <div className="col-8">
@@ -414,7 +388,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtMobile" className="col-4 col-form-label">
+          <label htmlFor="txtMobile" className="col-4 col-form-label">
             Mobile Number
           </label>
           <div className="col-8">
@@ -434,7 +408,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtEmail" className="col-4 col-form-label">
+          <label htmlFor="txtEmail" className="col-4 col-form-label">
             Email
           </label>
           <div className="col-8">
@@ -451,10 +425,7 @@ export default function EnrollUser() {
         <p className="lead border-bottom">Permanent Address</p>
 
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtAddressLine1"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtAddressLine1" className="col-4 col-form-label">
             Address Line 1
           </label>
           <div className="col-8">
@@ -468,10 +439,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtAddressLine2"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtAddressLine2" className="col-4 col-form-label">
             Address Line 2
           </label>
           <div className="col-8">
@@ -485,7 +453,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtPincode" className="col-4 col-form-label">
+          <label htmlFor="txtPincode" className="col-4 col-form-label">
             Pincode
           </label>
           <div className="col-8">
@@ -500,7 +468,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCity" className="col-4 col-form-label">
+          <label htmlFor="ddCity" className="col-4 col-form-label">
             District
           </label>
           <div className="col-8">
@@ -518,7 +486,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddDistrict" className="col-4 col-form-label">
+          <label htmlFor="ddDistrict" className="col-4 col-form-label">
             District
           </label>
           <div className="col-8">
@@ -536,7 +504,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddState" className="col-4 col-form-label">
+          <label htmlFor="ddState" className="col-4 col-form-label">
             State
           </label>
           <div className="col-8">
@@ -554,7 +522,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCountry" className="col-4 col-form-label">
+          <label htmlFor="ddCountry" className="col-4 col-form-label">
             Country
           </label>
           <div className="col-8">
@@ -579,12 +547,9 @@ export default function EnrollUser() {
                 type="checkbox"
                 className="custom-control-input"
                 id="customSwitch1"
-                checked=""
+                defaultChecked=""
               />
-              <label
-                className="custom-control-label"
-                htmlhtmlhtmlFor="customSwitch1"
-              >
+              <label className="custom-control-label" htmlFor="customSwitch1">
                 Same as Permanent Address
               </label>
             </div>
@@ -592,10 +557,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row pt-1">
-          <label
-            htmlhtmlhtmlFor="txtCAddressLine1"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtCAddressLine1" className="col-4 col-form-label">
             Address Line 1
           </label>
           <div className="col-8">
@@ -609,10 +571,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlhtmlFor="txtCAddressLine2"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtCAddressLine2" className="col-4 col-form-label">
             Address Line 2
           </label>
           <div className="col-8">
@@ -626,7 +585,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="txtCPincode" className="col-4 col-form-label">
+          <label htmlFor="txtCPincode" className="col-4 col-form-label">
             Pincode
           </label>
           <div className="col-8">
@@ -641,7 +600,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCCity" className="col-4 col-form-label">
+          <label htmlFor="ddCCity" className="col-4 col-form-label">
             District
           </label>
           <div className="col-8">
@@ -659,7 +618,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCDistrict" className="col-4 col-form-label">
+          <label htmlFor="ddCDistrict" className="col-4 col-form-label">
             District
           </label>
           <div className="col-8">
@@ -677,7 +636,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCState" className="col-4 col-form-label">
+          <label htmlFor="ddCState" className="col-4 col-form-label">
             State
           </label>
           <div className="col-8">
@@ -695,7 +654,7 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
-          <label htmlhtmlhtmlFor="ddCCountry" className="col-4 col-form-label">
+          <label htmlFor="ddCCountry" className="col-4 col-form-label">
             Country
           </label>
           <div className="col-8">
@@ -719,10 +678,7 @@ export default function EnrollUser() {
     return (
       <div>
         <div className="form-group row">
-          <label
-            htmlhtmlFor="txtAccountHolder"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtAccountHolder" className="col-4 col-form-label">
             Account Holder
           </label>
           <div className="col-8">
@@ -737,7 +693,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlFor="txtAccNumber" className="col-4 col-form-label">
+          <label htmlFor="txtAccNumber" className="col-4 col-form-label">
             Account Number
           </label>
           <div className="col-8">
@@ -752,10 +708,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label
-            htmlhtmlFor="txtConfirmAccNumber"
-            className="col-4 col-form-label"
-          >
+          <label htmlFor="txtConfirmAccNumber" className="col-4 col-form-label">
             Confirm Account Number
           </label>
           <div className="col-8">
@@ -770,7 +723,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlFor="txtIFSCCode" className="col-4 col-form-label">
+          <label htmlFor="txtIFSCCode" className="col-4 col-form-label">
             IFSC Code
           </label>
           <div className="col-8">
@@ -785,7 +738,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlFor="txtBankName" className="col-4 col-form-label">
+          <label htmlFor="txtBankName" className="col-4 col-form-label">
             Bank Name
           </label>
           <div className="col-8">
@@ -799,7 +752,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlhtmlFor="txtBankBranch" className="col-4 col-form-label">
+          <label htmlFor="txtBankBranch" className="col-4 col-form-label">
             Bank Branch
           </label>
           <div className="col-8">
@@ -1064,50 +1017,52 @@ export default function EnrollUser() {
           </div>
           <div className="table-responsive">
             <table className="table table-borderless">
-              <tr>
-                <td>Title</td>
-                <td>Mr.</td>
-              </tr>
-              <tr>
-                <td>First Name</td>
-                <td>Shamsudeen</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>Raghvan</td>
-              </tr>
-              <tr>
-                <td>Date of birth</td>
-                <td>01-Jan-1980</td>
-              </tr>
-              <tr>
-                <td>Preferred Language</td>
-                <td>English</td>
-              </tr>
-              <tr>
-                <td>Gender</td>
-                <td>Male</td>
-              </tr>
-              <tr>
-                <td>Maritial Status</td>
-                <td>Married</td>
-              </tr>
-              <tr>
-                <td>Profession</td>
-                <td>Businessmen</td>
-              </tr>
-              <tr>
-                <td>Monthly Income</td>
-                <td>Less than 5000</td>
-              </tr>
-              <tr>
-                <td>Aadhar Card</td>
-                <td>0000-0000-0000-0000-0000</td>
-              </tr>
-              <tr>
-                <td>GST Number</td>
-                <td>0000-0000-0000-0000</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Title</td>
+                  <td>Mr.</td>
+                </tr>
+                <tr>
+                  <td>First Name</td>
+                  <td>Shamsudeen</td>
+                </tr>
+                <tr>
+                  <td>Last Name</td>
+                  <td>Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Date of birth</td>
+                  <td>01-Jan-1980</td>
+                </tr>
+                <tr>
+                  <td>Preferred Language</td>
+                  <td>English</td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td>Male</td>
+                </tr>
+                <tr>
+                  <td>Maritial Status</td>
+                  <td>Married</td>
+                </tr>
+                <tr>
+                  <td>Profession</td>
+                  <td>Businessmen</td>
+                </tr>
+                <tr>
+                  <td>Monthly Income</td>
+                  <td>Less than 5000</td>
+                </tr>
+                <tr>
+                  <td>Aadhar Card</td>
+                  <td>0000-0000-0000-0000-0000</td>
+                </tr>
+                <tr>
+                  <td>GST Number</td>
+                  <td>0000-0000-0000-0000</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1124,40 +1079,42 @@ export default function EnrollUser() {
           </div>
           <div className="table-responsive">
             <table className="table table-borderless">
-              <tr>
-                <td>Full Name</td>
-                <td>Mr. Shamsudeen Raghvan</td>
-              </tr>
-              <tr>
-                <td>Mobile Number</td>
-                <td>+91 9000 0000 00</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>Shamsudeen.Raghvan@gmail.com</td>
-              </tr>
-              <tr>
-                <td>Permanent Address</td>
-                <td>
-                  IndusViva HealthSciences Private Limited,Viva Tower, No.36, V
-                  P Deendayal Road,
-                  <br />
-                  Jayamahal Extension,
-                  <br />
-                  Bangalore – 560046
-                </td>
-              </tr>
-              <tr>
-                <td>Communication Address</td>
-                <td>
-                  IndusViva HealthSciences Private Limited,Viva Tower, No.36, V
-                  P Deendayal Road,
-                  <br />
-                  Jayamahal Extension,
-                  <br />
-                  Bangalore – 560046
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Full Name</td>
+                  <td>Mr. Shamsudeen Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Mobile Number</td>
+                  <td>+91 9000 0000 00</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>Shamsudeen.Raghvan@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>Permanent Address</td>
+                  <td>
+                    IndusViva HealthSciences Private Limited,Viva Tower, No.36,
+                    V P Deendayal Road,
+                    <br />
+                    Jayamahal Extension,
+                    <br />
+                    Bangalore – 560046
+                  </td>
+                </tr>
+                <tr>
+                  <td>Communication Address</td>
+                  <td>
+                    IndusViva HealthSciences Private Limited,Viva Tower, No.36,
+                    V P Deendayal Road,
+                    <br />
+                    Jayamahal Extension,
+                    <br />
+                    Bangalore – 560046
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1174,26 +1131,28 @@ export default function EnrollUser() {
           </div>
           <div className="table-responsive">
             <table className="table table-borderless">
-              <tr>
-                <td>Account Holder</td>
-                <td>Mr. Shamsudeen Raghvan</td>
-              </tr>
-              <tr>
-                <td>Account Number</td>
-                <td>0000 0000 0000 0000 0000 0000</td>
-              </tr>
-              <tr>
-                <td>IFSC Code</td>
-                <td>ICIC00000129</td>
-              </tr>
-              <tr>
-                <td>Bank Name</td>
-                <td>ICICI Bank</td>
-              </tr>
-              <tr>
-                <td>Bank Branch</td>
-                <td>Bangaluru Branch</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Account Holder</td>
+                  <td>Mr. Shamsudeen Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Account Number</td>
+                  <td>0000 0000 0000 0000 0000 0000</td>
+                </tr>
+                <tr>
+                  <td>IFSC Code</td>
+                  <td>ICIC00000129</td>
+                </tr>
+                <tr>
+                  <td>Bank Name</td>
+                  <td>ICICI Bank</td>
+                </tr>
+                <tr>
+                  <td>Bank Branch</td>
+                  <td>Bangaluru Branch</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1210,50 +1169,52 @@ export default function EnrollUser() {
           </div>
           <div className="table-responsive">
             <table className="table table-borderless">
-              <tr>
-                <td>Co-Applicant Name</td>
-                <td>Mrs. Shabeena Raghvan</td>
-              </tr>
-              <tr>
-                <td>Mobile Number</td>
-                <td>+91 9000 0000 00</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>Shamsudeen.Raghvan@gmail.com</td>
-              </tr>
-              <tr>
-                <td>Relationship</td>
-                <td>Wife</td>
-              </tr>
-              <tr>
-                <td>Account Holder</td>
-                <td>Mr. Shamsudeen Raghvan</td>
-              </tr>
-              <tr>
-                <td>Account Number</td>
-                <td>0000 0000 0000 0000 0000 0000</td>
-              </tr>
-              <tr>
-                <td>IFSC Code</td>
-                <td>ICIC00000129</td>
-              </tr>
-              <tr>
-                <td>Bank Name</td>
-                <td>ICICI Bank</td>
-              </tr>
-              <tr>
-                <td>Bank Branch</td>
-                <td>Bangaluru Branch</td>
-              </tr>
-              <tr>
-                <td>Nominee Name</td>
-                <td>Mr. Salman Raghvan</td>
-              </tr>
-              <tr>
-                <td>Nominee Relationship</td>
-                <td>Son</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Co-Applicant Name</td>
+                  <td>Mrs. Shabeena Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Mobile Number</td>
+                  <td>+91 9000 0000 00</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>Shamsudeen.Raghvan@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>Relationship</td>
+                  <td>Wife</td>
+                </tr>
+                <tr>
+                  <td>Account Holder</td>
+                  <td>Mr. Shamsudeen Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Account Number</td>
+                  <td>0000 0000 0000 0000 0000 0000</td>
+                </tr>
+                <tr>
+                  <td>IFSC Code</td>
+                  <td>ICIC00000129</td>
+                </tr>
+                <tr>
+                  <td>Bank Name</td>
+                  <td>ICICI Bank</td>
+                </tr>
+                <tr>
+                  <td>Bank Branch</td>
+                  <td>Bangaluru Branch</td>
+                </tr>
+                <tr>
+                  <td>Nominee Name</td>
+                  <td>Mr. Salman Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Nominee Relationship</td>
+                  <td>Son</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1270,7 +1231,7 @@ export default function EnrollUser() {
                   type="checkbox"
                   className="custom-control-input"
                   value="1"
-                  checked={termsAgreed}
+                  defaultChecked={termsAgreed}
                   onClick={() => setTermsAgreed(!termsAgreed)}
                 />
                 <label htmlFor="chkTerms_0" className="custom-control-label">
@@ -1293,7 +1254,7 @@ export default function EnrollUser() {
     return (
       <div>
         <div className="form-group row">
-          <label for="txtPlacementID" className="col-4 col-form-label">
+          <label htmlFor="txtPlacementID" className="col-4 col-form-label">
             Placement ID
           </label>
           <div className="col-8">
@@ -1317,7 +1278,7 @@ export default function EnrollUser() {
                 className="custom-control-input"
                 value="right"
               />
-              <label for="rPosition_0" className="custom-control-label">
+              <label htmlFor="rPosition_0" className="custom-control-label">
                 Right
               </label>
             </div>
@@ -1329,14 +1290,14 @@ export default function EnrollUser() {
                 className="custom-control-input"
                 value="left"
               />
-              <label for="rPosition_1" className="custom-control-label">
+              <label htmlFor="rPosition_1" className="custom-control-label">
                 Left
               </label>
             </div>
           </div>
         </div>
         <div className="form-group row">
-          <label for="txtSponsorID" className="col-4 col-form-label">
+          <label htmlFor="txtSponsorID" className="col-4 col-form-label">
             Sponsor ID
           </label>
           <div className="col-8">
@@ -1350,7 +1311,7 @@ export default function EnrollUser() {
           </div>
         </div>
         <div className="form-group row">
-          <label for="txtSponsorName" className="col-4 col-form-label">
+          <label htmlFor="txtSponsorName" className="col-4 col-form-label">
             Sponsor Name
           </label>
           <div className="col-8">
