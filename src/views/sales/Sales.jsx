@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
@@ -126,10 +127,18 @@ export default function Sales() {
             </div>
           </div>
         </div>
-        <p className="text-center">
-          <i className="lab la-2x la-whatsapp"></i> Send to your registered mobile
-          number <code>+91-9009200920</code>
-        </p>
+        <div className="text-center">
+          <span className="align-middle">
+            <i className="lab la-2x la-whatsapp"></i>
+          </span>
+          <span className="align-middle">
+            {" "}
+            Send to your registered mobile number <code>+91-9009200920</code>
+          </span>
+          <span className="pl-2">
+            <button className="btn btn-primary btn-sm" data-dismiss="modal">Share</button>
+          </span>
+        </div>
       </WishModal>
     </PageLayout>
   );
