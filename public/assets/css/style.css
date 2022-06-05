@@ -408,6 +408,10 @@ ul[role="tablist"] {
   transition: all 0.3s ease-in-out;
 }
 
+.list-group-item.disabled {
+  text-decoration: line-through !important;
+}
+
 .file-list {
   max-height: 300px;
   overflow-y: auto;

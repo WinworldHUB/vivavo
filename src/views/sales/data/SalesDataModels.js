@@ -1,15 +1,3 @@
-export class OrderStatus {
-  Delivered;
-  Cancelled;
-  Returned;
-
-  constructor(delivered, cancelled, returned) {
-    this.Delivered = delivered;
-    this.Cancelled = cancelled;
-    this.Returned = returned;
-  }
-}
-
 export class SalesOrder {
   OrderNo;
   Items;

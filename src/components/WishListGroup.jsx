@@ -9,6 +9,7 @@ export default function WishListGroup({
   showFilter,
   onActionClick,
   items,
+  complexItem,
   onSelect,
   selectedItemIndex,
 }) {
@@ -74,13 +75,18 @@ export default function WishListGroup({
           return (
             <a
               className={
-                "list-group-item list-group-item-action " +
+                "d-flex list-group-item list-group-item-action " +
                 (selectedItem === index ? "active " : " ") +
                 (filterText !== null && item.includes(filterText)
                   ? ""
                   : filterText === null
                   ? ""
-                  : "hidden")
+                  : "hidden") +
+                (complexItem === undefined
+                  ? " "
+                  : item.disabled === true
+                  ? " disabled "
+                  : "")
               }
               aria-current="true"
               key={index}
@@ -90,7 +96,14 @@ export default function WishListGroup({
                 onSelect && onSelect(index);
               }}
             >
-              {item}
+              <span className="mr-auto">
+                {complexItem === undefined
+                  ? item
+                  : item.title + " (" + item.description + ")"}
+              </span>
+              <span className="ml-auto link-dotted" data-dismiss="modal">
+                {complexItem && "Apply"}
+              </span>
             </a>
           );
         })}

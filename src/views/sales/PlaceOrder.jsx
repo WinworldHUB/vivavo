@@ -75,6 +75,22 @@ export default function PlaceOrder() {
     "Postmaster 6, Post Office BENSON TOWN (SUB OFFICE)",
   ];
 
+  const vouchers = [
+    { title: "iCoffee50", description: "Flat Rs. 50 OFF", disabled: false },
+    { title: "iCoffee100", description: "Flat Rs. 100 OFF", disabled: false },
+    { title: "iCoffee150", description: "Flat Rs. 150 OFF", disabled: true },
+    { title: "iCoffee200", description: "Flat Rs. 200 OFF", disabled: false },
+    { title: "iCoffee250", description: "Flat Rs. 250 OFF", disabled: false },
+
+    { title: "iSlim50", description: "Flat Rs. 50 OFF", disabled: false },
+    { title: "iSlim100", description: "Flat Rs. 100 OFF", disabled: false },
+    { title: "iSlim150", description: "Flat Rs. 150 OFF", disabled: true },
+    { title: "iSlim200", description: "Flat Rs. 200 OFF", disabled: false },
+    { title: "iSlim250", description: "Flat Rs. 250 OFF", disabled: false },
+  ];
+
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
+
   useEffect(() => {
     $("#dlgOrderType").modal("show");
   }, [orderType]);
@@ -958,21 +974,29 @@ export default function PlaceOrder() {
                 </table>
 
                 <h5 className="pt-3">Apply Vouchers / Cupons</h5>
-                <select
-                  title="Vouchers / Cupons"
-                  data-placeholder="Select a Voucher / Coupon"
-                  className="select2 form-control"
-                  id="ddVouchers"
-                >
-                  <optgroup label="Vouchers">
-                    <option defaultValue="V12345">V122345</option>
-                    <option value="V123456">V1223456</option>
-                  </optgroup>
-                  <optgroup label="Coupons">
-                    <option value="C12345">C122345</option>
-                    <option value="C123456">C1223456</option>
-                  </optgroup>
-                </select>
+                <div className="d-flex align-items-center">
+                  <a
+                    className="mr-auto text-primary link-dotted"
+                    data-toggle="modal"
+                    data-target="#dlgSelectVoucher"
+                  >
+                    {selectedVoucher === null
+                      ? "Select Voucher"
+                      : vouchers[selectedVoucher].title}
+                  </a>
+                  {selectedVoucher && (
+                    <a
+                      onClick={() => {
+                        setSelectedVoucher(null);
+                      }}
+                    >
+                      <i className="ml-auto las la-trash-alt la-2x text-danger"></i>
+                    </a>
+                  )}
+                </div>
+                <small>
+                  {selectedVoucher && vouchers[selectedVoucher].description}
+                </small>
               </div>
             </div>
           </div>
@@ -1545,6 +1569,19 @@ export default function PlaceOrder() {
       </WishModal>
     );
   };
+
+  const selectVoucherModal = function () {
+    return (
+      <WishModal id="dlgSelectVoucher" title="Apply Voucher / Coupon" noFooter>
+        <WishListGroup
+          items={vouchers}
+          complexItem
+          title="Vouchers and Coupons"
+          onSelect={setSelectedVoucher}
+        ></WishListGroup>
+      </WishModal>
+    );
+  };
   /*  END Modals ========================================================================= */
 
   return (
@@ -1560,6 +1597,7 @@ export default function PlaceOrder() {
       {selectLocationModal()}
       {deliveryModeModal()}
       {changeAddressModal()}
+      {selectVoucherModal()}
     </PageLayout>
   );
 }
