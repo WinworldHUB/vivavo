@@ -39,16 +39,6 @@ export default class Dashboard extends Component {
                 <p className="lead">
                   This is dashboard content placeholder. Dashboard content will
                   go here.
-                  {/* <button
-                    type="button"
-                    className="btn btn-lg btn-block btn-primary mb-2"
-                    id="progress-bar"
-                    onClick={() => {
-                      this.showToast();
-                    }}
-                  >
-                    Show Toast
-                  </button> */}
                 </p>
               </div>
             </div>

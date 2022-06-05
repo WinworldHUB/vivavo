@@ -6,7 +6,6 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishStatusCard from "../../components/WishStatsCard";
-import ReactCardFlip from "react-card-flip";
 import WishDistributorRankBar from "../../components/WishDistributorRankBar";
 import WishLinkCard from "../../components/WishLinkCard";
 
@@ -956,13 +955,13 @@ export default function ProfileDashboard() {
     <PageLayout activeSideMenu="0" pageTitle="My Profile" extendedHeader>
       <section className="row">
         <div className="col-sm-8">
-          <ReactCardFlip
+          {/* <ReactCardFlip
             isFlipped={isProfileFlipped}
             flipDirection="horizontal"
           >
             {profileCardFront()}
             {profileCardBack()}
-          </ReactCardFlip>
+          </ReactCardFlip> */}
         </div>
         <div className="col-sm-4">
           <WishSimpleCard
@@ -1014,7 +1013,7 @@ export default function ProfileDashboard() {
               ></WishLinkCard>
             </div>
             <div className="col-12">
-              <ReactCardFlip
+              {/* <ReactCardFlip
                 isFlipped={isPersonalFlipped}
                 flipDirection="horizontal"
               >
@@ -1038,14 +1037,14 @@ export default function ProfileDashboard() {
                     "flipPersonalDetails"
                   )}
                 ></WishSimpleCard>
-              </ReactCardFlip>
+              </ReactCardFlip> */}
             </div>
           </div>
         </div>
         <div className="col-sm-6">
           <div className="row">
             <div className="col-12">
-              <ReactCardFlip
+              {/* <ReactCardFlip
                 isFlipped={isContactFlipped}
                 flipDirection="horizontal"
               >
@@ -1066,10 +1065,10 @@ export default function ProfileDashboard() {
                   body={contactDetailsBack()}
                   footer={commonFooter(!isContactFlipped, "flipContactDetails")}
                 ></WishSimpleCard>
-              </ReactCardFlip>
+              </ReactCardFlip> */}
             </div>
             <div className="col-12">
-              <ReactCardFlip
+              {/* <ReactCardFlip
                 isFlipped={isBankFlipped}
                 flipDirection="horizontal"
               >
@@ -1090,7 +1089,7 @@ export default function ProfileDashboard() {
                   body={bankDetailsBack()}
                   footer={commonFooter(!isBankFlipped, "flipBankDetails")}
                 ></WishSimpleCard>
-              </ReactCardFlip>
+              </ReactCardFlip> */}
             </div>
           </div>
         </div>

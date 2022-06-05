@@ -6,12 +6,14 @@ export default function WishListGroup({
   title,
   subTitle,
   action,
+  showFilter,
   onActionClick,
   items,
   onSelect,
   selectedItemIndex,
 }) {
   const [selectedItem, setSelectedItem] = useState(selectedItemIndex ?? null);
+  const [filterText, setFilterText] = useState(null);
 
   return (
     <div>
@@ -22,11 +24,13 @@ export default function WishListGroup({
             <em>{subTitle ?? ""}</em>
           </small>
         </div>
-        <div className="col-5 text-right pb-1">
+        <div
+          className={
+            "col-5 text-right pb-1 " + (action === undefined ? "hidden" : "")
+          }
+        >
           <button
-            className={
-              "btn btn-primary " + (action === undefined ? "hidden" : "")
-            }
+            className={"btn btn-primary "}
             onClick={(e) => {
               e.stopPropagation();
               onActionClick && onActionClick();
@@ -34,6 +38,27 @@ export default function WishListGroup({
           >
             {action ?? ""}
           </button>
+        </div>
+
+        <div
+          className={
+            "col-5 text-right pb-1 " +
+            (showFilter === undefined ? "hidden" : "")
+          }
+        >
+          <div className="form-row">
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="text"
+                id={uuidv4()}
+                placeholder="Filter list"
+                onChange={(e) => {
+                  setFilterText(e.target.value);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
       {/* <div
@@ -50,7 +75,12 @@ export default function WishListGroup({
             <a
               className={
                 "list-group-item list-group-item-action " +
-                (selectedItem === index ? "active" : "")
+                (selectedItem === index ? "active " : " ") +
+                (filterText !== null && item.includes(filterText)
+                  ? ""
+                  : filterText === null
+                  ? ""
+                  : "hidden")
               }
               aria-current="true"
               key={index}
