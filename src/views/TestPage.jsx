@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import PageLayout from "../components/PageLayout";
 import WishFlipCard from "../components/WishFlipCard";
 import WishModal from "../components/WishModal";
@@ -13,6 +13,39 @@ function Header(props) {
 }
 
 export default function TestPage() {
+  useEffect(() => {
+    $("#btnPopover").fu_popover({
+      // show popover arrow
+      arrowShow: true,
+
+      // auto hide after 2500ms
+      autoHide: false,
+      autoHideDelay: 2500,
+
+      // popover content
+      content: "This is popover content",
+
+      // delay times
+      delay: { show: 0, hide: 0 },
+
+      // is dismissable
+      dismissable: true,
+
+      // top, bottom, left, right
+      placement: "bottom",
+
+      // custom theme
+      themeName: "default",
+
+      // popover title
+      title: "This is popover title",
+
+      // trigger event
+      // click | hover | focus | manual
+      trigger: "hover",
+    });
+  });
+
   return (
     <PageLayout pageTitle="Test Page">
       <section className="row d-flex justify-content-around">
@@ -38,7 +71,11 @@ export default function TestPage() {
         Show Toast
       </button>
 
-      <div className="row">
+      <button type="button" className="btn btn-primary" id="btnPopover">
+        On Hover Trigger
+      </button>
+
+      <div className="row pt-2">
         <div className="col-6">
           <WishFlipCard showBackFooter>
             {{

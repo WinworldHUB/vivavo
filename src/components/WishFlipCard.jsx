@@ -37,19 +37,19 @@ export default function WishFlipCard({ children, showBackFooter }) {
   );
 
   return (
-    <div class="flipper ">
+    <div className="flipper ">
       <div
-        class={"flipper-card " + (flip === true ? "flipper-is-flipped" : "")}
+        className={"flipper-card " + (flip === true ? "flipper-is-flipped" : "")}
       >
         <WishSimpleCard
           background={"flipper-front " + (flip === true ? "hidden" : "")}
           header={frontEdit}
           body={children.front}
         ></WishSimpleCard>
-        {/* <div class={"flipper-front " + (flip === true ? "hidden" : "")}>
+        {/* <div className={"flipper-front " + (flip === true ? "hidden" : "")}>
           {children.front}
         </div> */}
-        {/* <div class="flipper-back ">{children.back}</div> */}
+        {/* <div className="flipper-back ">{children.back}</div> */}
         <WishSimpleCard
           background={"flipper-back " + (flip === false ? "hidden" : "")}
           header={backEdit}

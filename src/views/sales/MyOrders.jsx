@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 import PageLayout from "../../components/PageLayout";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import { SalesOrder } from "./data/SalesDataModels";
 import Moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function MyOrders() {
@@ -35,6 +36,54 @@ export default function MyOrders() {
   newOrder.Status = "Cancelled";
   newOrder.DeliveredOn = Date();
   SalesOrders.push(newOrder);
+
+  useEffect(() => {
+    for (let index = 0; index < SalesOrders.length; index++) {
+      var orderId = SalesOrders[index].OrderNo;
+      var currentOrder = SalesOrders[index];
+
+      console.log(currentOrder);
+
+      var priceBreakupContent =
+        "Price (" +
+        currentOrder.Items.length +
+        "): " +
+        currentOrder.Price +
+        "<br/>Handling Charges: Rs. 400 <br/>Discount: Rs. 0<br/>Voucher Savings: Rs. 0<hr/>Total: Rs. " +
+        (currentOrder.Price + 400);
+
+      $("#" + orderId).fu_popover({
+        // show popover arrow
+        arrowShow: true,
+
+        // auto hide after 2500ms
+        autoHide: false,
+        autoHideDelay: 2000,
+
+        // popover content
+        content: priceBreakupContent,
+
+        // delay times
+        delay: { show: 0, hide: 0 },
+
+        // is dismissable
+        dismissable: true,
+
+        // top, bottom, left, right
+        placement: "bottom",
+
+        // custom theme
+        themeName: "default",
+
+        // popover title
+        title: "",
+
+        // trigger event
+        // click | hover | focus | manual
+        trigger: "click",
+      });
+    }
+  });
 
   const renderOrder = function (order) {
     return (
@@ -85,8 +134,9 @@ export default function MyOrders() {
               </h6>
               <br />
               <div className="row">
-                <div className="col-4">
+                <div className="col-4 d-flex align-items-center">
                   Price: <span>{order.Price}</span>
+                  <i className="las la-info" id={order.OrderNo}></i>
                 </div>
                 <div className="col-4 text-center">
                   Quantity: <span>{order.Quantity}</span>
