@@ -20,7 +20,7 @@ export default function PlaceOrder() {
 
   const [pageNumber, setPageNumber] = useState(0);
   const [orderType, setOrderType] = useState(typeOfOrder);
-  const [forSelf, setForSelf] = useState(false);
+  const [forSelf, setForSelf] = useState(true);
   const [validPincode, setValidPincode] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -755,7 +755,7 @@ export default function PlaceOrder() {
                           </label>
                         </div>
                         <div className="col-6 text-right">
-                          <a
+                          {/* <a
                             className={
                               "card-link link-dotted " +
                               (forSelf === true ? "" : "hidden")
@@ -764,7 +764,7 @@ export default function PlaceOrder() {
                             data-target="#dlgChangeAddress"
                           >
                             Change Address
-                          </a>
+                          </a> */}
                         </div>
                       </div>
                       <div className="input-group">
@@ -973,7 +973,7 @@ export default function PlaceOrder() {
                   </tfoot>
                 </table>
 
-                <h5 className="pt-3">Apply Vouchers / Cupons</h5>
+                <h5 className="pt-3">Use Vouchers</h5>
                 <div className="d-flex align-items-center">
                   <a
                     className="mr-auto text-primary link-dotted"

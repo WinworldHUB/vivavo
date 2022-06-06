@@ -39,13 +39,13 @@ export default function MyOrders() {
   const renderOrder = function (order) {
     return (
       <WishSimpleCard
-        background={
-          order.Status === "Delivered"
-            ? "bg-success soft-success"
-            : order.Status === "Cancelled"
-            ? "bg-danger soft-danger"
-            : ""
-        }
+        // background={
+        //   order.Status === "Delivered"
+        //     ? "bg-success soft-success"
+        //     : order.Status === "Cancelled"
+        //     ? "bg-danger soft-danger"
+        //     : ""
+        // }
         body={
           <div className="row d-flex align-items-center">
             <div className="col-sm-2 text-center">
