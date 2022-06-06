@@ -116,12 +116,16 @@ export default function PlaceOrder() {
         <div className="col-4 text-right">
           Order Type:{" "}
           <a
-            className="card-link text-primary link-dotted"
+            className={
+              "card-link text-primary link-dotted " +
+              (pageNumber === 0 ? "" : "hidden")
+            }
             data-toggle="modal"
             data-target="#dlgOrderType"
           >
             {orderTypes[orderType]}
           </a>
+          {pageNumber > 0 ? orderTypes[orderType] : ""}
         </div>
         <div className="col-12">
           <small className="d-flex align-items-center">
