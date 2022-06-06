@@ -41,9 +41,9 @@ export default function MyOrders() {
       <WishSimpleCard
         background={
           order.Status === "Delivered"
-            ? "bg-success bg-lighten-4"
+            ? "bg-success soft-success"
             : order.Status === "Cancelled"
-            ? "bg-danger bg-lighten-4"
+            ? "bg-danger soft-danger"
             : ""
         }
         body={
@@ -60,7 +60,9 @@ export default function MyOrders() {
                 <div className="col-6">
                   <h6>
                     Order No:{" "}
-                    <Link to="/" className="card-link text-primary">{order.OrderNo}</Link>
+                    <Link to="/" className="card-link text-primary">
+                      {order.OrderNo}
+                    </Link>
                   </h6>
                 </div>
                 <div className="col-6 text-right">
@@ -87,8 +89,7 @@ export default function MyOrders() {
                   Price: <span>{order.Price}</span>
                 </div>
                 <div className="col-4 text-center">
-                  Quantity:{" "}
-                  <span>{order.Quantity}</span>
+                  Quantity: <span>{order.Quantity}</span>
                 </div>
                 <div className="col-4 text-right">
                   PV: <span>{order.PV}</span>

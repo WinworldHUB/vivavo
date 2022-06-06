@@ -557,3 +557,13 @@ ul[role="tablist"] {
   }
 }
 /* END: Animation ================================================================= */
+
+/* Softer Shades ================================================================== */
+.soft-success {
+  background-color: #e2f9df !important;
+}
+
+.soft-danger {
+  background-color: #FCE5E5 !important;
+}
+/* End: Softer Shades ============================================================= */
