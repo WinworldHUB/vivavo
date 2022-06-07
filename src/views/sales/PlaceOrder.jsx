@@ -91,6 +91,14 @@ export default function PlaceOrder() {
 
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
+  const products = [
+    { title: "iPulse", thumbnail: "ipulse.jpg" },
+    { title: "iCare", thumbnail: "icare.jpg" },
+    { title: "iGlow", thumbnail: "iglow.jpg" },
+    { title: "iSlim", thumbnail: "islim.jpg" },
+    { title: "iCoffee", thumbnail: "icoffee.jpg" },
+  ];
+
   useEffect(() => {
     $("#dlgOrderType").modal("show");
   }, [orderType]);
@@ -113,19 +121,17 @@ export default function PlaceOrder() {
         <div className="col-8">
           <h2>New Order</h2>
         </div>
-        <div className="col-4 text-right">
+        <div
+          className={"col-4 text-right " + (pageNumber === 0 ? "" : "hidden")}
+        >
           Order Type:{" "}
           <a
-            className={
-              "card-link text-primary link-dotted " +
-              (pageNumber === 0 ? "" : "hidden")
-            }
+            className={"card-link text-primary link-dotted "}
             data-toggle="modal"
             data-target="#dlgOrderType"
           >
             {orderTypes[orderType]}
           </a>
-          {pageNumber > 0 ? orderTypes[orderType] : ""}
         </div>
         <div className="col-12">
           <small className="d-flex align-items-center">
@@ -424,210 +430,53 @@ export default function PlaceOrder() {
       <section className={"row"}>
         <div className="col-sm-8">
           <div className="card-columns">
-            <div className="card text-center border-primary pull-up">
-              <div className="card-content">
-                <div className="card-body">
-                  <img
-                    src="./assets/app-assets/images/products/ipulse.png"
-                    alt="element 02"
-                    width="225"
-                    className="mb-1 img-fluid"
-                  />
-                  <h3 className="card-title">iPulse</h3>
-                  <div className="input-group input-group-sm">
-                    <div className="input-group-prepend">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-danger"
-                      >
-                        <i className="las la-minus"></i>
-                      </button>
-                    </div>
-                    <input
-                      id="txtiPulseQuantity"
-                      name="txtiPulseQuantity"
-                      placeholder="0"
-                      type="text"
-                      className="form-control text-center"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        title="add"
-                        type="button"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="las la-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="card text-center border-primary pull-up">
-              <div className="card-content">
-                <div className="card-body">
-                  <img
-                    src="./assets/app-assets/images/products/ipulse.png"
-                    alt="element 02"
-                    width="225"
-                    className="mb-1 img-fluid"
-                  />
-                  <h3 className="card-title">iPulse</h3>
-                  <div className="input-group input-group-sm">
-                    <div className="input-group-prepend">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-danger"
-                      >
-                        <i className="las la-minus"></i>
-                      </button>
-                    </div>
-                    <input
-                      id="txtiCareQuantity"
-                      name="txtiCareQuantity"
-                      placeholder="0"
-                      type="text"
-                      className="form-control text-center"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        title="add"
-                        type="button"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="las la-plus"></i>
-                      </button>
+            {products.map((product, index) => {
+              return (
+                <div className="card text-center border-primary pull-up">
+                  <div className="card-content">
+                    <div className="card-body">
+                      <img
+                        src={
+                          "./assets/app-assets/images/products/" +
+                          product.thumbnail
+                        }
+                        alt={product.title}
+                        width="225"
+                        className="mb-1 img-fluid"
+                      />
+                      <h3 className="card-title">{product.title}</h3>
+                      <div className="input-group input-group-sm">
+                        <div className="input-group-prepend">
+                          <button
+                            title="remove"
+                            type="button"
+                            className="btn btn-outline-danger"
+                          >
+                            <i className="las la-minus"></i>
+                          </button>
+                        </div>
+                        <input
+                          id="txtiPulseQuantity"
+                          name="txtiPulseQuantity"
+                          placeholder="0"
+                          type="text"
+                          className="form-control text-center"
+                        />
+                        <div className="input-group-append">
+                          <button
+                            title="add"
+                            type="button"
+                            className="btn btn-outline-primary"
+                          >
+                            <i className="las la-plus"></i>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="card text-center border-primary pull-up">
-              <div className="card-content">
-                <div className="card-body">
-                  <img
-                    src="./assets/app-assets/images/products/ipulse.png"
-                    alt="element 02"
-                    width="225"
-                    className="mb-1 img-fluid"
-                  />
-                  <h3 className="card-title">iPulse</h3>
-                  <div className="input-group input-group-sm">
-                    <div className="input-group-prepend">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-danger"
-                      >
-                        <i className="las la-minus"></i>
-                      </button>
-                    </div>
-                    <input
-                      id="txtiGlowQuantity"
-                      name="txtiGlowQuantity"
-                      placeholder="0"
-                      type="text"
-                      className="form-control text-center"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        title="add"
-                        type="button"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="las la-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="card text-center border-primary pull-up">
-              <div className="card-content">
-                <div className="card-body">
-                  <img
-                    src="./assets/app-assets/images/products/ipulse.png"
-                    alt="element 02"
-                    width="225"
-                    className="mb-1 img-fluid"
-                  />
-                  <h3 className="card-title">iPulse</h3>
-                  <div className="input-group input-group-sm">
-                    <div className="input-group-prepend">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-danger"
-                      >
-                        <i className="las la-minus"></i>
-                      </button>
-                    </div>
-                    <input
-                      id="txtiCoffeeQuantity"
-                      name="txtiCoffeeQuantity"
-                      placeholder="0"
-                      type="text"
-                      className="form-control text-center"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        title="add"
-                        type="button"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="las la-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="card text-center border-primary pull-up">
-              <div className="card-content">
-                <div className="card-body">
-                  <img
-                    src="./assets/app-assets/images/products/ipulse.png"
-                    alt="element 02"
-                    width="225"
-                    className="mb-1 img-fluid"
-                  />
-                  <h3 className="card-title">iPulse</h3>
-                  <div className="input-group input-group-sm">
-                    <div className="input-group-prepend">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-danger"
-                      >
-                        <i className="las la-minus"></i>
-                      </button>
-                    </div>
-                    <input
-                      id="txtQuantity"
-                      name="txtQuantity"
-                      placeholder="0"
-                      type="text"
-                      className="form-control text-center"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        title="remove"
-                        type="button"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="las la-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
         <div className="col-sm-4">
