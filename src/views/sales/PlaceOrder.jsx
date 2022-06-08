@@ -18,6 +18,10 @@ export default function PlaceOrder() {
 
   if (typeOfOrder === null) typeOfOrder = 0;
 
+  const [onceRun, setOnceRun] = useState(false);
+
+  const pages = ["Customer Details", "Select Product", "Make Payment"];
+  const totalPages = pages.length;
   const [pageNumber, setPageNumber] = useState(0);
   const [orderType, setOrderType] = useState(typeOfOrder);
   const [forSelf, setForSelf] = useState(true);
@@ -66,6 +70,24 @@ export default function PlaceOrder() {
     Country: "India",
   };
 
+  const shippingAddress = function () {
+    return (
+      <p>
+        {mySelf.Address1}, {mySelf.Address2} <br /> {mySelf.City},{" "}
+        {mySelf.Country}.
+      </p>
+    );
+  };
+
+  const billingAddress = function () {
+    return (
+      <p>
+        {mySelf.Address1}, {mySelf.Address2} <br /> {mySelf.City},{" "}
+        {mySelf.Country}.
+      </p>
+    );
+  };
+
   const addresses = [
     "Postmaster 1, Post Office BENSON TOWN (SUB OFFICE)",
     "Postmaster 2, Post Office BENSON TOWN (SUB OFFICE)",
@@ -96,15 +118,30 @@ export default function PlaceOrder() {
     { title: "iCare", thumbnail: "icare.jpg" },
     { title: "iGlow", thumbnail: "iglow.jpg" },
     { title: "iSlim", thumbnail: "islim.jpg" },
-    { title: "iCoffee", thumbnail: "icoffee.jpg" },
+    { title: "iCoffee Black", thumbnail: "icoffee - black.jpg" },
+    { title: "iCoffee Creamer", thumbnail: "icoffee - creamer.jpg" },
   ];
 
   useEffect(() => {
-    $("#dlgOrderType").modal("show");
-  }, [orderType]);
+    if (!onceRun) {
+      $("#dlgOrderType").modal("show");
+      setOnceRun(true);
+    }
+  }, [onceRun]);
+
+  const setOrderFor = function (value) {
+    setForSelf(value);
+
+    setOrderType(0);
+    if (value === false) {
+      setSelectedDeliveryMode(1);
+    } else {
+      setSelectedDeliveryMode(null);
+    }
+  };
 
   const increasePageNumber = function () {
-    if (pageNumber < 3) {
+    if (pageNumber < totalPages - 1) {
       setPageNumber(pageNumber + 1);
     }
   };
@@ -135,80 +172,35 @@ export default function PlaceOrder() {
         </div>
         <div className="col-12">
           <small className="d-flex align-items-center">
-            <a
-              className={
-                "clickable " +
-                (pageIndex === 0
-                  ? "text-primary text-bold-600"
-                  : pageIndex > 0
-                  ? "text-success"
-                  : "text-muted")
-              }
-              onClick={() => {
-                if (pageIndex > 0) {
-                  setPageNumber(0);
-                }
-              }}
-            >
-              Customer Details
-            </a>
-            &nbsp;
-            <i className="las la-angle-right"></i>&nbsp;
-            <a
-              className={
-                "clickable " +
-                (pageIndex === 1
-                  ? "text-primary text-bold-600"
-                  : pageIndex > 1
-                  ? "text-success"
-                  : "text-muted")
-              }
-              onClick={() => {
-                if (pageIndex > 1) {
-                  setPageNumber(1);
-                }
-              }}
-            >
-              Select Products
-            </a>
-            &nbsp;
-            <i className="las la-angle-right"></i>&nbsp;
-            <a
-              className={
-                "clickable " +
-                (pageIndex === 2
-                  ? "text-primary text-bold-600"
-                  : pageIndex > 2
-                  ? "text-success"
-                  : "text-muted")
-              }
-              onClick={() => {
-                if (pageIndex > 2) {
-                  setPageNumber(2);
-                }
-              }}
-            >
-              Shipping Details
-            </a>
-            &nbsp;
-            <i className="las la-angle-right"></i>&nbsp;
-            <a
-              className={
-                "clickable " +
-                (pageIndex === 3
-                  ? "text-primary text-bold-600"
-                  : pageIndex > 3
-                  ? "text-success"
-                  : "text-muted")
-              }
-              onClick={() => {
-                if (pageIndex > 3) {
-                  setPageNumber(3);
-                }
-              }}
-            >
-              Make Payment
-            </a>
+            {pages.map((page, index) => {
+              return (
+                <>
+                  <a
+                    className={
+                      "clickable " +
+                      (pageIndex === index
+                        ? "text-primary text-bold-600"
+                        : pageIndex > index
+                        ? "text-success"
+                        : "text-muted")
+                    }
+                    onClick={() => {
+                      if (pageIndex > index) {
+                        setPageNumber(index);
+                      }
+                    }}
+                  >
+                    {page}
+                  </a>
+                  {index === totalPages - 1 ? (
+                    ""
+                  ) : (
+                    <i className="las la-angle-right"></i>
+                  )}
+                  &nbsp;
+                </>
+              );
+            })}
           </small>
         </div>
       </div>
@@ -230,7 +222,7 @@ export default function PlaceOrder() {
         <a
           className={
             "card-link lead d-flex align-items-baseline text-primary ml-auto " +
-            (pageNumber === 3 ? " hidden " : "")
+            (pageNumber === totalPages - 1 ? " hidden " : "")
           }
           onClick={() => increasePageNumber()}
         >
@@ -249,7 +241,7 @@ export default function PlaceOrder() {
         return page2();
 
       case 2:
-        return page3();
+        return page4();
 
       case 3:
         return page4();
@@ -263,28 +255,6 @@ export default function PlaceOrder() {
     return (
       <section className={"row"}>
         <div className="col-sm-8">
-          <label className="h6">
-            Toggle the switch to buy for self or others
-          </label>
-          <h4 className="card-title">
-            <div className="custom-control custom-switch">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="chkSelf"
-                defaultChecked={forSelf}
-                onClick={() => setForSelf(!forSelf)}
-              />
-              <label
-                className="custom-control-label"
-                id="chkSelfLabel"
-                htmlFor="chkSelf"
-              >
-                Buying for self
-              </label>
-            </div>
-          </h4>
-
           <form>
             <div className="form-group">
               <label htmlFor="txtCustomerName">
@@ -872,8 +842,57 @@ export default function PlaceOrder() {
 
   const page4 = function () {
     return (
-      <section className={"row"}>
+      <section className="row">
         <div className="col-sm-8">
+          <div className="row">
+            <div className="col-12">
+              <div className="form-row align-items-center pb-2">
+                <label htmlFor="ddShipping" className="col-4">
+                  Delivery Mode
+                </label>
+                {forSelf === true ? (
+                  <a
+                    className="card-link link-dotted"
+                    data-toggle="modal"
+                    data-target="#dlgDeliveryModes"
+                  >
+                    {selectedDeliveryMode === null
+                      ? "Select Delivery Mode"
+                      : selectedDeliveryMode === 0 && selectedStore !== null
+                      ? "Store Pickup: " + stores[selectedStore]
+                      : selectedDeliveryMode === 1
+                      ? "Courier"
+                      : selectedDeliveryMode === 2
+                      ? "VOTM: " + distributors[selectedDistributor]
+                      : "Select Delivery Mode"}
+                  </a>
+                ) : (
+                  deliveryModes[selectedDeliveryMode]
+                )}
+              </div>
+            </div>
+            <div className="col-6">
+              <p className="lead">
+                Shipping To: <code>{mySelf.Name}</code>
+              </p>
+              <WishSimpleCard
+                background="bg-light"
+                body={shippingAddress()}
+              ></WishSimpleCard>
+            </div>
+            <div className="col-6">
+              <p className="lead">
+                Billing To: <code>{mySelf.Name}</code>
+              </p>
+              <WishSimpleCard
+                background="bg-light"
+                body={billingAddress()}
+              ></WishSimpleCard>
+            </div>
+            <div className="col-12">
+              <hr />
+            </div>
+          </div>
           <h4>Order Payment</h4>
           <ul className="nav nav-tabs pt-2">
             <li className="nav-item">
@@ -1058,17 +1077,24 @@ export default function PlaceOrder() {
                   Order ID: VIVA07289289309
                 </p>
                 <p className="lead pt-1">
-                  <code>Shipping To:</code> John Doe
+                  <code>Order Type:</code> {orderTypes[orderType]}
                 </p>
-                <p className="lead pt-1">
+                {/* <p className="lead pt-1">
+                  <code>Delivery Mode:</code>{" "}
+                  {deliveryModes[selectedDeliveryMode]}
+                </p> */}
+                {/* <p className="lead pt-1">
+                  <code>Shipping To:</code> John Doe
+                </p> */}
+                {/* <p className="lead pt-1">
                   <code>Shipping Address:</code>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
                   <br />
                   Udaipur, Rajasthan, India
-                </p>
+                </p> */}
                 <p className="lead pt-1">
-                  <code>Shipping Method:</code>
-                  Courier
+                  <code>Shipping Method:</code>{" "}
+                  {deliveryModes[selectedDeliveryMode]}
                 </p>
               </div>
               <div className="card-body pt-2">
@@ -1116,11 +1142,45 @@ export default function PlaceOrder() {
                   </tfoot>
                 </table>
 
-                <h5 className="pt-3">Vouchers / Cupons applied:</h5>
-                <label htmlFor="">V1223456</label>
+                <h5 className="pt-3">Use Vouchers</h5>
+                <div className="d-flex align-items-center">
+                  <a
+                    className="mr-auto text-primary link-dotted"
+                    data-toggle="modal"
+                    data-target="#dlgSelectVoucher"
+                  >
+                    {selectedVoucher === null
+                      ? "Select Voucher"
+                      : vouchers[selectedVoucher].title}
+                  </a>
+                  {selectedVoucher && (
+                    <a
+                      onClick={() => {
+                        setSelectedVoucher(null);
+                      }}
+                    >
+                      <i className="ml-auto las la-trash-alt la-2x text-danger"></i>
+                    </a>
+                  )}
+                </div>
+                <small>
+                  {selectedVoucher && vouchers[selectedVoucher].description}
+                </small>
               </div>
             </div>
           </div>
+        </div>
+        <div className="col-12 text-center lead">
+          <WishColoredBar
+            message={
+              "Your order will be delivered between " +
+              seventhDay +
+              " and " +
+              fourteenthDay +
+              " from today's date"
+            }
+            bgcolor="info"
+          ></WishColoredBar>
         </div>
       </section>
     );
@@ -1359,16 +1419,84 @@ export default function PlaceOrder() {
 
   const orderTypeModal = function () {
     return (
-      <WishModal
-        id="dlgOrderType"
-        title="Select Order Type"
-        finishTitle="Select"
-      >
-        <WishButtonGroup
-          selectedButtonIndex={orderType}
-          buttons={["Normal", "VOTM", "PCM"]}
-          onSelect={setOrderType}
-        ></WishButtonGroup>
+      <WishModal id="dlgOrderType" title="Order details" finishTitle="Select">
+        <div className="row">
+          <div className="col-12">
+            <p className="lead">You are placing order for: </p>
+          </div>
+          <div className="col-6">
+            <div className="custom-control custom-radio">
+              <input
+                type="radio"
+                id="customRadio1"
+                name="customRadio"
+                className="custom-control-input"
+                defaultChecked={forSelf}
+                onChange={() => {
+                  setOrderFor(true);
+                }}
+              />
+              <label className="custom-control-label" for="customRadio1">
+                Buying for self
+              </label>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="custom-control custom-radio pb-2">
+              <input
+                type="radio"
+                id="customRadio2"
+                name="customRadio"
+                className="custom-control-input"
+                defaultChecked={!forSelf}
+                onChange={() => {
+                  setOrderFor(false);
+                }}
+              />
+              <label className="custom-control-label" for="customRadio2">
+                Buying for customer
+              </label>
+            </div>
+          </div>
+          <div className="col-12 pt-2">
+            <p className="lead">Select the order type: </p>
+          </div>
+          <div className="col-12">
+            <select
+              name="cmbOrderType"
+              id="cmbOrderType"
+              className="form-control"
+              value={orderType}
+              onChange={(e) => {
+                setOrderType(parseInt(e.target.value));
+              }}
+            >
+              <option value="0">Normal Order</option>
+              <option value="1" disabled={!forSelf}>
+                VOTM Order
+              </option>
+              <option value="2" disabled={!forSelf}>
+                PCM Order
+              </option>
+            </select>
+          </div>
+        </div>
+
+        {/* {forSelf === true ? (
+          <WishButtonGroup
+            title="Order Type"
+            selectedButtonIndex={orderType}
+            buttons={orderTypes}
+            onSelect={setOrderType}
+          ></WishButtonGroup>
+        ) : (
+          <WishButtonGroup
+            title="Order Type"
+            selectedButtonIndex={orderType}
+            buttons={["Normal Order"]}
+            onSelect={setOrderType}
+          ></WishButtonGroup>
+        )} */}
       </WishModal>
     );
   };
@@ -1383,6 +1511,7 @@ export default function PlaceOrder() {
         <WishButtonGroup
           buttons={deliveryModes}
           onSelect={setSelectedDeliveryMode}
+          disabledButtonIndices={orderType === 1 ? [2] : []}
         ></WishButtonGroup>
 
         <div className={"pt-2 " + (selectedDeliveryMode === 0 ? "" : "hidden")}>
@@ -1432,6 +1561,22 @@ export default function PlaceOrder() {
           title="Vouchers and Coupons"
           onSelect={setSelectedVoucher}
         ></WishListGroup>
+        {/* <h5>Vouchers and Coupons:</h5> */}
+
+        {/* <div className="list-group">
+          {vouchers.map((voucher, index) => {
+            return (
+              <a className="list-group-item list-group-item-action flex-column align-items-start">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="text-bold-600">{voucher.title}</h5>
+                  <small>3 days ago</small>
+                </div>
+                <p>{voucher.description}</p>
+                <small>{voucher.subTitle ?? ""}</small>
+              </a>
+            );
+          })}
+        </div> */}
       </WishModal>
     );
   };

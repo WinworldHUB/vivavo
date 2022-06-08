@@ -16,6 +16,68 @@ export default function WishListGroup({
   const [selectedItem, setSelectedItem] = useState(selectedItemIndex ?? null);
   const [filterText, setFilterText] = useState(null);
 
+  const renderNormalItem = function (item, index) {
+    return (
+      <a
+        className={
+          "d-flex list-group-item list-group-item-action " +
+          (selectedItem === index ? "active " : " ") +
+          (filterText !== null && item.includes(filterText)
+            ? ""
+            : filterText === null
+            ? ""
+            : "hidden")
+        }
+        aria-current="true"
+        key={index}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedItem(index);
+          onSelect && onSelect(index);
+        }}
+      >
+        <span className="mr-auto">{item}</span>
+      </a>
+    );
+  };
+
+  const renderComplexItem = function (item, index) {
+    return (
+      <a
+        key={index}
+        className={
+          "list-group-item list-group-item-action flex-column align-items-start " +
+          (selectedItem === index ? "active link-white " : " ") +
+          (filterText !== null && item.includes(filterText)
+            ? " "
+            : filterText === null
+            ? " "
+            : "hidden ") +
+          (item.disabled === true ? " disabled " : "")
+        }
+        onClick={() => {
+          setSelectedItem(index);
+        }}
+      >
+        <div className="d-flex w-100 justify-content-between">
+          <h5 className="text-bold-600">{item.title ?? ""}</h5>
+          <span
+            className="card-link link-dotted"
+            data-dismiss="modal"
+            onClick={() => {
+              //setSelectedItem(index);
+              onSelect(index);
+            }}
+          >
+            Apply
+          </span>
+        </div>
+        <p>{item.description ?? ""}</p>
+        <small>{item.subTitle ?? ""}</small>
+      </a>
+    );
+  };
+
   return (
     <div>
       <div className="row align-items-center">
@@ -72,40 +134,11 @@ export default function WishListGroup({
       </div> */}
       <div className="list-group file-list" id={uuidv4()}>
         {items.map((item, index) => {
-          return (
-            <a
-              className={
-                "d-flex list-group-item list-group-item-action " +
-                (selectedItem === index ? "active " : " ") +
-                (filterText !== null && item.includes(filterText)
-                  ? ""
-                  : filterText === null
-                  ? ""
-                  : "hidden") +
-                (complexItem === undefined
-                  ? " "
-                  : item.disabled === true
-                  ? " disabled "
-                  : "")
-              }
-              aria-current="true"
-              key={index}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedItem(index);
-                onSelect && onSelect(index);
-              }}
-            >
-              <span className="mr-auto">
-                {complexItem === undefined
-                  ? item
-                  : item.title + " (" + item.description + ")"}
-              </span>
-              <span className="ml-auto link-dotted" data-dismiss="modal">
-                {complexItem && "Apply"}
-              </span>
-            </a>
-          );
+          if (complexItem === undefined) {
+            return renderNormalItem(item, index);
+          } else {
+            return renderComplexItem(item, index);
+          }
         })}
       </div>
     </div>

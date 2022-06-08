@@ -8,10 +8,21 @@ export default function WishButtonGroup({
   buttons,
   selectedButtonIndex,
   onSelect,
+  disabledButtonIndices,
 }) {
   const [selectedButton, setSelectedButton] = useState(
     selectedButtonIndex ?? null
   );
+
+  const isDisabled = function (index) {
+    var value = false;
+
+    disabledButtonIndices.map((disabledButtonIndice) => {
+      value = disabledButtonIndice === index;
+    });
+
+    return value;
+  };
 
   return (
     <div className="form-group row">
@@ -27,8 +38,9 @@ export default function WishButtonGroup({
                 className={
                   "btn " +
                   (selectedButton === index
-                    ? "btn-primary active"
-                    : "btn-light")
+                    ? "btn-primary active "
+                    : "btn-light ") +
+                  (isDisabled(index) === true ? " hidden" : " ")
                 }
                 key={index}
                 aria-current="page"
