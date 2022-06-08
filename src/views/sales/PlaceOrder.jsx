@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
 import WishModal from "../../components/WishModal";
@@ -18,6 +18,8 @@ export default function PlaceOrder() {
 
   if (typeOfOrder === null) typeOfOrder = 0;
 
+  const updateOrderTypeComponent = useRef(null);
+
   const [onceRun, setOnceRun] = useState(false);
 
   const pages = ["Customer Details", "Select Product", "Make Payment"];
@@ -34,7 +36,11 @@ export default function PlaceOrder() {
   var seventhDay = Moment().add(7, "days").format("DD-MM-YYYY");
   var fourteenthDay = Moment().add(14, "days").format("DD-MM-YYYY");
 
-  const orderTypes = ["Normal Order", "VOTM Order", "PCM Order"];
+  const orderTypes = [
+    { title: "Normal Order", disabled: false, selected: true },
+    { title: "VOTM Order", disabled: false, selected: false },
+    { title: "PCM Order", disabled: false, selected: false },
+  ];
 
   const stores = [
     "Store 1",
@@ -136,9 +142,18 @@ export default function PlaceOrder() {
     setOrderType(0);
     if (value === false) {
       setSelectedDeliveryMode(1);
+      orderTypes.forEach((item, index) => {
+        if (index > 0) {
+          item.disabled = true;
+        }
+      });
     } else {
       setSelectedDeliveryMode(null);
+      orderTypes.forEach((item) => {
+        item.disabled = false;
+      });
     }
+    updateOrderTypeComponent.current(0, orderTypes);
   };
 
   const increasePageNumber = function () {
@@ -168,7 +183,7 @@ export default function PlaceOrder() {
             data-toggle="modal"
             data-target="#dlgOrderType"
           >
-            {orderTypes[orderType]}
+            {orderTypes[orderType].title}
           </a>
         </div>
         <div className="col-12">
@@ -1090,7 +1105,7 @@ export default function PlaceOrder() {
                   Order ID: VIVA07289289309
                 </p>
                 <p className="lead pt-1">
-                  <code>Order Type:</code> {orderTypes[orderType]}
+                  <code>Order Type:</code> {orderTypes[orderType].title}
                 </p>
                 {/* <p className="lead pt-1">
                   <code>Delivery Mode:</code>{" "}
@@ -1107,7 +1122,7 @@ export default function PlaceOrder() {
                 </p> */}
                 <p className="lead pt-1">
                   <code>Shipping Method:</code>{" "}
-                  {deliveryModes[selectedDeliveryMode]}
+                  {deliveryModes[selectedDeliveryMode] ?? "NA"}
                 </p>
               </div>
               <div className="card-body pt-2">
@@ -1437,7 +1452,20 @@ export default function PlaceOrder() {
           <div className="col-12">
             <p className="lead">You are placing order for: </p>
           </div>
-          <div className="col-6">
+          <div className="col-12">
+            <WishButtonGroup
+              buttons={["Self", "Customer"]}
+              selectedButtonIndex={forSelf === true ? 0 : 1}
+              onSelect={(index) => {
+                if (index === 0) {
+                  setOrderFor(true);
+                } else {
+                  setOrderFor(false);
+                }
+              }}
+            ></WishButtonGroup>
+          </div>
+          {/* <div className="col-6">
             <div className="custom-control custom-radio">
               <input
                 type="radio"
@@ -1470,12 +1498,12 @@ export default function PlaceOrder() {
                 Buying for customer
               </label>
             </div>
-          </div>
+          </div> */}
           <div className="col-12 pt-2">
             <p className="lead">Select the order type: </p>
           </div>
           <div className="col-12">
-            <select
+            {/* <select
               name="cmbOrderType"
               id="cmbOrderType"
               className="form-control"
@@ -1491,7 +1519,16 @@ export default function PlaceOrder() {
               <option value="2" disabled={!forSelf}>
                 PCM Order
               </option>
-            </select>
+            </select> */}
+
+            <WishButtonGroup
+              buttons={orderTypes}
+              //selectedButtonIndex={orderType}
+              //disabledButtonIndices={forSelf === true ? [] : [1, 2]}
+              onSelect={setOrderType}
+              setSelectedButtonIndex={updateOrderTypeComponent}
+              complexItem
+            ></WishButtonGroup>
           </div>
         </div>
 

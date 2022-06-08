@@ -1,27 +1,83 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function WishButtonGroup({
   title,
   subTitle,
   buttons,
-  selectedButtonIndex,
+  complexItem,
   onSelect,
-  disabledButtonIndices,
+  setSelectedButtonIndex,
 }) {
-  const [selectedButton, setSelectedButton] = useState(
-    selectedButtonIndex ?? null
-  );
+  const [selectedButton, setSelectedButton] = useState(null);
+  const [items, setItems] = useState(buttons);
 
-  const isDisabled = function (index) {
-    var value = false;
+  useEffect(() => {
+    if (setSelectedButtonIndex !== undefined) {
+      setSelectedButtonIndex.current = setSelectedButtonIndexValue;
+    }
+  });
 
-    disabledButtonIndices.map((disabledButtonIndice) => {
-      value = disabledButtonIndice === index;
-    });
+  function setSelectedButtonIndexValue(index, buttonsArray) {
+    setSelectedButton(index);
+    setItems(buttonsArray);
+  }
 
-    return value;
+  // const isDisabled = function (index) {
+  //   var value = false;
+
+  //   if (disabledButtonIndices !== undefined) {
+  //     disabledButtonIndices.map((disabledButtonIndice) => {
+  //       console.log(disabledButtonIndice);
+  //       value = disabledButtonIndice === index;
+  //       //return value;
+  //     });
+  //   }
+
+  //   return value === true ? " disabled " : "";
+  // };
+
+  const renderSimpleButton = function (button, index) {
+    return (
+      <a
+        className={
+          "btn " +
+          (selectedButton === index ? "btn-primary active " : "btn-light ")
+          // isDisabled(index)
+        }
+        key={index}
+        aria-current="page"
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedButton(index);
+          onSelect && onSelect(index);
+        }}
+      >
+        {button}
+      </a>
+    );
+  };
+
+  const renderComplexButton = function (button, index) {
+    return (
+      <a
+        className={
+          "btn " +
+          (selectedButton === index ? "btn-primary active " : "btn-light ") +
+          (button.disabled === true ? "disabled" : "")
+        }
+        key={index}
+        aria-current="page"
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedButton(index);
+          onSelect && onSelect(index);
+        }}
+      >
+        {button.title}
+      </a>
+    );
   };
 
   return (
@@ -32,27 +88,12 @@ export default function WishButtonGroup({
           <em>{subTitle ?? ""}</em>
         </small>
         <div className="btn-group btn-block" id={uuidv4()}>
-          {buttons.map((button, index) => {
-            return (
-              <a
-                className={
-                  "btn " +
-                  (selectedButton === index
-                    ? "btn-primary active "
-                    : "btn-light ") +
-                  (isDisabled(index) === true ? " hidden" : " ")
-                }
-                key={index}
-                aria-current="page"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedButton(index);
-                  onSelect && onSelect(index);
-                }}
-              >
-                {button}
-              </a>
-            );
+          {items.map((button, index) => {
+            if (complexItem === undefined) {
+              return renderSimpleButton(button, index);
+            } else {
+              return renderComplexButton(button, index);
+            }
           })}
         </div>
       </div>
