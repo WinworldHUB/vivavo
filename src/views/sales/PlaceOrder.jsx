@@ -63,6 +63,7 @@ export default function PlaceOrder() {
   const paymentDue = 9737;
   const mySelf = {
     Name: "John Doe",
+    Phone: "+91 9009009000",
     Address1: "Viva Tower, No.36",
     Address2: "V P Deendayal Road, Jayamahal Extension",
     City: "Bangaluru",
@@ -268,6 +269,18 @@ export default function PlaceOrder() {
                 className="form-control"
                 disabled={forSelf}
                 defaultValue={forSelf === true ? mySelf.Name : ""}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="txtPhone">Phone Number</label>
+              <input
+                id="txtPhone"
+                name="txtPhone"
+                placeholder="Phone Number"
+                type="text"
+                className="form-control"
+                disabled={forSelf}
+                defaultValue={forSelf === true ? mySelf.Phone : ""}
               />
             </div>
             <div className="form-group">
