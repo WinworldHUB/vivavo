@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -5,6 +6,10 @@ import PageLayout from "../../components/PageLayout";
 import WishLinkCard from "../../components/WishLinkCard";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -223,11 +228,8 @@ export default function EnrollUser() {
               data-toggle="tooltip"
               data-trigger="hover"
               data-placement="top"
-              data-title="Date Opened"
+              data-title="Date of birth"
             />
-            <span id="txtDOBHelpBlock" className="form-text text-muted">
-              Enter date in format (mm/dd/yyyy)
-            </span>
           </div>
         </div>
 
@@ -349,6 +351,22 @@ export default function EnrollUser() {
             />
           </div>
         </div>
+
+        <div className="form-group row">
+          <label htmlFor="txtfAadharCard" className="col-4 col-form-label">
+            Aadhar Card (Attachment)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfAadharCard"
+              name="txtfAadharCard"
+              placeholder="(Optional)"
+              type="file"
+              className="form-control"
+            />
+          </div>
+        </div>
+
         <div className="form-group row">
           <label htmlFor="txtGST" className="col-4 col-form-label">
             GST Number
@@ -359,6 +377,34 @@ export default function EnrollUser() {
               name="txtGST"
               placeholder="(Optional)"
               type="text"
+              className="form-control"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="txtPAN" className="col-4 col-form-label">
+            PAN
+          </label>
+          <div className="col-8">
+            <input
+              id="txtPAN"
+              name="txtPAN"
+              placeholder="(Optional)"
+              type="text"
+              className="form-control"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="txtfPAN" className="col-4 col-form-label">
+            PAN (Attachment)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfPAN"
+              name="txtfPAN"
+              placeholder="(Optional)"
+              type="file"
               className="form-control"
             />
           </div>
@@ -422,7 +468,9 @@ export default function EnrollUser() {
           </div>
         </div>
 
-        <p className="lead border-bottom">Permanent Address</p>
+        <p className="lead border-bottom text-primary pt-2">
+          Permanent Address
+        </p>
 
         <div className="form-group row">
           <label htmlFor="txtAddressLine1" className="col-4 col-form-label">
@@ -479,15 +527,15 @@ export default function EnrollUser() {
               required="required"
             >
               <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="mumbai">Mumbai</option>
-              <option defaultValue="chandigarh">Chandigarh</option>
+              <option defaultValue="nashik">Nashik</option>
+              <option defaultValue="bhiwadi">Bhiwadi</option>
             </select>
           </div>
         </div>
 
         <div className="form-group row">
           <label htmlFor="ddDistrict" className="col-4 col-form-label">
-            District
+            City
           </label>
           <div className="col-8">
             <select
@@ -539,8 +587,23 @@ export default function EnrollUser() {
           </div>
         </div>
 
-        <div className="form-row border-bottom">
-          <p className="lead col-4">Communication Address</p>
+        <div className="form-group row pt-1">
+          <label htmlFor="txtfAddressProof" className="col-4 col-form-label">
+            Address Proof (Attachment)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfAddressProof"
+              name="txtfAddressProof"
+              type="file"
+              className="form-control"
+              required="required"
+            />
+          </div>
+        </div>
+
+        <div className="form-row border-bottom pt-2">
+          <p className="lead col-4 text-primary">Communication Address</p>
           <div className="col-8 pl-1">
             <div className="custom-control custom-switch">
               <input
@@ -611,15 +674,15 @@ export default function EnrollUser() {
               required="required"
             >
               <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="mumbai">Mumbai</option>
-              <option defaultValue="chandigarh">Chandigarh</option>
+              <option defaultValue="nashik">Nashik</option>
+              <option defaultValue="bhiwadi">Bhiwadi</option>
             </select>
           </div>
         </div>
 
         <div className="form-group row">
           <label htmlFor="ddCDistrict" className="col-4 col-form-label">
-            District
+            City
           </label>
           <div className="col-8">
             <select
@@ -765,6 +828,19 @@ export default function EnrollUser() {
             />
           </div>
         </div>
+        <div className="form-group row">
+          <label htmlFor="txtfBankProof" className="col-4 col-form-label">
+            Bank (<span className="font-italic">Proof of address</span>)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfBankProof"
+              name="txtfBankProof"
+              type="file"
+              className="form-control"
+            />
+          </div>
+        </div>
       </div>
     );
   };
@@ -788,6 +864,56 @@ export default function EnrollUser() {
             <span id="txtCoApplicantHelpBlock" className="form-text text-muted">
               If unmarried Mother/Father
             </span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label htmlFor="txtdob" className="col-4 col-form-label">
+            Date of birth
+          </label>
+          <div className="col-8">
+            <input
+              type="date"
+              id="txtdob"
+              className="form-control"
+              name="dateopened"
+              data-toggle="tooltip"
+              data-trigger="hover"
+              data-placement="top"
+              data-title="Date of birth"
+            />
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <label className="col-4">Gender</label>
+          <div className="col-8">
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                name="rdGender1"
+                id="rdGender1_0"
+                type="radio"
+                className="custom-control-input"
+                defaultValue="male"
+                required="required"
+              />
+              <label htmlFor="rdGender1_0" className="custom-control-label">
+                Male
+              </label>
+            </div>
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                name="rdGender1"
+                id="rdGender1_1"
+                type="radio"
+                className="custom-control-input"
+                defaultValue="female"
+                required="required"
+              />
+              <label htmlFor="rdGender1_1" className="custom-control-label">
+                Female
+              </label>
+            </div>
           </div>
         </div>
 
@@ -858,6 +984,38 @@ export default function EnrollUser() {
             <span id="ddRelationshipHelpBlock" className="form-text text-muted">
               With Primary Applicant
             </span>
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <label htmlFor="txtCOPAN" className="col-4 col-form-label">
+            PAN
+          </label>
+          <div className="col-8">
+            <input
+              id="txtCOPAN"
+              name="txtCOPAN"
+              placeholder="PAN Number"
+              type="text"
+              className="form-control"
+              required="required"
+            />
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <label htmlFor="txtfCOPAN" className="col-4 col-form-label">
+            PAN (Attachment)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfCOPAN"
+              name="txtfCOPAN"
+              placeholder="PAN Attachment"
+              type="file"
+              className="form-control"
+              required="required"
+            />
           </div>
         </div>
 
@@ -954,6 +1112,22 @@ export default function EnrollUser() {
         </div>
 
         <div className="form-group row">
+          <label htmlFor="txtfCOBank" className="col-4 col-form-label">
+            Bank (Proof of address)
+          </label>
+          <div className="col-8">
+            <input
+              id="txtfCOBank"
+              name="txtfCOBank"
+              placeholder="Proof of address"
+              type="file"
+              className="form-control"
+              required="required"
+            />
+          </div>
+        </div>
+
+        <div className="form-group row">
           <label htmlFor="txtBeneficiary" className="col-4 col-form-label">
             Nominee Name
           </label>
@@ -1015,7 +1189,7 @@ export default function EnrollUser() {
               </div>
             </div>
           </div>
-          <div className="table-responsive">
+          <div className="">
             <table className="table table-borderless">
               <tbody>
                 <tr>
@@ -1062,6 +1236,108 @@ export default function EnrollUser() {
                   <td>GST Number</td>
                   <td>0000-0000-0000-0000</td>
                 </tr>
+                <tr>
+                  <td>PAN</td>
+                  <td>0000000</td>
+                </tr>
+                <tr>
+                  <td>Aadhar Card (Attachment)</td>
+                  <td>
+                    <a href="javascript:void();">
+                      <i className="las la-file-alt la-2x"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>PAN Card (Attachment)</td>
+                  <td className="text-muted">No attachment specified</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="col-sm-6">
+          <div className="alert alert-primary" role="alert">
+            <div className="row d-flex align-items-baseline">
+              <div className="col-10">Co-Applicant Details</div>
+              <div className="col-2 text-right">
+                <a onClick={() => setCurrentPage(3)}>
+                  <i className="las la-edit"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>Co-Applicant Name</td>
+                  <td>Mrs. Shabeena Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Co-Applicant Date of birth</td>
+                  <td>06-June-1980</td>
+                </tr>
+                <tr>
+                  <td>Mobile Number</td>
+                  <td>+91 9000 0000 00</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>Shamsudeen.Raghvan@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>Relationship</td>
+                  <td>Wife</td>
+                </tr>
+                <tr>
+                  <td>Co-Applicant PAN</td>
+                  <td>000000</td>
+                </tr>
+                <tr>
+                  <td>PAN (Attachment)</td>
+                  <td className="">
+                    <a href="javascript:void();">
+                      <i className="las la-file-alt la-2x"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Account Holder</td>
+                  <td>Mr. Shamsudeen Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Account Number</td>
+                  <td>0000 0000 0000 0000 0000 0000</td>
+                </tr>
+                <tr>
+                  <td>IFSC Code</td>
+                  <td>ICIC00000129</td>
+                </tr>
+                <tr>
+                  <td>Bank Name</td>
+                  <td>ICICI Bank</td>
+                </tr>
+                <tr>
+                  <td>Bank Branch</td>
+                  <td>Bangaluru Branch</td>
+                </tr>
+                <tr>
+                  <td>Bank Address Proof (Attachment)</td>
+                  <td className="">
+                    <a href="javascript:void();">
+                      <i className="las la-file-alt la-2x"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Nominee Name</td>
+                  <td>Mr. Salman Raghvan</td>
+                </tr>
+                <tr>
+                  <td>Nominee Relationship</td>
+                  <td>Son</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -1077,7 +1353,7 @@ export default function EnrollUser() {
               </div>
             </div>
           </div>
-          <div className="table-responsive">
+          <div className="">
             <table className="table table-borderless">
               <tbody>
                 <tr>
@@ -1114,6 +1390,14 @@ export default function EnrollUser() {
                     Bangalore – 560046
                   </td>
                 </tr>
+                <tr>
+                  <td>Permanent Address Proof (Attachment)</td>
+                  <td className="">
+                    <a href="javascript:void();">
+                      <i className="las la-file-alt la-2x"></i>
+                    </a>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -1129,7 +1413,7 @@ export default function EnrollUser() {
               </div>
             </div>
           </div>
-          <div className="table-responsive">
+          <div className="">
             <table className="table table-borderless">
               <tbody>
                 <tr>
@@ -1152,72 +1436,19 @@ export default function EnrollUser() {
                   <td>Bank Branch</td>
                   <td>Bangaluru Branch</td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="col-sm-6">
-          <div className="alert alert-primary" role="alert">
-            <div className="row d-flex align-items-baseline">
-              <div className="col-10">Co-Applicant Details</div>
-              <div className="col-2 text-right">
-                <a onClick={() => setCurrentPage(3)}>
-                  <i className="las la-edit"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="table-responsive">
-            <table className="table table-borderless">
-              <tbody>
                 <tr>
-                  <td>Co-Applicant Name</td>
-                  <td>Mrs. Shabeena Raghvan</td>
-                </tr>
-                <tr>
-                  <td>Mobile Number</td>
-                  <td>+91 9000 0000 00</td>
-                </tr>
-                <tr>
-                  <td>Email</td>
-                  <td>Shamsudeen.Raghvan@gmail.com</td>
-                </tr>
-                <tr>
-                  <td>Relationship</td>
-                  <td>Wife</td>
-                </tr>
-                <tr>
-                  <td>Account Holder</td>
-                  <td>Mr. Shamsudeen Raghvan</td>
-                </tr>
-                <tr>
-                  <td>Account Number</td>
-                  <td>0000 0000 0000 0000 0000 0000</td>
-                </tr>
-                <tr>
-                  <td>IFSC Code</td>
-                  <td>ICIC00000129</td>
-                </tr>
-                <tr>
-                  <td>Bank Name</td>
-                  <td>ICICI Bank</td>
-                </tr>
-                <tr>
-                  <td>Bank Branch</td>
-                  <td>Bangaluru Branch</td>
-                </tr>
-                <tr>
-                  <td>Nominee Name</td>
-                  <td>Mr. Salman Raghvan</td>
-                </tr>
-                <tr>
-                  <td>Nominee Relationship</td>
-                  <td>Son</td>
+                  <td>Bank Address Proof (Attachment)</td>
+                  <td className="">
+                    <a href="javascript:void();">
+                      <i className="las la-file-alt la-2x"></i>
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+
         <div className="col-12">
           <div className="alert alert-warning" role="alert">
             Terms and Conditions
