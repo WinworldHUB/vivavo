@@ -22,7 +22,12 @@ export default function PlaceOrder() {
 
   const [onceRun, setOnceRun] = useState(false);
 
-  const pages = ["Customer Details", "Select Product", "Make Payment"];
+  const pages = [
+    "Customer Details",
+    "Select Product",
+    "Confirm Address",
+    "Make Payment",
+  ];
   const totalPages = pages.length;
   const [pageNumber, setPageNumber] = useState(0);
   const [orderType, setOrderType] = useState(typeOfOrder);
@@ -201,7 +206,7 @@ export default function PlaceOrder() {
                         : "text-muted")
                     }
                     onClick={() => {
-                      if (pageIndex > index) {
+                      if (pageIndex > index && pageIndex < totalPages - 1) {
                         setPageNumber(index);
                       }
                     }}
@@ -229,7 +234,7 @@ export default function PlaceOrder() {
         <a
           className={
             "card-link lead d-flex align-items-baseline text-muted mr-auto " +
-            (pageNumber === 0 ? " hidden " : "")
+            (pageNumber === 0 || pageNumber === totalPages -1 ? " hidden " : "")
           }
           onClick={() => decreasePageNumber()}
         >
@@ -257,7 +262,7 @@ export default function PlaceOrder() {
         return page2();
 
       case 2:
-        return page4();
+        return page3();
 
       case 3:
         return page4();
@@ -538,21 +543,26 @@ export default function PlaceOrder() {
                       <label htmlFor="ddShipping" className="col-4">
                         Delivery Mode
                       </label>
-                      <a
-                        className="card-link link-dotted"
-                        data-toggle="modal"
-                        data-target="#dlgDeliveryModes"
-                      >
-                        {selectedDeliveryMode === null
-                          ? "Select Delivery Mode"
-                          : selectedDeliveryMode === 0 && selectedStore !== null
-                          ? "Store Pickup: " + stores[selectedStore]
-                          : selectedDeliveryMode === 1
-                          ? "Courier"
-                          : selectedDeliveryMode === 2
-                          ? "VOTM: " + distributors[selectedDistributor]
-                          : "Select Delivery Mode"}
-                      </a>
+                      {forSelf === true ? (
+                        <a
+                          className="card-link link-dotted"
+                          data-toggle="modal"
+                          data-target="#dlgDeliveryModes"
+                        >
+                          {selectedDeliveryMode === null
+                            ? "Select Delivery Mode"
+                            : selectedDeliveryMode === 0 &&
+                              selectedStore !== null
+                            ? "Store Pickup: " + stores[selectedStore]
+                            : selectedDeliveryMode === 1
+                            ? "Courier"
+                            : selectedDeliveryMode === 2
+                            ? "VOTM: " + distributors[selectedDistributor]
+                            : "Select Delivery Mode"}
+                        </a>
+                      ) : (
+                        deliveryModes[selectedDeliveryMode]
+                      )}
                     </div>
                     <div className="form-group">
                       <label htmlFor="txtCustomerName">
@@ -570,7 +580,7 @@ export default function PlaceOrder() {
                         }
                         type="text"
                         className="form-control"
-                        disabled={forSelf}
+                        disabled={true}
                         defaultValue={forSelf === true ? mySelf.Name : ""}
                       />
                     </div>
@@ -582,7 +592,7 @@ export default function PlaceOrder() {
                         placeholder="Address Line 1"
                         type="text"
                         className="form-control"
-                        disabled={forSelf}
+                        disabled={true}
                         defaultValue={forSelf === true ? mySelf.Address1 : ""}
                       />
                     </div>
@@ -594,7 +604,7 @@ export default function PlaceOrder() {
                         placeholder="Address Line 2"
                         type="text"
                         className="form-control"
-                        disabled={forSelf}
+                        disabled={true}
                         defaultValue={forSelf === true ? mySelf.Address2 : ""}
                       />
                     </div>
@@ -625,14 +635,14 @@ export default function PlaceOrder() {
                           placeholder="Delivery Location"
                           type="text"
                           className="form-control"
-                          disabled={forSelf}
+                          disabled={true}
                           defaultValue={
                             forSelf === true
                               ? mySelf.Address1 + ", " + mySelf.Address2
                               : ""
                           }
                         />
-                        <div className="input-group-append">
+                        {/* <div className="input-group-append">
                           <div className="input-group-text">
                             <a
                               data-toggle="modal"
@@ -641,7 +651,7 @@ export default function PlaceOrder() {
                               <i className="las la-map-marker"></i>
                             </a>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className="form-group">
@@ -654,7 +664,7 @@ export default function PlaceOrder() {
                         placeholder="(City, State / Province, Country)"
                         type="text"
                         className="form-control"
-                        disabled={forSelf}
+                        disabled={true}
                         defaultValue={
                           forSelf === true
                             ? mySelf.City +
@@ -678,7 +688,7 @@ export default function PlaceOrder() {
                         placeholder="Customer Name"
                         type="text"
                         className="form-control"
-                        disabled={true}
+                        disabled={false}
                         defaultValue={mySelf.Name}
                       />
                     </div>
@@ -690,7 +700,7 @@ export default function PlaceOrder() {
                         placeholder="Address Line 1"
                         type="text"
                         className="form-control"
-                        disabled={true}
+                        disabled={false}
                         defaultValue={mySelf.Address1}
                       />
                     </div>
@@ -702,7 +712,7 @@ export default function PlaceOrder() {
                         placeholder="Address Line 2"
                         type="text"
                         className="form-control"
-                        disabled={true}
+                        disabled={false}
                         defaultValue={mySelf.Address2}
                       />
                     </div>
@@ -714,13 +724,13 @@ export default function PlaceOrder() {
                           </label>
                         </div>
                         <div className="col-6 text-right">
-                          <a
+                          {/* <a
                             className={"card-link link-dotted "}
                             data-toggle="modal"
                             data-target="#dlgChangeAddress"
                           >
                             Change Address
-                          </a>
+                          </a> */}
                         </div>
                       </div>
                       <div className="input-group">
@@ -872,55 +882,6 @@ export default function PlaceOrder() {
     return (
       <section className="row">
         <div className="col-sm-8">
-          <div className="row">
-            <div className="col-12">
-              <div className="form-row align-items-center pb-2">
-                <label htmlFor="ddShipping" className="col-4">
-                  Delivery Mode
-                </label>
-                {forSelf === true ? (
-                  <a
-                    className="card-link link-dotted"
-                    data-toggle="modal"
-                    data-target="#dlgDeliveryModes"
-                  >
-                    {selectedDeliveryMode === null
-                      ? "Select Delivery Mode"
-                      : selectedDeliveryMode === 0 && selectedStore !== null
-                      ? "Store Pickup: " + stores[selectedStore]
-                      : selectedDeliveryMode === 1
-                      ? "Courier"
-                      : selectedDeliveryMode === 2
-                      ? "VOTM: " + distributors[selectedDistributor]
-                      : "Select Delivery Mode"}
-                  </a>
-                ) : (
-                  deliveryModes[selectedDeliveryMode]
-                )}
-              </div>
-            </div>
-            <div className="col-6">
-              <p className="lead">
-                Shipping To: <code>{mySelf.Name}</code>
-              </p>
-              <WishSimpleCard
-                background="bg-light"
-                body={shippingAddress()}
-              ></WishSimpleCard>
-            </div>
-            <div className="col-6">
-              <p className="lead">
-                Billing To: <code>{mySelf.Name}</code>
-              </p>
-              <WishSimpleCard
-                background="bg-light"
-                body={billingAddress()}
-              ></WishSimpleCard>
-            </div>
-            <div className="col-12">
-              <hr />
-            </div>
-          </div>
           <h4>Order Payment</h4>
           <ul className="nav nav-tabs pt-2">
             <li className="nav-item">
@@ -1171,7 +1132,10 @@ export default function PlaceOrder() {
                 </table>
 
                 <h5 className="pt-3">Use Vouchers</h5>
-                <div className="d-flex align-items-center">
+                {selectedVoucher === null
+                  ? "No Vouchers Applied"
+                  : vouchers[selectedVoucher].title}
+                {/* <div className="d-flex align-items-center">
                   <a
                     className="mr-auto text-primary link-dotted"
                     data-toggle="modal"
@@ -1190,25 +1154,13 @@ export default function PlaceOrder() {
                       <i className="ml-auto las la-trash-alt la-2x text-danger"></i>
                     </a>
                   )}
-                </div>
+                </div> */}
                 <small>
                   {selectedVoucher && vouchers[selectedVoucher].description}
                 </small>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-12 text-center lead">
-          <WishColoredBar
-            message={
-              "Your order will be delivered between " +
-              seventhDay +
-              " and " +
-              fourteenthDay +
-              " from today's date"
-            }
-            bgcolor="info"
-          ></WishColoredBar>
         </div>
       </section>
     );
