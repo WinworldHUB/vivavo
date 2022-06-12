@@ -315,7 +315,7 @@ ul[role="tablist"] {
   display: block;
   padding: 5px 0;
   max-width: 100%;
-  transition: all 0.3s ease-in-out;
+  /* transition: max-height 0.3s ease-out; */
 }
 
 .collapse-text {
@@ -516,6 +516,27 @@ ul[role="tablist"] {
   transition: all 0.3s ease-in-out;
 }
 
+.list-group-item.active a {
+  color: white !important;
+}
+
+.list-group-item.active h1,
+.list-group-item.active h2,
+.list-group-item.active h3,
+.list-group-item.active h4,
+.list-group-item.active h5,
+.list-group-item.active h6 {
+  color: white !important;
+}
+
+.list-group-item.active small {
+  color: white !important;
+}
+
+.list-group-item.active p {
+  color: white !important;
+}
+
 .link-white a {
   color: white !important;
 }
@@ -556,6 +577,19 @@ ul[role="tablist"] {
     margin-left: -100%;
   }
 }
+
+.slide-top {
+  animation: 1s slide-top;
+}
+
+@keyframes slide-top {
+  from {
+    margin-top: 0%;
+  }
+  to {
+    margin-top: -100%;
+  }
+}
 /* END: Animation ================================================================= */
 
 /* Softer Shades ================================================================== */
@@ -564,6 +598,6 @@ ul[role="tablist"] {
 }
 
 .soft-danger {
-  background-color: #FCE5E5 !important;
+  background-color: #fce5e5 !important;
 }
 /* End: Softer Shades ============================================================= */

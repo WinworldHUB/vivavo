@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 
-export default function WishUploadFiles({ addButtonTitle }) {
+export default function WishUploadFiles({ addButtonTitle, hideUploadButton }) {
   const [addedfiles, setFiles] = useState([]);
 
   const addFiles = function (files) {
@@ -59,7 +59,9 @@ export default function WishUploadFiles({ addButtonTitle }) {
 
       <button
         className={
-          "btn btn-block btn-primary " + (addedfiles.length > 0 ? "" : "d-none")
+          "btn btn-block btn-primary " +
+          (addedfiles.length > 0 ? " " : " d-none ") +
+          (hideUploadButton && " d-none ")
         }
       >
         Upload Files

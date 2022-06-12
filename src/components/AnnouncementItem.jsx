@@ -36,28 +36,28 @@ export default class AnnouncementItem extends Component {
     return (
       <div
         className={
-          "wish-announcement-item row d-flex align-items-center border-bottom " +
+          "wish-announcement-item row d-flex align-items-center " +
           (addPadding === true ? "pt-2" : "")
         }
         onClick={this.handleExpansion}
       >
         <div className="col">
-          <a href="#">
-            <h3>{title}</h3>
+          <a>
+            <h5>{title}</h5>
           </a>
         </div>
         <div className="col-auto text-right">
-          <a
-            href="#"
-            className="btn btn-outline-primary"
-            onClick={this.handleLinkClick}
-          >
+          <a className="btn btn-outline-primary" onClick={this.handleLinkClick}>
             Download Attachment <i className={"la " + icon}></i>
           </a>
         </div>
         <div className="col-auto text-right">{time}</div>
         <div className="col-12">
-          <p className={this.state.expanded === false ? "collapse-text" : ""}>
+          <p
+            className={
+              this.state.expanded === false ? "collapse-text" : ""
+            }
+          >
             {this.props.children}
           </p>
         </div>

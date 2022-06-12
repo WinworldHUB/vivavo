@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import AnnouncementItem from "../components/AnnouncementItem";
 import PageLayout from "../components/PageLayout";
+import WishSimpleCard from "../components/WishSimpleCard";
 
 export default class Announcements extends Component {
   render() {
@@ -9,8 +10,8 @@ export default class Announcements extends Component {
       <PageLayout activeSideMenu="6" pageTitle="Announcements">
         <section className="row">
           <div className="col-12">
-            <div className="card">
-              <div className="card-body">
+            <WishSimpleCard
+              body={
                 <AnnouncementItem title="This is an announcement 1">
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
@@ -23,11 +24,11 @@ export default class Announcements extends Component {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </AnnouncementItem>
-
-                <AnnouncementItem
-                  title="This is an announcement 2"
-                  addTopPadding
-                >
+              }
+            ></WishSimpleCard>
+            <WishSimpleCard
+              body={
+                <AnnouncementItem title="This is an announcement 2">
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s, when an unknown
@@ -39,8 +40,8 @@ export default class Announcements extends Component {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </AnnouncementItem>
-              </div>
-            </div>
+              }
+            ></WishSimpleCard>
           </div>
         </section>
       </PageLayout>

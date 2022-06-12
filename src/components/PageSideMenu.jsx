@@ -108,7 +108,7 @@ export default class PageSideMenu extends Component {
               className={this.props.activeIndex === "7" ? "active" : "nav-item"}
             >
               <Link to="/vmail">
-                <i className="las la-file-invoice-dollar"></i>
+                <i className="las la-envelope"></i>
                 <span className="menu-title" data-i18n="">
                   VMail
                 </span>
