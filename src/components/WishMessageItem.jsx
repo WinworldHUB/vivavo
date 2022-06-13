@@ -131,69 +131,44 @@ export default function WishMessageItem({
 
   const renderRecentMessageView = function () {
     return (
-      <div className="wish-announcement-item row">
-        <div className="col-12">
-          <div className="row d-flex align-items-center">
-            <div className="col-9">
-              <h5>Message: </h5>
-            </div>
-            <div className="col-3 text-right">
-              <a className={"card-link link-dotted " + (showReply ?? "d-none")}>
-                <i className="las la-reply"></i> &nbsp;Reply
-              </a>
-            </div>
+      <>
+        {emails.map((email, index) => {
+          return (
+            <div className="wish-announcement-item row">
+              <div className="col-12">
+                <hr />
+                <div className="row d-flex align-items-center">
+                  <div className="col-9">
+                    <h5>Message: </h5>
+                  </div>
+                  <div className="col-3 text-right">
+                    <a
+                      className={
+                        "card-link link-dotted " + (showReply ?? "d-none")
+                      }
+                    >
+                      <i className="las la-reply"></i> &nbsp;Reply
+                    </a>
+                  </div>
 
-            <div className="col-12">
-              <p className="file-list">
-                {emails[parseInt(selectedEmail)].message}
-              </p>
-            </div>
-            <div className="col-sm-12 d-flex justify-content-between align-items-center pb-1">
-              {selectedEmail &&
-                emails[parseInt(selectedEmail)].attachments &&
-                emails[parseInt(selectedEmail)].attachments.map(
-                  (attachment, index) => {
-                    return (
-                      <a target="_blank" href={attachment.url}>
-                        <i className="las la-paperclip"></i> {attachment.name}
-                      </a>
-                    );
-                  }
-                )}
-            </div>
-            <div
-              className={
-                "col-12 pt-2 " +
-                (emails[selectedEmail].recentMessages ?? "d-none")
-              }
-            >
-              <div className="row">
-                <div
-                  className={
-                    "col-12 " +
-                    (emails[selectedEmail].recentMessages ?? "d-none")
-                  }
-                >
-                  <WishColoredBar
-                    message="Recent Messages"
-                    bgcolor="light"
-                  ></WishColoredBar>
-                </div>
-                <div className="col-12">
-                  {emails[selectedEmail].recentMessages === undefined ? (
-                    "No recent messages found"
-                  ) : (
-                    <WishMessageItem
-                      recentMessageView
-                      emails={emails[selectedEmail].recentMessages}
-                    ></WishMessageItem>
-                  )}
+                  <div className="col-12">
+                    <p className="file-list">{email.message}</p>
+                  </div>
+                  <div className="col-sm-12 d-flex justify-content-between align-items-center pb-1">
+                    {email.attachments.map((attachment, index) => {
+                      return (
+                        <a target="_blank" href={attachment.url}>
+                          <i className="las la-paperclip"></i> {attachment.name}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          );
+        })}
+      </>
     );
   };
 
