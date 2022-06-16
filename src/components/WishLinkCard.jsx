@@ -40,7 +40,7 @@ export default function WishLinkCard({
 
   return (
     <WishSimpleCard
-      background={background}
+      background={"hand-cursor " + background}
       body={cardBody()}
       onClick={onCardClicked}
     ></WishSimpleCard>

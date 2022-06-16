@@ -2,17 +2,23 @@
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
+import { useState } from "react";
 import PageLayout from "../components/PageLayout";
 import WishFlipCard from "../components/WishFlipCard";
 import WishModal from "../components/WishModal";
 import WishSimpleCard from "../components/WishSimpleCard";
 import WishToaster from "../components/WishToaster";
+import Tree from "../components/WishTree/Tree";
+import TreeNode from "../components/WishTree/TreeNode";
+//import { Tree, TreeNode } from "react-organizational-chart";
 
 function Header(props) {
   return <h1>This is heading</h1>;
 }
 
 export default function TestPage() {
+  const [isRotated, setIsRotated] = useState(false);
+
   useEffect(() => {
     $("#btnPopover").fu_popover({
       // show popover arrow
@@ -45,6 +51,11 @@ export default function TestPage() {
       trigger: "hover",
     });
   });
+
+  const popupNodeID = function (e, id) {
+    e.stopPropagation();
+    //alert(id);
+  };
 
   return (
     <PageLayout pageTitle="Test Page">
@@ -150,6 +161,59 @@ export default function TestPage() {
               back: "This is back",
             }}
           </WishFlipCard>
+        </div>
+        <div className="col-12">
+          <WishSimpleCard
+            header={
+              <div className="d-flex justify-content-between">
+                <h5>Org Chart</h5>
+                <a
+                  onClick={() => {
+                    setIsRotated(!isRotated);
+                  }}
+                >
+                  <i className="las la-sync la-2x"></i>
+                </a>
+              </div>
+            }
+            body={
+              <div
+                className={
+                  isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
+                }
+              >
+                <Tree label="Root" lineWidth={"2px"}>
+                  <TreeNode id="1" label="Child 1" onClick={popupNodeID}>
+                    <TreeNode
+                      id="11"
+                      label="Child 11"
+                      onClick={popupNodeID}
+                    ></TreeNode>
+                  </TreeNode>
+                  <TreeNode id="2" label="Child 2" onClick={popupNodeID}>
+                    <TreeNode
+                      id="21"
+                      label="Child 21"
+                      onClick={popupNodeID}
+                    ></TreeNode>
+                    <TreeNode
+                      id="22"
+                      label="Child 22"
+                      onClick={popupNodeID}
+                    ></TreeNode>
+                    <TreeNode label="Child 23" onClick={popupNodeID}></TreeNode>
+                  </TreeNode>
+                  <TreeNode label="Child 3" onClick={popupNodeID}>
+                    <TreeNode label="Child 31" onClick={popupNodeID}></TreeNode>
+                    <TreeNode label="Child 32" onClick={popupNodeID}></TreeNode>
+                    <TreeNode label="Child 33" onClick={popupNodeID}></TreeNode>
+                    <TreeNode label="Child 34" onClick={popupNodeID}></TreeNode>
+                    <TreeNode label="Child 35" onClick={popupNodeID}></TreeNode>
+                  </TreeNode>
+                </Tree>
+              </div>
+            }
+          ></WishSimpleCard>
         </div>
       </div>
     </PageLayout>

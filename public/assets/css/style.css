@@ -601,3 +601,32 @@ ul[role="tablist"] {
   background-color: #fce5e5 !important;
 }
 /* End: Softer Shades ============================================================= */
+
+.wish-rotate-0 {
+  transform: rotate(0deg);
+  transition: all 0.7s ease-in-out;
+}
+
+.wish-rotate-0 label {
+  transform: rotate(0deg);
+  transition: all 0.7s ease-in-out;
+}
+
+.wish-rotate-180 {
+  transform: rotate(180deg);
+  transition: all 0.7s ease-in-out;
+}
+
+.wish-rotate-180 label {
+  transform: rotate(180deg) !important;
+  transition: all 0.7s ease-in-out;
+}
+
+.hand-cursor {
+  cursor: pointer !important;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+}
