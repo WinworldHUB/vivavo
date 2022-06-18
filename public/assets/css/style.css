@@ -408,6 +408,10 @@ ul[role="tablist"] {
   transition: all 0.3s ease-in-out;
 }
 
+.link-dotted:hover {
+  color: var(--primary) !important;
+}
+
 .list-group-item.disabled {
   text-decoration: line-through !important;
 }

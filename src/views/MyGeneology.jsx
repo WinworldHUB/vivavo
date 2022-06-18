@@ -1,12 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
 import PageLayout from "../components/PageLayout";
 import WishCarousel from "../components/WishCarousel";
 import WishGeneologyStatsCard from "../components/WishGeneologyStatsCard";
+import WishGeneologyTree from "../components/WishGeneologyTree";
 import WishSimpleCard from "../components/WishSimpleCard";
-import Tree from "../components/WishTree/Tree";
-import TreeNode from "../components/WishTree/TreeNode";
 
 export default function MyGeneology() {
   const [isRotated, setIsRotated] = useState(false);
@@ -134,67 +134,29 @@ export default function MyGeneology() {
     );
   };
 
-  const onClicked = function (id) {
-    const treeNodesCopy = Array.from(treeNodes);
-    treeNodesCopy.forEach(function (treenode, index) {
-      treenode.selected = false;
-      if (treenode.id === id) {
-        treenode.selected = true;
-        setSelectedNode(treenode);
-      }
+  const treeFooter = function () {
+    return (
+      selectedNode && (
+        <div className="d-flex justify-content-between">
+          <a className="card-link link-dotted">Enroll New User</a>
 
-      treenode.nodes.forEach((node, index) => {
-        node.selected = false;
-        if (node.id === id) {
-          node.selected = true;
-          setSelectedNode(node);
-        }
-      });
-    });
-
-    setTreeNodes(treeNodesCopy);
+          <a className="card-link link-dotted">Go to Distributor</a>
+        </div>
+      )
+    );
   };
 
   return (
     <PageLayout pageTitle="My Geneology" activeSideMenu="4">
       <div className="row">
         <div className="col-12 table-responsive">
-          <WishSimpleCard
-            body={
-              <div
-                className={
-                  isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
-                }
-              >
-                <Tree label="Root" lineWidth={"2px"}>
-                  {treeNodes.map((treenode, index) => {
-                    return (
-                      <TreeNode
-                        label={treenode.title}
-                        id={treenode.id}
-                        key={index}
-                        selected={treenode.selected}
-                        onClick={onClicked}
-                      >
-                        {treenode.nodes.length > 0 &&
-                          treenode.nodes.map((node, nIndex) => {
-                            return (
-                              <TreeNode
-                                label={node.title}
-                                id={node.id}
-                                key={nIndex}
-                                selected={node.selected}
-                                onClick={onClicked}
-                              ></TreeNode>
-                            );
-                          })}
-                      </TreeNode>
-                    );
-                  })}
-                </Tree>
-              </div>
-            }
-          ></WishSimpleCard>
+          <WishGeneologyTree
+            reverse={isRotated}
+            tree={treeNodes}
+            onNodeSelected={(node) => {
+              setSelectedNode(node);
+            }}
+          ></WishGeneologyTree>
         </div>
       </div>
       <div className={"row " + (selectedNode ?? " hidden ")}>
