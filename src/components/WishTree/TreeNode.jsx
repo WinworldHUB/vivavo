@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
+import "./tree.css";
 
-export default function TreeNode({ children, label, className, onClick, id }) {
+export default function TreeNode({
+  children,
+  label,
+  className,
+  onClick,
+  onDoubleClick,
+  selected,
+  id,
+}) {
   const nodeID = id ?? uuidv4();
 
   const verticalLine = css`
@@ -80,17 +89,23 @@ export default function TreeNode({ children, label, className, onClick, id }) {
   `;
 
   return (
-    <li
-      className={cx(node, nodeLines, className)}
-      onClick={(e) => {
-        onClick && onClick(e, nodeID);
-      }}
-    >
-      <motion.button whileTap={{ scale: 0.97 }}>
-        <label id={nodeID} className="hand-cursor">
-          {label}
-        </label>
-      </motion.button>
+    <li className={cx(node, nodeLines, className)}>
+      <label
+        id={nodeID}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick && onClick(nodeID);
+        }}
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          onDoubleClick && onDoubleClick(nodeID);
+        }}
+        className={
+          "hand-cursor " + (selected && selected === true ? " selected " : "")
+        }
+      >
+        {label}
+      </label>
 
       {React.Children.count(children) > 0 && (
         <ul className={childrenContainer}>{children}</ul>

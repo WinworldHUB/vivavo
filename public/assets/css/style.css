@@ -626,6 +626,10 @@ ul[role="tablist"] {
   cursor: pointer !important;
 }
 
+.pointer-cursor {
+  cursor: default !important;
+}
+
 button {
   border: 0;
   background-color: transparent;

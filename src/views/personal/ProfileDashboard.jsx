@@ -5,7 +5,7 @@ import PageLayout from "../../components/PageLayout";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import WishSimpleCard from "../../components/WishSimpleCard";
-import WishStatusCard from "../../components/WishStatsCard";
+import WishStatusCard from "../../components/WishStatsCard01";
 import WishDistributorRankBar from "../../components/WishDistributorRankBar";
 import WishLinkCard from "../../components/WishLinkCard";
 

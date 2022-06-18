@@ -42,7 +42,13 @@ export default function WishSimpleCard({
       onClick={(e) => onClick && onClick(e)}
     >
       {header && (
-        <div className={"card-header " + (hasTextColor() && textColor)}>
+        <div
+          className={
+            "card-header " +
+            (hasTextColor() && textColor) +
+            (header ?? " hidden ")
+          }
+        >
           {header}
         </div>
       )}
@@ -52,7 +58,7 @@ export default function WishSimpleCard({
         </div>
       )}
       {footer && (
-        <div className="card-footer border-top-lighten-5 d-flex">{footer}</div>
+        <div className="card-footer border-top-lighten-5">{footer}</div>
       )}
     </div>
   );

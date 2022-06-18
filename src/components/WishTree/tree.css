@@ -1,0 +1,7 @@
+.selected {
+  background-color: var(--primary) !important;
+  color: white !important;
+  font-size: 1.2em;
+  padding: 5px;
+  border-radius: 5px;
+}

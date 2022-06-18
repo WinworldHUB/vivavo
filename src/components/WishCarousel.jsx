@@ -1,158 +1,88 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-undef */
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import React from "react";
+import { useState } from "react";
+import WishSimpleCard from "./WishSimpleCard";
 
-export default class WishCarousel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      slider: null,
-      currentPage: 0,
-      totalPages: React.Children.count(this.props.children) - 1,
-    };
-    this.handleNavigation = this.handleNavigation.bind(this);
-    this.handleFinish = this.handleFinish.bind(this);
-    this.finishButton = this.finishButton.bind(this);
-    this.componentId = uuidv4();
+export default function WishCarousel({
+  children,
+  nextLinkTitle,
+  prevLinkTitle,
+  title,
+  action,
+  selectedPageIndex,
+  headers,
+  showArrows,
+}) {
+  const currentPageIndex =
+    selectedPageIndex === undefined ? 0 : selectedPageIndex;
 
-    //console.log(this.state.totalPages);
-  }
+  const totalPages = children === undefined ? 0 : children.length;
 
-  handleNavigation(direction) {
-    var pageIndex = this.state.currentPage;
-    if (direction === "next") {
-      this.state.slider.trigger("next.owl.carousel");
-      this.setState({ currentPage: pageIndex + 1 });
-    } else if (direction === "prev") {
-      this.state.slider.trigger("prev.owl.carousel");
-      this.setState({ currentPage: pageIndex - 1 });
+  const [currentPage, setCurrentPage] = useState(currentPageIndex);
+
+  const calcHeader = function () {
+    var value = null;
+
+    if (headers === undefined) {
+      value = title ?? null;
+    } else {
+      value = headers[currentPage] ?? title ?? null;
     }
 
-    //console.log(this.state.totalPages);
-    if (this.props.onNavidation !== undefined)
-      this.props.onNavigation(
-        direction,
-        this.state.currentPage,
-        this.state.totalPages
-      );
-  }
+    return value;
+  };
 
-  handleFinish() {
-    if (this.props.onFinish !== undefined) {
-      console.log("Triggerring OnFinish");
-      this.props.onFinish();
-    }
-  }
+  const renderHeader = function () {
+    const tmpHeader = calcHeader();
 
-  componentDidMount() {
-    this.setState({
-      totalPages: $("#" + this.componentId + " .item").length - 1,
-    });
-
-    this.setState({
-      slider: $("#" + this.componentId).owlCarousel({
-        autoHeight: true,
-        margin: 10,
-        items: 1,
-        mouseDrag: false,
-        touchDrag: false,
-        pullDrag: false,
-        dots: false,
-        callbacks: true,
-        info: true,
-      }),
-    });
-  }
-
-  refreshCarousel() {
-    this.state.slider.trigger("refresh.owl.carousel");
-    console.log("Called");
-  }
-
-  finishButton() {
-    if (this.props.finishTo !== undefined) {
-      const finishState =
-        this.props.finishToState === undefined ? "" : this.props.finishToState;
+    if (tmpHeader !== null || action !== undefined) {
       return (
-        <Link
-          to={this.props.finishTo}
-          state={finishState}
-          className={
-            "btn btn-primary " +
-            (this.state.currentPage < this.state.totalPages ? "d-none" : "")
-          }
-        >
-          Submit
-        </Link>
+        <div className="d-flex justify-content-between">
+          {tmpHeader}
+          {action ?? ""}
+        </div>
       );
-    } else if (this.props.onFinish !== undefined) {
-      return (
-        <button
-          component={Link}
-          className={
-            "btn btn-primary " +
-            (this.state.currentPage < this.state.totalPages ? "d-none" : "")
-          }
-          onClick={this.handleFinish}
-        >
-          Submit
-        </button>
-      );
-    }
-  }
+    } else return null;
+  };
 
-  render() {
-    const hasTitle =
-      this.props.title === undefined || this.props.title === "" ? false : true;
-
-    // const finishTarget =
-    //   this.props.finishTo === undefined ? "" : this.props.finishTo;
-
+  const renderFooter = function () {
     return (
-      <div className="card">
-        <div className={"card-header" + (hasTitle === true ? "" : "d-none")}>
-          <h3>{this.props.title}</h3>
-        </div>
-        <div className="card-body">
-          <div className="owl-carousel owl-theme" id={this.componentId}>
-            {this.props.children}
-          </div>
-        </div>
-        <div className="card-footer d-flex justify-content-between">
-          <button
-            className={
-              "btn btn-link " + (this.state.currentPage === 0 ? "d-none" : "")
-            }
-            onClick={() => this.handleNavigation("prev")}
-          >
-            Previous
-          </button>
-          <button
-            className={
-              "btn btn-link " +
-              (this.state.currentPage === 0 ? "ml-auto" : "") +
-              (this.state.currentPage === this.state.totalPages ? "d-none" : "")
-            }
-            onClick={() => this.handleNavigation("next")}
-          >
-            Next
-          </button>
-          {/* <button
-            className={
-              "btn btn-primary " +
-              (this.state.currentPage < this.state.totalPages ? "d-none" : "")
-            }
-            onClick={this.handleFinish}
-          >
-            Submit
-          </button> */}
-
-          <this.finishButton />
-        </div>
+      <div className="d-flex">
+        <a
+          className={
+            "card-link link-dotted mr-auto d-flex align-items-center " +
+            (currentPage === 0 ? " hidden " : " ")
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            if (currentPage > 0) setCurrentPage(currentPage - 1);
+          }}
+        >
+          {showArrows && <i className="las la-angle-left"></i>}{" "}
+          {prevLinkTitle ?? "BACK"}
+        </a>
+        <a
+          className={
+            "card-link link-dotted ml-auto d-flex align-items-center " +
+            (currentPage === totalPages - 1 ? " hidden " : "")
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
+          }}
+        >
+          {nextLinkTitle ?? "NEXT"}{" "}
+          {showArrows && <i className="las la-angle-right"></i>}
+        </a>
       </div>
     );
-  }
+  };
+
+  return (
+    <WishSimpleCard
+      header={renderHeader()}
+      body={children[currentPage] ?? ""}
+      footer={renderFooter()}
+    ></WishSimpleCard>
+  );
 }
