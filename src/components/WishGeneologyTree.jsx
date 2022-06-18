@@ -42,6 +42,7 @@ export default function WishGeneologyTree({
 
     setSelectedNode(null);
     setTreeNodes(treeNodesCopy);
+    onNodeSelected && onNodeSelected(null);
   };
 
   const onClicked = function (id) {
