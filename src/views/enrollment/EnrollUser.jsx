@@ -6,7 +6,7 @@ import PageLayout from "../../components/PageLayout";
 import WishLinkCard from "../../components/WishLinkCard";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
-
+import WishGeneologyTree from "../../components/WishGeneologyTree";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -29,6 +29,92 @@ export default function EnrollUser() {
   breadcrumbs.push({ title: "Home", linkTo: "/" });
   breadcrumbs.push({ title: "Enrollment", linkTo: "/enrollment" });
   breadcrumbs.push({ title: "New User", linkTo: "/" });
+
+  const [treeNodes, setTreeNodes] = useState([
+    {
+      title: "Child 1",
+      id: 1,
+      distributorID: "1001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 11",
+          id: 11,
+          distributorID: "11001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 12",
+          id: 12,
+          distributorID: "12001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+    {
+      title: "Child 2",
+      id: 2,
+      distributorID: "2001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 21",
+          id: 21,
+          distributorID: "21001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 22",
+          id: 22,
+          distributorID: "22001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+    {
+      title: "Child 3",
+      id: 3,
+      distributorID: "3001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 31",
+          id: 31,
+          distributorID: "31001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 32",
+          id: 32,
+          distributorID: "32001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 33",
+          id: 33,
+          distributorID: "33001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+  ]);
 
   const navigationBar = function () {
     var currentProgress = ((currentPage + 1) / totalPages) * 100;
@@ -1578,9 +1664,7 @@ export default function EnrollUser() {
         noFooter
         modalSize="modal-lg"
       >
-        <div className="spinner-grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <WishGeneologyTree tree={treeNodes}></WishGeneologyTree>
       </WishModal>
     </PageLayout>
   );

@@ -4,6 +4,8 @@ import PageLayout from "../../components/PageLayout";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishModal from "../../components/WishModal";
 import WishToaster from "../../components/WishToaster";
+import WishGeneologyTree from "../../components/WishGeneologyTree";
+import { useState } from "react";
 
 export default function GenerateLink() {
   const breadcrumbs = [];
@@ -11,6 +13,92 @@ export default function GenerateLink() {
   breadcrumbs.push({ title: "Home", linkTo: "/" });
   breadcrumbs.push({ title: "Enrollment", linkTo: "/enrollment" });
   breadcrumbs.push({ title: "Generate Link", linkTo: "/" });
+
+  const [treeNodes, setTreeNodes] = useState([
+    {
+      title: "Child 1",
+      id: 1,
+      distributorID: "1001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 11",
+          id: 11,
+          distributorID: "11001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 12",
+          id: 12,
+          distributorID: "12001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+    {
+      title: "Child 2",
+      id: 2,
+      distributorID: "2001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 21",
+          id: 21,
+          distributorID: "21001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 22",
+          id: 22,
+          distributorID: "22001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+    {
+      title: "Child 3",
+      id: 3,
+      distributorID: "3001",
+      expanded: true,
+      selected: false,
+      nodes: [
+        {
+          title: "Child 31",
+          id: 31,
+          distributorID: "31001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 32",
+          id: 32,
+          distributorID: "32001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+        {
+          title: "Child 33",
+          id: 33,
+          distributorID: "33001",
+          expanded: true,
+          selected: false,
+          nodes: [],
+        },
+      ],
+    },
+  ]);
 
   const pageHeader = function () {
     return (
@@ -137,9 +225,7 @@ export default function GenerateLink() {
         noFooter
         modalSize="modal-lg"
       >
-        <div className="spinner-grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <WishGeneologyTree tree={treeNodes}></WishGeneologyTree>
       </WishModal>
     </PageLayout>
   );

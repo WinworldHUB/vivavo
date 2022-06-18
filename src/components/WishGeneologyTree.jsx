@@ -91,9 +91,9 @@ export default function WishGeneologyTree({
   const defaultTreeFooter = function () {
     return (
       selectedNode && (
-        <div className="d-flex justify-content-between">
+        <>
           <a
-            className="card-link link-dotted"
+            className="card-link link-dotted mr-auto"
             data-target="#dlgEnrollUser"
             data-toggle="modal"
           >
@@ -101,7 +101,7 @@ export default function WishGeneologyTree({
           </a>
 
           <a
-            className="card-link link-dotted"
+            className="card-link link-dotted ml-auto"
             onClick={() => {
               WishToaster({
                 toastMessage: "Reloaded tree with selected distributor",
@@ -112,7 +112,7 @@ export default function WishGeneologyTree({
           >
             Go to Distributor
           </a>
-        </div>
+        </>
       )
     );
   };

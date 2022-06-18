@@ -58,7 +58,7 @@ export default function WishSimpleCard({
         </div>
       )}
       {footer && (
-        <div className="card-footer border-top-lighten-5">{footer}</div>
+        <div className="card-footer border-top-lighten-5 d-flex">{footer}</div>
       )}
     </div>
   );
