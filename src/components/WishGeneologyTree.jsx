@@ -5,6 +5,7 @@ import WishModal from "./WishModal";
 import WishSimpleCard from "./WishSimpleCard";
 import Tree from "./WishTree/Tree";
 import TreeNode from "./WishTree/TreeNode";
+import WishToaster from "./WishToaster";
 
 export default function WishGeneologyTree({
   tree,
@@ -28,6 +29,20 @@ export default function WishGeneologyTree({
     "Left Organization",
     "Right Organization",
   ];
+
+  const clearNodeSelection = function () {
+    const treeNodesCopy = Array.from(treeNodes);
+    treeNodesCopy.forEach(function (treenode, index) {
+      treenode.selected = false;
+
+      treenode.nodes.forEach((node, index) => {
+        node.selected = false;
+      });
+    });
+
+    setSelectedNode(null);
+    setTreeNodes(treeNodesCopy);
+  };
 
   const onClicked = function (id) {
     const treeNodesCopy = Array.from(treeNodes);
@@ -84,7 +99,18 @@ export default function WishGeneologyTree({
             Enroll New User
           </a>
 
-          <a className="card-link link-dotted">Go to Distributor</a>
+          <a
+            className="card-link link-dotted"
+            onClick={() => {
+              WishToaster({
+                toastMessage: "Reloaded tree with selected distributor",
+                toastType: "success",
+              });
+              clearNodeSelection();
+            }}
+          >
+            Go to Distributor
+          </a>
         </div>
       )
     );
@@ -131,11 +157,7 @@ export default function WishGeneologyTree({
         }
         footer={treeFooter ?? defaultTreeFooter()}
       ></WishSimpleCard>
-      <WishModal
-        id="dlgEnrollUser"
-        title="Enroll New User"
-        finishTitle="Done"
-      >
+      <WishModal id="dlgEnrollUser" title="Enroll New User" finishTitle="Done">
         <div className="text-center">
           <div
             class="btn-group"
