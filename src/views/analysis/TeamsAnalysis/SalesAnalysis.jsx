@@ -8,7 +8,6 @@ import makeAnimated from "react-select/animated";
 import WishSelect from "../../../components/WishSelect";
 
 import Chart from "react-apexcharts";
-import { useEffect } from "react";
 
 export default function SalesAnalysis() {
   const breadcrumbs = [];
@@ -17,8 +16,6 @@ export default function SalesAnalysis() {
   breadcrumbs.push({ title: "Sales Analysis", linkTo: "/" });
 
   const weeksFilter = ["This week", "Past 4 weeks", "Past 8 weeks"];
-  const [selectedWeekFilter, setSelectedWeekFilter] = useState(0);
-
   const animatedComponents = makeAnimated();
 
   const organizationsFilter = [
