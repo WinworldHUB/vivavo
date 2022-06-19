@@ -28,6 +28,7 @@ import MyOrders from "./views/sales/MyOrders";
 import EnrollUser from "./views/enrollment/EnrollUser";
 import OngoingEnrollments from "./views/enrollment/OngoingEnrollments";
 import GenerateLink from "./views/enrollment/GenerateLink";
+import SalesAnalysis from "./views/analysis/TeamsAnalysis/SalesAnalysis";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="generatelink" element={<GenerateLink />} />
         <Route path="mygeneology" element={<MyGeneology />} />
         <Route path="analysis" element={<Analysis />} />
+        <Route path="salesanalysis" element={<SalesAnalysis />} />
         <Route path="announcements" element={<Announcements />} />
         <Route path="vmail" element={<VMail />} />
         <Route path="myprofile" element={<ProfileDashboard />} />

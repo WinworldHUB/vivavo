@@ -17,13 +17,13 @@ export default class Analysis extends Component {
               textWhite={true}
               title="Sales Analysis"
               icon="la-chart-bar"
-              line1="Analyze your and your team's product sales details using this option."
+              line1="Analyze your and your team's product sales details here."
               line2={[
                 "You can analyze ",
                 <code>sales frequency</code>,
                 " and other details from here",
               ]}
-              linkTo="/"
+              linkTo="/salesanalysis"
             ></WishCard>
           </div>
 
@@ -35,20 +35,6 @@ export default class Analysis extends Component {
               line2={[
                 "You can also manage team's ",
                 <code>profile related </code>,
-                " details from here.",
-              ]}
-              linkTo="/"
-            ></WishCard>
-          </div>
-
-          <div className="col-md-4 col-sm-6">
-            <WishCard
-              title="Co-Applicant Bonus"
-              icon="la-user-friends"
-              line1="A detailed co-applicant bonus report can be accessed using this option."
-              line2={[
-                "You can access ",
-                <code>co-applicant bonus</code>,
                 " details from here.",
               ]}
               linkTo="/"
