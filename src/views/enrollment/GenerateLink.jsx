@@ -295,7 +295,11 @@ export default function GenerateLink() {
         noFooter
         modalSize="modal-lg"
       >
-        <WishGeneologyTree tree={treeNodes}></WishGeneologyTree>
+        <WishGeneologyTree
+          reverse
+          hideExitingEnrollments
+          tree={treeNodes}
+        ></WishGeneologyTree>
       </WishModal>
     </PageLayout>
   );

@@ -7,6 +7,7 @@ import WishSimpleCard from "./WishSimpleCard";
 import Tree from "./WishTree/Tree";
 import TreeNode from "./WishTree/TreeNode";
 import WishToaster from "./WishToaster";
+import WishSelect from "./WishSelect";
 
 export default function WishGeneologyTree({
   tree,
@@ -18,6 +19,7 @@ export default function WishGeneologyTree({
   onNodeSelected,
   onOrganizationSelected,
   organizations,
+  hideExitingEnrollments,
 }) {
   const [isRotated, setIsRotated] = useState(
     reverse !== undefined ? reverse : false
@@ -25,6 +27,14 @@ export default function WishGeneologyTree({
   const [selectedNode, setSelectedNode] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
   const [treeNodes, setTreeNodes] = useState(tree.nodes);
+
+  const existingEnrollments = [
+    "New Enrollment",
+    "John Doe 1 (ongoing enrollments)",
+    "John Doe 2 (ongoing enrollments)",
+    "John Doe 3 (ongoing enrollments)",
+    "John Doe 4 (ongoing enrollments)",
+  ];
 
   const organizationsArray = organizations ?? [
     "Left Organization",
@@ -217,6 +227,18 @@ export default function WishGeneologyTree({
                 </button>
               );
             })}
+          </div>
+          <div
+            className={
+              "pt-2 " +
+              (hideExitingEnrollments && " hidden ") +
+              (selectedOrganization ?? " hidden ")
+            }
+          >
+            <WishSelect
+              label="Select Enrollment"
+              data={existingEnrollments}
+            ></WishSelect>
           </div>
         </div>
       </WishModal>

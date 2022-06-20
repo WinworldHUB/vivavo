@@ -1734,7 +1734,11 @@ export default function EnrollUser() {
         noFooter
         modalSize="modal-lg"
       >
-        <WishGeneologyTree tree={treeNodes}></WishGeneologyTree>
+        <WishGeneologyTree
+          reverse
+          hideExitingEnrollments
+          tree={treeNodes}
+        ></WishGeneologyTree>
       </WishModal>
     </PageLayout>
   );
