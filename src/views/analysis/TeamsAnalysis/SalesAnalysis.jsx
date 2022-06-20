@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import PageLayout from "../../../components/PageLayout";
 import WishSimpleCard from "../../../components/WishSimpleCard";
 

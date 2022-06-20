@@ -11,6 +11,7 @@ export default function TreeNode({
   onClick,
   onDoubleClick,
   selected,
+  isRoot,
   id,
 }) {
   const nodeID = id ?? uuidv4();
@@ -101,7 +102,9 @@ export default function TreeNode({
           onDoubleClick && onDoubleClick(nodeID);
         }}
         className={
-          "hand-cursor " + (selected && selected === true ? " selected " : "")
+          "hand-cursor " +
+          (selected && selected === true ? " selected " : " treenode ") +
+          (isRoot && " rootNode ")
         }
       >
         {label}

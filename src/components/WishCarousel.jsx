@@ -47,7 +47,7 @@ export default function WishCarousel({
 
   const renderFooter = function () {
     return (
-      <div className="d-flex">
+      <>
         <a
           className={
             "card-link link-dotted mr-auto d-flex align-items-center " +
@@ -74,7 +74,7 @@ export default function WishCarousel({
           {nextLinkTitle ?? "NEXT"}{" "}
           {showArrows && <i className="las la-angle-right"></i>}
         </a>
-      </div>
+      </>
     );
   };
 

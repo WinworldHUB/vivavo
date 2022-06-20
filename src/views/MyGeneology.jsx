@@ -9,8 +9,7 @@ import WishGeneologyTree from "../components/WishGeneologyTree";
 import WishSimpleCard from "../components/WishSimpleCard";
 
 export default function MyGeneology() {
-  const [isRotated, setIsRotated] = useState(false);
-  const [selectedNode, setSelectedNode] = useState(null);
+  const [isRotated, setIsRotated] = useState(true);
   const currentWeekStats = [
     { key: "LGV", value: 500 },
     { key: "RGV", value: 300 },
@@ -30,91 +29,163 @@ export default function MyGeneology() {
 
   const currentWeekStats3 = [{ key: "GV", value: 400 }];
   const previousWeekStats3 = [{ key: "GV", value: 400 }];
-  const [treeNodes, setTreeNodes] = useState([
-    {
-      title: "Child 1",
-      id: 1,
-      distributorID: "1001",
-      expanded: true,
-      selected: false,
-      nodes: [
-        {
-          title: "Child 11",
-          id: 11,
-          distributorID: "11001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-        {
-          title: "Child 12",
-          id: 12,
-          distributorID: "12001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-      ],
-    },
-    {
-      title: "Child 2",
-      id: 2,
-      distributorID: "2001",
-      expanded: true,
-      selected: false,
-      nodes: [
-        {
-          title: "Child 21",
-          id: 21,
-          distributorID: "21001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-        {
-          title: "Child 22",
-          id: 22,
-          distributorID: "22001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-      ],
-    },
-    {
-      title: "Child 3",
-      id: 3,
-      distributorID: "3001",
-      expanded: true,
-      selected: false,
-      nodes: [
-        {
-          title: "Child 31",
-          id: 31,
-          distributorID: "31001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-        {
-          title: "Child 32",
-          id: 32,
-          distributorID: "32001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-        {
-          title: "Child 33",
-          id: 33,
-          distributorID: "33001",
-          expanded: true,
-          selected: false,
-          nodes: [],
-        },
-      ],
-    },
-  ]);
+  const [treeNodes, setTreeNodes] = useState({
+    title: "Root Node",
+    id: 0,
+    distributorID: "1000",
+    name: "John Doe",
+    achievedRank: "Royal Black Diamond",
+    paidAsRank: "Ruby Executive",
+    status: "Active",
+    activationPV: "100",
+    nextActivationWeek: "433",
+    aggregateIncome: "2,39,837",
+    expanded: true,
+    selected: true,
+    nodes: [
+      {
+        title: "Child 1",
+        id: 1,
+        distributorID: "1001",
+        expanded: true,
+        selected: false,
+        nodes: [
+          {
+            title: "Child 11",
+            id: 11,
+            distributorID: "11001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+          {
+            title: "Child 12",
+            id: 12,
+            distributorID: "12001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+        ],
+      },
+      {
+        title: "Child 2",
+        id: 2,
+        distributorID: "2001",
+        expanded: true,
+        selected: false,
+        nodes: [
+          {
+            title: "Child 21",
+            id: 21,
+            distributorID: "21001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+          {
+            title: "Child 22",
+            id: 22,
+            distributorID: "22001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+        ],
+      },
+      {
+        title: "Child 3",
+        id: 3,
+        distributorID: "3001",
+        name: "John Doe",
+        achievedRank: "Royal Black Diamond",
+        paidAsRank: "Ruby Executive",
+        status: "Active",
+        activationPV: "100",
+        nextActivationWeek: "433",
+        aggregateIncome: "2,39,837",
+        expanded: true,
+        selected: false,
+        nodes: [
+          {
+            title: "Child 31",
+            id: 31,
+            distributorID: "31001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+          {
+            title: "Child 32",
+            id: 32,
+            distributorID: "32001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+          {
+            title: "Child 33",
+            id: 33,
+            distributorID: "33001",
+            name: "John Doe",
+            achievedRank: "Royal Black Diamond",
+            paidAsRank: "Ruby Executive",
+            status: "Active",
+            activationPV: "100",
+            nextActivationWeek: "433",
+            aggregateIncome: "2,39,837",
+            expanded: true,
+            selected: false,
+            nodes: [],
+          },
+        ],
+      },
+    ],
+  });
+
+  const [selectedNode, setSelectedNode] = useState(treeNodes);
 
   const nodeDetails = function (nodeID) {
     return (
@@ -122,12 +193,12 @@ export default function MyGeneology() {
         {selectedNode && (
           <>
             <p>Distributur ID: {selectedNode.distributorID}</p>
-            <p>Name: {selectedNode.distributorID}</p>
-            <p>Acheived Rank: {selectedNode.distributorID}</p>
-            <p>Paid as Rank: {selectedNode.distributorID}</p>
-            <p>Activation PV: {selectedNode.distributorID}</p>
-            <p>Next activation week: {selectedNode.distributorID}</p>
-            <p>Aggregate Income: {selectedNode.distributorID}</p>
+            <p>Name: {selectedNode.name}</p>
+            <p>Acheived Rank: {selectedNode.achievedRank}</p>
+            <p>Paid as Rank: {selectedNode.paidAsRank}</p>
+            <p>Activation PV: {selectedNode.activationPV}</p>
+            <p>Next activation week: {selectedNode.nextActivationWeek}</p>
+            <p>Aggregate Income: {selectedNode.aggregateIncome}</p>
           </>
         )}
       </>
@@ -162,7 +233,8 @@ export default function MyGeneology() {
       <div className={"row " + (selectedNode ?? " hidden ")}>
         <div className="col-sm-4">
           <WishSimpleCard
-            header="DISTRIBUTOR DETAILS"
+            background="bg-primary bg-lighten-4"
+            header={<h5>DISTRIBUTOR DETAILS</h5>}
             body={nodeDetails()}
           ></WishSimpleCard>
         </div>

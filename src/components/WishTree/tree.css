@@ -5,3 +5,22 @@
   padding: 5px;
   border-radius: 5px;
 }
+
+.selected small {
+  color: white !important;
+}
+
+.treenode.rootNode {
+  background-color: var(--gray) !important;
+  color: white !important;
+  font-size: 1.2em;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.treenode {
+  background-color: #efefef !important;
+  font-size: 1.2em;
+  padding: 5px;
+  border-radius: 5px;
+}

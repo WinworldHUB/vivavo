@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
@@ -23,7 +24,7 @@ export default function WishGeneologyTree({
   );
   const [selectedNode, setSelectedNode] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
-  const [treeNodes, setTreeNodes] = useState(tree);
+  const [treeNodes, setTreeNodes] = useState(tree.nodes);
 
   const organizationsArray = organizations ?? [
     "Left Organization",
@@ -117,43 +118,73 @@ export default function WishGeneologyTree({
     );
   };
 
+  const renderTreeNode = function (node) {
+    return (
+      <a class="media border-0 d-flex align-items-center">
+        <div class="media-left pr-1">
+          <span class="avatar avatar-md avatar-online">
+            <img
+              class="media-object rounded-circle"
+              src="../assets/app-assets/images/logo/logo.png"
+              alt="Generic placeholder image"
+            />
+          </span>
+        </div>
+        <div class="media-body w-100 text-left">
+          <span class="list-group-item-heading">
+            <small>Name: {node.title}</small>
+          </span>
+          <p class="list-group-item-text mb-0">
+            <span class="blue-grey lighten-2 font-small-3">
+              {" "}
+              <small>ID: {node.id}</small>{" "}
+            </span>
+          </p>
+        </div>
+      </a>
+    );
+  };
+
   return (
     <>
       <WishSimpleCard
         header={treeHeader()}
         body={
-          <div
-            className={
-              isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
-            }
-          >
-            <small>{subTitle ?? ""}</small>
-            <Tree label="Root" lineWidth={"2px"}>
-              {treeNodes.map((treenode, index) => {
-                return (
-                  <TreeNode
-                    label={treenode.title}
-                    id={treenode.id}
-                    key={index}
-                    selected={treenode.selected}
-                    onClick={onClicked}
-                  >
-                    {treenode.nodes.length > 0 &&
-                      treenode.nodes.map((node, nIndex) => {
-                        return (
-                          <TreeNode
-                            label={node.title}
-                            id={node.id}
-                            key={nIndex}
-                            selected={node.selected}
-                            onClick={onClicked}
-                          ></TreeNode>
-                        );
-                      })}
-                  </TreeNode>
-                );
-              })}
-            </Tree>
+          <div style={{ maxWidth: "100%", overflowX: "scroll" }}>
+            <div
+              className={
+                isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
+              }
+              style={{ width: "max-content" }}
+            >
+              <small>{subTitle ?? ""}</small>
+              <Tree label={tree.name} lineWidth={"2px"}>
+                {treeNodes.map((treenode, index) => {
+                  return (
+                    <TreeNode
+                      label={renderTreeNode(treenode)}
+                      id={treenode.id}
+                      key={index}
+                      selected={treenode.selected}
+                      onClick={onClicked}
+                    >
+                      {treenode.nodes.length > 0 &&
+                        treenode.nodes.map((node, nIndex) => {
+                          return (
+                            <TreeNode
+                              label={renderTreeNode(node)}
+                              id={node.id}
+                              key={nIndex}
+                              selected={node.selected}
+                              onClick={onClicked}
+                            ></TreeNode>
+                          );
+                        })}
+                    </TreeNode>
+                  );
+                })}
+              </Tree>
+            </div>
           </div>
         }
         footer={treeFooter ?? defaultTreeFooter()}

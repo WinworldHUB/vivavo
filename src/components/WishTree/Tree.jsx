@@ -31,7 +31,9 @@ export default function Tree({
         --tree-node-padding: var(--node-padding, 5px);
       `}
     >
-      <TreeNode label={label}>{children}</TreeNode>
+      <TreeNode label={label} isRoot>
+        {children}
+      </TreeNode>
     </ul>
   );
 }
