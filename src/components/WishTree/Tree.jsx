@@ -17,6 +17,7 @@ export default function Tree({
         padding-inline-start: 0;
         margin: 0;
         display: flex;
+        padding: 10px 0;
 
         --line-height: ${lineHeight};
         --line-width: ${lineWidth};

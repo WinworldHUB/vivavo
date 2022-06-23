@@ -11,6 +11,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
+import "json-loader";
+import data from "../../data/Data.json";
+import WishToaster from "../../components/WishToaster";
+
 export default function EnrollUser() {
   const location = useLocation();
   const { step } = location.state ?? 0;
@@ -30,161 +34,12 @@ export default function EnrollUser() {
   breadcrumbs.push({ title: "Enrollment", linkTo: "/enrollment" });
   breadcrumbs.push({ title: "New User", linkTo: "/" });
 
-  const [treeNodes, setTreeNodes] = useState({
-    title: "Root Node",
-    id: 0,
-    distributorID: "1000",
-    name: "John Doe",
-    achievedRank: "Royal Black Diamond",
-    paidAsRank: "Ruby Executive",
-    status: "Active",
-    activationPV: "100",
-    nextActivationWeek: "433",
-    aggregateIncome: "2,39,837",
-    expanded: true,
-    selected: true,
-    nodes: [
-      {
-        title: "Child 1",
-        id: 1,
-        distributorID: "1001",
-        expanded: true,
-        selected: false,
-        nodes: [
-          {
-            title: "Child 11",
-            id: 11,
-            distributorID: "11001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-          {
-            title: "Child 12",
-            id: 12,
-            distributorID: "12001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-        ],
-      },
-      {
-        title: "Child 2",
-        id: 2,
-        distributorID: "2001",
-        expanded: true,
-        selected: false,
-        nodes: [
-          {
-            title: "Child 21",
-            id: 21,
-            distributorID: "21001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-          {
-            title: "Child 22",
-            id: 22,
-            distributorID: "22001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-        ],
-      },
-      {
-        title: "Child 3",
-        id: 3,
-        distributorID: "3001",
-        name: "John Doe",
-        achievedRank: "Royal Black Diamond",
-        paidAsRank: "Ruby Executive",
-        status: "Active",
-        activationPV: "100",
-        nextActivationWeek: "433",
-        aggregateIncome: "2,39,837",
-        expanded: true,
-        selected: false,
-        nodes: [
-          {
-            title: "Child 31",
-            id: 31,
-            distributorID: "31001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-          {
-            title: "Child 32",
-            id: 32,
-            distributorID: "32001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-          {
-            title: "Child 33",
-            id: 33,
-            distributorID: "33001",
-            name: "John Doe",
-            achievedRank: "Royal Black Diamond",
-            paidAsRank: "Ruby Executive",
-            status: "Active",
-            activationPV: "100",
-            nextActivationWeek: "433",
-            aggregateIncome: "2,39,837",
-            expanded: true,
-            selected: false,
-            nodes: [],
-          },
-        ],
-      },
-    ],
-  });
+  const [isRotated, setIsRotated] = useState(true);
+  const [filterApplied, applyFilter] = useState(false);
+
+  const [filterText, setFilterText] = useState("");
+
+  const [treeNodes, setTreeNodes] = useState(data.treeData);
 
   const navigationBar = function () {
     var currentProgress = ((currentPage + 1) / totalPages) * 100;
@@ -1715,6 +1570,162 @@ export default function EnrollUser() {
     );
   };
 
+  /* Geneology Tree */
+  const showAll = function () {
+    setTreeNodes(data.treeData);
+  };
+
+  const searchDistributor = function (filter) {
+    var found = null;
+    var treeNodesCopy = data.treeData;
+
+    console.log(filter);
+
+    if (treeNodesCopy.nodes !== undefined) {
+      treeNodesCopy.nodes.forEach(function (treenode, index) {
+        treenode.selected = false;
+        treenode.nodes.forEach((node, index) => {
+          node.selected = false;
+          if (node.distributorID === filter) {
+            //node.hide = true;
+            //found = true;
+            found = node;
+            applyFilter(true);
+          }
+        });
+
+        if (found === null) {
+          if (treenode.distributorID === filter) {
+            //treenode.hide = true;
+            found = treenode;
+            applyFilter(true);
+          }
+        }
+      });
+
+      if (found !== null) {
+        found.selected = true;
+        setTreeNodes(found);
+        WishToaster({
+          toastMessage: "Distributor found and set as root",
+          toastType: "success",
+        });
+      } else {
+        WishToaster({
+          toastMessage: "Distributor not found",
+          toastType: "error",
+        });
+      }
+    }
+  };
+
+  const filterTree = function () {
+    if (filterText === "") {
+      showAll();
+    } else {
+      searchDistributor(filterText);
+    }
+  };
+
+  const treeHeader = function () {
+    return (
+      <div className="form-row">
+        <div className="col">
+          <div className="form-group">
+            <div className="input-group">
+              <div
+                className={
+                  "input-group-append " + (filterText === "" ? " hidden " : "")
+                }
+              >
+                <button
+                  className="btn btn-warning"
+                  onClick={() => {
+                    setFilterText("");
+                    showAll();
+                  }}
+                >
+                  <i className="las la-arrow-left"></i>
+                </button>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search distributor id ..."
+                value={filterText}
+                onChange={(e) => {
+                  setFilterText(e.target.value);
+                }}
+              />
+              <div className="input-group-append">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    filterTree();
+                  }}
+                >
+                  Go
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-auto">
+          <div className="btn-group" role="group" aria-label="Basic example">
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => {
+                setIsRotated(!isRotated);
+              }}
+            >
+              <i className="las la-sync"></i>
+            </button>
+            <div className="btn-group">
+              <button
+                className="btn btn-danger"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i className="las la-sitemap"></i>
+              </button>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+                x-placement="bottom-start"
+                style={{
+                  position: "absolute",
+                  transform: "translate3d(0px, 41px, 0px)",
+                  top: "0px",
+                  left: "0px",
+                  willChange: "transform",
+                }}
+              >
+                <a className="dropdown-item">To Extreme Left</a>
+                <a className="dropdown-item">To Extreme Right</a>
+                <a className="dropdown-item">To Preferred Extreme Left</a>
+                <a className="dropdown-item">To Preferred Extreme Right</a>
+                <a
+                  className="dropdown-item"
+                  onClick={() => {
+                    setFilterText("");
+                    showAll();
+                  }}
+                >
+                  To Top
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  /* END: Geneology Tree */
+
   return (
     <PageLayout
       activeSideMenu="3"
@@ -1732,11 +1743,12 @@ export default function EnrollUser() {
         id="dlgGenology"
         title="Geneology"
         noFooter
-        modalSize="modal-lg"
+        modalSize="modal-xl"
       >
         <WishGeneologyTree
-          reverse
+          reverse={isRotated}
           hideExitingEnrollments
+          header={treeHeader()}
           tree={treeNodes}
         ></WishGeneologyTree>
       </WishModal>

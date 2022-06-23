@@ -1,0 +1,297 @@
+{
+  "timelineData": [
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Crown Black Diamond Ambassador",
+      "description": "An existing Imperial Black Diamond Ambassador must maintain AL (Activity Level) of 200/PCM across all the berth organizations for consecutively 4 weeks with GV (Group Volume) of 1,00,000",
+      "selected": false
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Imperial Black Diamond Ambassador",
+      "description": "An existing Royal Black Diamond Ambassador must maintain AL (Activity Level) of 200/PCM across any 4 berth organizations for consecutively 4 weeks with GV (Group Volume) of 1,00,000",
+      "selected": false
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Royal Black Diamond Ambassador",
+      "description": "An existing Black Diamond Ambassador must maintain AL (Activity Level) of 200/PCM across any 3 berth organizations for consecutively 4 weeks with GV (Group Volume) of 1,00,000",
+      "selected": false
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Black Diamond Ambassador",
+      "subTitle": "current rank",
+      "description": "An existing Executive White Diamond must maintain AL (Activity Level) of 200/PCM across any 2 berth organizations for consecutively 4 weeks with GV (Group Volume) of 50,000 as well as MWA (Minimum Weekly Average) of 50,000",
+      "selected": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Executive White Diamond",
+      "description": "An existing Executive Purple Diamond must maintain AL (Activity Level) of 200/PCM across any 2 berth organizations for consecutively 3 weeks with GV (Group Volume) of 25,000 as well as MWA (Minimum Weekly Average) of 12,500",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Executive Purple Diamond",
+      "description": "An existing Executive Blue Diamond must maintain AL (Activity Level) of 200/PCM across any 2 berth organizations for consecutively 3 weeks with GV (Group Volume) of 20,000 as well as MWA (Minimum Weekly Average) of 10,000",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Executive Blue Diamond",
+      "description": "An existing Executive Diamond must maintain AL (Activity Level) of 200/PCM across any 2 berth organizations for consecutively 3 weeks with GV (Group Volume) of 15,000 as well as MWA (Minimum Weekly Average) of 7,500",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Executive Diamond",
+      "subTitle": "paid as rank",
+      "description": "An existing Sapphire Executive must maintain AL (Activity Level) of 200/PCM across any 2 berth organizations for consecutively 3 weeks with GV (Group Volume) of 10,000 as well as MWA (Minimum Weekly Average) of 5,000",
+      "selected": false,
+      "completed": true,
+      "paidAsRank": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Sapphire Executive",
+      "description": "An existing Emerald Executive must maintain AL (Activity Level) of 100 across any 2 berth organizations for consecutively 2 weeks with GV (Group Volume) of 7,500 as well as MWA (Minimum Weekly Average) of 3,750",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Emerald Executive",
+      "description": "An existing Pearl Executive must maintain AL (Activity Level) of 100 across any 2 berth organizations for consecutively 2 weeks with GV (Group Volume) of 5,000 as well as MWA (Minimum Weekly Average) of 2,500",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Pearl Executive",
+      "description": "An existing Ruby Executive must maintain AL (Activity Level) of 50 across any 2 berth organizations for consecutively 2 weeks with GV (Group Volume) of 2,500 as well as MWA (Minimum Weekly Average) of 1,250",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Ruby Executive",
+      "description": "An existing Star-1000 must maintain AL (Activity Level) of 50 across any 2 berth organizations for consecutively 2 weeks with GV (Group Volume) of 1,000 as well as MWA (Minimum Weekly Average) of 500",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Star-1000",
+      "description": "An existing Star-500* who has one each active Star-500 in both the organisations and has earned an aggregate income of 1,000 GBU from the date of enrolment.",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Star-500",
+      "description": "An existing Star-250* who has one each active Star-250 on both the organisations and generates 500 GV each from both the organisations in the qualifying week.",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Star-250",
+      "description": "A distributor*/Star* who has one each active personally sponsored Star in both the organisations and generates 250 GV from the lesser side organisation in the qualifying week.",
+      "selected": false,
+      "completed": true
+    },
+    {
+      "rankImage": "../assets/app-assets/images/portrait/small/avatar-s-14.png",
+      "title": "Star",
+      "description": "A distributor* who has one each active personally sponsored distributors in both the organisations in the qualifying week.",
+      "selected": false,
+      "completed": true
+    }
+  ],
+
+  "treeData": {
+    "title": "Root Node",
+    "id": 0,
+    "distributorID": "1000",
+    "name": "John Doe",
+    "achievedRank": "Royal Black Diamond",
+    "paidAsRank": "Ruby Executive",
+    "status": "Active",
+    "activationPV": "100",
+    "nextActivationWeek": "433",
+    "aggregateIncome": "2,39,837",
+    "expanded": true,
+    "selected": true,
+    "isRoot": true,
+    "hide": false,
+    "nodes": [
+      {
+        "title": "Child 1",
+        "id": 1,
+        "distributorID": "1001",
+        "name": "John Doe",
+        "achievedRank": "Royal Black Diamond",
+        "paidAsRank": "Ruby Executive",
+        "status": "Active",
+        "activationPV": "100",
+        "nextActivationWeek": "433",
+        "aggregateIncome": "2,39,837",
+        "expanded": true,
+        "selected": false,
+        "hide": false,
+        "nodes": [
+          {
+            "title": "Child 11",
+            "id": 11,
+            "distributorID": "11001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          },
+          {
+            "title": "Child 12",
+            "id": 12,
+            "distributorID": "12001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          }
+        ]
+      },
+      {
+        "title": "Child 2",
+        "id": 2,
+        "distributorID": "2001",
+        "name": "John Doe",
+        "achievedRank": "Royal Black Diamond",
+        "paidAsRank": "Ruby Executive",
+        "status": "Active",
+        "activationPV": "100",
+        "nextActivationWeek": "433",
+        "aggregateIncome": "2,39,837",
+        "expanded": true,
+        "selected": false,
+        "hide": false,
+        "nodes": [
+          {
+            "title": "Child 21",
+            "id": 21,
+            "distributorID": "21001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          },
+          {
+            "title": "Child 22",
+            "id": 22,
+            "distributorID": "22001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          }
+        ]
+      },
+      {
+        "title": "Child 3",
+        "id": 3,
+        "distributorID": "3001",
+        "name": "John Doe",
+        "achievedRank": "Royal Black Diamond",
+        "paidAsRank": "Ruby Executive",
+        "status": "Active",
+        "activationPV": "100",
+        "nextActivationWeek": "433",
+        "aggregateIncome": "2,39,837",
+        "expanded": true,
+        "selected": false,
+        "hide": false,
+        "nodes": [
+          {
+            "title": "Child 31",
+            "id": 31,
+            "distributorID": "31001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          },
+          {
+            "title": "Child 32",
+            "id": 32,
+            "distributorID": "32001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          },
+          {
+            "title": "Child 33",
+            "id": 33,
+            "distributorID": "33001",
+            "name": "John Doe",
+            "achievedRank": "Royal Black Diamond",
+            "paidAsRank": "Ruby Executive",
+            "status": "Active",
+            "activationPV": "100",
+            "nextActivationWeek": "433",
+            "aggregateIncome": "2,39,837",
+            "expanded": true,
+            "selected": false,
+            "hide": false,
+            "nodes": []
+          }
+        ]
+      }
+    ]
+  }
+}

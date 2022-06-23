@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import PageLayout from "../components/PageLayout";
 import WishCarousel from "../components/WishCarousel";
@@ -12,6 +12,11 @@ import WishSimpleCard from "../components/WishSimpleCard";
 import WishToaster from "../components/WishToaster";
 import Tree from "../components/WishTree/Tree";
 import TreeNode from "../components/WishTree/TreeNode";
+import { Timeline, TimelineItem } from "vertical-timeline-component-for-react";
+import WishRankTimeline from "../components/WishTimelines/WishRankTimeline";
+import "json-loader";
+import data from "../data/Data.json";
+
 //import { Tree, TreeNode } from "react-organizational-chart";
 
 function Header(props) {
@@ -127,7 +132,7 @@ export default function TestPage() {
     },
   ]);
 
-  useEffect(() => {
+  const showPopover = function () {
     $("#btnPopover").fu_popover({
       // show popover arrow
       arrowShow: true,
@@ -137,7 +142,7 @@ export default function TestPage() {
       autoHideDelay: 2500,
 
       // popover content
-      content: "This is popover content",
+      content: "<small>Some Content</small>",
 
       // delay times
       delay: { show: 0, hide: 0 },
@@ -152,13 +157,17 @@ export default function TestPage() {
       themeName: "default",
 
       // popover title
-      title: "This is popover title",
+      title: "<h3>Popover Title</h3>",
 
       // trigger event
       // click | hover | focus | manual
       trigger: "hover",
     });
-  });
+  };
+
+  const hidePopover = function () {
+    $("#btnPopover").fu_popover("hide");
+  };
 
   const onClicked = function (id) {
     const treeNodesCopy = Array.from(treeNodes);
@@ -226,7 +235,13 @@ export default function TestPage() {
         Show Toast
       </button>
 
-      <button type="button" className="btn btn-primary" id="btnPopover">
+      <button
+        type="button"
+        className="btn btn-primary"
+        id="btnPopover"
+        onMouseEnter={showPopover}
+        onMouseLeave={hidePopover}
+      >
         On Hover Trigger
       </button>
 
@@ -410,7 +425,134 @@ export default function TestPage() {
             ></WishGeneologyStatsCard>
           </WishCarousel>
         </div>
-        <div className="col-6"></div>
+        <div className="col-6">
+          <Timeline lineColor={"#ddd"}>
+            <TimelineItem
+              key="001"
+              dateText={
+                <img
+                  style={{ width: "30px" }}
+                  src="../assets/app-assets/images/gallery/2.jpg"
+                  alt="seom"
+                ></img>
+              }
+              style={{ color: "#e86971" }}
+            >
+              <h3>Title, Company</h3>
+              <h4>Subtitle</h4>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+            </TimelineItem>
+            <TimelineItem
+              key="002"
+              dateText="04/2009 – 11/2010"
+              dateInnerStyle={{ background: "#61b8ff", color: "#000" }}
+              bodyContainerStyle={{
+                background: "#ddd",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <h3 style={{ color: "#61b8ff" }}>Title, Company</h3>
+              <h4 style={{ color: "#61b8ff" }}>Subtitle</h4>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+            </TimelineItem>
+            <TimelineItem
+              key="003"
+              dateComponent={
+                <div className="text-right pr-2">
+                  <img
+                    style={{ width: "30px" }}
+                    src="../assets/app-assets/images/gallery/2.jpg"
+                    alt="seom"
+                  ></img>
+                </div>
+              }
+            >
+              <h3>Title, Company</h3>
+              <h4>Subtitle</h4>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+            </TimelineItem>
+            <TimelineItem
+              key="004"
+              dateText="08/2008 – 11/2008"
+              dateInnerStyle={{ background: "#76bb7f" }}
+            >
+              <h3>Title, Company</h3>
+              <h4>Subtitle</h4>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+              <p>
+                Est incididunt sint eu minim dolore mollit velit velit commodo
+                ex nulla exercitation. Veniam velit adipisicing anim excepteur
+                nostrud magna nostrud aliqua dolor. Sunt aute est duis ut nulla
+                officia irure reprehenderit laborum fugiat dolore in elit.
+                Adipisicing do qui duis Lorem est.
+              </p>
+            </TimelineItem>
+          </Timeline>
+        </div>
+        <div className="col-12">
+          <WishRankTimeline data={data.timelineData}></WishRankTimeline>
+        </div>
       </div>
     </PageLayout>
   );

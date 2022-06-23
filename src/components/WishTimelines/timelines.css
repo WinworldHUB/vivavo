@@ -1,0 +1,9 @@
+.rank-image {
+  max-height: 40px;
+  margin-top: -5px;
+}
+
+.rank-title {
+  padding-top: 3px;
+  padding-left: 0 !important;
+}

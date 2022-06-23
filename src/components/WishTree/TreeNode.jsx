@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
@@ -10,9 +11,13 @@ export default function TreeNode({
   className,
   onClick,
   onDoubleClick,
+  onMouseEnter,
+  onMouseLeave,
   selected,
   isRoot,
   id,
+  details,
+  hide,
 }) {
   const nodeID = id ?? uuidv4();
 
@@ -44,6 +49,7 @@ export default function TreeNode({
     text-align: center;
     list-style-type: none;
     position: relative;
+    line-height: 1.2 !important;
     padding: var(--tree-line-height) var(--tree-node-padding) 0
       var(--tree-node-padding);
   `;
@@ -93,6 +99,14 @@ export default function TreeNode({
     <li className={cx(node, nodeLines, className)}>
       <label
         id={nodeID}
+        onMouseEnter={() => {
+          onMouseEnter && onMouseEnter(nodeID);
+          //onClick && onClick(nodeID);
+        }}
+        onMouseLeave={() => {
+          onMouseLeave && onMouseLeave(nodeID);
+          //hideTooltip();
+        }}
         onClick={(e) => {
           e.stopPropagation();
           onClick && onClick(nodeID);
@@ -103,8 +117,9 @@ export default function TreeNode({
         }}
         className={
           "hand-cursor " +
-          (selected && selected === true ? " selected " : " treenode ") +
-          (isRoot && " rootNode ")
+          (selected && selected === true ? " selected shadow " : " treenode ") +
+          (isRoot && " rootNode ") +
+          (hide && " hidden ")
         }
       >
         {label}

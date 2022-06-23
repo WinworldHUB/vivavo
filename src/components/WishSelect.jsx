@@ -24,7 +24,7 @@ export default function WishSelect({ label, data, onSelect }) {
         >
           {data &&
             data.map((item, index) => {
-              return <option value={index}>{item}</option>;
+              return <option value={index} key={index}>{item}</option>;
             })}
         </select>
       </div>

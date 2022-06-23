@@ -28,6 +28,7 @@ export default function WishGeneologyStatsCard({
               statsCurrentWeek.map((currentWeekStats, index) => {
                 return (
                   <div
+                    key={index}
                     className={
                       "text-center " +
                       (currentWeekItemCount() > 1 ? "col-6" : "col-12")
@@ -46,6 +47,7 @@ export default function WishGeneologyStatsCard({
               statsPreviousWeek.map((previousWeekStats, index) => {
                 return (
                   <div
+                    key={index}
                     className={
                       "text-center " +
                       (previousWeekItemCount() > 1 ? "col-6" : "col-12")
