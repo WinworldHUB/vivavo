@@ -184,7 +184,7 @@ export default function MyGeneology() {
                 setIsRotated(!isRotated);
               }}
             >
-              <i className="las la-sync"></i>
+              <i className="las la-random"></i>
             </button>
             <div className="btn-group">
               <button
@@ -195,7 +195,7 @@ export default function MyGeneology() {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i className="las la-sitemap"></i>
+                <i className="las la-arrow-down"></i>
               </button>
               <div
                 className="dropdown-menu"
@@ -225,27 +225,6 @@ export default function MyGeneology() {
               </div>
             </div>
           </div>
-          {/* <a
-            className=""
-            onClick={() => {
-              doFlip(!flip);
-            }}
-          >
-            {flip === true ? (
-              <i className="las la-chart-bar"></i>
-            ) : (
-              <i className="las la-eye"></i>
-            )}
-          </a>
-          &nbsp;
-          <a
-            className=""
-            onClick={() => {
-              setIsRotated(!isRotated);
-            }}
-          >
-            <i className="las la-sync"></i>
-          </a> */}
         </div>
       </div>
     );

@@ -161,7 +161,7 @@ export default function WishGeneologyTree({
               className="ml-auto onhover-dotted-link"
               onClick={() => {
                 setIsRootNode(node.isRoot && node.isRoot);
-                //$("#dlgEnrollUser").modal("show");
+                $("#dlgDistributorStats").modal("show");
               }}
             >
               <small>
@@ -170,6 +170,39 @@ export default function WishGeneologyTree({
             </a>
           </div>
         </div>
+      </div>
+    );
+  };
+
+  const renderStatsDialogContent = function () {
+    const ranks = data.timelineData;
+    return (
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th style={{ minWidth: "50%" }}></th>
+              <th>Left Organization</th>
+              <th>Right Organization</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ranks &&
+              ranks.map((rank, index) => {
+                return (
+                  <tr>
+                    <td>{rank.title}</td>
+                    <td className="text-center">
+                      {rank.completed && Math.round(Math.random() * 10)}
+                    </td>
+                    <td className="text-center">
+                      {rank.completed && Math.round(Math.random() * 10)}
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
     );
   };
@@ -308,6 +341,16 @@ export default function WishGeneologyTree({
             </div>
           </div>
         </div>
+      </WishModal>
+      <WishModal
+        id="dlgDistributorStats"
+        title={
+          isRootNode ? "Your Statistics" : selectedNode.title + " Statistics"
+        }
+        noFooter
+        modalSize="modal-lg"
+      >
+        {renderStatsDialogContent()}
       </WishModal>
     </>
   );
