@@ -658,3 +658,71 @@ button {
   border: 0;
   background-color: transparent;
 }
+
+/* Chart.css related */
+#line-example-1 {
+  height: 50px;
+  width: 100%;
+  margin-top: -34px !important;
+}
+
+.charts-css.primary td::before {
+  background: var(--primary) !important;
+}
+
+.charts-css.success td::before {
+  background: var(--success) !important;
+}
+
+.charts-css.info td::before {
+  background: var(--info) !important;
+}
+
+.charts-css.warning td::before {
+  background: var(--warning) !important;
+}
+
+.charts-css.danger td::before {
+  background: var(--danger) !important;
+}
+
+.charts-css.line.lw-1 {
+  --line-size: 1px !important;
+}
+
+.charts-css.line.lw-2 {
+  --line-size: 2px !important;
+}
+
+.charts-css.line.lw-3 {
+  --line-size: 3px !important;
+}
+
+.charts-css.line.lw-4 {
+  --line-size: 4px !important;
+}
+
+.charts-css.line.lw-5 {
+  --line-size: 5px !important;
+}
+
+.wish-chart-4 {
+  --start: 0;
+  --size: 0.4;
+}
+
+.wish-chart-1 {
+  --start: 0;
+  --size: 0.1;
+}
+
+.wish-chart-2 {
+  --start: 0;
+  --size: 0.2;
+}
+
+.stats-number {
+  font-size: 1.2em;
+  font-weight: 600;
+  font-family: "roboto";
+}

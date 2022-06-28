@@ -51,7 +51,9 @@ export default function WishCarousel({
         <a
           className={
             "card-link link-dotted mr-auto d-flex align-items-center " +
-            (currentPage === 0 ? " hidden " : " ")
+            (currentPage === 0
+              ? " hidden "
+              : " ")
           }
           onClick={(e) => {
             e.stopPropagation();

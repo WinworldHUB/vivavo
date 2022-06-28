@@ -293,5 +293,36 @@
         ]
       }
     ]
-  }
+  },
+
+  "MyGenealogyStatsTabPages": [
+    {
+      "title": "First Organization",
+      "tabs": [
+        { "title": "Current Week", "content": "<p>This is test content</p>" },
+        { "title": "Previous Week", "content": "<p>This is test content</p>" }
+      ]
+    },
+    {
+      "title": "Second Organization",
+      "tabs": [
+        { "title": "Current Week", "content": "<p>This is test content</p>" },
+        { "title": "Previous Week", "content": "<p>This is test content</p>" }
+      ]
+    }
+  ],
+
+  "MyGenealogyRGVGraph": [
+    { "start": "0", "size": "0.2" },
+    { "start": "0.2", "size": "0.1" },
+    { "start": "0.1", "size": "0.3" },
+    { "start": "0.3", "size": "0.4" }
+  ],
+
+  "MyGenealogyLGVGraph": [
+    { "start": "0", "size": "0.2" },
+    { "start": "0.2", "size": "0.1" },
+    { "start": "0.1", "size": "0.6" },
+    { "start": "0.6", "size": "0.2" }
+  ]
 }

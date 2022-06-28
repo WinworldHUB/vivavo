@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import PageLayout from "../components/PageLayout";
 import WishCarousel from "../components/WishCarousel";
-import WishGeneologyStatsCard from "../components/WishGeneologyStatsCard";
 import WishGeneologyTree from "../components/WishGeneologyTree";
 import WishSimpleCard from "../components/WishSimpleCard";
 
@@ -12,8 +11,14 @@ import "json-loader";
 import data from "../data/Data.json";
 import WishFlipCard from "../components/WishFlipCard";
 import WishToaster from "../components/WishToaster";
+import "charts.css";
 
 export default function MyGeneology() {
+  const breadcrumbs = [];
+
+  breadcrumbs.push({ title: "Home", linkTo: "/" });
+  breadcrumbs.push({ title: "My Genealogy", linkTo: "/" });
+
   const [flip, doFlip] = useState(false);
   const [isRotated, setIsRotated] = useState(true);
   const [filterApplied, applyFilter] = useState(false);
@@ -36,6 +41,54 @@ export default function MyGeneology() {
     { key: "Total LGV", value: 550 },
     { key: "Total RGV", value: 500 },
   ];
+
+  const renderRGVGraph = function ({ color }) {
+    return (
+      <table
+        id="line-example-1"
+        class={"charts-css line hide-data lw-2 " + (color ?? "")}
+      >
+        <tbody>
+          {data.MyGenealogyRGVGraph.map((rgv, index) => {
+            return (
+              <tr>
+                <td
+                  style={{
+                    "--start": rgv.start,
+                    "--size": rgv.size,
+                  }}
+                ></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
+
+  const renderLGVGraph = function ({ color }) {
+    return (
+      <table
+        id="line-example-1"
+        class={"charts-css line hide-data lw-2 " + (color ?? "")}
+      >
+        <tbody>
+          {data.MyGenealogyLGVGraph.map((rgv, index) => {
+            return (
+              <tr>
+                <td
+                  style={{
+                    "--start": rgv.start,
+                    "--size": rgv.size,
+                  }}
+                ></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
 
   const currentWeekStats3 = [{ key: "GV", value: 400 }];
   const previousWeekStats3 = [{ key: "GV", value: 400 }];
@@ -231,7 +284,12 @@ export default function MyGeneology() {
   };
 
   return (
-    <PageLayout pageTitle="My Geneology" activeSideMenu="4">
+    <PageLayout
+      pageTitle="My Genealogy"
+      header="My Genealogy"
+      activeSideMenu="4"
+      breadcrumbs={breadcrumbs}
+    >
       <div className="row">
         <div className="col-8 table-responsive">
           <WishGeneologyTree
@@ -255,24 +313,70 @@ export default function MyGeneology() {
               ),
               front: (
                 <WishCarousel showArrows>
-                  <WishGeneologyStatsCard
-                    renderWithoutCard
-                    title="First Organization"
-                    statsCurrentWeek={currentWeekStats}
-                    statsPreviousWeek={previousWeekStats}
-                  ></WishGeneologyStatsCard>
-                  <WishGeneologyStatsCard
-                    renderWithoutCard
-                    title="Second Organization"
-                    statsCurrentWeek={currentWeekStats}
-                    statsPreviousWeek={previousWeekStats}
-                  ></WishGeneologyStatsCard>
-                  <WishGeneologyStatsCard
-                    renderWithoutCard
-                    title="Third Organization"
-                    statsCurrentWeek={currentWeekStats3}
-                    statsPreviousWeek={previousWeekStats3}
-                  ></WishGeneologyStatsCard>
+                  <div className="row d-flex align-items-center">
+                    <div className="col-12 pb-1">
+                      <h4>
+                        <code>Performance Analysis</code>
+                      </h4>
+                    </div>
+                    <div className="col-4">RGV</div>
+                    <div className="col-4">
+                      {renderRGVGraph({ color: "success" })}
+                    </div>
+                    <div className="col-4 text-right">
+                      <h5>
+                        <i className="las la-arrow-up text-success"></i>{" "}
+                        <span className="stats-number">500</span>
+                      </h5>
+                      <small className="text-success">(+ 10%)</small>
+                    </div>
+                    <div className="col-12 pt-1 pb-1">
+                      <hr />
+                    </div>
+                    <div className="col-4">LGV</div>
+                    <div className="col-4">
+                      {renderLGVGraph({ color: "danger" })}
+                    </div>
+                    <div className="col-4 text-right">
+                      <h5>
+                        <i className="las la-arrow-down text-danger"></i>{" "}
+                        <span className="stats-number">300</span>
+                      </h5>
+                      <small className="text-danger">(+ 5%)</small>
+                    </div>
+                    <div className="col-12 pt-1 pb-1">
+                      <hr />
+                    </div>
+                    <div className="col-4">CFL</div>
+                    <div className="col-4">
+                      {renderRGVGraph({ color: "success" })}
+                    </div>
+                    <div className="col-4 text-right">
+                      <h5>
+                        <i className="las la-arrow-up text-success"></i>{" "}
+                        <span className="stats-number">400</span>
+                      </h5>
+                      <small className="text-success">(+ 10%)</small>
+                    </div>
+                    <div className="col-12 pt-1 pb-1">
+                      <hr />
+                    </div>
+                    <div className="col-4">CFR</div>
+                    <div className="col-4">
+                      {renderLGVGraph({ color: "danger" })}
+                    </div>
+                    <div className="col-4 text-right">
+                      <h5>
+                        <i className="las la-arrow-down text-danger"></i>{" "}
+                        <span className="stats-number">250</span>
+                      </h5>
+                      <small className="text-danger">(+ 5%)</small>
+                    </div>
+                  </div>
+                  <h2>Some</h2>
+                  <h2>Some1</h2>
+                  <h2>Some2</h2>
+                  <h2>Some3</h2>
                 </WishCarousel>
               ),
             }}
