@@ -13,33 +13,41 @@ import WishFlipCard from "../components/WishFlipCard";
 import WishToaster from "../components/WishToaster";
 import "charts.css";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
 export default function MyGeneology() {
   const breadcrumbs = [];
 
   breadcrumbs.push({ title: "Home", linkTo: "/" });
   breadcrumbs.push({ title: "My Genealogy", linkTo: "/" });
 
-  const [flip, doFlip] = useState(false);
   const [isRotated, setIsRotated] = useState(true);
   const [filterApplied, applyFilter] = useState(false);
 
   const [filterText, setFilterText] = useState("");
 
-  const currentWeekStats = [
-    { key: "LGV", value: 500 },
-    { key: "RGV", value: 300 },
-    { key: "CFL", value: 50 },
-    { key: "CFR", value: 0 },
-    { key: "Total LGV", value: 550 },
-    { key: "Total RGV", value: 500 },
-  ];
-  const previousWeekStats = [
-    { key: "LGV", value: 500 },
-    { key: "RGV", value: 300 },
-    { key: "CFL", value: 50 },
-    { key: "CFR", value: 0 },
-    { key: "Total LGV", value: 550 },
-    { key: "Total RGV", value: 500 },
+  const topStats = [
+    { title: "LGV", value: "500 | 350", percentage: "10%", color: "success" },
+    { title: "RGV", value: "350 | 500", percentage: "10%", color: "danger" },
+    { title: "CFL", value: "500 | 350", percentage: "10%", color: "success" },
+    { title: "CFR", value: "350 | 500", percentage: "10%", color: "danger" },
+    {
+      title: "Total LGV",
+      value: "500 | 350",
+      percentage: "10%",
+      color: "success",
+    },
+    {
+      title: "Total RGV",
+      value: "350 | 500",
+      percentage: "10%",
+      color: "danger",
+    },
   ];
 
   const renderRGVGraph = function ({ color }) {
@@ -90,31 +98,12 @@ export default function MyGeneology() {
     );
   };
 
-  const currentWeekStats3 = [{ key: "GV", value: 400 }];
-  const previousWeekStats3 = [{ key: "GV", value: 400 }];
   const [treeNodes, setTreeNodes] = useState(data.treeData);
 
   const [selectedNode, setSelectedNode] = useState(treeNodes);
 
-  const nodeDetails = function (nodeID) {
-    return (
-      <>
-        {selectedNode && (
-          <>
-            <p>Distributur ID: {selectedNode.distributorID}</p>
-            <p>Name: {selectedNode.name}</p>
-            <p>Acheived Rank: {selectedNode.achievedRank}</p>
-            <p>Paid as Rank: {selectedNode.paidAsRank}</p>
-            <p>Activation PV: {selectedNode.activationPV}</p>
-            <p>Next activation week: {selectedNode.nextActivationWeek}</p>
-            <p>Aggregate Income: {selectedNode.aggregateIncome}</p>
-          </>
-        )}
-      </>
-    );
-  };
-
   const showAll = function () {
+    applyFilter(false);
     setSelectedNode(data.treeData);
     setTreeNodes(data.treeData);
   };
@@ -123,7 +112,7 @@ export default function MyGeneology() {
     var found = null;
     var treeNodesCopy = data.treeData;
 
-    console.log(filter);
+    //console.log(filter);
 
     if (treeNodesCopy.nodes !== undefined) {
       treeNodesCopy.nodes.forEach(function (treenode, index) {
@@ -164,123 +153,13 @@ export default function MyGeneology() {
     }
   };
 
-  const filterTree = function () {
-    if (filterText === "") {
+  const filterTree = function (filter) {
+    setFilterText(filter);
+    if (filter === "") {
       showAll();
     } else {
-      searchDistributor(filterText);
+      searchDistributor(filter);
     }
-  };
-
-  const treeHeader = function () {
-    return (
-      <div className="form-row">
-        <div className="col">
-          <div className="form-group">
-            <div className="input-group">
-              <div
-                className={
-                  "input-group-append " + (filterText === "" ? " hidden " : "")
-                }
-              >
-                <button
-                  className="btn btn-warning"
-                  onClick={() => {
-                    setFilterText("");
-                    showAll();
-                  }}
-                >
-                  <i className="las la-arrow-left"></i>
-                </button>
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search distributor id ..."
-                value={filterText}
-                onChange={(e) => {
-                  setFilterText(e.target.value);
-                }}
-              />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    filterTree();
-                  }}
-                >
-                  Go
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-auto">
-          <div className="btn-group" role="group" aria-label="Basic example">
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => {
-                doFlip(!flip);
-              }}
-            >
-              {flip === true ? (
-                <i className="las la-chart-bar"></i>
-              ) : (
-                <i className="las la-eye"></i>
-              )}
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => {
-                setIsRotated(!isRotated);
-              }}
-            >
-              <i className="las la-random"></i>
-            </button>
-            <div className="btn-group">
-              <button
-                className="btn btn-danger"
-                type="button"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i className="las la-arrow-down"></i>
-              </button>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="dropdownMenuButton"
-                x-placement="bottom-start"
-                style={{
-                  position: "absolute",
-                  transform: "translate3d(0px, 41px, 0px)",
-                  top: "0px",
-                  left: "0px",
-                  willChange: "transform",
-                }}
-              >
-                <a className="dropdown-item">To Extreme Left</a>
-                <a className="dropdown-item">To Extreme Right</a>
-                <a className="dropdown-item">To Preferred Extreme Left</a>
-                <a className="dropdown-item">To Preferred Extreme Right</a>
-                <a
-                  className="dropdown-item"
-                  onClick={() => {
-                    setFilterText("");
-                    showAll();
-                  }}
-                >
-                  To Top
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -291,96 +170,89 @@ export default function MyGeneology() {
       breadcrumbs={breadcrumbs}
     >
       <div className="row">
-        <div className="col-8 table-responsive">
+        <div className="col-12">
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={10}
+            grabCursor={true}
+            rewind={true}
+            navigation={true}
+            modules={[Navigation]}
+            className="pt-1"
+            breakpoints={{
+              0: {
+                slidesPerView: 1,
+                spaceBetween: 5,
+              },
+              550: {
+                slidesPerView: 2,
+                spaceBetween: 5,
+              },
+              760: {
+                slidesPerView: 4,
+                spaceBetween: 10,
+              },
+            }}
+          >
+            {topStats.map((stats, index) => {
+              return (
+                <SwiperSlide key={index}>
+                  <WishSimpleCard background="shadow-sm">
+                    <div className="d-flex align-items-center">
+                      <div className="">
+                        <small className="d-block">{stats.title}</small>
+                        <small>
+                          <span
+                            className={"float-left text-" + stats.color}
+                            style={{ fontSize: "8px" }}
+                          >
+                            ({stats.percentage})
+                          </span>
+                        </small>
+                      </div>
+                      <div className="col">
+                        {stats.color === "success"
+                          ? renderLGVGraph({ color: stats.color })
+                          : renderRGVGraph({ color: stats.color })}
+                      </div>
+                      <div className="text-right">
+                        <small className="text-success d-block">
+                          <span className="font-weight-bold text-muted">
+                            {stats.value}
+                          </span>
+                        </small>
+                        <small className="text-success d-block text-center">
+                          <span
+                            className="font-weight-bold text-muted"
+                            style={{ fontSize: "8px" }}
+                          >
+                            CW &nbsp;&nbsp; &nbsp;&nbsp; PW
+                          </span>
+                        </small>
+                      </div>
+                    </div>
+                  </WishSimpleCard>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+        <div className="col-12" style={{ marginTop: "-20px" }}>
           <WishGeneologyTree
-            header={treeHeader()}
+            //header={treeHeader()}
             reverse={isRotated}
             tree={treeNodes}
+            showBackButton={filterApplied}
             onNodeSelected={(node) => {
               setSelectedNode(node);
             }}
-          ></WishGeneologyTree>
-        </div>
-        <div className="col-sm-4">
-          <WishFlipCard cardFlip={flip}>
-            {{
-              back: (
-                <WishSimpleCard
-                  background="bg-primary bg-lighten-4"
-                  header={<h5>DISTRIBUTOR DETAILS</h5>}
-                  body={nodeDetails()}
-                ></WishSimpleCard>
-              ),
-              front: (
-                <WishCarousel showArrows>
-                  <div className="row d-flex align-items-center">
-                    <div className="col-12 pb-1">
-                      <h4>
-                        <code>Performance Analysis</code>
-                      </h4>
-                    </div>
-                    <div className="col-4">RGV</div>
-                    <div className="col-4">
-                      {renderRGVGraph({ color: "success" })}
-                    </div>
-                    <div className="col-4 text-right">
-                      <h5>
-                        <i className="las la-arrow-up text-success"></i>{" "}
-                        <span className="stats-number">500</span>
-                      </h5>
-                      <small className="text-success">(+ 10%)</small>
-                    </div>
-                    <div className="col-12 pt-1 pb-1">
-                      <hr />
-                    </div>
-                    <div className="col-4">LGV</div>
-                    <div className="col-4">
-                      {renderLGVGraph({ color: "danger" })}
-                    </div>
-                    <div className="col-4 text-right">
-                      <h5>
-                        <i className="las la-arrow-down text-danger"></i>{" "}
-                        <span className="stats-number">300</span>
-                      </h5>
-                      <small className="text-danger">(+ 5%)</small>
-                    </div>
-                    <div className="col-12 pt-1 pb-1">
-                      <hr />
-                    </div>
-                    <div className="col-4">CFL</div>
-                    <div className="col-4">
-                      {renderRGVGraph({ color: "success" })}
-                    </div>
-                    <div className="col-4 text-right">
-                      <h5>
-                        <i className="las la-arrow-up text-success"></i>{" "}
-                        <span className="stats-number">400</span>
-                      </h5>
-                      <small className="text-success">(+ 10%)</small>
-                    </div>
-                    <div className="col-12 pt-1 pb-1">
-                      <hr />
-                    </div>
-                    <div className="col-4">CFR</div>
-                    <div className="col-4">
-                      {renderLGVGraph({ color: "danger" })}
-                    </div>
-                    <div className="col-4 text-right">
-                      <h5>
-                        <i className="las la-arrow-down text-danger"></i>{" "}
-                        <span className="stats-number">250</span>
-                      </h5>
-                      <small className="text-danger">(+ 5%)</small>
-                    </div>
-                  </div>
-                  <h2>Some</h2>
-                  <h2>Some1</h2>
-                  <h2>Some2</h2>
-                  <h2>Some3</h2>
-                </WishCarousel>
-              ),
+            onFilterRequested={(filterString) => {
+              filterTree(filterString);
             }}
-          </WishFlipCard>
+            onResetRequested={() => {
+              showAll();
+            }}
+          ></WishGeneologyTree>
         </div>
       </div>
     </PageLayout>

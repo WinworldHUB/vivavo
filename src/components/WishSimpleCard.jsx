@@ -8,6 +8,7 @@ export default function WishSimpleCard({
   footer,
   className,
   onClick,
+  children,
 }) {
   const hasBackground = () => {
     return background !== undefined ? true : false;
@@ -52,11 +53,9 @@ export default function WishSimpleCard({
           {header}
         </div>
       )}
-      {body && (
-        <div className={"card-body " + (hasTextColor() && textColor)}>
-          {body}
-        </div>
-      )}
+      <div className={"card-body " + (hasTextColor() && textColor)}>
+        {body ?? children}
+      </div>
       {footer && (
         <div className="card-footer border-top-lighten-5 d-flex">{footer}</div>
       )}

@@ -17,17 +17,20 @@ import { useEffect } from "react";
 
 export default function WishGeneologyTree({
   tree,
-  reverse,
+  //reverse,
   header,
   footer,
   onNodeSelected,
   onOrganizationSelected,
   organizations,
   hideExitingEnrollments,
+  onFilterRequested,
+  onResetRequested,
+  showBackButton,
 }) {
-  const [isRotated, setIsRotated] = useState(
-    reverse !== undefined ? reverse : false
-  );
+  // const [isRotated, setIsRotated] = useState(
+  //   reverse !== undefined ? reverse : false
+  // );
 
   const [isRootNode, setIsRootNode] = useState(true);
   const [selectedNode, setSelectedNode] = useState(tree);
@@ -35,10 +38,10 @@ export default function WishGeneologyTree({
   const [treeNodes, setTreeNodes] = useState(tree.nodes);
 
   useEffect(() => {
-    setIsRotated(reverse);
+    //setIsRotated(reverse);
     setSelectedNode(tree);
     setTreeNodes(tree.nodes);
-  }, [reverse, tree]);
+  }, [tree]);
 
   const existingEnrollments = [
     "New Enrollment",
@@ -108,7 +111,11 @@ export default function WishGeneologyTree({
     getDistributor(id, true);
   };
 
-  const renderTreeNode = function (node) {
+  const renderTreeNode = function ({
+    node,
+    isThisRootNode = false,
+    isSelectedNode = false,
+  }) {
     return (
       <div className="apply-transition">
         <a className="media border-0 d-flex align-items-center">
@@ -133,12 +140,12 @@ export default function WishGeneologyTree({
             </p>
           </div>
         </a>
-        <div className={"pt-1 " + (node.selected === true ? " " : " hidden ")}>
+        <div className={"pt-1 " + (isSelectedNode === true ? " " : " hidden ")}>
           <div className="d-flex">
             <a
               className="mr-auto onhover-dotted-link"
               onClick={() => {
-                setIsRootNode(node.isRoot && node.isRoot);
+                setIsRootNode(isThisRootNode);
                 $("#dlgEnrollUser").modal("show");
               }}
             >
@@ -149,7 +156,7 @@ export default function WishGeneologyTree({
             <a
               className="ml-auto mr-auto onhover-dotted-link"
               onClick={() => {
-                setIsRootNode(node.isRoot && node.isRoot);
+                setIsRootNode(isThisRootNode);
                 $("#dlgUserRank").modal("show");
               }}
             >
@@ -158,14 +165,40 @@ export default function WishGeneologyTree({
               </small>
             </a>
             <a
-              className="ml-auto onhover-dotted-link"
+              className={
+                "ml-auto onhover-dotted-link" +
+                (isThisRootNode === false
+                  ? isSelectedNode === false
+                    ? " "
+                    : " mr-auto"
+                  : " ")
+              }
               onClick={() => {
-                setIsRootNode(node.isRoot && node.isRoot);
+                setIsRootNode(isThisRootNode);
                 $("#dlgDistributorStats").modal("show");
               }}
             >
               <small>
                 <i className="las la-chart-bar"></i>
+              </small>
+            </a>
+            <a
+              className={
+                "ml-auto onhover-dotted-link " +
+                (isThisRootNode === true ? " hidden " : "")
+              }
+              onClick={() => {
+                //setIsRootNode(node.isRoot && node.isRoot);
+                //$("#dlgDistributorStats").modal("show");
+
+                if (isThisRootNode !== true) {
+                  console.log(node.distributorID);
+                  onFilterRequested(node.distributorID);
+                }
+              }}
+            >
+              <small>
+                <i className="las la-check"></i>
               </small>
             </a>
           </div>
@@ -210,47 +243,71 @@ export default function WishGeneologyTree({
   return (
     <>
       <WishSimpleCard
-        header={header ?? null}
+        //header={header ?? null}
         body={
-          <div style={{ maxWidth: "100%", overflowX: "scroll" }}>
-            <div
-              className={
-                isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
-              }
-              style={{ width: "max-content" }}
-            >
-              <Tree label={renderTreeNode(tree)} lineWidth={"2px"}>
-                {treeNodes.map((treenode, index) => {
-                  return (
-                    <TreeNode
-                      label={renderTreeNode(treenode)}
-                      id={treenode.id}
-                      key={index}
-                      selected={treenode.selected}
-                      onClick={onClicked}
-                      details={treenode}
-                      hide={treenode.hide}
-                    >
-                      {treenode.nodes &&
-                        treenode.nodes.map((node, nIndex) => {
-                          return (
-                            <TreeNode
-                              label={renderTreeNode(node)}
-                              id={node.id}
-                              key={nIndex}
-                              selected={node.selected}
-                              onClick={onClicked}
-                              details={node}
-                              hide={node.hide}
-                            ></TreeNode>
-                          );
+          <>
+            {header ?? null}
+            <div style={{ maxWidth: "100%", overflowX: "scroll" }}>
+              <div
+                // className={
+                //   isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
+                // }
+                style={{ width: "max-content" }}
+              >
+                <Tree
+                  //reverse={reverse}
+                  displayBackButton={showBackButton}
+                  label={renderTreeNode({
+                    node: tree,
+                    isThisRootNode: true,
+                    isSelectedNode: true,
+                  })}
+                  lineWidth={"2px"}
+                  onSearchClick={(filterText) => {
+                    onFilterRequested && onFilterRequested(filterText);
+                  }}
+                  onBackButtonClick={() => {
+                    onResetRequested && onResetRequested();
+                  }}
+                >
+                  {treeNodes.map((treenode, index) => {
+                    return (
+                      <TreeNode
+                        label={renderTreeNode({
+                          node: treenode,
+                          isSelectedNode: treenode.selected,
                         })}
-                    </TreeNode>
-                  );
-                })}
-              </Tree>
+                        id={treenode.id}
+                        key={index}
+                        selected={treenode.selected}
+                        onClick={onClicked}
+                        details={treenode}
+                        hide={treenode.hide}
+                      >
+                        {treenode.nodes &&
+                          treenode.nodes.map((node, nIndex) => {
+                            return (
+                              <TreeNode
+                                label={renderTreeNode({
+                                  node: node,
+                                  isSelectedNode: node.selected,
+                                })}
+                                id={node.id}
+                                key={nIndex}
+                                selected={node.selected}
+                                onClick={onClicked}
+                                details={node}
+                                hide={node.hide}
+                              ></TreeNode>
+                            );
+                          })}
+                      </TreeNode>
+                    );
+                  })}
+                </Tree>
+              </div>
             </div>
-          </div>
+          </>
         }
         footer={footer ?? null}
       ></WishSimpleCard>

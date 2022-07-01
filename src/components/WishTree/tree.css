@@ -16,6 +16,8 @@
   font-size: 1.2em;
   padding: 5px;
   border-radius: 5px;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
 }
 
 .treenode {
@@ -23,4 +25,6 @@
   font-size: 1.2em;
   padding: 5px;
   border-radius: 5px;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
 }

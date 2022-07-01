@@ -726,3 +726,33 @@ button {
   font-weight: 600;
   font-family: "roboto";
 }
+
+.wish-float-button {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  left: 40px;
+  background-color: #0c9;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  display: inline-block;
+}
+
+.swiper {
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  position: static !important;
+}
+
+.swiper-button-prev {
+  left: 0 !important;
+  margin-top: calc(-5px - (var(--swiper-navigation-size) / 2)) !important;
+}
+
+.swiper-button-next {
+  right: 0 !important;
+  margin-top: calc(-5px - (var(--swiper-navigation-size) / 2)) !important;
+}
