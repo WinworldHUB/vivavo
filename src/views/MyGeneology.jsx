@@ -264,7 +264,7 @@ export default function MyGeneology() {
             slidesPerView={4}
             spaceBetween={10}
             grabCursor={true}
-            rewind={true}
+            rewind={false}
             navigation={true}
             modules={[Navigation]}
             className="pt-1"
@@ -314,7 +314,7 @@ export default function MyGeneology() {
                         </label>
                       </div>
                     </div>
-                    <div className="bg-primary bg-lighten-4 d-flex justify-content-between pl-1 pr-1">
+                    {/* <div className="bg-primary bg-lighten-4 d-flex justify-content-between pl-1 pr-1">
                       {stats.prevValues &&
                         stats.prevValues.map((prev, vIndex) => {
                           return <small>{prev.key}</small>;
@@ -325,7 +325,7 @@ export default function MyGeneology() {
                         stats.prevValues.map((prev, vIndex) => {
                           return <small>{prev.value}</small>;
                         })}
-                    </div>
+                    </div> */}
                   </WishSimpleCard>
                 </SwiperSlide>
               );
