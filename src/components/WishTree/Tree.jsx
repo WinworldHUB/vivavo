@@ -59,7 +59,7 @@ export default function Tree({
   ];
 
   return (
-    <div className="table-responsive">
+    <div className="table-responsive text-center">
       <ul
         className={
           css`
@@ -67,6 +67,8 @@ export default function Tree({
             margin: 0;
             display: flex;
             padding: 10px 0;
+            text-align: center;
+            align-items: center;
 
             --line-height: ${lineHeight};
             --line-width: ${lineWidth};
@@ -79,7 +81,7 @@ export default function Tree({
             --tree-line-color: var(--line-color, black);
             --tree-line-border-radius: var(--line-border-radius, 5px);
             --tree-node-padding: var(--node-padding, 5px);
-          ` + (flip === false ? " wish-rotate-0 " : " wish-rotate-180 ")
+          ` + (reverse === false ? " wish-rotate-0 " : " wish-rotate-180 ")
         }
       >
         <TreeNode label={label} isRoot>
@@ -87,7 +89,7 @@ export default function Tree({
         </TreeNode>
       </ul>
 
-      <Fab
+      {/* <Fab
         alwaysShowTitle={false}
         mainButtonStyles={{ backgroundColor: "var(--primary)" }}
         icon={<i className="las la-plus"></i>}
@@ -118,7 +120,7 @@ export default function Tree({
             );
           }
         })}
-      </Fab>
+      </Fab> */}
 
       <WishModal
         id="dlgSearch"

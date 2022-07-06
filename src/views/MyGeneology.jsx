@@ -1,15 +1,14 @@
+/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
 import PageLayout from "../components/PageLayout";
-import WishCarousel from "../components/WishCarousel";
 import WishGeneologyTree from "../components/WishGeneologyTree";
 import WishSimpleCard from "../components/WishSimpleCard";
 
 import "json-loader";
 import data from "../data/Data.json";
-import WishFlipCard from "../components/WishFlipCard";
 import WishToaster from "../components/WishToaster";
 import "charts.css";
 
@@ -19,6 +18,7 @@ import { Navigation } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import WishModal from "../components/WishModal";
 
 export default function MyGeneology() {
   const breadcrumbs = [];
@@ -32,21 +32,77 @@ export default function MyGeneology() {
   const [filterText, setFilterText] = useState("");
 
   const topStats = [
-    { title: "LGV", value: "500 | 350", percentage: "10%", color: "success" },
-    { title: "RGV", value: "350 | 500", percentage: "10%", color: "danger" },
-    { title: "CFL", value: "500 | 350", percentage: "10%", color: "success" },
-    { title: "CFR", value: "350 | 500", percentage: "10%", color: "danger" },
     {
-      title: "Total LGV",
-      value: "500 | 350",
+      title: "LGV",
+      value: "500",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
       percentage: "10%",
       color: "success",
+      organization: "Left Organization",
     },
     {
-      title: "Total RGV",
-      value: "350 | 500",
+      title: "RGV",
+      value: "350",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
       percentage: "10%",
       color: "danger",
+      organization: "Right Organization",
+    },
+    {
+      title: "GV",
+      value: "500",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
+      percentage: "10%",
+      color: "success",
+      organization: "Third Organization",
+    },
+    {
+      title: "GV",
+      value: "350",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
+      percentage: "10%",
+      color: "danger",
+      organization: "Fourth Organization",
+    },
+    {
+      title: "LGV",
+      value: "500",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
+      percentage: "10%",
+      color: "success",
+      organization: "Total",
+    },
+    {
+      title: "RGV",
+      value: "350",
+      prevValues: [
+        { key: "Wk 214", value: "350" },
+        { key: "Wk 215", value: "450" },
+        { key: "Wk 216", value: "550" },
+      ],
+      percentage: "10%",
+      color: "danger",
+      organization: "Total",
     },
   ];
 
@@ -162,6 +218,39 @@ export default function MyGeneology() {
     }
   };
 
+  const treeTopIcons = function () {
+    return (
+      <div className="row pl-2 pr-2">
+        <a
+          className={"d-flex align-items-center text-primary "}
+          onClick={() => {
+            filterTree("");
+          }}
+        >
+          <i className="las la-angle-left"></i>&nbsp;Go Back
+        </a>
+        &nbsp;&nbsp;
+        <a
+          className="d-flex align-items-center ml-auto"
+          onClick={() => {
+            $("#dlgSearch").modal("show");
+          }}
+        >
+          <i className="las la-search"></i>&nbsp;Search
+        </a>
+        &nbsp;&nbsp;
+        <a
+          className="d-flex align-items-center"
+          onClick={() => {
+            setIsRotated(!isRotated);
+          }}
+        >
+          <i className="las la-sync"></i>&nbsp;Rotate
+        </a>
+      </div>
+    );
+  };
+
   return (
     <PageLayout
       pageTitle="My Genealogy"
@@ -197,17 +286,19 @@ export default function MyGeneology() {
             {topStats.map((stats, index) => {
               return (
                 <SwiperSlide key={index}>
-                  <WishSimpleCard background="shadow-sm">
-                    <div className="d-flex align-items-center">
+                  <WishSimpleCard
+                    background="shadow-sm"
+                    cardBodyClassName="p-0"
+                  >
+                    <div className="text-center">
+                      <small className="font-weight-bold text-primary">
+                        {stats.organization ?? <>&nbsp;</>}
+                      </small>
+                    </div>
+                    <div className="d-flex align-items-center p-1">
                       <div className="">
-                        <small className="d-block">{stats.title}</small>
-                        <small>
-                          <span
-                            className={"float-left text-" + stats.color}
-                            style={{ fontSize: "8px" }}
-                          >
-                            ({stats.percentage})
-                          </span>
+                        <small className="d-block">
+                          {stats.title} ({stats.percentage})
                         </small>
                       </div>
                       <div className="col">
@@ -216,20 +307,24 @@ export default function MyGeneology() {
                           : renderRGVGraph({ color: stats.color })}
                       </div>
                       <div className="text-right">
-                        <small className="text-success d-block">
+                        <label className="text-success d-block lead">
                           <span className="font-weight-bold text-muted">
-                            {stats.value}
+                            {stats.value} <small>(cw)</small>
                           </span>
-                        </small>
-                        <small className="text-success d-block text-center">
-                          <span
-                            className="font-weight-bold text-muted"
-                            style={{ fontSize: "8px" }}
-                          >
-                            CW &nbsp;&nbsp; &nbsp;&nbsp; PW
-                          </span>
-                        </small>
+                        </label>
                       </div>
+                    </div>
+                    <div className="bg-primary bg-lighten-4 d-flex justify-content-between pl-1 pr-1">
+                      {stats.prevValues &&
+                        stats.prevValues.map((prev, vIndex) => {
+                          return <small>{prev.key}</small>;
+                        })}
+                    </div>
+                    <div className="bg-primary text-white d-flex justify-content-between pl-1 pr-1">
+                      {stats.prevValues &&
+                        stats.prevValues.map((prev, vIndex) => {
+                          return <small>{prev.value}</small>;
+                        })}
                     </div>
                   </WishSimpleCard>
                 </SwiperSlide>
@@ -237,9 +332,9 @@ export default function MyGeneology() {
             })}
           </Swiper>
         </div>
-        <div className="col-12" style={{ marginTop: "-20px" }}>
+        <div className="col-12" style={{ marginTop: "-10px" }}>
           <WishGeneologyTree
-            //header={treeHeader()}
+            header={treeTopIcons()}
             reverse={isRotated}
             tree={treeNodes}
             showBackButton={filterApplied}
@@ -255,6 +350,42 @@ export default function MyGeneology() {
           ></WishGeneologyTree>
         </div>
       </div>
+
+      <WishModal
+        id="dlgSearch"
+        modalSize="modal-lg"
+        noFooter
+        infoMode={
+          <div className="row">
+            <div className="col-12">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search distributor id ..."
+                  value={filterText}
+                  onChange={(e) => {
+                    setFilterText(e.target.value.trim());
+                  }}
+                />
+                <div className="input-group-append">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      if (filterText !== "") {
+                        filterTree(filterText);
+                      }
+                      $("#dlgSearch").modal("hide");
+                    }}
+                  >
+                    Go
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      ></WishModal>
     </PageLayout>
   );
 }

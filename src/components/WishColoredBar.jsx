@@ -1,7 +1,15 @@
-export default function WishColoredBar({ message, bgcolor }) {
+export default function WishColoredBar({
+  message,
+  bgcolor,
+  children,
+  className,
+}) {
   return (
-    <div className={"alert alert-" + (bgcolor ?? "primary")} role="alert">
-      {message}
+    <div
+      className={"alert alert-" + (bgcolor ?? "primary") + " " + className}
+      role="alert"
+    >
+      {children ?? message}
     </div>
   );
 }

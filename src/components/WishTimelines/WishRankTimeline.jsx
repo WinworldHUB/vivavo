@@ -1,8 +1,19 @@
+/* eslint-disable no-undef */
 import React from "react";
 import { Timeline, TimelineItem } from "vertical-timeline-component-for-react";
 import "./timelines.css";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect } from "react";
 
 export default function WishRankTimeline({ data }) {
+  useEffect(() => {
+    var some = document.querySelectorAll('[data-scrollTo="true"]')[0];
+    if (some !== undefined || some !== null) {
+      some.scrollIntoView({ behavior: "smooth" });
+      console.log(some.id);
+    }
+  });
+
   const renderDateComponent = function (imgPath) {
     return (
       <div className="text-right pr-2">
@@ -20,10 +31,12 @@ export default function WishRankTimeline({ data }) {
       );
     }
 
-    var textColor = "";
+    var textColor = "text-light";
 
     if (item.paidAsRank && item.paidAsRank) {
       textColor = "text-primary";
+    } else if (item.completed !== undefined && item.completed === true) {
+      textColor = "text-muted";
     }
 
     return <h3 className={"rank-title " + textColor}>{item.title}</h3>;
@@ -56,7 +69,11 @@ export default function WishRankTimeline({ data }) {
               }}
             >
               {renderTitle(item)}
-              <small className="rank-subTitle font-italic">
+              <small
+                className="rank-subTitle font-italic"
+                id={uuidv4()}
+                data-scrollTo={item.selected ? true : false}
+              >
                 {item.subTitle && item.subTitle}
               </small>
               <hr />

@@ -7,7 +7,6 @@ import WishModal from "./WishModal";
 import WishSimpleCard from "./WishSimpleCard";
 import Tree from "./WishTree/Tree";
 import TreeNode from "./WishTree/TreeNode";
-import WishToaster from "./WishToaster";
 import WishSelect from "./WishSelect";
 import WishColoredBar from "./WishColoredBar";
 import "json-loader";
@@ -17,7 +16,7 @@ import { useEffect } from "react";
 
 export default function WishGeneologyTree({
   tree,
-  //reverse,
+  reverse,
   header,
   footer,
   onNodeSelected,
@@ -130,12 +129,12 @@ export default function WishGeneologyTree({
           </div>
           <div className="media-body w-100 text-left">
             <span className="list-group-item-heading">
-              <small>Name: {node.title}</small>
+              <small>{node.title}</small>
             </span>
             <p className="list-group-item-text mb-0">
               <span className="blue-grey lighten-2 font-small-3">
                 {" "}
-                <small>ID: {node.id}</small>{" "}
+                <small>{node.id}</small>{" "}
               </span>
             </p>
           </div>
@@ -198,7 +197,7 @@ export default function WishGeneologyTree({
               }}
             >
               <small>
-                <i className="las la-check"></i>
+                <i className="las la-arrow-right"></i>
               </small>
             </a>
           </div>
@@ -252,10 +251,10 @@ export default function WishGeneologyTree({
                 // className={
                 //   isRotated === false ? " wish-rotate-0 " : " wish-rotate-180 "
                 // }
-                style={{ width: "max-content" }}
+                style={{ width: "max-content", minWidth: "100%" }}
               >
                 <Tree
-                  //reverse={reverse}
+                  reverse={reverse}
                   displayBackButton={showBackButton}
                   label={renderTreeNode({
                     node: tree,

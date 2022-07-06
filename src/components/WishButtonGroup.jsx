@@ -9,6 +9,8 @@ export default function WishButtonGroup({
   complexItem,
   onSelect,
   setSelectedButtonIndex,
+  noSelection = false,
+  className = "",
 }) {
   const [selectedButton, setSelectedButton] = useState(null);
   const [items, setItems] = useState(buttons);
@@ -43,7 +45,9 @@ export default function WishButtonGroup({
       <a
         className={
           "btn " +
-          (selectedButton === index ? "btn-primary active " : "btn-light ")
+          (selectedButton === index && noSelection === false
+            ? "btn-primary active "
+            : "btn-light ")
           // isDisabled(index)
         }
         key={index}
@@ -64,8 +68,10 @@ export default function WishButtonGroup({
       <a
         className={
           "btn " +
-          (selectedButton === index ? "btn-primary active " : "btn-light ") +
-          (button.disabled === true ? "disabled" : "")
+          (selectedButton === index && noSelection === false
+            ? "btn-primary active "
+            : "btn-light ") +
+          (button.disabled === true ? " disabled " : "")
         }
         key={index}
         aria-current="page"
@@ -81,7 +87,7 @@ export default function WishButtonGroup({
   };
 
   return (
-    <div className="form-group row">
+    <div className={"form-group row " + className}>
       <div className="col-12 text-center">
         <h5 className={title === undefined ? "hidden" : ""}>{title ?? ""}</h5>
         <small className={subTitle === undefined ? "hidden" : ""}>
