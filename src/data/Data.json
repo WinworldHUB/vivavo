@@ -324,5 +324,176 @@
     { "start": "0.2", "size": "0.1" },
     { "start": "0.1", "size": "0.6" },
     { "start": "0.6", "size": "0.2" }
+  ],
+
+  "Mails": [
+    {
+      "subject": "Long Long Mail Subject 1",
+      "message":
+        "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+      "attachments": [
+        {
+          "name": "Attchment 1",
+          "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+        },
+        {
+          "name": "Attchment 2",
+          "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+        },
+        {
+          "name": "Attchment 3",
+          "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+        }
+      ],
+      "timestamp": "12-May-2022"
+    },
+    {
+      "subject": "Mail Subject 2",
+      "message":
+        "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+      "attachments": [
+        {
+          "name": "Attchment 1",
+          "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+        }
+      ],
+      "timestamp": "12-May-2022"
+    },
+    {
+      "subject": "Mail Subject 3",
+      "message":
+        "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+      "timestamp": "12-May-2022",
+      "recentMessages": [
+        {
+          "subject": "Long Long Mail Subject 2 | Message Chain 1",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        },
+        {
+          "subject": "Long Long Mail Subject 2 | Message Chain 2",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        },
+        {
+          "subject": "Long Long Mail Subject 2 | Message Chain 2",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        }
+      ]
+    },
+    {
+      "subject": "Mail Subject 4",
+      "message":
+        "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+      "timestamp": "12-May-2022",
+      "recentMessages": [
+        {
+          "subject": "Long Long Mail Subject 4 | Message Chain 1",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        },
+        {
+          "subject": "Long Long Mail Subject 4 | Message Chain 2",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        },
+        {
+          "subject": "Long Long Mail Subject 4 | Message Chain 2",
+          "message":
+            "Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum  passages, and more recently with desktop publishing software  like Aldus PageMaker including versions of Lorem Ipsum.",
+          "attachments": [
+            {
+              "name": "Attchment 1",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 2",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            },
+            {
+              "name": "Attchment 3",
+              "url": "https://www.ww-hub.com/wp-content/uploads/2021/04/WISH-ERP-Brochure.pdf"
+            }
+          ],
+          "timestamp": "12-May-2022"
+        }
+      ]
+    }
   ]
 }

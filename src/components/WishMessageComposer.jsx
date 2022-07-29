@@ -57,23 +57,25 @@ export default function WishMessageComposer({ mailSubjects, onSent }) {
   };
 
   return (
-    <WishSimpleCard
-      body={composeMessage()}
-      footer={
-        <button
-          className="btn btn-primary ml-auto"
-          onClick={(e) => {
-            e.stopPropagation();
-            WishToaster({
-              toastMessage: "Message sent successfully",
-              toastType: "success",
-            });
-            onSent && onSent();
-          }}
-        >
-          <i className="las la-paper-plane"></i> Send Message
-        </button>
-      }
-    ></WishSimpleCard>
+    <>
+      {composeMessage()}
+      <div>
+        {onSent && (
+          <button
+            className="btn btn-primary ml-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              WishToaster({
+                toastMessage: "Message sent successfully",
+                toastType: "success",
+              });
+              onSent && onSent();
+            }}
+          >
+            <i className="las la-paper-plane"></i> Send Message
+          </button>
+        )}
+      </div>
+    </>
   );
 }

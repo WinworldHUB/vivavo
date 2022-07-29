@@ -308,6 +308,31 @@ ul[role="tablist"] {
   color: var(--white) !important;
 }
 
+.bg-dark h1,
+.bg-dark h2,
+.bg-dark h3,
+.bg-dark h4,
+.bg-dark h5,
+.bg-dark h6,
+.bg-dark i,
+.bg-dark button,
+.bg-dark p,
+.bg-dark span,
+.bg-dark div,
+.bg-primary h1,
+.bg-primary h2,
+.bg-primary h3,
+.bg-primary h4,
+.bg-primary h5,
+.bg-primary h6,
+.bg-primary i,
+.bg-primary button,
+.bg-primary p,
+.bg-primary span,
+.bg-primary div {
+  color: white !important;
+}
+
 .wish-announcement-item {
   transition: all 0.3s ease-in-out;
 }
@@ -755,4 +780,26 @@ button {
 .swiper-button-next {
   right: 0 !important;
   margin-top: calc(-5px - (var(--swiper-navigation-size) / 2)) !important;
+}
+
+.timeline-icon {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--danger);
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  margin-top: -8px;
+  left: 15px;
+  color: white;
+}
+
+.wish-timeline ul {
+  border-color: #ccc !important;
+}
+
+.wish-timeline li {
+  list-style: none !important;
 }

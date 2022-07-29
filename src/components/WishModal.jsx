@@ -7,6 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 export default function WishModal({
   id,
   title,
+  subTitle,
+  className,
+  headerClassname,
+  footerClassname,
   finishTitle,
   onFinish,
   onCancel,
@@ -25,7 +29,7 @@ export default function WishModal({
   };
   return (
     <div
-      className="modal fade text-left"
+      className={"modal fade text-left " + className}
       id={id ?? uuidv4()}
       tabIndex="-1"
       role="dialog"
@@ -40,11 +44,18 @@ export default function WishModal({
       >
         <div className="modal-content">
           <div
-            className={"modal-header " + (dialogTitle() === "" ? "hidden" : "")}
+            className={
+              "modal-header " +
+              (dialogTitle() === "" ? " hidden " : " ") +
+              headerClassname
+            }
           >
-            <h4 className="modal-title" id="basicModalLabel3">
-              {dialogTitle()}
-            </h4>
+            <div>
+              <h4 className="modal-title" id="basicModalLabel3">
+                {dialogTitle()}
+              </h4>
+              {subTitle && <small>{subTitle}</small>}
+            </div>
             <button
               type="button"
               className="close"
@@ -57,7 +68,11 @@ export default function WishModal({
           </div>
           <div className="modal-body">{infoMode ?? children}</div>
           <div
-            className={"modal-footer " + ((noFooter || infoMode) && "d-none")}
+            className={
+              "modal-footer " +
+              ((noFooter || infoMode) && " d-none ") +
+              footerClassname
+            }
           >
             <button
               type="button"
