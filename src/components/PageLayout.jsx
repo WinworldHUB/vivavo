@@ -21,7 +21,7 @@ export default class PageLayout extends Component {
 
       // Add authentication page classes
       document.body.classList.add("1-column");
-      document.body.classList.add("bg-full-screen-image");
+      //document.body.classList.add("bg-full-screen-image");
       document.body.classList.add("blank-page");
       document.body.dataset.col = "1-column";
     } else {

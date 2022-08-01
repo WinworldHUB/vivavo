@@ -803,3 +803,17 @@ button {
 .wish-timeline li {
   list-style: none !important;
 }
+
+.bg-lightBlue {
+  background-color: #e1ebee !important;
+  color: #888 !important;
+}
+
+.bg-lightBlue:hover {
+  background-color: var(--primary) !important;
+  color: white !important;
+}
+
+.text-white:hover {
+  color: white !important;
+}

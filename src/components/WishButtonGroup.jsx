@@ -47,7 +47,7 @@ export default function WishButtonGroup({
           "btn " +
           (selectedButton === index && noSelection === false
             ? "btn-primary active "
-            : "btn-light ")
+            : "bg-lightBlue")
           // isDisabled(index)
         }
         key={index}
@@ -70,7 +70,7 @@ export default function WishButtonGroup({
           "btn " +
           (selectedButton === index && noSelection === false
             ? "btn-primary active "
-            : "btn-light ") +
+            : "bg-lightBlue ") +
           (button.disabled === true ? " disabled " : "")
         }
         key={index}

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-target-blank */
+/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
@@ -14,6 +16,7 @@ import moment from "moment";
 import "json-loader";
 import data from "../../data/Data.json";
 import WishToaster from "../../components/WishToaster";
+import WishColoredBar from "../../components/WishColoredBar";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -1461,9 +1464,19 @@ export default function EnrollUser() {
         </div>
 
         <div className="col-12">
-          <div className="alert alert-warning" role="alert">
+          <WishColoredBar
+            bgcolor="warning"
+            className="d-flex justify-content-between align-items-center"
+          >
             Terms and Conditions
-          </div>
+            <a
+              href="https://ivhspl-my.sharepoint.com/personal/ashif_indusviva_com/Documents/review.xlsx?web=1"
+              target="_blank"
+              className="card-link link-dotted text-white"
+            >
+              Download (T&amp;C)
+            </a>
+          </WishColoredBar>
           <div className="form-group row">
             <div className="col-12">
               <div className="custom-control custom-checkbox custom-control-inline">

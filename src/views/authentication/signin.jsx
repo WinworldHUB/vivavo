@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../../components/PageLayout";
+import WishModal from "../../components/WishModal";
 
 export default function SignIn({ clicked }) {
   return (
@@ -56,8 +57,8 @@ export default function SignIn({ clicked }) {
                         <Link
                           className="card-link"
                           data-toggle="modal"
-                          data-target="#dlgLoading"
-                          to="/"
+                          data-target="#dlgForgotPassword"
+                          to=""
                         >
                           Forgot Password?
                         </Link>
@@ -75,19 +76,36 @@ export default function SignIn({ clicked }) {
                   </div>
                 </div>
 
-                <p className="card-subtitle text-muted text-center font-small-3 mx-2 my-1">
+                {/* <p className="card-subtitle text-muted text-center font-small-3 mx-2 my-1">
                   <span>
                     Don't have an account ?
                     <Link className="card-link" to="/">
                       Sign Up
                     </Link>
                   </span>
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <WishModal id="dlgForgotPassword" title="Forgot Password">
+        <div class="form-group row">
+          <label for="txtUsername" class="col-4 col-form-label">
+            Username
+          </label>
+          <div class="col-8">
+            <input
+              id="txtUsername"
+              name="txtUsername"
+              type="text"
+              class="form-control"
+              placeholder="Your Username"
+            />
+          </div>
+        </div>
+      </WishModal>
     </PageLayout>
   );
 }

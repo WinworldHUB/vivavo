@@ -23,7 +23,7 @@ export default function PlaceOrder() {
   const [onceRun, setOnceRun] = useState(false);
 
   const pages = [
-    "Customer Details",
+    "Distributor Details",
     "Select Product",
     "Confirm Address",
     "Make Payment",
@@ -211,7 +211,9 @@ export default function PlaceOrder() {
                       }
                     }}
                   >
-                    {page}
+                    {forSelf === false && index === 0
+                      ? "Customer Details"
+                      : page}
                   </a>
                   {index === totalPages - 1 ? (
                     ""
@@ -234,7 +236,9 @@ export default function PlaceOrder() {
         <a
           className={
             "card-link lead d-flex align-items-baseline text-muted mr-auto " +
-            (pageNumber === 0 || pageNumber === totalPages -1 ? " hidden " : "")
+            (pageNumber === 0 || pageNumber === totalPages - 1
+              ? " hidden "
+              : "")
           }
           onClick={() => decreasePageNumber()}
         >
@@ -330,7 +334,9 @@ export default function PlaceOrder() {
             <div className="form-group">
               <div className="row">
                 <div className="col-6">
-                  <label htmlFor="txtDeliveryLocation">Delivery Location</label>
+                  <label htmlFor="txtDeliveryLocation">
+                    Post, City, District
+                  </label>
                 </div>
                 <div className="col-6 text-right">
                   <a
@@ -349,7 +355,7 @@ export default function PlaceOrder() {
                 <input
                   id="txtDeliveryLocation"
                   name="txtDeliveryLocation"
-                  placeholder="Delivery Location"
+                  placeholder="Post, City, District"
                   type="text"
                   className="form-control"
                   disabled={forSelf}
@@ -369,7 +375,9 @@ export default function PlaceOrder() {
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="txtDemographicDetails">Demographic Details</label>
+              <label htmlFor="txtDemographicDetails">
+                State, Country, Postal Code
+              </label>
               <input
                 id="txtDemographicDetails"
                 name="txtDemographicDetails"
@@ -612,7 +620,7 @@ export default function PlaceOrder() {
                       <div className="row">
                         <div className="col-6">
                           <label htmlFor="txtDeliveryLocation">
-                            Delivery Location
+                            Post, City, District
                           </label>
                         </div>
                         <div className="col-6 text-right">
@@ -632,7 +640,7 @@ export default function PlaceOrder() {
                         <input
                           id="txtDeliveryLocation"
                           name="txtDeliveryLocation"
-                          placeholder="Delivery Location"
+                          placeholder="Post, City, District"
                           type="text"
                           className="form-control"
                           disabled={true}
@@ -656,7 +664,7 @@ export default function PlaceOrder() {
                     </div>
                     <div className="form-group">
                       <label htmlFor="txtDemographicDetails">
-                        Demographic Details
+                        State, Country, Postal Code
                       </label>
                       <input
                         id="txtDemographicDetails"
@@ -720,7 +728,7 @@ export default function PlaceOrder() {
                       <div className="row">
                         <div className="col-6">
                           <label htmlFor="txtDeliveryLocation">
-                            Delivery Location
+                            Post, City, District
                           </label>
                         </div>
                         <div className="col-6 text-right">
@@ -737,7 +745,7 @@ export default function PlaceOrder() {
                         <input
                           id="txtDeliveryLocation"
                           name="txtDeliveryLocation"
-                          placeholder="Delivery Location"
+                          placeholder="Post, City, District"
                           type="text"
                           className="form-control"
                           disabled={true}
@@ -759,7 +767,7 @@ export default function PlaceOrder() {
                     </div>
                     <div className="form-group">
                       <label htmlFor="txtDemographicDetails">
-                        Demographic Details
+                        State, Country, Postal Code
                       </label>
                       <input
                         id="txtDemographicDetails"
@@ -868,8 +876,8 @@ export default function PlaceOrder() {
               "Your order will be delivered between " +
               seventhDay +
               " and " +
-              fourteenthDay +
-              " from today's date"
+              fourteenthDay
+              // + " from today's date"
             }
             bgcolor="info"
           ></WishColoredBar>

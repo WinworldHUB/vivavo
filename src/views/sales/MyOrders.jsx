@@ -25,6 +25,7 @@ export default function MyOrders() {
   newOrder.Price = 2500;
   newOrder.Status = "Delivered";
   newOrder.DeliveredOn = Date();
+  newOrder.OrderType = "VOTM";
   SalesOrders.push(newOrder);
 
   newOrder = new SalesOrder();
@@ -35,11 +36,12 @@ export default function MyOrders() {
   newOrder.Price = 3500;
   newOrder.Status = "Cancelled";
   newOrder.DeliveredOn = Date();
+  newOrder.OrderType = "PCM";
   SalesOrders.push(newOrder);
 
   useEffect(() => {
     for (let index = 0; index < SalesOrders.length; index++) {
-      var orderId = SalesOrders[index].OrderNo;
+      var orderId = SalesOrders[index].OrderNo ?? "";
       var currentOrder = SalesOrders[index];
 
       console.log(currentOrder);
@@ -52,38 +54,41 @@ export default function MyOrders() {
         "<br/>Handling Charges: Rs. 400 <br/>Discount: Rs. 0<br/>Voucher Savings: Rs. 0<hr/>Total: Rs. " +
         (currentOrder.Price + 400);
 
-      $("#" + orderId).fu_popover({
-        // show popover arrow
-        arrowShow: true,
+      if (orderId !== "") {
+        console.log(orderId);
+        $("#" + orderId).fu_popover({
+          // show popover arrow
+          arrowShow: true,
 
-        // auto hide after 2500ms
-        autoHide: false,
-        autoHideDelay: 2000,
+          // auto hide after 2500ms
+          autoHide: false,
+          autoHideDelay: 2000,
 
-        // popover content
-        content: priceBreakupContent,
+          // popover content
+          content: priceBreakupContent,
 
-        // delay times
-        delay: { show: 0, hide: 0 },
+          // delay times
+          delay: { show: 0, hide: 0 },
 
-        // is dismissable
-        dismissable: true,
+          // is dismissable
+          dismissable: true,
 
-        // top, bottom, left, right
-        placement: "bottom",
+          // top, bottom, left, right
+          placement: "bottom",
 
-        // custom theme
-        themeName: "default",
+          // custom theme
+          themeName: "default",
 
-        // popover title
-        title: "",
+          // popover title
+          title: "",
 
-        // trigger event
-        // click | hover | focus | manual
-        trigger: "click",
-      });
+          // trigger event
+          // click | hover | focus | manual
+          trigger: "click",
+        });
+      }
     }
-  });
+  }, []);
 
   const renderOrder = function (order) {
     return (
@@ -110,17 +115,19 @@ export default function MyOrders() {
                   <h6>
                     Order No:{" "}
                     <Link to="/" className="card-link text-primary">
-                      {order.OrderNo}
+                      {order.OrderNo} <small>({order.OrderType + " Order"})</small>
                     </Link>
                   </h6>
                 </div>
                 <div className="col-6 text-right">
-                  {order.Status === "Delivered"
-                    ? "Delivered on: "
-                    : order.Status === "Cancelled"
-                    ? "Cancelled on: "
-                    : ""}
-                  {Moment(order.DeliveredOn).format("ddd MM, yyyy")}
+                  <p>
+                    {order.Status === "Delivered"
+                      ? "Delivered on: "
+                      : order.Status === "Cancelled"
+                      ? "Cancelled on: "
+                      : ""}
+                    {Moment(order.DeliveredOn).format("ddd MM, yyyy")}
+                  </p>
                 </div>
               </div>
               <h6>
@@ -135,8 +142,8 @@ export default function MyOrders() {
               <br />
               <div className="row">
                 <div className="col-4 d-flex align-items-center">
-                  Price: <span>{order.Price}</span>
-                  <i className="las la-info" id={order.OrderNo}></i>
+                  Price: <span>{order.Price}</span> &nbsp;
+                  <i className="las la-info-circle" id={order.OrderNo}></i>
                 </div>
                 <div className="col-4 text-center">
                   Quantity: <span>{order.Quantity}</span>
@@ -306,7 +313,7 @@ export default function MyOrders() {
       var pv = order.PV + "";
       var price = order.Price + "";
       var quantity = order.Quantity + "";
-      var searchText = filterText;
+      var searchText = filterText.toLowerCase();
       var itemFound = order.Items.includes(searchText);
 
       if (

@@ -77,7 +77,7 @@ export default function Wallet(props) {
   };
 
   const recentTransactionsHeader = function () {
-    return <h3>Recent transactions</h3>;
+    return <h3>My Passbook</h3>;
   };
 
   const recentTransactionsFooter = function () {
