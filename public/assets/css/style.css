@@ -465,6 +465,20 @@ ul[role="tablist"] {
   font-family: "roboto";
 }
 
+.progress-label {
+  font-size: 3em;
+  font-weight: 400;
+  font-family: "comfortaa";
+}
+
+.progress-text {
+  display: flex;
+  font-size: 1.3em;
+  word-wrap: break-word;
+  /* font-weight: 600;
+  font-family: "comfortaa"; */
+}
+
 .progress-bar-sprint {
   width: 9%;
   transition: all 0.3s ease-in-out;
