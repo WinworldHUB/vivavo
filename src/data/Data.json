@@ -494,6 +494,13 @@
       { "icon": "la-rupee-sign", "title": "Bank Details" },
       { "icon": "la-copy", "title": "KYC Documents" },
       { "icon": "la-sitemap", "title": "Rank Journey" }
+    ],
+    "tabContentBGs": [
+      "PersonalDetails.jpg",
+      "Address.jpg",
+      "BankDetails.jpg",
+      "KYCDocuments.jpg",
+      "RankJourney.jpg"
     ]
   }
 }

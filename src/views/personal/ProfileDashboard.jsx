@@ -7,6 +7,7 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import data from "../../data/Data.json";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import WishImageBGCard from "../../components/WishImageBGCard";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -116,10 +117,89 @@ export default function ProfileDashboard() {
     );
   }
 
+  const tabContentEditClicked = function (mode) {
+    alert(mode);
+  };
+
+  function RenderTabContent() {
+    var children = "";
+    switch (selectedTab) {
+      case 0:
+        children = <h3>Personal Details</h3>;
+        break;
+
+      case 1:
+        children = <h3>Address</h3>;
+        break;
+
+      case 2:
+        children = <h3>Bank Details</h3>;
+        break;
+
+      case 3:
+        children = <h3>KYC Documents</h3>;
+        break;
+
+      case 4:
+        children = <h3>Rank Journey</h3>;
+        break;
+
+      default:
+        break;
+    }
+    return (
+      <WishImageBGCard
+        title="Personal Details"
+        showEditButton={true}
+        image={data.profile.tabContentBGs[selectedTab]}
+        onEditClicked={() => {
+          tabContentEditClicked("edit");
+        }}
+      >
+        {children}
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry's standard dummy
+        text ever since the 1500s, when an unknown printer took a galley of type
+        and scrambled it to make a type specimen book. It has survived not only
+        five centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry's standard dummy
+        text ever since the 1500s, when an unknown printer took a galley of type
+        and scrambled it to make a type specimen book. It has survived not only
+        five centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry's standard dummy
+        text ever since the 1500s, when an unknown printer took a galley of type
+        and scrambled it to make a type specimen book. It has survived not only
+        five centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+      </WishImageBGCard>
+    );
+  }
+
   return (
     <PageLayout activeSideMenu="0" pageTitle="My Profile" extendedHeader>
       {renderProfileTop()}
       <RenderTabsUI />
+      <br />
+      <RenderTabContent />
     </PageLayout>
   );
 }
