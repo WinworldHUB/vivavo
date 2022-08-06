@@ -2,10 +2,15 @@ import React from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export default function WishSelect({ label, data, onSelect }) {
+export default function WishSelect({
+  label,
+  data,
+  onSelect,
+  initialValue = 0,
+}) {
   const elementId = uuidv4();
 
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(initialValue);
   return (
     <div className="form-group row d-flex align-items-center">
       <div className={"" + (label !== undefined ? " col-4 " : " hidden ")}>
@@ -24,7 +29,11 @@ export default function WishSelect({ label, data, onSelect }) {
         >
           {data &&
             data.map((item, index) => {
-              return <option value={index} key={index}>{item}</option>;
+              return (
+                <option value={index} key={index}>
+                  {item}
+                </option>
+              );
             })}
         </select>
       </div>

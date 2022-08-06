@@ -8,9 +8,16 @@ import data from "../../data/Data.json";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import WishImageBGCard from "../../components/WishImageBGCard";
+import PersonalDetails from "./Forms/PersonalDetails";
+import AddressDetails from "./Forms/AddressDetails";
+import BankDetails from "./Forms/BankDetails";
+import WishToaster from "../../components/WishToaster";
+import KYCDocuments from "./Forms/KYCDocuments";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const [currentFormMode, setCurrentFormMode] = useState("display");
+
   const renderProfileTop = function () {
     return (
       <div className="bg-transparent border-0 box-shadow-0">
@@ -69,13 +76,15 @@ export default function ProfileDashboard() {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="row">
           <div className="col-12 pt-2">
-            <WishColoredBar bgcolor="light" className="row shadow-sm">
+            <WishColoredBar bgcolor="white" className="row shadow-sm">
               <div className="col-auto border-2 border-right-primary progress-label text-primary">
                 60%
               </div>
               <div className="col">
-                <span className="lead">
+                <span className="lead text-muted">
                   Your profile is 60% complete. You are behind 10% of your peers
                   with respect to profile completion.
                 </span>
@@ -101,13 +110,20 @@ export default function ProfileDashboard() {
         {data.profile.tabs &&
           data.profile.tabs.map((tab, index) => {
             return (
-              <div className="col-2" key={index}>
+              <div className="col-2 p-0" key={index}>
                 <WishIconCard
                   selected={selectedTab === index ? true : false}
                   title={tab.title}
                   icon={tab.icon}
                   onClicked={() => {
-                    setSelectedTab(index);
+                    if (currentFormMode !== "edit") {
+                      setSelectedTab(index);
+                    } else {
+                      WishToaster({
+                        toastTitle: "Please save your changes to proceed",
+                        toastType: "error",
+                      });
+                    }
                   }}
                 />
               </div>
@@ -118,30 +134,37 @@ export default function ProfileDashboard() {
   }
 
   const tabContentEditClicked = function (mode) {
-    alert(mode);
+    setCurrentFormMode(mode);
+    console.log(mode, currentFormMode);
   };
 
   function RenderTabContent() {
     var children = "";
+    var title = "";
     switch (selectedTab) {
       case 0:
-        children = <h3>Personal Details</h3>;
+        children = <PersonalDetails mode={currentFormMode} />;
+        title = "Personal Details";
         break;
 
       case 1:
-        children = <h3>Address</h3>;
+        children = <AddressDetails mode={currentFormMode} />;
+        title = "Address Details";
         break;
 
       case 2:
-        children = <h3>Bank Details</h3>;
+        children = <BankDetails mode={currentFormMode} />;
+        title = "Bank Details";
         break;
 
       case 3:
-        children = <h3>KYC Documents</h3>;
+        children = <KYCDocuments />;
+        title = "KYC Documents";
         break;
 
       case 4:
         children = <h3>Rank Journey</h3>;
+        title = "Rank Journey";
         break;
 
       default:
@@ -149,47 +172,17 @@ export default function ProfileDashboard() {
     }
     return (
       <WishImageBGCard
-        title="Personal Details"
-        showEditButton={true}
+        title={title}
+        showEditButton={currentFormMode === "display"}
+        showSaveButton={currentFormMode === "edit"}
         image={data.profile.tabContentBGs[selectedTab]}
-        onEditClicked={() => {
-          tabContentEditClicked("edit");
+        onEditClicked={(mode) => {
+          tabContentEditClicked(mode);
         }}
       >
-        {children}
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's standard dummy
-        text ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book. It has survived not only
-        five centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's standard dummy
-        text ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book. It has survived not only
-        five centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's standard dummy
-        text ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book. It has survived not only
-        five centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
+        <div className="row">
+          <div className="col-md-6">{children}</div>
+        </div>
       </WishImageBGCard>
     );
   }

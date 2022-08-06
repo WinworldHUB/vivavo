@@ -501,6 +501,157 @@
       "BankDetails.jpg",
       "KYCDocuments.jpg",
       "RankJourney.jpg"
+    ],
+    "PersonalDetails": [
+      {
+        "title": "Title",
+        "value": "Mr.",
+        "type": "dropdown",
+        "editable": true,
+        "options": ["Mr", "Ms.", "Mrs.", "Dr."]
+      },
+      {
+        "title": "First Name",
+        "value": "Samshudeen",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Last Name",
+        "value": "Sritirth",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Date of birth",
+        "value": "01/01/1980",
+        "type": "date",
+        "editable": true,
+        "max": "new Date()"
+      },
+      {
+        "title": "Preferred Language",
+        "value": "English",
+        "type": "dropdown",
+        "editable": true,
+        "options": ["English", "Hindi", "Telugu", "Malyalam"]
+      },
+      {
+        "title": "Gender",
+        "value": "Male",
+        "type": "dropdown",
+        "editable": true,
+        "options": ["Male", "Female"]
+      },
+      {
+        "title": "Maritial Status",
+        "value": "Married",
+        "type": "dropdown",
+        "editable": true,
+        "options": ["Married", "Unmarried", "Widowed"]
+      },
+      {
+        "title": "Profession",
+        "value": "Businessmen",
+        "type": "dropdown",
+        "editable": true,
+        "options": [
+          "Businessmen",
+          "Businesswomen",
+          "Homemaker",
+          "Housewife",
+          "Professional"
+        ]
+      },
+      {
+        "title": "Monhtly Income",
+        "value": "More than 5000",
+        "type": "dropdown",
+        "editable": true,
+        "options": [
+          "Less than 5,000",
+          "5,000 - 15,000",
+          "15,000 - 25,000",
+          "25,000 - 50,000",
+          "More than 50,000"
+        ]
+      },
+      {
+        "title": "Aadhar Card",
+        "value": "xxxx xxxx xxxx",
+        "type": "string",
+        "editable": false
+      },
+      {
+        "title": "Aadhar Card (Attachment)",
+        "value": "S-AadharCard.pdf",
+        "type": "link",
+        "editable": false
+      },
+      {
+        "title": "GST Number",
+        "value": "xxxx xxxx xxxx",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "PAN",
+        "value": "xxxx xxxx",
+        "type": "string",
+        "editable": false
+      },
+      {
+        "title": "PAN (Attachment)",
+        "value": "S-PanCard.pdf",
+        "type": "link",
+        "editable": false
+      }
+    ],
+    "AddressDetails": [
+      {
+        "title": "Permanent Address",
+        "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
+        "type": "textarea",
+        "editable": true
+      },
+      {
+        "title": "Communication Address",
+        "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
+        "type": "textarea",
+        "editable": true
+      }
+    ],
+    "BankDetails": [
+      {
+        "title": "Account Holder",
+        "value": "John Doe",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Account Number",
+        "value": "xxxxx xxxxxx xxxxxx xxxx",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Bank Name",
+        "value": "ICICI Bank",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Branch Name",
+        "value": " Sarjapur Main Rd Branch",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "IFSC Code",
+        "value": "xxxxxxx",
+        "type": "string",
+        "editable": true
+      }
     ]
   }
 }
