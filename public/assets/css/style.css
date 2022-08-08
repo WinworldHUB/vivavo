@@ -847,3 +847,7 @@ button {
 .doc-bg-notstarted {
   background-color: #d9d9d9;
 }
+
+.doc-bg-disabled {
+  background-color: #7f7f7f;
+}

@@ -138,6 +138,8 @@ export default function ProfileDashboard() {
   };
 
   function RenderTabContent() {
+    var isEditable = true;
+    var size = "col-md-6";
     var children = "";
     var title = "";
     switch (selectedTab) {
@@ -159,6 +161,8 @@ export default function ProfileDashboard() {
       case 3:
         children = <KYCDocuments />;
         title = "KYC Documents";
+        size = "col-md-9";
+        isEditable = false;
         break;
 
       case 4:
@@ -172,15 +176,15 @@ export default function ProfileDashboard() {
     return (
       <WishImageBGCard
         title={title}
-        showEditButton={currentFormMode === "display"}
-        showSaveButton={currentFormMode === "edit"}
+        showEditButton={currentFormMode === "display" && isEditable}
+        showSaveButton={currentFormMode === "edit" && isEditable}
         image={data.profile.tabContentBGs[selectedTab]}
         onEditClicked={(mode) => {
           tabContentEditClicked(mode);
         }}
       >
         <div className="row">
-          <div className="col-md-6">{children}</div>
+          <div className={size}>{children}</div>
         </div>
       </WishImageBGCard>
     );

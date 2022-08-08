@@ -13,20 +13,36 @@ export default function KYCDocuments({ data = [] }) {
     }
   }, [documents]);
 
-  const calcBGColor = function ({ documentStatus = String }) {
+  const calcProperties = function ({ documentStatus = String }) {
+    var output = {
+      title: "",
+      bgColor: "",
+      disabled: false,
+    };
     switch (documentStatus.toLowerCase()) {
       case "upload":
-        return "doc-bg-notstarted";
+        output.title = "upload";
+        output.bgColor = "doc-bg-notstarted";
+        break;
 
       case "rejected":
-        return "doc-bg-rejected";
+        output.title = "re-upload";
+        output.bgColor = "doc-bg-rejected";
+        break;
 
       case "uploaded":
-        return "doc-bg-awaiting";
+        output.title = "uploaded";
+        output.bgColor = "doc-bg-awaiting";
+        output.disabled = true;
+        break;
 
       default:
-        return "doc-bg-approved";
+        output.title = "view";
+        output.bgColor = "doc-bg-approved";
+        break;
     }
+
+    return output;
   };
 
   return (
@@ -36,7 +52,9 @@ export default function KYCDocuments({ data = [] }) {
           <>
             <div className="text-center pb-5" style={{ width: "200px" }}>
               <div
-                className={calcBGColor({ documentStatus: document.status })}
+                className={
+                  calcProperties({ documentStatus: document.status }).bgColor
+                }
                 style={{
                   width: "100px",
                   height: "120px",
@@ -48,7 +66,13 @@ export default function KYCDocuments({ data = [] }) {
                 </p>
                 <p className="lead text-left pl-1 pr-1">{document.title}</p>
                 <div
-                  className="bg-primary shadow white"
+                  className={
+                    "shadow white " +
+                    (calcProperties({ documentStatus: document.status })
+                      .disabled
+                      ? " doc-bg-disabled "
+                      : "bg-primary clickable ")
+                  }
                   style={{
                     width: "150px",
                     height: "40px",
@@ -57,12 +81,22 @@ export default function KYCDocuments({ data = [] }) {
                     bottom: "0px",
                     left: "-20px",
                     paddingTop: "10px",
-                    cursor: "pointer",
                   }}
                 >
-                  <a className="text-center white text-uppercase" href="">
-                    <strong>{document.status}</strong>
-                  </a>
+                  <button
+                    className="text-center white text-uppercase"
+                    disabled={
+                      calcProperties({ documentStatus: document.status })
+                        .disabled
+                    }
+                  >
+                    <strong>
+                      {
+                        calcProperties({ documentStatus: document.status })
+                          .title
+                      }
+                    </strong>
+                  </button>
                 </div>
                 {document.hasTemplate !== undefined &&
                 document.hasTemplate === true ? (
