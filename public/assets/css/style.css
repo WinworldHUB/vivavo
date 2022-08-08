@@ -831,3 +831,19 @@ button {
 .text-white:hover {
   color: white !important;
 }
+
+.doc-bg-approved {
+  background-color: #e2f0d9;
+}
+
+.doc-bg-rejected {
+  background-color: #fde1db;
+}
+
+.doc-bg-awaiting {
+  background-color: #dbe8fd;
+}
+
+.doc-bg-notstarted {
+  background-color: #d9d9d9;
+}

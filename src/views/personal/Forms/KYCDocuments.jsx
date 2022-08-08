@@ -13,6 +13,22 @@ export default function KYCDocuments({ data = [] }) {
     }
   }, [documents]);
 
+  const calcBGColor = function ({ documentStatus = String }) {
+    switch (documentStatus.toLowerCase()) {
+      case "upload":
+        return "doc-bg-notstarted";
+
+      case "rejected":
+        return "doc-bg-rejected";
+
+      case "uploaded":
+        return "doc-bg-awaiting";
+
+      default:
+        return "doc-bg-approved";
+    }
+  };
+
   return (
     <div className="row pl-2">
       {documents.map((document, index) => {
@@ -20,7 +36,7 @@ export default function KYCDocuments({ data = [] }) {
           <>
             <div className="text-center pb-5" style={{ width: "200px" }}>
               <div
-                className="bg-success bg-lighten-4"
+                className={calcBGColor({ documentStatus: document.status })}
                 style={{
                   width: "100px",
                   height: "120px",
@@ -57,7 +73,6 @@ export default function KYCDocuments({ data = [] }) {
                   ""
                 )}
               </div>
-              <span>Some</span>
             </div>
           </>
         );
