@@ -15,6 +15,7 @@ import WishToaster from "../../components/WishToaster";
 import KYCDocuments from "./Forms/KYCDocuments";
 import RankJourney from "./Forms/RankJourney";
 import WishSimpleCard from "../../components/WishSimpleCard";
+import CoApplicantProfile from "./Forms/CoApplicantProfile";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -227,6 +228,23 @@ export default function ProfileDashboard() {
     );
   }
 
+  function RenderCoApplicantProfile() {
+    return (
+      <WishSimpleCard
+        header={<h4 class="card-title">Co-Applicant Profile</h4>}
+        footer={
+          <a className="card-link text-primary link-dotted ml-auto" href="#">
+            Change Co-Applicant
+          </a>
+        }
+      >
+        <div style={{ maxHeight: "200px", overflowY: "scroll" }}>
+          <CoApplicantProfile mode={currentFormMode} />
+        </div>
+      </WishSimpleCard>
+    );
+  }
+
   return (
     <PageLayout activeSideMenu="0" pageTitle="My Profile" extendedHeader>
       {renderProfileTop()}
@@ -236,6 +254,12 @@ export default function ProfileDashboard() {
       <div className="row">
         <div className="col-md-8 p-0">
           <RenderMyCards />
+        </div>
+        <div className="col-md-4 pr-0">
+          <RenderPCMMembership />
+        </div>
+        <div className="col-md-8 p-0">
+          <RenderCoApplicantProfile />
         </div>
         <div className="col-md-4 pr-0">
           <RenderPCMMembership />
