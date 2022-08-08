@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import JSONData from "../../../data/Data.json";
 
-export default function KYCDocuments({ data = [] }) {
+export default function KYCDocuments({
+  data = [],
+  fullLength = false,
+  bgColor = "",
+}) {
   const [documents, setDocuments] = useState(data);
 
   useEffect(() => {
@@ -42,75 +46,89 @@ export default function KYCDocuments({ data = [] }) {
         break;
     }
 
+    output.bgColor = bgColor === "" ? output.bgColor : bgColor;
+
     return output;
   };
 
   return (
-    <div className="row pl-2">
-      {documents.map((document, index) => {
-        return (
-          <>
-            <div className="text-center pb-5" style={{ width: "200px" }}>
-              <div
-                className={
-                  calcProperties({ documentStatus: document.status }).bgColor
-                }
-                style={{
-                  width: "100px",
-                  height: "120px",
-                  borderRadius: "8px",
-                }}
-              >
-                <p className="text-right" style={{ paddingRight: "7px" }}>
-                  <i className={"las " + document.icon}></i>
-                </p>
-                <p className="lead text-left pl-1 pr-1">{document.title}</p>
+    <div className={fullLength === true ? "col-md-12" : "col-md-9"}>
+      <div className="row pl-2">
+        {documents.map((document, index) => {
+          return (
+            <>
+              <div className="text-center pb-5" style={{ width: "140px" }}>
                 <div
                   className={
-                    "shadow white " +
-                    (calcProperties({ documentStatus: document.status })
-                      .disabled
-                      ? " doc-bg-disabled "
-                      : "bg-primary clickable ")
+                    calcProperties({ documentStatus: document.status }).bgColor
                   }
                   style={{
-                    width: "150px",
-                    height: "40px",
-                    position: "relative",
-                    borderRadius: "5px",
-                    bottom: "0px",
-                    left: "-20px",
-                    paddingTop: "10px",
+                    width: "100px",
+                    height: "120px",
+                    borderRadius: "8px",
                   }}
                 >
-                  <button
-                    className="text-center white text-uppercase"
-                    disabled={
-                      calcProperties({ documentStatus: document.status })
+                  <p className="text-right" style={{ paddingRight: "7px" }}>
+                    <i className={"las " + document.icon}></i>
+                  </p>
+                  <p
+                    className="lead text-left pl-1"
+                    dangerouslySetInnerHTML={{ __html: document.title }}
+                  ></p>
+                  <div
+                    className={
+                      "shadow white " +
+                      (calcProperties({ documentStatus: document.status })
                         .disabled
+                        ? " doc-bg-disabled "
+                        : "bg-primary clickable ")
                     }
+                    style={{
+                      width: "120px",
+                      height: "40px",
+                      position: "relative",
+                      borderRadius: "5px",
+                      bottom: "0px",
+                      left: "-10px",
+                      paddingTop: "10px",
+                    }}
                   >
-                    <strong>
-                      {
+                    <button
+                      className="text-center white text-uppercase"
+                      disabled={
                         calcProperties({ documentStatus: document.status })
-                          .title
+                          .disabled
                       }
-                    </strong>
-                  </button>
+                    >
+                      <strong>
+                        {
+                          calcProperties({ documentStatus: document.status })
+                            .title
+                        }
+                      </strong>
+                    </button>
+                  </div>
+                  {document.hasTemplate !== undefined &&
+                  document.hasTemplate === true ? (
+                    <span style={{ minHeight: "50px", paddingTop: "100px" }}>
+                      <br />
+                      <a
+                        href="https://www.google.co.in"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Template
+                      </a>
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
-                {document.hasTemplate !== undefined &&
-                document.hasTemplate === true ? (
-                  <span style={{ minHeight: "50px", paddingTop: "100px" }}>
-                    Template
-                  </span>
-                ) : (
-                  ""
-                )}
               </div>
-            </div>
-          </>
-        );
-      })}
+            </>
+          );
+        })}
+      </div>
     </div>
   );
 }

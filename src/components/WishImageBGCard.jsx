@@ -43,7 +43,7 @@ export default function WishImageBGCard({
   return (
     <div
       class="card box-shadow-0 border-3 border-left-primary"
-      style={{ marginLeft: "-12px", width: "102%" }}
+      style={{ marginLeft: "-12px", width: "103%"}}
     >
       <div class="card-content collapse show">
         <div className="card-header">

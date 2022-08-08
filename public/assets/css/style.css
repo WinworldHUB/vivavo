@@ -1,3 +1,18 @@
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  box-shadow: 0px 0px 0px 100vh #efefef;
+  border-radius: 20px;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -808,6 +823,29 @@ button {
   margin-top: -8px;
   left: 15px;
   color: white;
+}
+
+.simple-timeline-icon {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 20px;
+  border: 8px #ccc solid;
+  width: 30px;
+  height: 30px;
+  margin-top: -8px;
+  left: 21px;
+  color: #888;
+}
+
+.simple-timeline-icon.active {
+  border-color: var(--primary);
+}
+
+.simple-timeline-icon.first {
+  border-color: var(--success);
 }
 
 .wish-timeline ul {

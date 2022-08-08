@@ -707,7 +707,7 @@
       },
       {
         "icon": "la-hourglass-half",
-        "title": "PAN Card",
+        "title": "PAN <br/> Card",
         "status": "Uploaded"
       },
       {
@@ -725,6 +725,43 @@
         "title": "Contact Form",
         "status": "Upload",
         "hasTemplate": true
+      }
+    ],
+    "RankJourney": [
+      {
+        "title": "Supremo"
+      },
+      {
+        "title": "Black Diamond Ambassador",
+        "subTitle": "current rank",
+        "spacingBelow": "200px",
+        "active": true
+      },
+      {
+        "title": "Independent Distributor",
+        "first": true
+      }
+    ],
+    "MyCards": [
+      {
+        "icon": "la-check",
+        "title": "Welcome Letter",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-check",
+        "title": "ID <br/>Card",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-check",
+        "title": "PCM <br/> Card",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-check",
+        "title": "Insurance Card",
+        "status": "Approved"
       }
     ]
   }

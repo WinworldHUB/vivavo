@@ -41,6 +41,8 @@ export default function AddressDetails({ mode }) {
   }
 
   return (
-    <>{mode === "edit" ? <RenderEditableForm /> : <RenderReadOnlyForm />}</>
+    <div className="col-md-6">
+      {mode === "edit" ? <RenderEditableForm /> : <RenderReadOnlyForm />}
+    </div>
   );
 }

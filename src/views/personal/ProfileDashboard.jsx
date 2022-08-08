@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import PageLayout from "../../components/PageLayout";
 import WishColoredBar from "../../components/WishColoredBar";
@@ -12,6 +13,8 @@ import AddressDetails from "./Forms/AddressDetails";
 import BankDetails from "./Forms/BankDetails";
 import WishToaster from "../../components/WishToaster";
 import KYCDocuments from "./Forms/KYCDocuments";
+import RankJourney from "./Forms/RankJourney";
+import WishSimpleCard from "../../components/WishSimpleCard";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -92,9 +95,15 @@ export default function ProfileDashboard() {
                 <Link to="" className="card-link link-dotted">
                   View Genealogy
                 </Link>
-                <Link to="" className="card-link link-dotted">
+                <a
+                  to=""
+                  className="card-link link-dotted text-primary"
+                  onClick={() => {
+                    setSelectedTab(3);
+                  }}
+                >
                   Add KYC Details
-                </Link>
+                </a>
               </div>
             </WishColoredBar>
           </div>
@@ -161,13 +170,13 @@ export default function ProfileDashboard() {
       case 3:
         children = <KYCDocuments />;
         title = "KYC Documents";
-        size = "col-md-9";
         isEditable = false;
         break;
 
       case 4:
-        children = <h3>Rank Journey</h3>;
+        children = <RankJourney />;
         title = "Rank Journey";
+        isEditable = false;
         break;
 
       default:
@@ -183,10 +192,38 @@ export default function ProfileDashboard() {
           tabContentEditClicked(mode);
         }}
       >
-        <div className="row">
-          <div className={size}>{children}</div>
-        </div>
+        <div className="row">{children}</div>
       </WishImageBGCard>
+    );
+  }
+
+  function RenderMyCards() {
+    return (
+      <WishSimpleCard header={<h4 class="card-title">My Cards</h4>}>
+        <KYCDocuments
+          fullLength={true}
+          data={data.profile.MyCards}
+          bgColor="doc-bg-awaiting"
+        />
+      </WishSimpleCard>
+    );
+  }
+
+  function RenderPCMMembership() {
+    return (
+      <WishSimpleCard
+        header={<h4 class="card-title">PCM Membership</h4>}
+        footer={
+          <a className="card-link text-primary link-dotted ml-auto" href="#">
+            Avail
+          </a>
+        }
+      >
+        <p className="lead pb-1">
+          You have not yet availed the PCM benefits. Use the avail button to
+          initiate the process
+        </p>
+      </WishSimpleCard>
     );
   }
 
@@ -196,6 +233,14 @@ export default function ProfileDashboard() {
       <RenderTabsUI />
       <br />
       <RenderTabContent />
+      <div className="row">
+        <div className="col-md-8 p-0">
+          <RenderMyCards />
+        </div>
+        <div className="col-md-4 pr-0">
+          <RenderPCMMembership />
+        </div>
+      </div>
     </PageLayout>
   );
 }
