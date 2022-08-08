@@ -1,7 +1,6 @@
 import React from "react";
 import PageLayout from "../../components/PageLayout";
 import WishColoredBar from "../../components/WishColoredBar";
-import WishLinkCard from "../../components/WishLinkCard";
 import WishIconCard from "../../components/WishIconCard";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import data from "../../data/Data.json";

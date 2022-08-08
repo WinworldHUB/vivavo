@@ -112,7 +112,6 @@
       "completed": true
     }
   ],
-
   "treeData": {
     "title": "This is Root Node",
     "id": 0,
@@ -294,38 +293,70 @@
       }
     ]
   },
-
   "MyGenealogyStatsTabPages": [
     {
       "title": "First Organization",
       "tabs": [
-        { "title": "Current Week", "content": "<p>This is test content</p>" },
-        { "title": "Previous Week", "content": "<p>This is test content</p>" }
+        {
+          "title": "Current Week",
+          "content": "<p>This is test content</p>"
+        },
+        {
+          "title": "Previous Week",
+          "content": "<p>This is test content</p>"
+        }
       ]
     },
     {
       "title": "Second Organization",
       "tabs": [
-        { "title": "Current Week", "content": "<p>This is test content</p>" },
-        { "title": "Previous Week", "content": "<p>This is test content</p>" }
+        {
+          "title": "Current Week",
+          "content": "<p>This is test content</p>"
+        },
+        {
+          "title": "Previous Week",
+          "content": "<p>This is test content</p>"
+        }
       ]
     }
   ],
-
   "MyGenealogyRGVGraph": [
-    { "start": "0", "size": "0.2" },
-    { "start": "0.2", "size": "0.1" },
-    { "start": "0.1", "size": "0.3" },
-    { "start": "0.3", "size": "0.4" }
+    {
+      "start": "0",
+      "size": "0.2"
+    },
+    {
+      "start": "0.2",
+      "size": "0.1"
+    },
+    {
+      "start": "0.1",
+      "size": "0.3"
+    },
+    {
+      "start": "0.3",
+      "size": "0.4"
+    }
   ],
-
   "MyGenealogyLGVGraph": [
-    { "start": "0", "size": "0.2" },
-    { "start": "0.2", "size": "0.1" },
-    { "start": "0.1", "size": "0.6" },
-    { "start": "0.6", "size": "0.2" }
+    {
+      "start": "0",
+      "size": "0.2"
+    },
+    {
+      "start": "0.2",
+      "size": "0.1"
+    },
+    {
+      "start": "0.1",
+      "size": "0.6"
+    },
+    {
+      "start": "0.6",
+      "size": "0.2"
+    }
   ],
-
   "Mails": [
     {
       "subject": "Long Long Mail Subject 1",
@@ -489,11 +520,26 @@
   "profile": {
     "picture": "../../assets/app-assets/images/portrait/small/avatar-s-12.png",
     "tabs": [
-      { "icon": "la-user", "title": "Personal Details" },
-      { "icon": "la-map-marker", "title": "Address" },
-      { "icon": "la-rupee-sign", "title": "Bank Details" },
-      { "icon": "la-copy", "title": "KYC Documents" },
-      { "icon": "la-sitemap", "title": "Rank Journey" }
+      {
+        "icon": "la-user",
+        "title": "Personal Details"
+      },
+      {
+        "icon": "la-map-marker",
+        "title": "Address"
+      },
+      {
+        "icon": "la-rupee-sign",
+        "title": "Bank Details"
+      },
+      {
+        "icon": "la-copy",
+        "title": "KYC Documents"
+      },
+      {
+        "icon": "la-sitemap",
+        "title": "Rank Journey"
+      }
     ],
     "tabContentBGs": [
       "PersonalDetails.jpg",
@@ -651,6 +697,34 @@
         "value": "xxxxxxx",
         "type": "string",
         "editable": true
+      }
+    ],
+    "KYCDocuments": [
+      {
+        "icon": "la-check",
+        "title": "Aadhar Card",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-hourglass-half",
+        "title": "PAN Card",
+        "status": "Uploaded"
+      },
+      {
+        "icon": "la-check",
+        "title": "Address Proof",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-times",
+        "title": "Bank Proof",
+        "status": "Approved"
+      },
+      {
+        "icon": "la-check",
+        "title": "Contact Form",
+        "status": "Upload",
+        "hasTemplate": true
       }
     ]
   }
