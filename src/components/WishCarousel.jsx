@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import WishSimpleCard from "./WishSimpleCard";
 
@@ -9,9 +10,10 @@ export default function WishCarousel({
   prevLinkTitle,
   title,
   action,
-  selectedPageIndex,
+  selectedPageIndex = 0,
   headers,
-  showArrows,
+  showArrows = false,
+  showNextPrev = true,
 }) {
   const currentPageIndex =
     selectedPageIndex === undefined ? 0 : selectedPageIndex;
@@ -19,6 +21,10 @@ export default function WishCarousel({
   const totalPages = children === undefined ? 0 : children.length;
 
   const [currentPage, setCurrentPage] = useState(currentPageIndex);
+
+  useEffect(() => {
+    setCurrentPage(selectedPageIndex);
+  }, [selectedPageIndex]);
 
   const calcHeader = function () {
     var value = null;
@@ -51,9 +57,7 @@ export default function WishCarousel({
         <a
           className={
             "card-link link-dotted mr-auto d-flex align-items-center " +
-            (currentPage === 0
-              ? " hidden "
-              : " ")
+            (currentPage === 0 ? " hidden " : " ")
           }
           onClick={(e) => {
             e.stopPropagation();
@@ -84,7 +88,7 @@ export default function WishCarousel({
     <WishSimpleCard
       header={renderHeader()}
       body={children[currentPage] ?? ""}
-      footer={renderFooter()}
+      footer={showNextPrev && renderFooter()}
     ></WishSimpleCard>
   );
 }

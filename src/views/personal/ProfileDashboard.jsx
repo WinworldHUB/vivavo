@@ -19,11 +19,18 @@ import CoApplicantProfile from "./Forms/CoApplicantProfile";
 import VOTMMembership from "./Forms/VOTMMembership";
 import WishModal from "../../components/WishModal";
 import DistributorDetails from "./Forms/DistributorDetails";
+import WishCarousel from "../../components/WishCarousel";
+import WishSelect from "../../components/WishFormComponents/WishSelect";
+import ChangeCoApplicantRequest from "./Forms/ChangeCoApplicantRequest";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentFormMode, setCurrentFormMode] = useState("display");
   const [coapplicantFormMode, setCoapplicantFormMode] = useState("display");
+
+  const [changeCoApplicantPageIndex, setChangeCoApplicantPageIndex] =
+    useState(0);
+  const [isCoApplicantMother, setIsCoApplicantMother] = useState(true);
 
   const renderProfileTop = function () {
     return (
@@ -257,7 +264,11 @@ export default function ProfileDashboard() {
           </div>
         }
         footer={
-          <a className="card-link text-primary link-dotted ml-auto" href="#">
+          <a
+            className="card-link text-primary link-dotted ml-auto"
+            data-toggle="modal"
+            data-target="#dlgChangeCoApplicant"
+          >
             Change Co-Applicant
           </a>
         }
@@ -311,6 +322,82 @@ export default function ProfileDashboard() {
       </div>
       <WishModal id="dlgEditDetails" title="Update details">
         <DistributorDetails />
+      </WishModal>
+      <WishModal
+        id="dlgChangeCoApplicant"
+        title="Change Co-Applicant"
+        noFooter={true}
+      >
+        <WishColoredBar bgcolor="danger">
+          CAUTION: This is an important change that you are making!
+        </WishColoredBar>
+        <WishCarousel
+          showNextPrev={false}
+          selectedPageIndex={changeCoApplicantPageIndex}
+        >
+          <>
+            <h5 className="">
+              We would like you to confirm few things about yourself first
+            </h5>
+            <p>Gender: Male</p>
+            <WishSelect
+              label="Martial Status:"
+              data={["Single", "Married", "Divorced", "Widowed"]}
+            />
+          </>
+          <>
+            <h5 className="">Now tell us about the co-applicant</h5>
+            <WishSelect
+              label="Martial Status:"
+              data={["Mother", "Other"]}
+              onSelect={(index) => {
+                console.log(index);
+                setIsCoApplicantMother(parseInt(index) === 0);
+              }}
+            />
+          </>
+        </WishCarousel>
+        <div className="d-flex justify-content-between">
+          {changeCoApplicantPageIndex > 0 ? (
+            <label
+              className="card-link link-dotted clickable"
+              onClick={() => {
+                setChangeCoApplicantPageIndex(changeCoApplicantPageIndex - 1);
+              }}
+            >
+              Change Martiail Status
+            </label>
+          ) : (
+            <>&nbsp;</>
+          )}
+
+          {changeCoApplicantPageIndex === 0 ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setChangeCoApplicantPageIndex(changeCoApplicantPageIndex + 1);
+              }}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              className="btn btn-danger"
+              data-dismiss="modal"
+              data-toggle="modal"
+              data-target="#dlgCoApplicantDetails"
+            >
+              Submit
+            </button>
+          )}
+        </div>
+      </WishModal>
+      <WishModal
+        id="dlgCoApplicantDetails"
+        modalSize="modal-xl"
+        title="Submit Change CoApplicant Request"
+      >
+        <ChangeCoApplicantRequest isCoApplicantMother={isCoApplicantMother} />
       </WishModal>
     </PageLayout>
   );

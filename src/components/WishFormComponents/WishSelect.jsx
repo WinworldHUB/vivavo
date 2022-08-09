@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -11,6 +12,11 @@ export default function WishSelect({
   const elementId = uuidv4();
 
   const [selectedItem, setSelectedItem] = useState(initialValue);
+
+  useEffect(() => {
+    setSelectedItem(initialValue);
+  }, [initialValue]);
+
   return (
     <div className="form-group row d-flex align-items-center">
       <div className={"" + (label !== undefined ? " col-4 " : " hidden ")}>
@@ -24,7 +30,7 @@ export default function WishSelect({
           defaultValue={selectedItem}
           onChange={(e) => {
             setSelectedItem(e.target.value);
-            onSelect && onSelect(selectedItem);
+            onSelect && onSelect(e.target.value);
           }}
         >
           {data &&
