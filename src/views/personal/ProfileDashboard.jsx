@@ -16,10 +16,14 @@ import KYCDocuments from "./Forms/KYCDocuments";
 import RankJourney from "./Forms/RankJourney";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import CoApplicantProfile from "./Forms/CoApplicantProfile";
+import VOTMMembership from "./Forms/VOTMMembership";
+import WishModal from "../../components/WishModal";
+import DistributorDetails from "./Forms/DistributorDetails";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentFormMode, setCurrentFormMode] = useState("display");
+  const [coapplicantFormMode, setCoapplicantFormMode] = useState("display");
 
   const renderProfileTop = function () {
     return (
@@ -55,6 +59,8 @@ export default function ProfileDashboard() {
               <small>Distributor ID: 1001</small>
               <button
                 className="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#dlgEditDetails"
                 //onClick={() => doFlip(!isProfileFlipped, "flipProfileDetails")}
               >
                 <i className="las la-edit"></i> Edit details
@@ -149,7 +155,6 @@ export default function ProfileDashboard() {
 
   function RenderTabContent() {
     var isEditable = true;
-    var size = "col-md-6";
     var children = "";
     var title = "";
     switch (selectedTab) {
@@ -200,7 +205,10 @@ export default function ProfileDashboard() {
 
   function RenderMyCards() {
     return (
-      <WishSimpleCard header={<h4 class="card-title">My Cards</h4>}>
+      <WishSimpleCard
+        header={<h4 class="card-title">My Cards</h4>}
+        cardBodyClassName="p-0"
+      >
         <KYCDocuments
           fullLength={true}
           data={data.profile.MyCards}
@@ -220,7 +228,7 @@ export default function ProfileDashboard() {
           </a>
         }
       >
-        <p className="lead pb-1">
+        <p className="">
           You have not yet availed the PCM benefits. Use the avail button to
           initiate the process
         </p>
@@ -231,16 +239,50 @@ export default function ProfileDashboard() {
   function RenderCoApplicantProfile() {
     return (
       <WishSimpleCard
-        header={<h4 class="card-title">Co-Applicant Profile</h4>}
+        header={
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Co-Applicant Profile</h4>
+            <h4>
+              <a
+                className="clickable text-primary"
+                onClick={() => {
+                  if (coapplicantFormMode === "display")
+                    setCoapplicantFormMode("edit");
+                  else setCoapplicantFormMode("display");
+                }}
+              >
+                <i className="las la-edit"></i>
+              </a>
+            </h4>
+          </div>
+        }
         footer={
           <a className="card-link text-primary link-dotted ml-auto" href="#">
             Change Co-Applicant
           </a>
         }
+        cardBodyClassName="scrollOn200"
       >
-        <div style={{ maxHeight: "200px", overflowY: "scroll" }}>
-          <CoApplicantProfile mode={currentFormMode} />
-        </div>
+        {/* <div style={{ maxHeight: "200px", overflowY: "scroll" }}>
+          <CoApplicantProfile mode={"edit"} />
+        </div> */}
+        <CoApplicantProfile mode={coapplicantFormMode} />
+      </WishSimpleCard>
+    );
+  }
+
+  function RenderVOTMMembershipt() {
+    return (
+      <WishSimpleCard
+        header={<h4 class="card-title">VOTM Membership</h4>}
+        footer={
+          <a className="card-link text-primary link-dotted ml-auto" href="#">
+            Place Order
+          </a>
+        }
+        cardBodyClassName="scrollOn200"
+      >
+        <VOTMMembership data={data.profile.VOTMMembership} />
       </WishSimpleCard>
     );
   }
@@ -248,23 +290,28 @@ export default function ProfileDashboard() {
   return (
     <PageLayout activeSideMenu="0" pageTitle="My Profile" extendedHeader>
       {renderProfileTop()}
-      <RenderTabsUI />
-      <br />
-      <RenderTabContent />
       <div className="row">
-        <div className="col-md-8 p-0">
+        <div className="col-md-12">
+          <RenderTabsUI />
+          <br />
+          <RenderTabContent />
+        </div>
+        <div className="col-md-8">
           <RenderMyCards />
         </div>
-        <div className="col-md-4 pr-0">
+        <div className="col-md-4">
           <RenderPCMMembership />
         </div>
-        <div className="col-md-8 p-0">
+        <div className="col-md-8">
           <RenderCoApplicantProfile />
         </div>
-        <div className="col-md-4 pr-0">
-          <RenderPCMMembership />
+        <div className="col-md-4">
+          <RenderVOTMMembershipt />
         </div>
       </div>
+      <WishModal id="dlgEditDetails" title="Update details">
+        <DistributorDetails />
+      </WishModal>
     </PageLayout>
   );
 }

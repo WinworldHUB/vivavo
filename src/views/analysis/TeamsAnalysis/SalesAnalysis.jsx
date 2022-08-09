@@ -4,7 +4,7 @@ import WishSimpleCard from "../../../components/WishSimpleCard";
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import WishSelect from "../../../components/WishSelect";
+import WishSelect from "../../../components/WishFormComponents/WishSelect";
 
 import Chart from "react-apexcharts";
 

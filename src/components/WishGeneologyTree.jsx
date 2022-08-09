@@ -7,7 +7,7 @@ import WishModal from "./WishModal";
 import WishSimpleCard from "./WishSimpleCard";
 import Tree from "./WishTree/Tree";
 import TreeNode from "./WishTree/TreeNode";
-import WishSelect from "./WishSelect";
+import WishSelect from "./WishFormComponents/WishSelect";
 import WishColoredBar from "./WishColoredBar";
 import "json-loader";
 import data from "../data/Data.json";

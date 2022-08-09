@@ -1,5 +1,5 @@
 import React from "react";
-import WishMultilineText from "../../../components/WishMultilineText";
+import WishMultilineText from "../../../components/WishFormComponents/WishMultilineText";
 import data from "../../../data/Data.json";
 
 export default function AddressDetails({ mode }) {

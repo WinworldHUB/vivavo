@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import data from "../../../data/Data.json";
-import WishSelect from "../../../components/WishSelect";
-import WishSingleLineText from "../../../components/WishSingleLineText";
+import WishSelect from "../../../components/WishFormComponents/WishSelect";
+import WishSingleLineText from "../../../components/WishFormComponents/WishSingleLineText";
+import WishDateControl from "../../../components/WishFormComponents/WishDateControl";
 
 export default function PersonalDetails({ mode }) {
   function RenderReadOnlyForm() {
@@ -42,6 +43,15 @@ export default function PersonalDetails({ mode }) {
                     key={index}
                     label={element.title}
                     data={element.options}
+                  />
+                );
+
+              case "date":
+                return (
+                  <WishDateControl
+                    key={index}
+                    label={element.title}
+                    placeholder={element.title}
                   />
                 );
 

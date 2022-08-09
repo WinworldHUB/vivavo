@@ -1,6 +1,6 @@
 import React from "react";
 import data from "../../../data/Data.json";
-import WishSingleLineText from "../../../components/WishSingleLineText";
+import WishSingleLineText from "../../../components/WishFormComponents/WishSingleLineText";
 
 export default function BankDetails({ mode }) {
   function RenderReadOnlyForm() {

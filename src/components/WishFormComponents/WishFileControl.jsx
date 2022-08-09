@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function WishSingleLineText({
+export default function WishFileControl({
   label,
   initialValue = "",
   placeholder = "",
@@ -24,11 +24,11 @@ export default function WishSingleLineText({
       </label>
       <div className="col-8">
         <input
+          type="file"
           id={elementId}
+          className="form-control"
           name={elementId}
           placeholder={placeholder}
-          type="text"
-          className="form-control"
           value={initialValue}
           {...additionalAttributes()}
         />
