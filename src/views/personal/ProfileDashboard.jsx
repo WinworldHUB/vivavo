@@ -99,7 +99,7 @@ export default function ProfileDashboard() {
                 </span>
               </div>
               <div className="col-12 text-right">
-                <Link to="" className="card-link link-dotted">
+                <Link to="/mygeneology" className="card-link link-dotted">
                   View Genealogy
                 </Link>
                 <a
