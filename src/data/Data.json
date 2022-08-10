@@ -648,13 +648,13 @@
         "title": "Aadhar Card",
         "value": "xxxx xxxx xxxx",
         "type": "string",
-        "editable": false
+        "editable": true
       },
       {
         "title": "Aadhar Card (Attachment)",
         "value": "S-AadharCard.pdf",
-        "type": "link",
-        "editable": false
+        "type": "file",
+        "editable": true
       },
       {
         "title": "GST Number",
@@ -666,27 +666,129 @@
         "title": "PAN",
         "value": "xxxx xxxx",
         "type": "string",
-        "editable": false
+        "editable": true
       },
       {
         "title": "PAN (Attachment)",
         "value": "S-PanCard.pdf",
-        "type": "link",
-        "editable": false
+        "type": "file",
+        "editable": true
       }
     ],
     "AddressDetails": [
       {
         "title": "Permanent Address",
         "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
-        "type": "textarea",
-        "editable": true
+        "type": "section",
+        "editable": false,
+        "displayFields": [
+          {
+            "title": "Address",
+            "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
+            "type": "string",
+            "editable": false
+          }
+        ],
+        "editableFields": [
+          {
+            "title": "Address Line 1",
+            "value": "St. John's Research Institute",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "Address Line 2",
+            "value": "St. John's National Academy of Health Sciences",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "District",
+            "value": "Bangaluru",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "City",
+            "value": "Bangaluru",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "State",
+            "value": "Karnataka",
+            "type": "dropdown",
+            "editable": true,
+            "options": ["Karnataka", "Rajasthan", "Maharashtra"]
+          },
+          {
+            "title": "Country",
+            "value": "India",
+            "type": "dropdown",
+            "editable": true,
+            "options": ["India", "Bangladesh", "Sri Lanka"]
+          },
+          {
+            "title": "Proof",
+            "value": "",
+            "type": "file",
+            "editable": true
+          }
+        ]
       },
       {
         "title": "Communication Address",
         "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
-        "type": "textarea",
-        "editable": true
+        "type": "section",
+        "editable": false,
+        "displayFields": [
+          {
+            "title": "Address",
+            "value": "St. John's Research Institute, St. John's National Academy of Health Sciences, Sarjapur Main Rd, Koramangala 2 Block, Madivala",
+            "type": "string",
+            "editable": false
+          }
+        ],
+        "editableFields": [
+          {
+            "title": "Address Line 1",
+            "value": "St. John's Research Institute",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "Address Line 2",
+            "value": "St. John's National Academy of Health Sciences",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "District",
+            "value": "Bangaluru",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "City",
+            "value": "Bangaluru",
+            "type": "string",
+            "editable": true
+          },
+          {
+            "title": "State",
+            "value": "Karnataka",
+            "type": "dropdown",
+            "editable": true,
+            "options": ["Karnataka", "Rajasthan", "Maharashtra"]
+          },
+          {
+            "title": "Country",
+            "value": "India",
+            "type": "dropdown",
+            "editable": true,
+            "options": ["India", "Bangladesh", "Sri Lanka"]
+          }
+        ]
       }
     ],
     "BankDetails": [
@@ -718,6 +820,12 @@
         "title": "IFSC Code",
         "value": "xxxxxxx",
         "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Address Proof (Attachment)",
+        "value": "S-BankProof.pdf",
+        "type": "file",
         "editable": true
       }
     ],

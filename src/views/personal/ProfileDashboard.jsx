@@ -22,6 +22,7 @@ import DistributorDetails from "./Forms/DistributorDetails";
 import WishCarousel from "../../components/WishCarousel";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
 import ChangeCoApplicantRequest from "./Forms/ChangeCoApplicantRequest";
+import PCMMembership from "./Forms/PCMMembership";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -225,24 +226,6 @@ export default function ProfileDashboard() {
     );
   }
 
-  function RenderPCMMembership() {
-    return (
-      <WishSimpleCard
-        header={<h4 class="card-title">PCM Membership</h4>}
-        footer={
-          <a className="card-link text-primary link-dotted ml-auto" href="#">
-            Avail
-          </a>
-        }
-      >
-        <p className="">
-          You have not yet availed the PCM benefits. Use the avail button to
-          initiate the process
-        </p>
-      </WishSimpleCard>
-    );
-  }
-
   function RenderCoApplicantProfile() {
     return (
       <WishSimpleCard
@@ -287,9 +270,12 @@ export default function ProfileDashboard() {
       <WishSimpleCard
         header={<h4 class="card-title">VOTM Membership</h4>}
         footer={
-          <a className="card-link text-primary link-dotted ml-auto" href="#">
+          <Link
+            className="card-link text-primary link-dotted ml-auto"
+            to="/placeorder"
+          >
             Place Order
-          </a>
+          </Link>
         }
         cardBodyClassName="scrollOn200"
       >
@@ -311,7 +297,7 @@ export default function ProfileDashboard() {
           <RenderMyCards />
         </div>
         <div className="col-md-4">
-          <RenderPCMMembership />
+          <PCMMembership />
         </div>
         <div className="col-md-8">
           <RenderCoApplicantProfile />

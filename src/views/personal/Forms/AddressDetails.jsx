@@ -1,6 +1,8 @@
 import React from "react";
-import WishMultilineText from "../../../components/WishFormComponents/WishMultilineText";
 import data from "../../../data/Data.json";
+import WishSelect from "../../../components/WishFormComponents/WishSelect";
+import WishSingleLineText from "../../../components/WishFormComponents/WishSingleLineText";
+import WishFileControl from "../../../components/WishFormComponents/WishFileControl";
 
 export default function AddressDetails({ mode }) {
   function RenderReadOnlyForm() {
@@ -20,20 +22,47 @@ export default function AddressDetails({ mode }) {
     );
   }
 
-  function RenderEditableForm() {
+  function RenderEditableForm({ details = [] }) {
     return (
       <>
-        {data.profile.AddressDetails.map((element, index) => {
-          if (element.editable) {
-            return (
-              <WishMultilineText
-                key={index}
-                label={element.title}
-                placeholder={element.title}
-                initialValue={element.value}
-                required={true}
-              />
-            );
+        {details.map((element, index) => {
+          switch (element.type.toLowerCase()) {
+            case "section":
+              return (
+                <div className="pb-2">
+                  <h5>{element.title}</h5>
+                  <RenderEditableForm details={element["editableFields"]} />
+                </div>
+              );
+
+            case "dropdown":
+              return (
+                <WishSelect
+                  key={index}
+                  label={element.title}
+                  data={element.options}
+                />
+              );
+
+            case "file":
+              return (
+                <WishFileControl
+                  key={index}
+                  label={element.title}
+                  placeholder={element.title}
+                />
+              );
+
+            default:
+              return (
+                <WishSingleLineText
+                  key={index}
+                  label={element.title}
+                  placeholder={element.title}
+                  initialValue={element.value}
+                  required={true}
+                />
+              );
           }
         })}
       </>
@@ -42,7 +71,11 @@ export default function AddressDetails({ mode }) {
 
   return (
     <div className="col-md-6">
-      {mode === "edit" ? <RenderEditableForm /> : <RenderReadOnlyForm />}
+      {mode === "edit" ? (
+        <RenderEditableForm details={data.profile.AddressDetails} />
+      ) : (
+        <RenderReadOnlyForm />
+      )}
     </div>
   );
 }

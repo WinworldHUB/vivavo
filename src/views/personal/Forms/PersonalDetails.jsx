@@ -3,6 +3,7 @@ import React from "react";
 import data from "../../../data/Data.json";
 import WishSelect from "../../../components/WishFormComponents/WishSelect";
 import WishSingleLineText from "../../../components/WishFormComponents/WishSingleLineText";
+import WishFileControl from "../../../components/WishFormComponents/WishFileControl";
 import WishDateControl from "../../../components/WishFormComponents/WishDateControl";
 
 export default function PersonalDetails({ mode }) {
@@ -10,7 +11,7 @@ export default function PersonalDetails({ mode }) {
     return (
       <>
         {data.profile.PersonalDetails.map((detail, index) => {
-          if (detail.type === "link") {
+          if (detail.type === "link" || detail.type === "file") {
             return (
               <p key={index}>
                 {detail.title}:{" "}
@@ -49,6 +50,15 @@ export default function PersonalDetails({ mode }) {
               case "date":
                 return (
                   <WishDateControl
+                    key={index}
+                    label={element.title}
+                    placeholder={element.title}
+                  />
+                );
+
+              case "file":
+                return (
+                  <WishFileControl
                     key={index}
                     label={element.title}
                     placeholder={element.title}
