@@ -999,6 +999,189 @@
         "date": "01-July-2021",
         "status": "Expired"
       }
+    ],
+    "CoApplicantChangeToMother": [
+      {
+        "title": "Name",
+        "value": "Shamsus Shrinee",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Date of birth",
+        "value": "01/01/1980",
+        "type": "date",
+        "editable": true,
+        "max": "new Date()"
+      },
+      {
+        "title": "Phone",
+        "value": "",
+        "type": "string",
+        "editable": true,
+        "needsVerification": true
+      },
+      {
+        "title": "Email",
+        "value": "",
+        "type": "string",
+        "editable": true,
+        "needsVerification": true
+      },
+      {
+        "title": "Aadhar Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Aadhar Number (Proof)",
+        "value": "",
+        "type": "file",
+        "editable": true,
+        "multiple": false
+      },
+      {
+        "title": "PAN Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "PAN Number (Proof)",
+        "value": "",
+        "type": "file",
+        "editable": true,
+        "multiple": false
+      },
+      {
+        "title": "Account Holder Name",
+        "value": "Shamshu Shireen",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Account Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Bank Name",
+        "value": "ICICI Bank",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Branch Name",
+        "value": "Sarjapur Main Rd Branch",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "IFSC Code",
+        "value": "ICIC00008298",
+        "type": "string",
+        "editable": true
+      }
+    ],
+    "CoApplicantChangeToOther": [
+      {
+        "title": "Name",
+        "value": "Shamsus Shrinee",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Date of birth",
+        "value": "01/01/1980",
+        "type": "date",
+        "editable": true,
+        "max": "new Date()"
+      },
+      {
+        "title": "Phone",
+        "value": "",
+        "type": "string",
+        "editable": true,
+        "needsVerification": true
+      },
+      {
+        "title": "Email",
+        "value": "",
+        "type": "string",
+        "editable": true,
+        "needsVerification": true
+      },
+      {
+        "title": "Aadhar Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Aadhar Number (Proof)",
+        "value": "",
+        "type": "file",
+        "editable": true,
+        "multiple": false
+      },
+      {
+        "title": "PAN Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "PAN Number (Proof)",
+        "value": "",
+        "type": "file",
+        "editable": true,
+        "multiple": false
+      },
+      {
+        "title": "Account Holder Name",
+        "value": "Shamshu Shireen",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Account Number",
+        "value": "",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Bank Name",
+        "value": "ICICI Bank",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Branch Name",
+        "value": "Sarjapur Main Rd Branch",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "IFSC Code",
+        "value": "ICIC00008298",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "title": "Justfication",
+        "value": "",
+        "type": "multiline",
+        "editable": true
+      },
+      {
+        "title": "Justification (Proof)",
+        "value": "",
+        "type": "file",
+        "editable": true,
+        "multiple": false
+      }
     ]
   }
 }

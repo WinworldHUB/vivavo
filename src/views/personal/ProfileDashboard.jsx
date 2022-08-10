@@ -23,6 +23,7 @@ import WishCarousel from "../../components/WishCarousel";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
 import ChangeCoApplicantRequest from "./Forms/ChangeCoApplicantRequest";
 import PCMMembership from "./Forms/PCMMembership";
+import { AppUtils } from "../../services/AppUtils";
 
 export default function ProfileDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -370,8 +371,13 @@ export default function ProfileDashboard() {
             <button
               className="btn btn-danger"
               data-dismiss="modal"
-              data-toggle="modal"
-              data-target="#dlgCoApplicantDetails"
+              // data-toggle="modal"
+              // data-target="#dlgCoApplicantDetails"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                AppUtils.showDialog("dlgCoApplicantDetails");
+              }}
             >
               Submit
             </button>
@@ -380,7 +386,7 @@ export default function ProfileDashboard() {
       </WishModal>
       <WishModal
         id="dlgCoApplicantDetails"
-        modalSize="modal-xl"
+        modalSize="modal-xl modal-dialog-scrollable"
         title="Submit Change CoApplicant Request"
       >
         <ChangeCoApplicantRequest isCoApplicantMother={isCoApplicantMother} />
