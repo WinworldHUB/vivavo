@@ -29,7 +29,7 @@ export default function WishFileControl({
           className="form-control"
           name={elementId}
           placeholder={placeholder}
-          value={initialValue}
+          defaultValue={initialValue}
           {...additionalAttributes()}
         />
       </div>

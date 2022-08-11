@@ -33,7 +33,7 @@ export default function WishDateControl({
           data-trigger="hover"
           data-placement="top"
           data-title="Date of birth"
-          value={initialValue}
+          defaultValue={initialValue}
           {...additionalAttributes()}
         />
       </div>

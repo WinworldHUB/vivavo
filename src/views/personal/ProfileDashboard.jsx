@@ -266,7 +266,7 @@ export default function ProfileDashboard() {
     );
   }
 
-  function RenderVOTMMembershipt() {
+  function RenderVOTMMembership() {
     return (
       <WishSimpleCard
         header={<h4 class="card-title">VOTM Membership</h4>}
@@ -304,7 +304,7 @@ export default function ProfileDashboard() {
           <RenderCoApplicantProfile />
         </div>
         <div className="col-md-4">
-          <RenderVOTMMembershipt />
+          <RenderVOTMMembership />
         </div>
       </div>
       <WishModal id="dlgEditDetails" title="Update details">
@@ -333,15 +333,33 @@ export default function ProfileDashboard() {
             />
           </>
           <>
+            <h5 className="">Your details:</h5>
+            <div className="d-flex justify-content-between pb-2">
+              <label>
+                Gender: <strong>Male</strong>{" "}
+              </label>
+              <label>
+                Maritial Status: <strong>Married</strong>
+              </label>
+            </div>
+
             <h5 className="">Now tell us about the co-applicant</h5>
             <WishSelect
-              label="Martial Status:"
+              label="Relationship with Co-Applicant:"
               data={["Mother", "Other"]}
               onSelect={(index) => {
                 console.log(index);
                 setIsCoApplicantMother(parseInt(index) === 0);
               }}
             />
+            {isCoApplicantMother === false ? (
+              <WishSelect
+                label=""
+                data={["Son", "Daughter", "Spouse", "Brother", "Father"]}
+              />
+            ) : (
+              <></>
+            )}
           </>
         </WishCarousel>
         <div className="d-flex justify-content-between">

@@ -31,7 +31,7 @@ export default function WishSingleLineText({
           placeholder={placeholder}
           type="text"
           className="form-control"
-          value={initialValue}
+          defaultValue={initialValue}
           {...additionalAttributes()}
         />
       </div>

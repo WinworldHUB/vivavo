@@ -29,7 +29,7 @@ export default function WishMultilineText({
           placeholder={placeholder}
           type="text"
           className="form-control"
-          value={initialValue}
+          defaultValue={initialValue}
           rows="5"
           {...additionalAttributes()}
         />

@@ -6,7 +6,7 @@ export default function VOTMMembership({ data = [] }) {
       {data.map((document, index) => {
         return (
           <>
-            <div className="col-4 pb-2" key={index + "-left"}>
+            <div className="col-4 pb-2" key={index}>
               <h3>
                 <i className="las la-file la-3x"></i>
               </h3>
@@ -19,7 +19,7 @@ export default function VOTMMembership({ data = [] }) {
                 {document.title}
               </a>
             </div>
-            <div className="col-8 text-right pb-2" key={index + "-right"}>
+            <div className="col-8 text-right pb-2">
               <p>Date: {document.date}</p>
               <p>Status: {document.status}</p>
             </div>
