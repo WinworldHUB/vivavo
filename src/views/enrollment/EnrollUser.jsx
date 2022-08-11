@@ -9,9 +9,8 @@ import WishLinkCard from "../../components/WishLinkCard";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import WishGeneologyTree from "../../components/WishGeneologyTree";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
+import { AppUtils } from "../../services/AppUtils";
 
 import "json-loader";
 import data from "../../data/Data.json";
@@ -25,6 +24,12 @@ export default function EnrollUser() {
   const totalPages = 6;
   const [currentPage, setCurrentPage] = useState(step ?? 0);
   const [termsAgreed, setTermsAgreed] = useState(false);
+
+  const [pancardConsent, setPancardConsent] = useState(false);
+  const [pancard, setPancard] = useState("");
+  const [gstConsent, setGSTConsent] = useState(false);
+  const [gstnumber, setGSTNumber] = useState("");
+
   const breadcrumbs = [];
   const navigations = [
     "Applicant Details",
@@ -144,12 +149,37 @@ export default function EnrollUser() {
             (currentPage === totalPages - 1 ? " hidden " : " ") +
             (currentPage === 4 && termsAgreed === false ? " hidden " : "")
           }
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => {
+            gotoNextPage();
+          }}
         >
           PROCEED <i className="las la-angle-right"></i>
         </a>
       </>
     );
+  };
+
+  const gotoNextPage = function () {
+    if (validatePage()) setCurrentPage(currentPage + 1);
+  };
+
+  const validatePage = function () {
+    switch (currentPage) {
+      case 0:
+        if (
+          (pancard === "" && pancardConsent === false) ||
+          (gstnumber === "" && gstConsent === false)
+        ) {
+          AppUtils.showDialog("dlgConsent");
+          return false;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    return true;
   };
 
   const page = function () {
@@ -392,6 +422,10 @@ export default function EnrollUser() {
               placeholder="(Optional)"
               type="text"
               className="form-control"
+              defaultValue={gstnumber}
+              onChange={(e) => {
+                setGSTNumber(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -406,6 +440,10 @@ export default function EnrollUser() {
               placeholder="(Optional)"
               type="text"
               className="form-control"
+              defaultValue={pancard}
+              onChange={(e) => {
+                setPancard(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -1764,6 +1802,96 @@ export default function EnrollUser() {
           header={treeHeader()}
           tree={treeNodes}
         ></WishGeneologyTree>
+      </WishModal>
+      <WishModal
+        id="dlgConsent"
+        modalSize="modal-xl"
+        title="You are seeing this because"
+        onFinish={() => {
+          gotoNextPage();
+        }}
+      >
+        <WishColoredBar bgcolor="danger">
+          You did not provide PAN Card / Aadhar Card details. Please provide
+          your consent for non-provision of PAN Card / GST Number
+        </WishColoredBar>
+        <div class="form-group row">
+          {pancard === "" ? (
+            <>
+              <div class="col-12 pb-2">
+                <h5>PAN Card Consent</h5>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input
+                    name="checkbox"
+                    id="checkbox_0"
+                    type="checkbox"
+                    checked={pancardConsent === false ? "" : "checked"}
+                    class="custom-control-input"
+                    value="pancard"
+                    onClick={() => {
+                      setPancardConsent(!pancardConsent);
+                    }}
+                  />
+                  <label for="checkbox_0" class="custom-control-label">
+                    I hereby undertake that I am not an ASSESSEE as defined
+                    under the provisions of Income Tax, 1961. I do not have
+                    income exceeding the limit on which tax is required to be
+                    paid and therefore do not have PAN No. I have not applied
+                    for PAN number either voluntarily or otherwise in the past.
+                    I hereby, further undertake to keep the company informed,
+                    once I get PAN number allocated by Income Tax Department
+                    immediately. I therefore, authorize company to deduct Tax at
+                    the appropriate rate in the absence of PAN number and
+                    exonerate company from all future tax liability that may
+                    arise because of non-compliance of Income Tax Act, 1961 from
+                    my end.
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <hr />
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+
+          {gstnumber === "" ? (
+            <div class="col-12 pt-2">
+              <h5>GST Number Consent</h5>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input
+                  name="checkbox"
+                  id="checkbox_1"
+                  type="checkbox"
+                  checked={gstConsent === false ? "" : "checked"}
+                  class="custom-control-input"
+                  value="gstnumber"
+                  onClick={() => {
+                    setGSTConsent(!gstConsent);
+                  }}
+                />
+                <label for="checkbox_1" class="custom-control-label">
+                  I hereby undertake that I am not a supplier as defined under
+                  the provisions of Goods and Services Tax, 2017 requiring
+                  registration. I do not have turnover during the current and
+                  previous year exceeding the limit which requires mandatory
+                  registration and GST law and therefore do not have GST No. I
+                  have not applied for GST number either voluntarily or
+                  otherwise in the past. I hereby, further undertake to keep the
+                  company informed, once I get GST number allocated by GST
+                  Department immediately. I therefore, authorize company to
+                  charge GST at the appropriate rate in the absence of GST
+                  number and exonerate company from all future tax liability
+                  that may arise because of non-compliance of GST laws from my
+                  end.
+                </label>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </WishModal>
     </PageLayout>
   );
