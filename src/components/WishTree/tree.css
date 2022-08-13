@@ -1,30 +1,69 @@
-.selected {
+/* .selected {
   background-color: var(--primary) !important;
   color: white !important;
   font-size: 1.2em;
   padding: 5px;
   border-radius: 5px;
+} */
+
+.selected {
+  background-color: #efefef;
+  padding: 0 10px 5px 10px;
+}
+
+.selected img{
+  padding-top: 10px;
+  width: 50px;
+  height: 60px;
+  border-radius: 100px;
 }
 
 .selected small {
-  color: white !important;
+  color: blue !important;
+}
+
+.selected a {
+  color: var(--primary) !important;
 }
 
 .treenode.rootNode {
-  background-color: var(--gray) !important;
-  color: white !important;
+  /* background-color: transparent !important;
+  color: white !important; */
   font-size: 1.2em;
   padding: 5px;
   border-radius: 5px;
-  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
-  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  /* box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important; */
 }
 
 .treenode {
-  background-color: #efefef !important;
-  font-size: 1.2em;
-  padding: 5px;
+  background-color: transparent !important;
+  /* font-size: 1.2em; */
+  /* padding: 5px; */
   border-radius: 5px;
-  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
-  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  /* box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  --webkit-box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important; */
+}
+
+.treenode img {
+  padding-top: 10px;
+  width: 50px;
+  height: 60px;
+  border-radius: 100px;
+}
+
+.dot-success{
+  display: inline-block;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--success);
+}
+
+.dot-disabled{
+  display: inline-block;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--light);
 }

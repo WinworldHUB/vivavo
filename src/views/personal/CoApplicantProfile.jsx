@@ -37,7 +37,6 @@ export default class CoApplicantProfile extends Component {
   }
 
   handleChangeCoApplicantFinish() {
-    console.log("Redirecting ...");
     //window.location.href = "/changecoapplicant";
   }
 

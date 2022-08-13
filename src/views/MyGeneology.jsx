@@ -19,6 +19,11 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import WishModal from "../components/WishModal";
+import { useEffect } from "react";
+
+import _ from "lodash";
+import moment from "moment";
+import WishFlexBox from "../components/WishFlexBox";
 
 export default function MyGeneology() {
   const breadcrumbs = [];
@@ -26,7 +31,7 @@ export default function MyGeneology() {
   breadcrumbs.push({ title: "Home", linkTo: "/" });
   breadcrumbs.push({ title: "My Genealogy", linkTo: "/" });
 
-  const [isRotated, setIsRotated] = useState(true);
+  const [isRotated, setIsRotated] = useState(false);
   const [filterApplied, applyFilter] = useState(false);
 
   const [filterText, setFilterText] = useState("");
@@ -154,7 +159,35 @@ export default function MyGeneology() {
     );
   };
 
+  //const [treeNodes, setTreeNodes] = useState(data.treeData);
   const [treeNodes, setTreeNodes] = useState(data.treeData);
+
+  // Update the incoming json nodes with add-child elements
+  useEffect(() => {
+    var updatedTreeData = {};
+    var firstLevelNodes = [];
+
+    // Update First level Nodes
+    var midPoint =
+      data.treeData.nodes.length % 2 === 0
+        ? data.treeData.nodes.length / 2
+        : (data.treeData.nodes.length + 1) / 2;
+
+    for (let index = 0; index < data.treeData.nodes.length; index++) {
+      if (index !== midPoint) {
+        firstLevelNodes.push(_.cloneDeep(data.treeData.nodes[index]));
+      } else {
+        //console.log (data.specialTreeNodes.addNode);
+        firstLevelNodes.push(data.specialTreeNodes.addNode);
+        firstLevelNodes.push(_.cloneDeep(data.treeData.nodes[index]));
+      }
+    }
+
+    updatedTreeData = _.cloneDeep(data.treeData);
+    updatedTreeData.nodes = Array.from(firstLevelNodes);
+    console.log(midPoint);
+    setTreeNodes(updatedTreeData);
+  }, []);
 
   const [selectedNode, setSelectedNode] = useState(treeNodes);
 
@@ -259,79 +292,6 @@ export default function MyGeneology() {
       breadcrumbs={breadcrumbs}
     >
       <div className="row">
-        <div className="col-12">
-          <Swiper
-            slidesPerView={4}
-            spaceBetween={10}
-            grabCursor={true}
-            rewind={false}
-            navigation={true}
-            modules={[Navigation]}
-            className="pt-1"
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-                spaceBetween: 5,
-              },
-              550: {
-                slidesPerView: 2,
-                spaceBetween: 5,
-              },
-              760: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
-            }}
-          >
-            {topStats.map((stats, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  <WishSimpleCard
-                    background="shadow-sm"
-                    cardBodyClassName="p-0"
-                  >
-                    <div className="text-center">
-                      <small className="font-weight-bold text-primary">
-                        {stats.organization ?? <>&nbsp;</>}
-                      </small>
-                    </div>
-                    <div className="d-flex align-items-center p-1">
-                      <div className="">
-                        <small className="d-block">
-                          {stats.title} ({stats.percentage})
-                        </small>
-                      </div>
-                      <div className="col">
-                        {stats.color === "success"
-                          ? renderLGVGraph({ color: stats.color })
-                          : renderRGVGraph({ color: stats.color })}
-                      </div>
-                      <div className="text-right">
-                        <label className="text-success d-block lead">
-                          <span className="font-weight-bold text-muted">
-                            {stats.value} <small>(cw)</small>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                    {/* <div className="bg-primary bg-lighten-4 d-flex justify-content-between pl-1 pr-1">
-                      {stats.prevValues &&
-                        stats.prevValues.map((prev, vIndex) => {
-                          return <small>{prev.key}</small>;
-                        })}
-                    </div>
-                    <div className="bg-primary text-white d-flex justify-content-between pl-1 pr-1">
-                      {stats.prevValues &&
-                        stats.prevValues.map((prev, vIndex) => {
-                          return <small>{prev.value}</small>;
-                        })}
-                    </div> */}
-                  </WishSimpleCard>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
         <div className="col-12" style={{ marginTop: "-10px" }}>
           <WishGeneologyTree
             header={treeTopIcons()}
@@ -348,6 +308,95 @@ export default function MyGeneology() {
               showAll();
             }}
           ></WishGeneologyTree>
+        </div>
+        <div className="col-sm-6">
+          <WishSimpleCard header={<h5>Group Volume Analysis</h5>}>
+            <div className="">
+              <div className="border border-light p-1 rounded-lg onhover-shadow">
+                <label className="text-primary card-title ">
+                  First Organization
+                </label>
+                <WishFlexBox>
+                  <span className="lead">GV</span>
+                  <span className="lead font-weight-bold d-flex align-items-center">
+                    <i className="las la-long-arrow-alt-up text-success"></i>{" "}
+                    500PV
+                  </span>
+                  <span className="lead font-weight-bold text-success">
+                    10% (450)
+                  </span>
+                </WishFlexBox>
+              </div>
+            </div>
+            <div className="pt-1">
+              <div className="border border-light p-1 rounded-lg onhover-shadow">
+                <label className="text-primary card-title ">
+                  Second Organization
+                </label>
+                <WishFlexBox>
+                  <span className="lead">GV</span>
+                  <span className="lead font-weight-bold d-flex align-items-center">
+                    <i className="las la-long-arrow-alt-down text-danger"></i>{" "}
+                    500PV
+                  </span>
+                  <span className="lead font-weight-bold text-danger">
+                    10% (450)
+                  </span>
+                </WishFlexBox>
+              </div>
+            </div>
+            <div className="pt-1">
+              <div className="border border-light p-1 rounded-lg onhover-shadow">
+                <label className="text-primary card-title ">
+                  Third Organization
+                </label>
+                <WishFlexBox>
+                  <span className="lead">GV</span>
+                  <span className="lead font-weight-bold d-flex align-items-center">
+                    <i className="las la-long-arrow-alt-up text-success"></i>{" "}
+                    500PV
+                  </span>
+                  <span className="lead font-weight-bold text-success">
+                    10% (450)
+                  </span>
+                </WishFlexBox>
+              </div>
+            </div>
+          </WishSimpleCard>
+        </div>
+        <div className="col-sm-6">
+          <div className="row">
+            <div className="col-12">
+              <WishSimpleCard header={<h5>Activation PV</h5>}>
+                <WishFlexBox className="row-fluid">
+                  <label className="fs-2 col-4 pl-0">200 PV</label>
+                  <WishFlexBox className="border border-light p-1 rounded-lg col-8 bg-danger bg-lighten-4">
+                    <div className="col-6 border-right text-center">
+                      <label className="fs-2">150</label>
+                      <label>Retail PV</label>
+                    </div>
+                    <div className="col-6 text-center">
+                      <label className="fs-2">50</label>
+                      <label>Sponsor PV</label>
+                    </div>
+                  </WishFlexBox>
+                </WishFlexBox>
+                <WishFlexBox className="pt-2">
+                  <label className="text-info">17 days left</label>
+                  <label className="">Next activation week 265</label>
+                </WishFlexBox>
+              </WishSimpleCard>
+            </div>
+            <div className="col-12">
+              <WishSimpleCard
+                header={
+                  <h5>
+                    Team Member Status as on {moment().format("DD-MMM-YY")}
+                  </h5>
+                }
+              ></WishSimpleCard>
+            </div>
+          </div>
         </div>
       </div>
 

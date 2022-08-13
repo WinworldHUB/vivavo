@@ -112,8 +112,34 @@
       "completed": true
     }
   ],
+  "specialTreeNodes": {
+    "addNode": {
+      "title": "Organization",
+      "id": -1,
+      "distributorID": "Left",
+      "status": "Active",
+      "expanded": true,
+      "selected": true,
+      "isRoot": false,
+      "hide": false,
+      "rankBadge": "AddNode.png",
+      "nodes": []
+    },
+    "addNDisabledode": {
+      "title": "Organization",
+      "id": -1,
+      "distributorID": "Left",
+      "status": "Active",
+      "expanded": true,
+      "selected": true,
+      "isRoot": false,
+      "hide": false,
+      "rankBadge": "AddNodeDisabled.png",
+      "nodes": []
+    }
+  },
   "treeData": {
-    "title": "This is Root Node",
+    "title": "Root Node",
     "id": 0,
     "distributorID": "1000",
     "name": "John Doe",
@@ -127,9 +153,10 @@
     "selected": true,
     "isRoot": true,
     "hide": false,
+    "rankBadge": "Black Diamond Ambassador.png",
     "nodes": [
       {
-        "title": "This is Child 1",
+        "title": "Child 1",
         "id": 1,
         "distributorID": "1001",
         "name": "John Doe",
@@ -142,9 +169,10 @@
         "expanded": true,
         "selected": false,
         "hide": false,
+        "rankBadge": "Executive Blue Diamond.png",
         "nodes": [
           {
-            "title": "This is Child 11",
+            "title": "Child 11",
             "id": 11,
             "distributorID": "11001",
             "name": "John Doe",
@@ -157,10 +185,11 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           },
           {
-            "title": "This is Child 12",
+            "title": "Child 12",
             "id": 12,
             "distributorID": "12001",
             "name": "John Doe",
@@ -173,12 +202,13 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           }
         ]
       },
       {
-        "title": "This is Child 2",
+        "title": "Child 2",
         "id": 2,
         "distributorID": "2001",
         "name": "John Doe",
@@ -191,9 +221,10 @@
         "expanded": true,
         "selected": false,
         "hide": false,
+        "rankBadge": "Executive Blue Diamond.png",
         "nodes": [
           {
-            "title": "This is Child 21",
+            "title": "Child 21",
             "id": 21,
             "distributorID": "21001",
             "name": "John Doe",
@@ -206,10 +237,11 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           },
           {
-            "title": "This is Child 22",
+            "title": "Child 22",
             "id": 22,
             "distributorID": "22001",
             "name": "John Doe",
@@ -222,12 +254,13 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           }
         ]
       },
       {
-        "title": "This is Child 3",
+        "title": "Child 3",
         "id": 3,
         "distributorID": "3001",
         "name": "John Doe",
@@ -240,9 +273,10 @@
         "expanded": true,
         "selected": false,
         "hide": false,
+        "rankBadge": "Executive white Diamond.png",
         "nodes": [
           {
-            "title": "This is Child 31",
+            "title": "Child 31",
             "id": 31,
             "distributorID": "31001",
             "name": "John Doe",
@@ -255,10 +289,11 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           },
           {
-            "title": "This is Child 32",
+            "title": "Child 32",
             "id": 32,
             "distributorID": "32001",
             "name": "John Doe",
@@ -271,10 +306,11 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           },
           {
-            "title": "This is Child 33",
+            "title": "Child 33",
             "id": 33,
             "distributorID": "33001",
             "name": "John Doe",
@@ -287,6 +323,7 @@
             "expanded": true,
             "selected": false,
             "hide": false,
+            "rankBadge": "Ruby Executive.png",
             "nodes": []
           }
         ]

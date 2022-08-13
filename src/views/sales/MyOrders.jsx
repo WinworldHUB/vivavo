@@ -55,7 +55,6 @@ export default function MyOrders() {
         (currentOrder.Price + 400);
 
       if (orderId !== "") {
-        console.log(orderId);
         $("#" + orderId).fu_popover({
           // show popover arrow
           arrowShow: true,
@@ -332,10 +331,6 @@ export default function MyOrders() {
     var orderDate = Moment(order.DeliveredOn).format("DD-MM-YYYY");
     var lastMonth = Moment().subtract(1, "months").format("DD-MM-YYYY");
     var orderYear = Number(Moment(order.DeliveredOn).format("yyyy"));
-
-    console.log(
-      filter30Days + " " + filter2021 + " " + filter2020 + " " + filterOlder
-    );
 
     if (
       filter30Days === false &&

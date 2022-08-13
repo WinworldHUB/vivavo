@@ -1630,8 +1630,6 @@ export default function EnrollUser() {
     var found = null;
     var treeNodesCopy = data.treeData;
 
-    console.log(filter);
-
     if (treeNodesCopy.nodes !== undefined) {
       treeNodesCopy.nodes.forEach(function (treenode, index) {
         treenode.selected = false;

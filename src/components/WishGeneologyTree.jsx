@@ -37,6 +37,7 @@ export default function WishGeneologyTree({
   const [treeNodes, setTreeNodes] = useState(tree.nodes);
 
   useEffect(() => {
+    //console.log (tree);
     //setIsRotated(reverse);
     setSelectedNode(tree);
     setTreeNodes(tree.nodes);
@@ -116,95 +117,145 @@ export default function WishGeneologyTree({
     isSelectedNode = false,
   }) {
     return (
-      <div className="apply-transition">
-        <a className="media border-0 d-flex align-items-center">
-          <div className="media-left pr-1">
-            <span className="avatar avatar-md avatar-online">
-              <img
-                className="media-object rounded-circle"
-                src="../assets/app-assets/images/logo/logo.png"
-                alt="Generic placeholder image"
-              />
-            </span>
-          </div>
-          <div className="media-body w-100 text-left">
-            <span className="list-group-item-heading">
-              <small>{node.title}</small>
-            </span>
-            <p className="list-group-item-text mb-0">
-              <span className="blue-grey lighten-2 font-small-3">
-                {" "}
-                <small>{node.id}</small>{" "}
-              </span>
-            </p>
-          </div>
-        </a>
-        <div className={"pt-1 " + (isSelectedNode === true ? " " : " hidden ")}>
-          <div className="d-flex">
-            <a
-              className="mr-auto onhover-dotted-link"
-              onClick={() => {
-                setIsRootNode(isThisRootNode);
-                $("#dlgEnrollUser").modal("show");
-              }}
-            >
-              <small>
-                <i className="las la-plus"></i>
-              </small>
-            </a>
-            <a
-              className="ml-auto mr-auto onhover-dotted-link"
-              onClick={() => {
-                setIsRootNode(isThisRootNode);
-                $("#dlgUserRank").modal("show");
-              }}
-            >
-              <small>
-                <i className="las la-certificate"></i>
-              </small>
-            </a>
-            <a
-              className={
-                "ml-auto onhover-dotted-link" +
-                (isThisRootNode === false
-                  ? isSelectedNode === false
-                    ? " "
-                    : " mr-auto"
-                  : " ")
-              }
-              onClick={() => {
-                setIsRootNode(isThisRootNode);
-                $("#dlgDistributorStats").modal("show");
-              }}
-            >
-              <small>
-                <i className="las la-chart-bar"></i>
-              </small>
-            </a>
-            <a
-              className={
-                "ml-auto onhover-dotted-link " +
-                (isThisRootNode === true ? " hidden " : "")
-              }
-              onClick={() => {
-                //setIsRootNode(node.isRoot && node.isRoot);
-                //$("#dlgDistributorStats").modal("show");
-
-                if (isThisRootNode !== true) {
-                  console.log(node.distributorID);
-                  onFilterRequested(node.distributorID);
-                }
-              }}
-            >
-              <small>
-                <i className="las la-arrow-right"></i>
-              </small>
-            </a>
-          </div>
+      <div className="text-center">
+        <img
+          className="shadow-sm"
+          src={"../assets/app-assets/images/badges/" + node?.rankBadge}
+          alt="Generic placeholder image"
+        />
+        <div>
+          <small>{node?.distributorID}</small>{" "}
+          {node?.status.toLowerCase() === "active" ? (
+            <span className="dot-success"></span>
+          ) : (
+            <span className="dot-disabled"></span>
+          )}
+        </div>
+        <div>
+          <a className="text-primary clickable">{node?.title}</a>
         </div>
       </div>
     );
   };
+
+  const renderAddNode = function ({
+    node,
+    isThisRootNode = false,
+    isSelectedNode = false,
+  }) {
+    return (
+      <div className="text-center">
+        <div className="">
+          <i className="las la-plus"></i>
+        </div>
+        <div>
+          <small>{node.distributorID}</small>{" "}
+          {node.status.toLowerCase() === "active" ? (
+            <span className="dot-success"></span>
+          ) : (
+            <span className="dot-disabled"></span>
+          )}
+        </div>
+        <div>{node.title}</div>
+      </div>
+    );
+  };
+
+  // const renderTreeNode = function ({
+  //   node,
+  //   isThisRootNode = false,
+  //   isSelectedNode = false,
+  // }) {
+  //   return (
+  //     <div className="apply-transition">
+  //       <a className="media border-0 d-flex align-items-center">
+  //         <div className="media-left pr-1">
+  //           <span className="avatar avatar-md avatar-online">
+  //             <img
+  //               className="media-object rounded-circle"
+  //               src="../assets/app-assets/images/logo/logo.png"
+  //               alt="Generic placeholder image"
+  //             />
+  //           </span>
+  //         </div>
+  //         <div className="media-body w-100 text-left">
+  //           <span className="list-group-item-heading">
+  //             <small>{node.title}</small>
+  //           </span>
+  //           <p className="list-group-item-text mb-0">
+  //             <span className="blue-grey lighten-2 font-small-3">
+  //               {" "}
+  //               <small>{node.id}</small>{" "}
+  //             </span>
+  //           </p>
+  //         </div>
+  //       </a>
+  //       <div className={"pt-1 " + (isSelectedNode === true ? " " : " hidden ")}>
+  //         <div className="d-flex">
+  //           <a
+  //             className="mr-auto onhover-dotted-link"
+  //             onClick={() => {
+  //               setIsRootNode(isThisRootNode);
+  //               $("#dlgEnrollUser").modal("show");
+  //             }}
+  //           >
+  //             <small>
+  //               <i className="las la-plus"></i>
+  //             </small>
+  //           </a>
+  //           <a
+  //             className="ml-auto mr-auto onhover-dotted-link"
+  //             onClick={() => {
+  //               setIsRootNode(isThisRootNode);
+  //               $("#dlgUserRank").modal("show");
+  //             }}
+  //           >
+  //             <small>
+  //               <i className="las la-certificate"></i>
+  //             </small>
+  //           </a>
+  //           <a
+  //             className={
+  //               "ml-auto onhover-dotted-link" +
+  //               (isThisRootNode === false
+  //                 ? isSelectedNode === false
+  //                   ? " "
+  //                   : " mr-auto"
+  //                 : " ")
+  //             }
+  //             onClick={() => {
+  //               setIsRootNode(isThisRootNode);
+  //               $("#dlgDistributorStats").modal("show");
+  //             }}
+  //           >
+  //             <small>
+  //               <i className="las la-chart-bar"></i>
+  //             </small>
+  //           </a>
+  //           <a
+  //             className={
+  //               "ml-auto onhover-dotted-link " +
+  //               (isThisRootNode === true ? " hidden " : "")
+  //             }
+  //             onClick={() => {
+  //               //setIsRootNode(node.isRoot && node.isRoot);
+  //               //$("#dlgDistributorStats").modal("show");
+
+  //               if (isThisRootNode !== true) {
+  //                 console.log(node.distributorID);
+  //                 onFilterRequested(node.distributorID);
+  //               }
+  //             }}
+  //           >
+  //             <small>
+  //               <i className="las la-arrow-right"></i>
+  //             </small>
+  //           </a>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const renderStatsDialogContent = function () {
     const ranks = data.timelineData;
@@ -274,7 +325,7 @@ export default function WishGeneologyTree({
                       <TreeNode
                         label={renderTreeNode({
                           node: treenode,
-                          isSelectedNode: treenode.selected,
+                          isSelectedNode: treenode?.selected,
                         })}
                         id={treenode.id}
                         key={index}

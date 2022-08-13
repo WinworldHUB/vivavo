@@ -889,3 +889,22 @@ button {
 .doc-bg-disabled {
   background-color: #7f7f7f;
 }
+
+.fs-1 {
+  font-size: 1em !important;
+}
+.fs-1_5 {
+  font-size: 1.5em !important;
+}
+.fs-2 {
+  font-size: 2em !important;
+}
+.fs-2_5 {
+  font-size: 2.5em !important;
+}
+.fs-3 {
+  font-size: 3em !important;
+}
+.fs-3_5 {
+  font-size: 3.5em !important;
+}

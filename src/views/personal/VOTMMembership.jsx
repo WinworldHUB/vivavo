@@ -11,7 +11,6 @@ export default function VOTMMembership(props) {
 
   const handleUploadAffidavit = () => {
     if (affidavit !== null) {
-      console.log(affidavit);
       addAffidavit([...affidavits, affidavit]);
     }
   };

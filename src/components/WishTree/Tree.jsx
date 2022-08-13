@@ -2,8 +2,6 @@
 import React from "react";
 import { css } from "@emotion/css";
 import TreeNode from "./TreeNode";
-
-import { Action, Fab } from "react-tiny-fab";
 import { useState } from "react";
 import WishModal from "../WishModal";
 import { useEffect } from "react";
@@ -21,42 +19,7 @@ export default function Tree({
   onBackButtonClick,
   displayBackButton = false,
 }) {
-  const [flip, doFlip] = useState(reverse ?? true);
-  const [showBackButton, setShowBackButton] = useState(displayBackButton);
-
-  useEffect(() => {
-    setShowBackButton(displayBackButton);
-  }, [displayBackButton]);
-
   const [filterText, setFilterText] = useState("");
-
-  const fabChildren = [
-    {
-      title: "Go back",
-      icon: "las la-angle-left",
-      visible: true,
-      onClick: () => {
-        setShowBackButton(false);
-        onBackButtonClick && onBackButtonClick();
-      },
-    },
-    {
-      title: "Search",
-      icon: "las la-search",
-      visible: true,
-      onClick: () => {
-        $("#dlgSearch").modal("show");
-      },
-    },
-    {
-      title: "Rotate",
-      icon: "las la-sync",
-      visible: true,
-      onClick: () => {
-        doFlip(!flip);
-      },
-    },
-  ];
 
   return (
     <div className="table-responsive text-center">
@@ -88,39 +51,6 @@ export default function Tree({
           {children}
         </TreeNode>
       </ul>
-
-      {/* <Fab
-        alwaysShowTitle={false}
-        mainButtonStyles={{ backgroundColor: "var(--primary)" }}
-        icon={<i className="las la-plus"></i>}
-        style={{ right: "10px", bottom: "30px" }}
-      >
-        {fabChildren.map((child, index) => {
-          if (showBackButton === true) {
-            return (
-              <Action
-                text={child.title}
-                onClick={() => {
-                  child.onClick && child.onClick();
-                }}
-              >
-                <i className={child.icon} />
-              </Action>
-            );
-          } else if (index > 0) {
-            return (
-              <Action
-                text={child.title}
-                onClick={() => {
-                  child.onClick && child.onClick();
-                }}
-              >
-                <i className={child.icon} />
-              </Action>
-            );
-          }
-        })}
-      </Fab> */}
 
       <WishModal
         id="dlgSearch"

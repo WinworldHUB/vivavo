@@ -3,10 +3,6 @@ import React, { Component } from "react";
 import PageLayout from "../components/PageLayout";
 
 export default class Dashboard extends Component {
-  carouselResize() {
-    console.log("resize called");
-  }
-
   showToast() {
     toastr.warning("Have fun storming the castle!", "Progress Bar", {
       closeButton: false,

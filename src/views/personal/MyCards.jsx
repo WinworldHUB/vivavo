@@ -4,7 +4,7 @@ import PageLayout from "../../components/PageLayout";
 
 export default function MyCards(props) {
   const handleActionClick = (event) => {
-    console.log("Action Clicked");
+    //console.log("Action Clicked");
   };
   return (
     <PageLayout activeSideMenu="0" pageTitle="My Cards">

@@ -116,8 +116,8 @@ export default function TreeNode({
           onDoubleClick && onDoubleClick(nodeID);
         }}
         className={
-          "hand-cursor pull-up " +
-          (selected && selected === true ? " selected shadow " : " treenode ") +
+          "hand-cursor " +
+          (selected && selected === true ? " selected " : " treenode ") +
           (isRoot && " rootNode ") +
           (hide && " hidden ")
         }

@@ -10,7 +10,6 @@ export default function WishRankTimeline({ data }) {
     var some = document.querySelectorAll('[data-scrollTo="true"]')[0];
     if (some !== undefined || some !== null) {
       some.scrollIntoView({ behavior: "smooth" });
-      console.log(some.id);
     }
   });
 

@@ -348,7 +348,6 @@ export default function ProfileDashboard() {
               label="Relationship with Co-Applicant:"
               data={["Mother", "Other"]}
               onSelect={(index) => {
-                console.log(index);
                 setIsCoApplicantMother(parseInt(index) === 0);
               }}
             />
