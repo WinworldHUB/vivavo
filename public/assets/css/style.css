@@ -801,14 +801,9 @@ button {
   position: static !important;
 }
 
+.swiper-button-next,
 .swiper-button-prev {
-  left: 0 !important;
-  margin-top: calc(-5px - (var(--swiper-navigation-size) / 2)) !important;
-}
-
-.swiper-button-next {
-  right: 0 !important;
-  margin-top: calc(-5px - (var(--swiper-navigation-size) / 2)) !important;
+  top: 70% !important;
 }
 
 .timeline-icon {
@@ -907,4 +902,9 @@ button {
 }
 .fs-3_5 {
   font-size: 3.5em !important;
+}
+
+.wish-speedometer div {
+  display: flex;
+  justify-content: center;
 }

@@ -24,6 +24,8 @@ import { useEffect } from "react";
 import _ from "lodash";
 import moment from "moment";
 import WishFlexBox from "../components/WishFlexBox";
+import ReactSpeedometer from "react-d3-speedometer";
+import WishColoredBar from "../components/WishColoredBar";
 
 export default function MyGeneology() {
   const breadcrumbs = [];
@@ -367,10 +369,13 @@ export default function MyGeneology() {
         <div className="col-sm-6">
           <div className="row">
             <div className="col-12">
-              <WishSimpleCard header={<h5>Activation PV</h5>}>
+              <WishSimpleCard
+                header={<h5>Activation PV</h5>}
+                cardBodyClassName="p-0 pl-1 pr-1"
+              >
                 <WishFlexBox className="row-fluid">
                   <label className="fs-2 col-4 pl-0">200 PV</label>
-                  <WishFlexBox className="border border-light p-1 rounded-lg col-8 bg-danger bg-lighten-4">
+                  <WishFlexBox className="border border-light p-0 rounded-lg col-8 bg-danger bg-lighten-4">
                     <div className="col-6 border-right text-center">
                       <label className="fs-2">150</label>
                       <label>Retail PV</label>
@@ -394,9 +399,77 @@ export default function MyGeneology() {
                     Team Member Status as on {moment().format("DD-MMM-YY")}
                   </h5>
                 }
-              ></WishSimpleCard>
+                cardBodyClassName="pt-0 wish-speedometer"
+              >
+                <ReactSpeedometer
+                  forceRender={true}
+                  needleHeightRatio={0}
+                  needleColor={"transparent"}
+                  needleTransition={"easeCircleInOut"}
+                  maxSegmentLabels={3}
+                  segments={3}
+                  customSegmentStops={[1, 3, 4, 5]}
+                  minValue={1} //<---here
+                  maxValue={5} //<---here
+                  segmentColors={["mediumseagreen", "orange", "red"]}
+                  value={4}
+                  textColor={"transparent"}
+                  height={150}
+                  width={300}
+                  ringWidth={30}
+                />
+                <label
+                  className="progress-label"
+                  style={{
+                    position: "relative",
+                    left: "42%",
+                    bottom: "40px",
+                  }}
+                >
+                  65%
+                </label>
+                <WishFlexBox>
+                  <small>
+                    <i className="las la-square-full text-success"></i> Active
+                    Members
+                  </small>
+                  <small>
+                    <i className="las la-square-full text-warning"></i> Inactive
+                    Members
+                  </small>
+                  <small>
+                    <i className="las la-square-full text-danger"></i> Will be
+                    inactive by week 236
+                  </small>
+                </WishFlexBox>
+              </WishSimpleCard>
             </div>
           </div>
+        </div>
+        <div className="col-12">
+          <WishColoredBar bgcolor="light">
+            <h3 className="text-uppercase pt-1">Rank Badges</h3>
+          </WishColoredBar>
+          <Swiper  slidesPerView={4} modules={[Navigation]} navigation={true} grabCursor={true}>
+            {data.timelineData.map((badge, index) => {
+              return (
+                <SwiperSlide>
+                  <div className="text-center">
+                    <img
+                      className="rounded-lg w-25"
+                      src={badge.rankImage}
+                      alt={badge.title}
+                    />
+                    <p>{badge.title}</p>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+            {/* <SwiperSlide>Slide 1</SwiperSlide>
+            <SwiperSlide>Slide 2</SwiperSlide>
+            <SwiperSlide>Slide 3</SwiperSlide>
+            <SwiperSlide>Slide 4</SwiperSlide> */}
+          </Swiper>
         </div>
       </div>
 

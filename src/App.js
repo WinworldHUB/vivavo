@@ -29,6 +29,7 @@ import EnrollUser from "./views/enrollment/EnrollUser";
 import OngoingEnrollments from "./views/enrollment/OngoingEnrollments";
 import GenerateLink from "./views/enrollment/GenerateLink";
 import SalesAnalysis from "./views/analysis/TeamsAnalysis/SalesAnalysis";
+import OrderDetails from "./views/sales/OrderDetails";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="sales" element={<Sales />} />
         <Route path="placeorder" element={<PlaceOrder />} />
         <Route path="myorders" element={<MyOrders />} />
+        <Route path="orderdetails" element={<OrderDetails />} />
         <Route path="enrollment" element={<Enrollment />} />
         <Route path="enrolluser" element={<EnrollUser />} />
         <Route path="ongoingenrollments" element={<OngoingEnrollments />} />

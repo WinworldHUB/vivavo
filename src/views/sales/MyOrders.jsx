@@ -113,8 +113,9 @@ export default function MyOrders() {
                 <div className="col-6">
                   <h6>
                     Order No:{" "}
-                    <Link to="/" className="card-link text-primary">
-                      {order.OrderNo} <small>({order.OrderType + " Order"})</small>
+                    <Link to="/orderdetails" className="card-link text-primary">
+                      {order.OrderNo}{" "}
+                      <small>({order.OrderType + " Order"})</small>
                     </Link>
                   </h6>
                 </div>
