@@ -732,13 +732,13 @@ export default function PlaceOrder() {
                           </label>
                         </div>
                         <div className="col-6 text-right">
-                          {/* <a
+                          <a
                             className={"card-link link-dotted "}
                             data-toggle="modal"
                             data-target="#dlgChangeAddress"
                           >
                             Change Address
-                          </a> */}
+                          </a>
                         </div>
                       </div>
                       <div className="input-group">
