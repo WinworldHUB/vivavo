@@ -90,49 +90,82 @@ export default function Wallet(props) {
 
   const recentTransactions = function () {
     return (
-      <table className="table border-0">
-        <thead>
+      // <table className="table border-0">
+      //   <thead>
+      //     <tr>
+      //       <th className="w-50">Transaction</th>
+      //       <th>Date</th>
+      //       <th className="text-right">Amount</th>
+      //     </tr>
+      //   </thead>
+      //   <tbody>
+      //     <tr>
+      //       <td>
+      //         <a href="#">Transaction 1</a>
+      //       </td>
+      //       <td>23-May-22</td>
+      //       <td className="text-right">Rs. 3,000</td>
+      //     </tr>
+      //     <tr>
+      //       <td>
+      //         <a href="#">Transaction 2</a>
+      //       </td>
+      //       <td>23-May-22</td>
+      //       <td className="text-right">Rs. 3,000</td>
+      //     </tr>
+      //     <tr>
+      //       <td>
+      //         <a href="#">Transaction 3</a>
+      //       </td>
+      //       <td>23-May-22</td>
+      //       <td className="text-right">Rs. 3,000</td>
+      //     </tr>
+      //     <tr>
+      //       <td>
+      //         <a href="#">Transaction 4</a>
+      //       </td>
+      //       <td>23-May-22</td>
+      //       <td className="text-right">Rs. 3,000</td>
+      //     </tr>
+      //     <tr>
+      //       <td>
+      //         <a href="#">Transaction 5</a>
+      //       </td>
+      //       <td>23-May-22</td>
+      //       <td className="text-right">Rs. 3,000</td>
+      //     </tr>
+      //   </tbody>
+      // </table>
+      <table className="table table-striped table-hover">
+        <thead className="bg-primary white">
           <tr>
-            <th className="w-50">Transaction</th>
-            <th>Date</th>
-            <th className="text-right">Amount</th>
+            <th>Transactions</th>
+            <th>Amount</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <a href="#">Transaction 1</a>
+            <td style={{ lineHeight: "5px" }}>
+              <p>Added to wallet</p>
+              <p>10 Feb 22 22:10 PM</p>
+              <p style={{ lineHeight: "10px" }}>&nbsp;</p>
+              <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
+              <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
             </td>
-            <td>23-May-22</td>
-            <td className="text-right">Rs. 3,000</td>
+            <td>+1500</td>
+            <td>SUCCESS</td>
           </tr>
           <tr>
-            <td>
-              <a href="#">Transaction 2</a>
+            <td style={{ lineHeight: "5px" }}>
+              <p>Paid for Order</p>
+              <p>10 Feb 22 22:10 PM</p>
+              <p style={{ lineHeight: "10px" }}>&nbsp;</p>
+              <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
+              <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
             </td>
-            <td>23-May-22</td>
-            <td className="text-right">Rs. 3,000</td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#">Transaction 3</a>
-            </td>
-            <td>23-May-22</td>
-            <td className="text-right">Rs. 3,000</td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#">Transaction 4</a>
-            </td>
-            <td>23-May-22</td>
-            <td className="text-right">Rs. 3,000</td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#">Transaction 5</a>
-            </td>
-            <td>23-May-22</td>
-            <td className="text-right">Rs. 3,000</td>
+            <td>-3500</td>
+            <td>SUCCESS</td>
           </tr>
         </tbody>
       </table>

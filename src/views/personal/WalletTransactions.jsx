@@ -18,45 +18,50 @@ export default function WalletTransactions() {
     );
   };
 
+  function TransactionsTitles() {
+    return (
+      <div className="container">
+        <div className="row bg-primary p-1 font-weight-bold">
+          <div className="col-sm-4">Transactions</div>
+          <div className="col-sm-2">Amount (INR)</div>
+          <div className="col-sm-2">Status</div>
+          <div className="col-sm-4">Comments</div>
+        </div>
+      </div>
+    );
+  }
+
   const transactions = function () {
     return (
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
-          <thead className="bg-primary white">
-            <tr>
-              <th>Transactions</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Comments</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ lineHeight: "5px" }}>
-                <p>Added to wallet</p>
-                <p>10 Feb 22 22:10 PM</p>
-                <p style={{ lineHeight: "10px" }}>&nbsp;</p>
-                <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
-                <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
-              </td>
-              <td>+1500</td>
-              <td>SUCCESS</td>
-              <td>Bank Txn ID: 8378791872878929</td>
-            </tr>
-            <tr>
-              <td style={{ lineHeight: "5px" }}>
-                <p>Paid for Order</p>
-                <p>10 Feb 22 22:10 PM</p>
-                <p style={{ lineHeight: "10px" }}>&nbsp;</p>
-                <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
-                <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
-              </td>
-              <td>-3500</td>
-              <td>SUCCESS</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="container">
+        <WishSimpleCard cardBodyClassName="">
+          <div className="row pt-1">
+            <div className="col-sm-4" style={{ lineHeight: "5px" }}>
+              <p>Added to wallet</p>
+              <p>10 Feb 22 22:10 PM</p>
+              <p style={{ lineHeight: "10px" }}>&nbsp;</p>
+              <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
+              <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
+            </div>
+            <div className="col-sm-2 text-center">+1500</div>
+            <div className="col-sm-2 text-uppercase">Success</div>
+            <div className="col-sm-4">Bank Txn ID: 8378791872878929</div>
+          </div>
+        </WishSimpleCard>
+        <WishSimpleCard cardBodyClassName="">
+          <div className="row pt-1">
+            <div className="col-sm-4" style={{ lineHeight: "5px" }}>
+              <p>Paid for Order</p>
+              <p>10 Feb 22 22:10 PM</p>
+              <p style={{ lineHeight: "10px" }}>&nbsp;</p>
+              <p style={{ lineHeight: "1em" }}>Order ID: 7267637762776287</p>
+              <p style={{ lineHeight: "1em" }}>Transaction ID: 83787387</p>
+            </div>
+            <div className="col-sm-2 text-center">-3500</div>
+            <div className="col-sm-2 text-uppercase">Success</div>
+            <div className="col-sm-4"></div>
+          </div>
+        </WishSimpleCard>
       </div>
     );
   };
@@ -65,8 +70,9 @@ export default function WalletTransactions() {
     <PageLayout pageTitle="Wallet Transactions">
       <WishSimpleCard
         header={transactionsHeader()}
-        body={transactions()}
+        body={<TransactionsTitles />}
       ></WishSimpleCard>
+      {transactions()}
     </PageLayout>
   );
 }
