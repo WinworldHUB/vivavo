@@ -25,7 +25,7 @@ export default function OrderDetails() {
               />
               <ul class="px-0 list-unstyled">
                 <li class="text-bold-700">
-                  Bill to: {currentOrder.customer.name}
+                  Shipping Address: {currentOrder.customer.name}
                 </li>
                 <li>{currentOrder.deliveryAddress}</li>
               </ul>
@@ -34,15 +34,33 @@ export default function OrderDetails() {
               <h2>Order#</h2>
               <p>{currentOrder.orderNo}</p>
               <p>Order Date: {moment(currentOrder.date).format("DD-MMM-YY")}</p>
+              <p class="text-muted">(123) 456 789</p>
+              <p class="text-muted">email@yourcompany.com</p>
             </div>
           </div>
 
           <div id="invoice-customer-details" class="row pt-2">
-            <div class="col-md-6 col-sm-12">
-              <p class="text-muted">(123) 456 789</p>
-              <p class="text-muted">email@yourcompany.com</p>
+            <div className="col-12">
+              <hr />
+              <p class="text-muted text-bold-700">Distributor details:</p>
             </div>
-            <div class="col-md-6 col-sm-12 text-center text-md-right">
+            <div className="col-12 d-flex justify-content-between">
+              <p class="">
+                {currentOrder.otherInformation.distributor} (
+                {currentOrder.otherInformation.distributorId})
+              </p>
+              <p>Week: {currentOrder.otherInformation.week}</p>
+              <p>Delivery mode: {currentOrder.otherInformation.deliveryMode}</p>
+              <p>Warehouse: {currentOrder.otherInformation.warehuose}</p>
+              <p>
+                {currentOrder.orderType}: {currentOrder.otherInformation.votm} (
+                {currentOrder.otherInformation.votmId})
+              </p>
+            </div>
+            <div className="col-12">
+              <hr />
+            </div>
+            {/* <div class="col-md-6 col-sm-12 text-center text-md-right">
               <p class="text-muted">Distributor details:</p>
               <ul class="px-0 list-unstyled">
                 <li class="text-bold-700">
@@ -59,7 +77,7 @@ export default function OrderDetails() {
                   ({currentOrder.otherInformation.votmId})
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           <div id="invoice-items-details" class="pt-2">
@@ -166,7 +184,9 @@ export default function OrderDetails() {
                       Order was delivered on{" "}
                       {moment(currentOrder.date).format("DD-MMM-YY")}
                     </span>
-                    <button className="btn btn-primary shadow text-uppercase">Download Invoice</button>
+                    <button className="btn btn-primary shadow text-uppercase">
+                      Download Invoice
+                    </button>
                   </WishFlexBox>
                 </WishColoredBar>
               </div>
