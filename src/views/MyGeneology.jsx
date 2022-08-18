@@ -33,7 +33,7 @@ export default function MyGeneology() {
   breadcrumbs.push({ title: "Home", linkTo: "/" });
   breadcrumbs.push({ title: "My Genealogy", linkTo: "/" });
 
-  const [isRotated, setIsRotated] = useState(false);
+  const [isRotated, setIsRotated] = useState(true);
   const [filterApplied, applyFilter] = useState(false);
 
   const [filterText, setFilterText] = useState("");
@@ -315,13 +315,49 @@ export default function MyGeneology() {
           <i className="las la-search"></i>&nbsp;Search
         </a>
         &nbsp;&nbsp;
-        <a
+        {/* <a
           className="d-flex align-items-center"
           onClick={() => {
             setIsRotated(!isRotated);
           }}
         >
           <i className="las la-sync"></i>&nbsp;Rotate
+        </a> */}
+        <button
+          className="d-flex align-items-center btn btn-primary btn-sm shadow"
+          data-toggle="dropdown"
+          aria-expanded="false"
+          // onClick={() => {
+          //   setIsRotated(!isRotated);
+          // }}
+        >
+          <i className="las la-route"></i>&nbsp;Navigation
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">
+            To Extreme Left
+          </a>
+          <a class="dropdown-item" href="#">
+            To Extreme Right
+          </a>
+          <a class="dropdown-item" href="#">
+            To Preferred Extreme Left
+          </a>
+          <a class="dropdown-item" href="#">
+            To Preferred Extreme Right
+          </a>
+          <a class="dropdown-item" href="#">
+            To Top
+          </a>
+        </div>
+        &nbsp;&nbsp;
+        <a
+          className="d-flex align-items-center"
+          // onClick={() => {
+          //   setIsRotated(!isRotated);
+          // }}
+        >
+          <i className="las la-cog"></i>&nbsp;Settings
         </a>
       </div>
     );
