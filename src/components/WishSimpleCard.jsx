@@ -10,6 +10,7 @@ export default function WishSimpleCard({
   onClick,
   children,
   cardBodyClassName,
+  cardBodyProps = {},
 }) {
   const hasBackground = () => {
     return background !== undefined ? true : false;
@@ -58,6 +59,7 @@ export default function WishSimpleCard({
         className={
           "card-body " + cardBodyClassName + " " + (hasTextColor() && textColor)
         }
+        {...cardBodyProps}
       >
         {body ?? children}
       </div>
