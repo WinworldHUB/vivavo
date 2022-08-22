@@ -11,6 +11,8 @@ export default function WishSimpleCard({
   children,
   cardBodyClassName,
   cardBodyProps = {},
+  cardProps = {},
+  changeBorder = true
 }) {
   const hasBackground = () => {
     return background !== undefined ? true : false;
@@ -37,17 +39,18 @@ export default function WishSimpleCard({
   return (
     <div
       className={
-        "card onhover-change-border " +
+        "card " + (changeBorder ? " onhover-change-border " : "") +
         (hasBackground() && " " + background + " ") +
         (hasShadow() === true ? " " : " box-shadow-0 onhover-shadow ") +
         (className ?? (className && " " + className + " "))
       }
       onClick={(e) => onClick && onClick(e)}
+      {...cardProps}
     >
       {header && (
         <div
           className={
-            "card-header " +
+            "card-header  " +
             (hasTextColor() && textColor) +
             (header ?? " hidden ")
           }

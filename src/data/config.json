@@ -1,0 +1,49 @@
+{
+  "mygenealogy": {
+    "activeSideMenu": "4",
+    "pageTitle": "My Genealogy",
+    "header": "My Genealogy",
+    "extendedHeader": true,
+    "breadcrumbs": [
+      { "title": "Home", "linkTo": "/" },
+      { "title": "My Genealogy", "linkTo": "/" }
+    ],
+    "topStats": [
+      {
+        "title": "First Organization",
+        "subTitle": "GV",
+        "PV": "500 PV",
+        "direction": "up",
+        "percentage": "10% (450)"
+      },
+      {
+        "title": "Second Organization",
+        "subTitle": "GV",
+        "PV": "500 PV",
+        "direction": "down",
+        "percentage": "10% (450)"
+      },
+      {
+        "title": "Third Organization",
+        "subTitle": "GV",
+        "PV": "500 PV",
+        "direction": "up",
+        "percentage": "10% (450)"
+      },
+      {
+        "title": "Fourth Organization",
+        "subTitle": "GV",
+        "PV": "500 PV",
+        "direction": "down",
+        "percentage": "10% (450)"
+      },
+      {
+        "title": "Fifth Organization",
+        "subTitle": "GV",
+        "PV": "500 PV",
+        "direction": "up",
+        "percentage": "10% (450)"
+      }
+    ]
+  }
+}

@@ -294,6 +294,8 @@ export default function WishGeneologyTree({
     <>
       <WishSimpleCard
         //header={header ?? null}
+        className="rounded-2"
+        changeBorder={false}
         body={
           <>
             {header ?? null}

@@ -815,10 +815,10 @@ button {
   position: static !important;
 }
 
-.swiper-button-next,
+/* .swiper-button-next,
 .swiper-button-prev {
-  top: 70% !important;
-}
+  top: 40% !important;
+} */
 
 .timeline-icon {
   position: absolute;
@@ -921,4 +921,24 @@ button {
 .wish-speedometer div {
   display: flex;
   justify-content: center;
+}
+
+.rounded-1 {
+  border-radius: 1rem !important;
+}
+
+.rounded-1 .card-header {
+  border-radius: 1rem !important;
+}
+
+.rounded-2 {
+  border-radius: 2rem !important;
+}
+
+.rounded-2 .card-header {
+  border-radius: 2rem !important;
+}
+
+.alert {
+  transition: all 0.3s ease-in-out;
 }
