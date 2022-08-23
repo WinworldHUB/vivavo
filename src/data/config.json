@@ -45,5 +45,47 @@
         "percentage": "10% (450)"
       }
     ]
+  },
+  "mygenealogySettings": {
+    "activeSideMenu": "4",
+    "pageTitle": "Settings",
+    "header": "Settings",
+    "breadcrumbs": [
+      { "title": "Home", "linkTo": "/" },
+      { "title": "My Genealogy", "linkTo": "/mygeneology" },
+      { "title": "Settings", "linkTo": "/" }
+    ],
+    "organizations": [
+      {
+        "title": "Organization 1",
+        "distributorId": "",
+        "distributorName": "",
+        "side": ""
+      },
+      {
+        "title": "Organization 2",
+        "distributorId": "",
+        "distributorName": "",
+        "side": ""
+      },
+      {
+        "title": "Organization 3",
+        "distributorId": "",
+        "distributorName": "",
+        "side": ""
+      },
+      {
+        "title": "Organization 4",
+        "distributorId": "",
+        "distributorName": "",
+        "side": ""
+      },
+      {
+        "title": "Organization 5",
+        "distributorId": "",
+        "distributorName": "",
+        "side": ""
+      }
+    ]
   }
 }

@@ -5,7 +5,7 @@ import Dashboard from "./views/Dashboard";
 import SignIn from "./views/authentication/signin";
 import Sales from "./views/sales/Sales";
 import Enrollment from "./views/enrollment/Enrollment";
-import MyGeneology from "./views/MyGeneology";
+import MyGeneology from "./views/Genealogy/MyGeneology";
 import Announcements from "./views/Announcements";
 import VMail from "./views/VMail";
 //import MyProfile from "./views/personal/MyProfile";
@@ -30,6 +30,7 @@ import OngoingEnrollments from "./views/enrollment/OngoingEnrollments";
 import GenerateLink from "./views/enrollment/GenerateLink";
 import SalesAnalysis from "./views/analysis/TeamsAnalysis/SalesAnalysis";
 import OrderDetails from "./views/sales/OrderDetails";
+import GenealogySettings from "./views/Genealogy/GenealogySettings";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="ongoingenrollments" element={<OngoingEnrollments />} />
         <Route path="generatelink" element={<GenerateLink />} />
         <Route path="mygeneology" element={<MyGeneology />} />
+        <Route path="mygeneologysettings" element={<GenealogySettings />} />
         <Route path="analysis" element={<Analysis />} />
         <Route path="salesanalysis" element={<SalesAnalysis />} />
         <Route path="announcements" element={<Announcements />} />
