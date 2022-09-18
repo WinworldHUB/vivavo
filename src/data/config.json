@@ -87,5 +87,28 @@
         "side": ""
       }
     ]
+  },
+  "analysisdashboard": {
+    "activeSideMenu": "5",
+    "pageTitle": "Analysis Dashboard",
+    "header": "This Week's Performance",
+    "breadcrumbs": [
+      { "title": "Home", "linkTo": "/" },
+      { "title": "Analysis Dashboard", "linkTo": "/" }
+    ],
+    "topStats": [
+      {
+        "title": "250 PV",
+        "subTitle": "Retail PV"
+      },
+      {
+        "title": "30",
+        "subTitle": "New Enrollees"
+      },
+      {
+        "title": "Rupees 15,000",
+        "subTitle": "Estimated Income"
+      }
+    ]
   }
 }
