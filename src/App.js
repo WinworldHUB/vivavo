@@ -31,6 +31,7 @@ import GenerateLink from "./views/enrollment/GenerateLink";
 import SalesAnalysis from "./views/analysis/TeamsAnalysis/SalesAnalysis";
 import OrderDetails from "./views/sales/OrderDetails";
 import GenealogySettings from "./views/Genealogy/GenealogySettings";
+import Notifications from "./views/Notifications";
 
 export default function App() {
   return (
@@ -64,6 +65,7 @@ export default function App() {
         <Route path="wallettransactions" element={<WalletTransactions />} />
         <Route path="settings" element={<Settings />} />
         <Route path="test" element={<TestPage />} />
+        <Route path="notifications" element={<Notifications />} />
       </Routes>
     </Router>
   );

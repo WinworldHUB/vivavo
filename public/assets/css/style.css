@@ -1,3 +1,7 @@
+:root {
+  --light: #efefef;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -15,6 +19,14 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.trackable:hover {
+  background-color: var(--light) !important;
+}
+
+.underlined {
+  border-bottom: dotted;
 }
 
 .navbar-shadow {

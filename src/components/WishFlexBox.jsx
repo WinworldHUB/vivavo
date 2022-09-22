@@ -1,10 +1,17 @@
 import React from "react";
 
-export default function WishFlexBox({ children, className = "" }) {
+export default function WishFlexBox({
+  children,
+  className = "",
+  justifyContent = "between",
+}) {
   return (
     <div
       className={
-        "d-flex justify-content-between align-items-center " + className
+        "d-flex align-items-center justify-content-" +
+        justifyContent +
+        " " +
+        className
       }
     >
       {children}

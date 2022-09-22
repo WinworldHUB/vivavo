@@ -110,5 +110,14 @@
         "subTitle": "Estimated Income"
       }
     ]
+  },
+  "notificationsDashboard": {
+    "activeSideMenu": "-1",
+    "pageTitle": "Notifications",
+    "header": "Notifications",
+    "breadcrumbs": [
+      { "title": "Home", "linkTo": "/" },
+      { "title": "Notifications", "linkTo": "/" }
+    ]
   }
 }
