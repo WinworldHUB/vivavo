@@ -132,7 +132,7 @@ const SignIn = () => {
                   <div className="card-body">
                     <fieldset className="form-group position-relative has-icon-left">
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="user-name"
                         placeholder="Your Username"
@@ -235,7 +235,7 @@ const SignIn = () => {
                     </p>
                     <fieldset className="form-group position-relative has-icon-left">
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="user-name"
                         placeholder="Your Username"
