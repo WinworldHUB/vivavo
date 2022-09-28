@@ -1,49 +1,51 @@
-/* eslint-disable no-undef */
-import React, { Component } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
+import useDashboard from "../services/useDashboard";
 
-export default class Dashboard extends Component {
-  showToast() {
-    toastr.warning("Have fun storming the castle!", "Progress Bar", {
-      closeButton: false,
-      debug: false,
-      newestOnTop: false,
-      progressBar: true,
-      positionClass: "toast-top-right",
-      preventDuplicates: false,
-      onclick: null,
-      showDuration: "300",
-      hideDuration: "1000",
-      timeOut: "5000",
-      extendedTimeOut: "1000",
-      showEasing: "swing",
-      hideEasing: "linear",
-      showMethod: "fadeIn",
-      hideMethod: "fadeOut",
-    });
-  }
+export default function Dashboard() {
+  const dashboard = useDashboard();
+  const navigateTo = useNavigate();
 
-  render() {
+  useEffect(() => {
+    if (!dashboard.isUserAuthenticated) {
+      navigateTo("/signin");
+    }
+  }, []);
+
+  const RenderPage = function () {
     return (
       <PageLayout activeSideMenu="1" pageTitle="Dashboard">
         <section className="row">
           <div className="col-12">
             <div className="card">
-              <div className="card-body">
-                <h3>Dashboard Content Placeholder</h3>
-                <br />
-                <p className="lead">
-                  This is dashboard content placeholder. Dashboard content will
-                  go here.
-                </p>
-              </div>
+              {dashboard.isUserAuthenticated ? (
+                <div className="card-body">
+                  <h3>Dashboard Content Placeholder</h3>
+                  <br />
+                  <p className="lead">
+                    This is dashboard content placeholder. Dashboard content
+                    will go here.
+                  </p>
+                </div>
+              ) : (
+                <div className="card-body">
+                  <h3>Please login to proceed</h3>
+                  <br />
+                  <p className="lead">
+                    This is dashboard content placeholder. Dashboard content
+                    will go here.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="col-12" id="carouselDiv">
-            
-          </div>
+          <div className="col-12" id="carouselDiv"></div>
         </section>
       </PageLayout>
     );
-  }
+  };
+
+  return <RenderPage />;
 }

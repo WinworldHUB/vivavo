@@ -10,8 +10,8 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
   const RenderNotifications = function () {
     return (
       <div className="arrow_box_right">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item py-0 px-2 trackable">
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item py-0 px-2 trackable">
             <WishFlexBox justifyContent="start">
               <i className="las la-bell la-2x"></i>
               <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -22,7 +22,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
               </p>
             </WishFlexBox>
           </li>
-          <li class="list-group-item py-0 px-2 trackable">
+          <li className="list-group-item py-0 px-2 trackable">
             <WishFlexBox justifyContent="start">
               <i className="las la-bell la-2x"></i>
               <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -31,7 +31,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
               </p>
             </WishFlexBox>
           </li>
-          <li class="list-group-item py-0 px-2 trackable">
+          <li className="list-group-item py-0 px-2 trackable">
             <WishFlexBox justifyContent="start">
               <i className="las la-thumbs-up la-2x"></i>
               <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -42,7 +42,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
               </p>
             </WishFlexBox>
           </li>
-          <li class="list-group-item py-0 px-2 trackable">
+          <li className="list-group-item py-0 px-2 trackable">
             <WishFlexBox justifyContent="start">
               <i className="las la-bell la-2x"></i>
               <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -53,7 +53,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
               </p>
             </WishFlexBox>
           </li>
-          <li class="list-group-item py-0 px-2 trackable">
+          <li className="list-group-item py-0 px-2 trackable">
             <WishFlexBox justifyContent="start">
               <i className="las la-bell la-2x"></i>
               <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>

@@ -17,6 +17,8 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
+import useAPI from "../../services/useAPI";
+import { useEffect } from "react";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(data.treeData);
@@ -25,6 +27,18 @@ export default function MyGeneology() {
   const [filterApplied, applyFilter] = useState(false);
 
   const [filterText, setFilterText] = useState("");
+
+  const [genealogyData] = useAPI(
+    "http://aae07e2dd50534d579ac66b521dfda74-67189ad1aee11907.elb.ap-south-1.amazonaws.com/enrollment/load-geneology-redis",
+    {
+      distributor_id: 1001,
+      depth: 2,
+    }
+  );
+
+  useEffect(() => { 
+    console.log(genealogyData);
+  }, [genealogyData]);
 
   const showAll = function () {
     applyFilter(false);
