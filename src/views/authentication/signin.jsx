@@ -23,8 +23,9 @@ const SignIn = () => {
     _.cloneDeep(authenticationModel)
   );
 
-  const [loginResponse, { login }] = useAuthentication();
-  const [changePasswordResponse, { changePassword }] = useAuthentication();
+  const [loginResponse, loginError, { login }] = useAuthentication();
+  const [changePasswordResponse, changePasswordError, { changePassword }] =
+    useAuthentication();
 
   const [distributor, setDistributorDetails] = useLocalStorage(
     "distributor",
@@ -61,6 +62,18 @@ const SignIn = () => {
       }
     }
   }, [changePasswordResponse]);
+
+  useEffect(() => {
+    setIsProcessing(false);
+    if (loginError) setErrorMessage(
+      loginError === {} ? "Error occurred" : JSON.stringify(loginError)
+    );
+    else if (changePasswordError) setErrorMessage(
+      changePasswordError === {}
+        ? "Error occurred"
+        : JSON.stringify(changePasswordError)
+    );
+  }, [loginError, changePasswordError]);
 
   const DoLogin = () => {
     if (
@@ -215,7 +228,7 @@ const SignIn = () => {
                         {isProcessing ? (
                           <WishFlexBox justifyContent="center">
                             <span
-                              class="spinner-border spinner-border-sm"
+                              className="spinner-border spinner-border-sm"
                               role="status"
                               aria-hidden="true"
                             ></span>
@@ -274,7 +287,7 @@ const SignIn = () => {
                         {isProcessing ? (
                           <WishFlexBox justifyContent="center">
                             <span
-                              class="spinner-border spinner-border-sm"
+                              className="spinner-border spinner-border-sm"
                               role="status"
                               aria-hidden="true"
                             ></span>

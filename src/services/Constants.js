@@ -1,5 +1,4 @@
-export const BASE_URL =
-  "http://aae07e2dd50534d579ac66b521dfda74-67189ad1aee11907.elb.ap-south-1.amazonaws.com";
+export const BASE_URL = "https://dev.machinesarehere.com";
 
 export const SERVER_FAILURE_RESPONSE = {
   status: (String, ""),

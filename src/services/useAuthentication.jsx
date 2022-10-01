@@ -15,35 +15,18 @@ export const changePasswordModel = {
 };
 
 const useAuthentication = () => {
-  // const [authenticationDetails, setAuthenticationDetails] = useState(
-  //   _.cloneDeep(authenticationModel)
-  // );
 
-  // const returnValue = credentials.isReadyToAuthenticate ? useAPI(
-  //   "POST",
-  //   "/enrollment/login_dummy",
-  //   authenticationDetails
-  // ) : null;
-
-  // useEffect(() => {
-  //   if (credentials.isReadyToAuthenticate) {
-  //     setAuthenticationDetails(credentials);
-  //   }
-  // }, [credentials]);
-
-  // return returnValue;
-
-  const [response, postData] = useAPI();
+  const [response, {postData, getData, error }] = useAPI();
 
   const login = (credentials = authenticationModel) => {
-    postData("/enrollment/login_dummy", credentials);
+    postData("/enrollment/login", credentials);
   };
 
   const changePassword = (changePasswordDetails = changePasswordModel) => {
     postData("/enrollment/forgot-user-password", changePasswordDetails);
   };
 
-  return [response, { login, changePassword }];
+  return [response, error, { login, changePassword }];
 };
 
 export default useAuthentication;

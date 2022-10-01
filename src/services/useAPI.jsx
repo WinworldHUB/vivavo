@@ -1,35 +1,59 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BASE_URL } from "./Constants";
 
 const useAPI = () => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  const postData = (url, inputData) =>
-    fetch(BASE_URL.concat(url), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(inputData ?? {}),
-    })
-      .then((res) => res.json())
-      .then((data) => setData(data));
+  const postData = (url, inputData) => { 
+    try {
+      resetError();
+      fetch(BASE_URL.concat(url), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputData ?? {}),
+      })
+        .then((res) => res.json())
+        .then((data) => setData(data))
+        .catch((error) => {
+          setError(error);
+        });
+    } catch (error) {
+      setError(error);
+      console.log("In catch");
+    }
+  }
 
-  // useEffect(() => {
-  //   fetch(BASE_URL.concat(url), {
-  //     method: method,
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(inputData ?? {}),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data));
-  // }, [url, inputData]);
+  const getData = (url, inputData) => { 
+    try {
+      resetError();
+      fetch(BASE_URL.concat(url), {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputData ?? {}),
+      })
+        .then((res) => res.json())
+        .then((data) => setData(data))
+        .catch((error) => {
+          setError(error);
+        });
+    } catch (error) {
+      setError(error);
+      console.log("In catch");
+    }
+  }
 
-  return [data, postData];
+  const resetError = () => {
+    setError(null);
+  };
+
+  return [ data, {postData, getData, error }];
 };
 
 export default useAPI;
