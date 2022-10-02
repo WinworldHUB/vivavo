@@ -4,8 +4,14 @@ import useAPI from "./useAPI";
 import { useState } from "react";
 
 export const authenticationModel = {
-  user_name: (String, ""),
-  password: (String, ""),
+  user_name: Number,
+  user_type: (Number, 1),
+  password: String,
+  device_id: (String, ""),
+  device_info: (String, ""),
+  device_token: (String, ""),
+  mplatform_id: (Number, 1),
+  location: (String, ""),
   isReadyToAuthenticate: (Boolean, false),
 };
 
@@ -15,11 +21,14 @@ export const changePasswordModel = {
 };
 
 const useAuthentication = () => {
-
-  const [response, {postData, getData, error }] = useAPI();
+  const [response, error, { postData, getData }] = useAPI();
 
   const login = (credentials = authenticationModel) => {
-    postData("/enrollment/login", credentials);
+    const userCredentials = _.cloneDeep(authenticationModel);
+    userCredentials.user_name = credentials.user_name;
+    userCredentials.password = credentials.password;
+    userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
+    postData("/enrollment/login", userCredentials);
   };
 
   const changePassword = (changePasswordDetails = changePasswordModel) => {

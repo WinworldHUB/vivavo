@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BASE_URL } from "./Constants";
 
-const useAPI = () => {
+const useAPI = ()  => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -27,7 +27,7 @@ const useAPI = () => {
     }
   }
 
-  const getData = (url, inputData) => { 
+  const getData = (url = String, inputData = Object) => { 
     try {
       resetError();
       fetch(BASE_URL.concat(url), {
@@ -53,7 +53,7 @@ const useAPI = () => {
     setError(null);
   };
 
-  return [ data, {postData, getData, error }];
+  return [ data, error, {postData, getData }];
 };
 
 export default useAPI;

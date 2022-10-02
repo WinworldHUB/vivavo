@@ -35,7 +35,6 @@ const SignIn = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    //const serverResponse = authenticationResponse[0];
 
     if (loginResponse !== null) {
       setIsProcessing(false);
@@ -45,7 +44,7 @@ const SignIn = () => {
         setErrorMessage(loginResponse.message);
 
         setDistributorDetails(JSON.stringify(loginResponse.data));
-        //navigate("/");
+        navigate("/");
       }
     }
   }, [loginResponse]);

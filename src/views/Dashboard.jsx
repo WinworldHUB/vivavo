@@ -10,9 +10,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!dashboard.isUserAuthenticated) {
-      navigateTo("/signin");
+      //navigateTo("/signin");
+      console.log("User not authenticated");
+    } else {
+      console.log("User is authenticated");
     }
-  }, []);
+  }, [dashboard]);
 
   const RenderPage = function () {
     return (

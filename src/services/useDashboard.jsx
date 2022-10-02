@@ -16,18 +16,18 @@ const useDashboard = () => {
 
   useEffect(() => {
     console.log("User authentication checked.");
-    const newReturnValue = _.cloneDeep(returnValue);
+    //const newReturnValue = _.cloneDeep(returnValue);
 
     if (user !== "") {
       const userFromLocalStorage = JSON.parse(user);
-
-      newReturnValue.isUserAuthenticated =
-        parseInt(userFromLocalStorage.distributor_id) === -1 ? false : true;
+      console.log(userFromLocalStorage);
+      returnValue.isUserAuthenticated =
+        parseInt(userFromLocalStorage.distributor_id) !== -1;
     } else {
       updateUser(JSON.stringify(UserDataModel));
-      newReturnValue.isUserAuthenticated = false;
+      returnValue.isUserAuthenticated = false;
     }
-    setReturnValue(newReturnValue);
+    setReturnValue(returnValue);
   }, []);
 
   return returnValue;

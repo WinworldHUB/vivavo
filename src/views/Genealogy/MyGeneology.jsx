@@ -19,6 +19,8 @@ import "swiper/css/navigation";
 import { Link } from "react-router-dom";
 import useAPI from "../../services/useAPI";
 import { useEffect } from "react";
+import useGenealogy from "../../services/useGenealogy";
+import useLocalStorage from "react-use-localstorage";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(data.treeData);
@@ -28,17 +30,28 @@ export default function MyGeneology() {
 
   const [filterText, setFilterText] = useState("");
 
-  const [genealogyData] = useAPI(
-    "http://aae07e2dd50534d579ac66b521dfda74-67189ad1aee11907.elb.ap-south-1.amazonaws.com/enrollment/load-geneology-redis",
-    {
-      distributor_id: 1001,
-      depth: 2,
-    }
+  const [distributor, setDistributorDetails] = useLocalStorage(
+    "distributor",
+    ""
   );
+  
+  const [treeData, error, { getTreeData }] = useGenealogy();
 
-  useEffect(() => { 
-    console.log(genealogyData);
-  }, [genealogyData]);
+  useEffect(() => {
+    console.log(distributor);
+    if (distributor !== "") {
+      const distributorFromLocalStorage = JSON.parse(distributor);
+      console.log(distributorFromLocalStorage);
+      getTreeData({
+        distributor_id: distributorFromLocalStorage.distributor_id,
+        depth: 2,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(treeData ?? "");
+  }, [treeData]);
 
   const showAll = function () {
     applyFilter(false);
@@ -225,7 +238,7 @@ export default function MyGeneology() {
           >
             <div className="" style={{ minHeight: "400px" }}>
               {pageConfig.mygenealogy.topStats.map((info, index) => {
-                console.log(info);
+                //console.log(info);
                 return (
                   <RenderGroupVolumeTile
                     details={info}

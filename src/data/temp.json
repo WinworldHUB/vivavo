@@ -1,0 +1,1071 @@
+{
+  "status": "success",
+  "message": "Successfully fetched!",
+  "data": [
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 1,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1001",
+            "name": "SHEENUS",
+            "activityStatus": "1",
+            "activePv": "0",
+            "achievedRankId": "13",
+            "gv": [0, 900000, 0, 0, 0],
+            "ecomGv": ["0", "3950", 0, 0, 0],
+            "pwGv": ["0", "52650", 0, 0, 0],
+            "pwEcomGv": ["0", "3950", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": []
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 846812,
+          "label": "Distributor",
+          "properties": {
+            "distId": "847849",
+            "name": "ABHIJITH",
+            "activityStatus": "1",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 846812,
+              "label": "Distributor",
+              "properties": {
+                "distId": "847849",
+                "name": "ABHIJITH",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 846811,
+              "relation": "FOURTH",
+              "srcNode": 1,
+              "destNode": 846812,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 848435,
+          "label": "Distributor",
+          "properties": {
+            "distId": "849472",
+            "name": "HARDIK INDRAVADAN PATEL",
+            "activityStatus": "4",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 846812,
+              "label": "Distributor",
+              "properties": {
+                "distId": "847849",
+                "name": "ABHIJITH",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 848435,
+              "label": "Distributor",
+              "properties": {
+                "distId": "849472",
+                "name": "HARDIK INDRAVADAN PATEL",
+                "activityStatus": "4",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 846811,
+              "relation": "FOURTH",
+              "srcNode": 1,
+              "destNode": 846812,
+              "properties": {}
+            },
+            {
+              "id": 848434,
+              "relation": "SECOND",
+              "srcNode": 846812,
+              "destNode": 848435,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 697807,
+          "label": "Distributor",
+          "properties": {
+            "distId": "698842",
+            "name": "CHari Babu reddy",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 697807,
+              "label": "Distributor",
+              "properties": {
+                "distId": "698842",
+                "name": "CHari Babu reddy",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 697806,
+              "relation": "THIRD",
+              "srcNode": 1,
+              "destNode": 697807,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 700265,
+          "label": "Distributor",
+          "properties": {
+            "distId": "701300",
+            "name": "NAZIYA FAZOOL",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 697807,
+              "label": "Distributor",
+              "properties": {
+                "distId": "698842",
+                "name": "CHari Babu reddy",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 700265,
+              "label": "Distributor",
+              "properties": {
+                "distId": "701300",
+                "name": "NAZIYA FAZOOL",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 697806,
+              "relation": "THIRD",
+              "srcNode": 1,
+              "destNode": 697807,
+              "properties": {}
+            },
+            {
+              "id": 700264,
+              "relation": "SECOND",
+              "srcNode": 697807,
+              "destNode": 700265,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 3,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1003",
+            "name": "Manojkumar Madhavan",
+            "activityStatus": "4",
+            "activePv": "0",
+            "achievedRankId": "12",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 3,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1003",
+                "name": "Manojkumar Madhavan",
+                "activityStatus": "4",
+                "activePv": "0",
+                "achievedRankId": "12",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 3,
+              "relation": "FIRST",
+              "srcNode": 1,
+              "destNode": 3,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 17,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1017",
+            "name": "Vacated",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 3,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1003",
+                "name": "Manojkumar Madhavan",
+                "activityStatus": "4",
+                "activePv": "0",
+                "achievedRankId": "12",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 17,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1017",
+                "name": "Vacated",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 3,
+              "relation": "FIRST",
+              "srcNode": 1,
+              "destNode": 3,
+              "properties": {}
+            },
+            {
+              "id": 17,
+              "relation": "SECOND",
+              "srcNode": 3,
+              "destNode": 17,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 2,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1002",
+            "name": "Retired",
+            "activityStatus": "1",
+            "activePv": "0",
+            "achievedRankId": "13",
+            "gv": [0, 900000, 0, 0, 0],
+            "ecomGv": ["1525", "2425", 0, 0, 0],
+            "pwGv": ["26575", "26075", 0, 0, 0],
+            "pwEcomGv": ["1525", "2425", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 247186,
+          "label": "Distributor",
+          "properties": {
+            "distId": "248193",
+            "name": "ABHILASH THOMAS",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 247186,
+              "label": "Distributor",
+              "properties": {
+                "distId": "248193",
+                "name": "ABHILASH THOMAS",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            },
+            {
+              "id": 247185,
+              "relation": "FIFTH",
+              "srcNode": 2,
+              "destNode": 247186,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 247185,
+          "label": "Distributor",
+          "properties": {
+            "distId": "248192",
+            "name": "ABHILASH THOMAS",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 247185,
+              "label": "Distributor",
+              "properties": {
+                "distId": "248192",
+                "name": "ABHILASH THOMAS",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            },
+            {
+              "id": 247184,
+              "relation": "FOURTH",
+              "srcNode": 2,
+              "destNode": 247185,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 247184,
+          "label": "Distributor",
+          "properties": {
+            "distId": "248191",
+            "name": "ABHILASH THOMAS",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["0", "0", 0, 0, 0],
+            "pwGv": ["0", "0", 0, 0, 0],
+            "pwEcomGv": ["0", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 247184,
+              "label": "Distributor",
+              "properties": {
+                "distId": "248191",
+                "name": "ABHILASH THOMAS",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["0", "0", 0, 0, 0],
+                "pwGv": ["0", "0", 0, 0, 0],
+                "pwEcomGv": ["0", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            },
+            {
+              "id": 247183,
+              "relation": "THIRD",
+              "srcNode": 2,
+              "destNode": 247184,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 6,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1006",
+            "name": "MUHAMMED NABEEL",
+            "activityStatus": "2",
+            "activePv": "0",
+            "achievedRankId": "1",
+            "gv": [0, 0, 0, 0, 0],
+            "ecomGv": ["1525", "0", 0, 0, 0],
+            "pwGv": ["26575", "0", 0, 0, 0],
+            "pwEcomGv": ["1525", "0", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 6,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1006",
+                "name": "MUHAMMED NABEEL",
+                "activityStatus": "2",
+                "activePv": "0",
+                "achievedRankId": "1",
+                "gv": [0, 0, 0, 0, 0],
+                "ecomGv": ["1525", "0", 0, 0, 0],
+                "pwGv": ["26575", "0", 0, 0, 0],
+                "pwEcomGv": ["1525", "0", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            },
+            {
+              "id": 6,
+              "relation": "FIRST",
+              "srcNode": 2,
+              "destNode": 6,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_header": ["d2", "path"],
+      "_values": [
+        {
+          "id": 4,
+          "label": "Distributor",
+          "properties": {
+            "distId": "1004",
+            "name": "500X",
+            "activityStatus": "1",
+            "activePv": "0",
+            "achievedRankId": "14",
+            "gv": [0, 900000, 0, 0, 0],
+            "ecomGv": ["575", "1850", 0, 0, 0],
+            "pwGv": ["2700", "23375", 0, 0, 0],
+            "pwEcomGv": ["575", "1850", 0, 0, 0],
+            "achievedRankWeekId": 403,
+            "joiningWeekId": 403
+          }
+        },
+        {
+          "nodes": [
+            {
+              "id": 1,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1001",
+                "name": "SHEENUS",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["0", "3950", 0, 0, 0],
+                "pwGv": ["0", "52650", 0, 0, 0],
+                "pwEcomGv": ["0", "3950", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 2,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1002",
+                "name": "Retired",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "13",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["1525", "2425", 0, 0, 0],
+                "pwGv": ["26575", "26075", 0, 0, 0],
+                "pwEcomGv": ["1525", "2425", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            },
+            {
+              "id": 4,
+              "label": "Distributor",
+              "properties": {
+                "distId": "1004",
+                "name": "500X",
+                "activityStatus": "1",
+                "activePv": "0",
+                "achievedRankId": "14",
+                "gv": [0, 900000, 0, 0, 0],
+                "ecomGv": ["575", "1850", 0, 0, 0],
+                "pwGv": ["2700", "23375", 0, 0, 0],
+                "pwEcomGv": ["575", "1850", 0, 0, 0],
+                "achievedRankWeekId": 403,
+                "joiningWeekId": 403
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": 2,
+              "relation": "SECOND",
+              "srcNode": 1,
+              "destNode": 2,
+              "properties": {}
+            },
+            {
+              "id": 4,
+              "relation": "SECOND",
+              "srcNode": 2,
+              "destNode": 4,
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "error_type": ""
+}
