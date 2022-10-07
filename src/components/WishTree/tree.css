@@ -60,10 +60,26 @@
   background-color: var(--success);
 }
 
+.dot-danger{
+  display: inline-block;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--danger);
+}
+
 .dot-disabled{
   display: inline-block;
   border-radius: 15px;
   width: 10px;
   height: 10px;
   background-color: var(--light);
+}
+
+.dot-empty{
+  display: inline-block;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
 }

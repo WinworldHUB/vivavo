@@ -21,9 +21,10 @@ import useAPI from "../../services/useAPI";
 import { useEffect } from "react";
 import useGenealogy from "../../services/useGenealogy";
 import useLocalStorage from "react-use-localstorage";
+import WishModal from "../../components/WishModal";
 
 export default function MyGeneology() {
-  const [treeNodes, setTreeNodes] = useState(data.treeData);
+  const [treeNodes, setTreeNodes] = useState(null);
   const [selectedNode, setSelectedNode] = useState(treeNodes);
   const [isRotated, setIsRotated] = useState(true);
   const [filterApplied, applyFilter] = useState(false);
@@ -34,24 +35,56 @@ export default function MyGeneology() {
     "distributor",
     ""
   );
-  
-  const [treeData, error, { getTreeData }] = useGenealogy();
+
+  const [
+    treeData,
+    error,
+    { getTreeData, ranks, getPendingEnrolleesFor, pendingEnrolleesList },
+  ] = useGenealogy();
+  const [selectedDistributor, setSelectedDistributor] = useState(-1);
+  const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
 
   useEffect(() => {
-    console.log(distributor);
+    //console.log(distributor);
     if (distributor !== "") {
       const distributorFromLocalStorage = JSON.parse(distributor);
-      console.log(distributorFromLocalStorage);
-      getTreeData({
-        distributor_id: distributorFromLocalStorage.distributor_id,
-        depth: 2,
-      });
+      setSelectedDistributor(distributorFromLocalStorage.distributor_id);
+      setTreeNavigationHistory([
+        String(distributorFromLocalStorage.distributor_id),
+      ]);
     }
   }, []);
 
   useEffect(() => {
-    console.log(treeData ?? "");
+    if (selectedDistributor > -1) {
+      getTreeData({
+        distributor_id: selectedDistributor,
+        depth: 2,
+      });
+    }
+  }, [selectedDistributor]);
+
+  useEffect(() => {
+    //console.clear();
+    console.log("---- Tree Navigation History ---- ");
+    console.log(treeNavigationHistory);
+  }, [treeNavigationHistory]);
+
+  useEffect(() => {
+    //console.log(treeData ?? "");
+    if (treeData) {
+      setTreeNodes(treeData);
+    }
   }, [treeData]);
+
+  useEffect(() => {
+    if (error) {
+      WishToaster({
+        toastMessage: error,
+        toastType: "error",
+      });
+    }
+  }, [error]);
 
   const showAll = function () {
     applyFilter(false);
@@ -119,7 +152,15 @@ export default function MyGeneology() {
         <a
           className={"d-flex align-items-center text-primary "}
           onClick={() => {
-            filterTree("");
+            if (distributor !== "") {
+              const distributorFromLocalStorage = JSON.parse(distributor);
+              setTreeNavigationHistory([
+                distributorFromLocalStorage.distributor_id,
+              ]);
+              setSelectedDistributor(
+                distributorFromLocalStorage.distributor_id
+              );
+            }
           }}
         >
           <i className="las la-angle-left"></i>&nbsp;Go Back
@@ -166,7 +207,27 @@ export default function MyGeneology() {
           <a class="dropdown-item" href="#">
             To Preferred Extreme Right
           </a>
-          <a class="dropdown-item" href="#">
+          <a
+            class="dropdown-item"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              //treeNavigationHistory.pop();
+              if (treeNavigationHistory.length > 1) {
+                const currentElement = treeNavigationHistory[0];
+
+                if (selectedDistributor === currentElement)
+                  treeNavigationHistory.shift();
+
+                setSelectedDistributor(treeNavigationHistory.shift());
+              } else {
+                setSelectedDistributor(
+                  treeNavigationHistory[treeNavigationHistory.length - 1]
+                );
+              }
+            }}
+          >
             To Top
           </a>
         </div>
@@ -214,21 +275,44 @@ export default function MyGeneology() {
     <PageLayout {...pageConfig.mygenealogy}>
       <div className="row">
         <div className="col-12">
-          <WishGeneologyTree
-            header={treeTopIcons()}
-            reverse={isRotated}
-            tree={treeNodes}
-            showBackButton={filterApplied}
-            onNodeSelected={(node) => {
-              setSelectedNode(node);
-            }}
-            onFilterRequested={(filterString) => {
-              filterTree(filterString);
-            }}
-            onResetRequested={() => {
-              showAll();
-            }}
-          />
+          {treeNodes && (
+            <WishGeneologyTree
+              header={treeTopIcons()}
+              reverse={isRotated}
+              tree={treeNodes.root}
+              showBackButton={filterApplied}
+              onNodeSelected={(distributorId, isActionNode) => {
+                if (!isActionNode) {
+                  setTreeNavigationHistory([
+                    distributorId,
+                    ...treeNavigationHistory,
+                  ]);
+                  setSelectedDistributor(distributorId);
+                } else {
+                  if (distributor !== "") {
+                    const distributorFromLocalStorage = JSON.parse(distributor);
+                    getPendingEnrolleesFor(
+                      distributorFromLocalStorage.distributor_id
+                    );
+                    AppUtils.showDialog("dlgEnroll");
+                  }
+                }
+              }}
+              onResetRequested={() => {
+                showAll();
+              }}
+              onSearchClicked={(searchString) => {
+                if (parseInt(searchString))
+                  setSelectedDistributor(searchString);
+                else {
+                  WishToaster({
+                    toastMessage: "Invalid distributor Id",
+                    toastType: "error",
+                  });
+                }
+              }}
+            />
+          )}
         </div>
         <div className="col-6">
           <WishSimpleCard
@@ -352,26 +436,34 @@ export default function MyGeneology() {
               navigation={true}
               grabCursor={true}
             >
-              {Array.from(data.timelineData)
-                .reverse()
-                .map((badge, index) => {
-                  return (
-                    <SwiperSlide>
-                      <div className="text-center">
-                        <img
-                          className="rounded-lg w-25"
-                          src={badge.rankImage}
-                          alt={badge.title}
-                        />
-                        <p>{badge.title}</p>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
+              {ranks.reverse().map((badge, index) => {
+                return (
+                  <SwiperSlide>
+                    <div className="text-center">
+                      <img
+                        className="rounded-lg w-25"
+                        src={
+                          "/assets/app-assets/images/badges/" +
+                          badge.title +
+                          ".png"
+                        }
+                        alt={badge.title}
+                      />
+                      <p>{badge.title}</p>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </WishSimpleCard>
         </div>
       </div>
+      <WishModal id="dlgEnroll" title="Enroll New Distributor">
+        {pendingEnrolleesList.map((enrollee) => (
+          <h3>{enrollee.display_name}</h3>
+        ))}
+        <h3 className="text-danger">{error}</h3>
+      </WishModal>
     </PageLayout>
   );
 }

@@ -35,7 +35,14 @@ const useAuthentication = () => {
     postData("/enrollment/forgot-user-password", changePasswordDetails);
   };
 
-  return [response, error, { login, changePassword }];
+  const logout = (credentials = authenticationModel) => {
+    const userCredentials = _.cloneDeep(authenticationModel);
+    userCredentials.user_name = credentials.user_name;
+    userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
+    postData("/enrollment/logout", userCredentials);
+  };
+
+  return [response, error, { login, changePassword, logout }];
 };
 
 export default useAuthentication;

@@ -3,9 +3,50 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WishFlexBox from "./WishFlexBox";
 import MediaQuery from "@kokojer/react-responsive";
+import useAuthentication from "../services/useAuthentication";
+import { SUCCESS, ERROR } from "../services/Constants";
+import useNotificationModal from "./useNotificationModal";
+import NotificationModal from "../components/NotificationModal";
+import { useEffect } from "react";
+import useLocalStorage from "react-use-localstorage";
 
 export default function PageTopMenu({ className = "", pageTitle = "" }) {
   const navigateTo = useNavigate();
+  const [logoutResponse, logoutError, { logout }] = useAuthentication();
+  const [distributor, setDistributor] = useLocalStorage("distributor", "");
+  const [showNotification, notificationMessage, { toggle, updateMessage }] =
+    useNotificationModal();
+
+  const logoutUser = () => {
+    if (distributor === "") {
+      navigateTo("/signin");
+    } else {
+      const distributorDetails = JSON.parse(distributor);
+
+      if (distributorDetails.distributor_id === "") {
+        navigateTo("/signin");
+      } else {
+        const credentials = {
+          user_name: distributorDetails.distributor_id,
+          isReadyToAuthenticate: true,
+        };
+
+        logout(credentials);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (logoutResponse) {
+      if (logoutResponse.status === SUCCESS) {
+        setDistributor("");
+        navigateTo("/signin");
+      } else if (logoutResponse.status === ERROR) {
+        updateMessage(logoutResponse.message);
+        toggle();
+      }
+    }
+  }, [logoutResponse]);
 
   const RenderNotifications = function () {
     return (
@@ -66,7 +107,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
 
         <div
           className="text-center dropdown-item clickable bg-light pt-1"
-          onClick={() => { 
+          onClick={() => {
             navigateTo("/notifications");
           }}
         >
@@ -186,9 +227,9 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
                     <Link className="dropdown-item" to="/settings">
                       <i className="ft-settings"></i> Settings
                     </Link>
-                    <Link className="dropdown-item" to="/signin">
+                    <a className="dropdown-item clickable" onClick={logoutUser}>
                       <i className="ft-log-out"></i> Signout / Switch Account
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </li>
@@ -196,6 +237,10 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
           </div>
         </div>
       </div>
+      <NotificationModal
+        isShowing={showNotification}
+        message={notificationMessage}
+      />
     </nav>
   );
 }

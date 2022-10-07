@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import React from "react";
+import React, { createContext, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import SignIn from "./views/authentication/signin";
@@ -33,7 +33,8 @@ import OrderDetails from "./views/sales/OrderDetails";
 import GenealogySettings from "./views/Genealogy/GenealogySettings";
 import Notifications from "./views/Notifications";
 
-export default function App() {
+const App = () => {
+  
   return (
     <Router>
       <Routes>
@@ -69,4 +70,6 @@ export default function App() {
       </Routes>
     </Router>
   );
-}
+};
+
+export default App;

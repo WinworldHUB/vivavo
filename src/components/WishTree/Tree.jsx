@@ -72,12 +72,14 @@ export default function Tree({
                 <div className="input-group-append">
                   <button
                     className="btn btn-primary"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      $("#dlgSearch").modal("hide");
                       if (filterText !== "") {
                         onSearchClick && onSearchClick(filterText);
-                        setShowBackButton(true);
-                      }
-                      $("#dlgSearch").modal("hide");
+                        //setShowBackButton(true);
+                      } 
                     }}
                   >
                     Go

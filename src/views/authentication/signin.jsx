@@ -13,8 +13,10 @@ import useLocalStorage from "react-use-localstorage";
 import { EMPTY_CREDENTIALS } from "../../services/Constants";
 import { maskEmail } from "react-email-mask";
 import WishFlexBox from "../../components/WishFlexBox";
+import useMasters from "../../services/useMasters";
 
 const SignIn = () => {
+  const masters = useMasters();
   const [mode, setMode] = useState(0);
 
   const navigate = useNavigate();
@@ -35,7 +37,6 @@ const SignIn = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-
     if (loginResponse !== null) {
       setIsProcessing(false);
       if (loginResponse.status === "error") {
@@ -64,14 +65,16 @@ const SignIn = () => {
 
   useEffect(() => {
     setIsProcessing(false);
-    if (loginError) setErrorMessage(
-      loginError === {} ? "Error occurred" : JSON.stringify(loginError)
-    );
-    else if (changePasswordError) setErrorMessage(
-      changePasswordError === {}
-        ? "Error occurred"
-        : JSON.stringify(changePasswordError)
-    );
+    if (loginError)
+      setErrorMessage(
+        loginError === {} ? "Error occurred" : JSON.stringify(loginError)
+      );
+    else if (changePasswordError)
+      setErrorMessage(
+        changePasswordError === {}
+          ? "Error occurred"
+          : JSON.stringify(changePasswordError)
+      );
   }, [loginError, changePasswordError]);
 
   const DoLogin = () => {

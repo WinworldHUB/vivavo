@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { treeModel } from "./useGenealogy";
+import { actionNode, treeModel } from "./useGenealogy";
 
 export const TreeUtils = {
   prepareTree: function (nodesArray = []) {
@@ -13,20 +13,43 @@ export const TreeUtils = {
       (x) => x.parentDistId === output.root.distId
     );
 
-    output.root.nodes = _.cloneDeep(firstLevelNodes);
+    var actionButtonPosition = firstLevelNodes.length / 2;
 
-    console.log(output.root.nodes.length);
+    firstLevelNodes.splice(
+      actionButtonPosition,
+      0,
+      this.generateActionNodeFor(output.root.distId)
+    );
+
+    output.root.nodes = _.cloneDeep(firstLevelNodes);
 
     for (let index = 0; index < output.root.nodes.length; index++) {
       const element = output.root.nodes[index];
 
-      const secondLevelNodes = nodesArray.filter(
-        (x) => x.parentDistId === element.distId
-      );
+      if (!element.isActionNode) {
+        const secondLevelNodes = nodesArray.filter(
+          (x) => x.parentDistId === element.distId
+        );
 
-      output.root.nodes[index].nodes = _.cloneDeep(secondLevelNodes);
+        actionButtonPosition = secondLevelNodes.length / 2;
+
+        secondLevelNodes.splice(
+          actionButtonPosition,
+          0,
+          this.generateActionNodeFor(element.distId)
+        );
+
+        output.root.nodes[index].nodes = _.cloneDeep(secondLevelNodes);
+      }
     }
 
     return output;
+  },
+
+  generateActionNodeFor: (distributorId) => {
+    const newActionNode = _.cloneDeep(actionNode);
+    newActionNode.parentDistId = distributorId;
+
+    return newActionNode;
   },
 };

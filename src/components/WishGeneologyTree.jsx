@@ -23,9 +23,9 @@ export default function WishGeneologyTree({
   onOrganizationSelected,
   organizations,
   hideExitingEnrollments,
-  onFilterRequested,
   onResetRequested,
   showBackButton,
+  onSearchClicked,
 }) {
   // const [isRotated, setIsRotated] = useState(
   //   reverse !== undefined ? reverse : false
@@ -37,6 +37,7 @@ export default function WishGeneologyTree({
   const [treeNodes, setTreeNodes] = useState(tree.nodes);
 
   useEffect(() => {
+    console.log("Tree loading");
     //console.log (tree);
     //setIsRotated(reverse);
     setSelectedNode(tree);
@@ -107,8 +108,9 @@ export default function WishGeneologyTree({
     }
   };
 
-  const onClicked = function (id) {
-    getDistributor(id, true);
+  const onClicked = function (id, isActionNode) {
+    //getDistributor(id, true);
+    onNodeSelected && onNodeSelected(id, isActionNode);
   };
 
   const renderTreeNode = function ({
@@ -124,15 +126,33 @@ export default function WishGeneologyTree({
           alt="Generic placeholder image"
         />
         <div>
-          <small>{node?.distributorID}</small>{" "}
-          {node?.status.toLowerCase() === "active" ? (
-            <span className="dot-success"></span>
+          <small>{node?.distId}</small>{" "}
+          {!node?.isActionNode ? (
+            node?.activityStatus === "1" ? (
+              <span className="dot-success"></span>
+            ) : node?.activityStatus === "2" ||
+              node?.activityStatus === "4" ||
+              node?.activityStatus === "8" ? (
+              <span className="dot-danger"></span>
+            ) : (
+              <span className="dot-disabled"></span>
+            )
           ) : (
-            <span className="dot-disabled"></span>
+            <span className="dot-empty"></span>
           )}
         </div>
         <div>
-          <a className="text-primary clickable">{node?.title}</a>
+          <a
+            className="text-primary clickable"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+
+              onClicked(node?.distId, node?.isActionNode);
+            }}
+          >
+            {node?.name}
+          </a>
         </div>
       </div>
     );
@@ -316,7 +336,7 @@ export default function WishGeneologyTree({
                   })}
                   lineWidth={"2px"}
                   onSearchClick={(filterText) => {
-                    onFilterRequested && onFilterRequested(filterText);
+                    onSearchClicked && onSearchClicked(filterText);
                   }}
                   onBackButtonClick={() => {
                     onResetRequested && onResetRequested();
@@ -331,8 +351,13 @@ export default function WishGeneologyTree({
                         })}
                         id={treenode.id}
                         key={index}
-                        selected={treenode.selected}
-                        onClick={onClicked}
+                        selected={treenode.selected && !treenode.isActionNode}
+                        onClick={(e) => {
+                          // e.preventDefault();
+                          // e.stopPropagation();
+
+                          onClicked(treenode?.distId, treenode?.isActionNode);
+                        }}
                         details={treenode}
                         hide={treenode.hide}
                       >
@@ -347,7 +372,12 @@ export default function WishGeneologyTree({
                                 id={node.id}
                                 key={nIndex}
                                 selected={node.selected}
-                                onClick={onClicked}
+                                onClick={(e) => {
+                                  // e.preventDefault();
+                                  // e.stopPropagation();
+
+                                  onClicked(node?.distId, node?.isActionNode);
+                                }}
                                 details={node}
                                 hide={node.hide}
                               ></TreeNode>

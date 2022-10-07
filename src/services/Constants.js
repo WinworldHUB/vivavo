@@ -8,3 +8,6 @@ export const SERVER_FAILURE_RESPONSE = {
 };
 
 export const EMPTY_CREDENTIALS = "Invalid / Empty Credentials";
+
+export const SUCCESS = "success";
+export const ERROR = "error";
