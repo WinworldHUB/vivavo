@@ -4,6 +4,9 @@ import useAPI from "./useAPI";
 import _ from "lodash";
 import { TreeUtils } from "./TreeUtils";
 import { useState } from "react";
+import APIUtils from "./APIUtils";
+import useLocalStorage from "react-use-localstorage";
+import useMasters from "./useMasters";
 //import useMasters from "./useMasters";
 
 export const treeNode = {
@@ -48,67 +51,43 @@ export const actionNode = {
 };
 
 const useGenealogy = () => {
-  const [geneologyResponse, genealogyError, { postData }] = useAPI();
-  const [
-    pendingEnrollees,
-    pendingEnrolleesError,
-    { postData2 },
-  ] = useAPI();
-  const [ranksList, ranksListError, { getData }] = useAPI();
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [ranks, setRanks] = useState([]);
-  const [pendingEnrolleesList, setPendingEnrolleesList] = useState([]);
-  //const masters = useMasters();
+  const [treeData, setTreeData] = useState(null);
+  const [genealogyData, setGenealogyData] = useState(null);
+  const [genealogyError, setError] = useState(null);
+  const { ranksList } = useMasters();
+  const [ranks, setRanks] = useState(null);
+  const [pendingEnrolleesList, setPendingEnrolleesList] = useState(null);
+  const [placementPositions, setPlacementPositions] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getData("/enrollment/fetch-rank-list");
-  }, []);
-
-  useEffect(() => {
-    if (ranksList) {
-      //console.log(ranksList.data);
-      setRanks(Array.from(ranksList.data));
-    }
+    if (ranksList) setRanks(ranksList);
   }, [ranksList]);
 
-  const getTreeData = (payload) => {
-    postData("/enrollment/load-geneology-redis", payload);
-
-    //processGenealogyData(genealogyData.data.map((x) => x._values));
-  };
-
   useEffect(() => {
-    //console.log(geneologyResponse);
-    if (geneologyResponse !== null && geneologyResponse.status === "success") {
-      const genealogyData = Array.from(geneologyResponse.data);
+    if (genealogyData) {
       processGenealogyData(genealogyData.map((x) => x._values));
-    } else if (geneologyResponse) {
-      console.log(geneologyResponse.message);
-      setError(geneologyResponse.message);
-    } else {
-      setError("Unknown error");
     }
-  }, [geneologyResponse]);
+  }, [genealogyData]);
 
   useEffect(() => {
-    setError(genealogyError);
-    console.error(genealogyError);
+    if (genealogyError) setLoading(false);
   }, [genealogyError]);
 
-  useEffect(() => {
-    if (pendingEnrollees) {
-      if (pendingEnrollees.status === "success")
-        setPendingEnrolleesList(pendingEnrollees.data);
-      else setError(pendingEnrollees.message);
-    }
-  }, [pendingEnrollees]);
-
-  useEffect(() => {
-    if (pendingEnrolleesError) {
-      setError(pendingEnrolleesError);
-    }
-  }, [pendingEnrolleesError]);
+  const getTreeData = (payload, direction = null) => {
+    setLoading(true);
+    APIUtils.postData(
+      direction
+        ? `/enrollment/${direction}`
+        : "/enrollment/load-geneology-redis",
+      payload,
+      (apiData) => {
+        resetError();
+        setGenealogyData(Array.from(apiData));
+      },
+      setError
+    );
+  };
 
   const processGenealogyData = (treeNodes = []) => {
     if (treeNodes.length > 0) {
@@ -154,35 +133,83 @@ const useGenealogy = () => {
         }
       });
 
-      setData(TreeUtils.prepareTree(processedNodes));
+      setTreeData(TreeUtils.prepareTree(processedNodes));
     }
   };
 
-  const loadDistributor = (distributorId) => {
-    getTreeData({
-      distributor_id: distributorId,
-      depth: 2,
-    });
+  const getPendingEnrolleesFor = (distributorId, placement_distributor_id) => {
+    setLoading(true);
+    APIUtils.postData(
+      "/enrollment/fetch-pending-enrollee-list",
+      {
+        distributor_id: distributorId,
+        section_level: 5,
+      },
+      (enrolleesList) => {
+        resetError();
+        console.log(enrolleesList);
+        setPendingEnrolleesList(enrolleesList);
+      },
+      setError
+    );
+
+    APIUtils.postData(
+      "/enrollment/fetch-available-position",
+      {
+        placement_distributor_id: placement_distributor_id,
+      },
+      (positionsList) => {
+        resetError();
+        console.log(positionsList);
+        setPlacementPositions(Array.from(positionsList.valid_position_ist));
+      },
+      setError
+    );
   };
 
-  const getPendingEnrolleesFor = (distributorId) => {
-    postData2("/enrollment/fetch-pending-enrollee-list", {
-      distributor_id: distributorId,
-      section_level: 5,
-    });
+  const enrollDistributor = (enrollmentDetails, selectedDistributor) => {
+    setLoading(true);
+    APIUtils.postData(
+      "/enrollment/create-new-distributor",
+      enrollmentDetails,
+      () => {
+        resetError();
+        getTreeData({
+          distributor_id: selectedDistributor,
+          depth: 2,
+        });
+      },
+      setError
+    );
   };
 
-  return [
-    data,
-    error,
-    {
-      getTreeData,
-      ranks,
-      pendingEnrolleesList,
-      loadDistributor,
-      getPendingEnrolleesFor,
-    },
-  ];
+  const navigateTreeTo = (direction, selectedDistributor) => {
+    getTreeData(
+      {
+        distributor_id: selectedDistributor,
+        depth: 2,
+      },
+      direction
+    );
+  };
+
+  const resetError = () => {
+    setLoading(false);
+    setError(null);
+  };
+
+  return {
+    genealogyError,
+    ranks,
+    treeData,
+    getTreeData,
+    pendingEnrolleesList,
+    getPendingEnrolleesFor,
+    placementPositions,
+    enrollDistributor,
+    navigateTreeTo,
+    loading
+  };
 };
 
 export default useGenealogy;

@@ -31,22 +31,17 @@ const SignIn = () => {
 
   const [distributor, setDistributorDetails] = useLocalStorage(
     "distributor",
-    ""
+    null
   );
 
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    if (loginResponse !== null) {
+    if (loginResponse) {
       setIsProcessing(false);
-      if (loginResponse.status === "error") {
-        setErrorMessage(loginResponse.message);
-      } else {
-        setErrorMessage(loginResponse.message);
 
-        setDistributorDetails(JSON.stringify(loginResponse.data));
-        navigate("/");
-      }
+      setDistributorDetails(JSON.stringify(loginResponse));
+      navigate("/");
     }
   }, [loginResponse]);
 

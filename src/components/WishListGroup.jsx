@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,6 +16,10 @@ export default function WishListGroup({
 }) {
   const [selectedItem, setSelectedItem] = useState(selectedItemIndex ?? null);
   const [filterText, setFilterText] = useState(null);
+
+  useEffect(() => {
+    if (selectedItemIndex !== selectedItem) setSelectedItem(selectedItemIndex);
+  }, [selectedItemIndex]);
 
   const renderNormalItem = function (item, index) {
     return (

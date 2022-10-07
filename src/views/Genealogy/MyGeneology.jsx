@@ -22,6 +22,15 @@ import { useEffect } from "react";
 import useGenealogy from "../../services/useGenealogy";
 import useLocalStorage from "react-use-localstorage";
 import WishModal from "../../components/WishModal";
+import WishListGroup from "../../components/WishListGroup";
+import WishButtonGroup from "../../components/WishButtonGroup";
+import _ from "lodash";
+import {
+  LOAD_EXTREME_LEFT,
+  LOAD_EXTREME_RIGHT,
+  LOAD_PREFERRED_LEFT,
+  LOAD_PREFERRED_RIGHT,
+} from "../../services/Constants";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(null);
@@ -35,19 +44,47 @@ export default function MyGeneology() {
     "distributor",
     ""
   );
+  const [loggedInDistributor, setLoggedInDistributor] = useState(null);
 
-  const [
+  //const [masters, setMasters] = useLocalStorage("masters", "");
+  //const [ranks, setRanks] = useState([]);
+
+  const {
+    genealogyError,
+    ranks,
     treeData,
-    error,
-    { getTreeData, ranks, getPendingEnrolleesFor, pendingEnrolleesList },
-  ] = useGenealogy();
+    getTreeData,
+    pendingEnrolleesList,
+    getPendingEnrolleesFor,
+    placementPositions,
+    enrollDistributor,
+    navigateTreeTo,
+    loading,
+  } = useGenealogy();
   const [selectedDistributor, setSelectedDistributor] = useState(-1);
   const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
+  const placementStructure = {
+    distributor_id: "",
+    placement_distributor_id: "",
+    placement_position_id: 0,
+    sponsor_distributor_id: "",
+    dist_temp_id: 0,
+  };
+  const [selectedPosition, setSelectedPosition] = useState(
+    _.cloneDeep(placementStructure)
+  );
+  const [selectedNodeParentId, setSelectedNodeParentId] = useState(null);
+
+  const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
+
+  const [selectedEnrolleeIndex, setSelectedEnrolleeIndex] = useState(null);
 
   useEffect(() => {
     //console.log(distributor);
     if (distributor !== "") {
       const distributorFromLocalStorage = JSON.parse(distributor);
+
+      setLoggedInDistributor(distributorFromLocalStorage.distributor_id);
       setSelectedDistributor(distributorFromLocalStorage.distributor_id);
       setTreeNavigationHistory([
         String(distributorFromLocalStorage.distributor_id),
@@ -78,13 +115,13 @@ export default function MyGeneology() {
   }, [treeData]);
 
   useEffect(() => {
-    if (error) {
+    if (genealogyError) {
       WishToaster({
-        toastMessage: error,
+        toastMessage: genealogyError,
         toastType: "error",
       });
     }
-  }, [error]);
+  }, [genealogyError]);
 
   const showAll = function () {
     applyFilter(false);
@@ -154,9 +191,16 @@ export default function MyGeneology() {
           onClick={() => {
             if (distributor !== "") {
               const distributorFromLocalStorage = JSON.parse(distributor);
-              setTreeNavigationHistory([
-                distributorFromLocalStorage.distributor_id,
-              ]);
+
+              if (
+                !treeNavigationHistory.includes(
+                  distributorFromLocalStorage.distributor_id
+                )
+              )
+                setTreeNavigationHistory([
+                  distributorFromLocalStorage.distributor_id,
+                ]);
+
               setSelectedDistributor(
                 distributorFromLocalStorage.distributor_id
               );
@@ -195,16 +239,40 @@ export default function MyGeneology() {
           <i className="las la-route"></i>&nbsp;Navigation
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">
+          <a
+            class="dropdown-item"
+            href="#"
+            onClick={() => {
+              navigateTreeTo(LOAD_EXTREME_LEFT, selectedDistributor);
+            }}
+          >
             To Extreme Left
           </a>
-          <a class="dropdown-item" href="#">
+          <a
+            class="dropdown-item"
+            href="#"
+            onClick={() => {
+              navigateTreeTo(LOAD_EXTREME_RIGHT, selectedDistributor);
+            }}
+          >
             To Extreme Right
           </a>
-          <a class="dropdown-item" href="#">
+          <a
+            class="dropdown-item"
+            href="#"
+            onClick={() => {
+              navigateTreeTo(LOAD_PREFERRED_LEFT, selectedDistributor);
+            }}
+          >
             To Preferred Extreme Left
           </a>
-          <a class="dropdown-item" href="#">
+          <a
+            class="dropdown-item"
+            href="#"
+            onClick={() => {
+              navigateTreeTo(LOAD_PREFERRED_RIGHT, selectedDistributor);
+            }}
+          >
             To Preferred Extreme Right
           </a>
           <a
@@ -277,6 +345,7 @@ export default function MyGeneology() {
         <div className="col-12">
           {treeNodes && (
             <WishGeneologyTree
+              loading={loading}
               header={treeTopIcons()}
               reverse={isRotated}
               tree={treeNodes.root}
@@ -292,8 +361,17 @@ export default function MyGeneology() {
                   if (distributor !== "") {
                     const distributorFromLocalStorage = JSON.parse(distributor);
                     getPendingEnrolleesFor(
-                      distributorFromLocalStorage.distributor_id
+                      distributorFromLocalStorage.distributor_id,
+                      distributorId
                     );
+                    setSelectedNodeParentId(distributorId);
+                    const newPosition = _.cloneDeep(placementStructure);
+                    newPosition.dist_temp_id = -1;
+                    newPosition.placement_position_id = -1;
+
+                    setSelectedPosition(newPosition);
+                    setSelectedPositionIndex(null);
+                    setSelectedEnrolleeIndex(null);
                     AppUtils.showDialog("dlgEnroll");
                   }
                 }
@@ -436,7 +514,7 @@ export default function MyGeneology() {
               navigation={true}
               grabCursor={true}
             >
-              {ranks.reverse().map((badge, index) => {
+              {(ranks ?? []).reverse().map((badge, index) => {
                 return (
                   <SwiperSlide>
                     <div className="text-center">
@@ -458,11 +536,79 @@ export default function MyGeneology() {
           </WishSimpleCard>
         </div>
       </div>
-      <WishModal id="dlgEnroll" title="Enroll New Distributor">
-        {pendingEnrolleesList.map((enrollee) => (
-          <h3>{enrollee.display_name}</h3>
-        ))}
-        <h3 className="text-danger">{error}</h3>
+      <WishModal
+        id="dlgEnroll"
+        title="Enroll New Distributor"
+        noFooter={
+          selectedEnrolleeIndex === null || selectedPositionIndex === null
+        }
+        onFinish={() => {
+          const newPosition = _.cloneDeep(selectedPosition);
+
+          if (distributor !== "") {
+            const distributorFromLocalStorage = JSON.parse(distributor);
+            newPosition.sponsor_distributor_id =
+              distributorFromLocalStorage.distributor_id;
+            newPosition.distributor_id =
+              distributorFromLocalStorage.distributor_id;
+            newPosition.placement_distributor_id = selectedNodeParentId;
+
+            setSelectedPosition(newPosition);
+
+            console.clear();
+            console.log(newPosition);
+            if (
+              selectedPosition.dist_temp_id === -1 ||
+              selectedPosition.placement_position_id === -1
+            ) {
+              WishToaster({ toastMessage: "No position selected" });
+            } else {
+              enrollDistributor(newPosition, selectedDistributor);
+            }
+          } else {
+            WishToaster({ toastMessage: "Oops! Something went wrong." });
+          }
+        }}
+      >
+        {genealogyError ? (
+          <h3 className="text-danger">{genealogyError}</h3>
+        ) : (
+          <>
+            {pendingEnrolleesList && (
+              <WishListGroup
+                title="Assign Enrollees"
+                subTitle="Select from below list"
+                items={pendingEnrolleesList.map((x) => x.display_name)}
+                selectedItemIndex={selectedEnrolleeIndex}
+                onSelect={(index) => {
+                  setSelectedEnrolleeIndex(index);
+                  const newPosition = _.cloneDeep(selectedPosition);
+
+                  newPosition.dist_temp_id =
+                    pendingEnrolleesList[index].dist_temp_id;
+
+                  setSelectedPosition(newPosition);
+                }}
+              />
+            )}
+
+            {placementPositions && (
+              <WishButtonGroup
+                selectedIndex={selectedPositionIndex}
+                onSelect={(index) => {
+                  setSelectedPositionIndex(index);
+                  const newPosition = _.cloneDeep(selectedPosition);
+
+                  newPosition.placement_position_id =
+                    placementPositions[index].position_id;
+
+                  setSelectedPosition(newPosition);
+                }}
+                buttons={placementPositions.map((x) => x.position_title)}
+              />
+            )}
+          </>
+        )}
       </WishModal>
     </PageLayout>
   );

@@ -11,9 +11,14 @@ export default function WishButtonGroup({
   setSelectedButtonIndex,
   noSelection = false,
   className = "",
+  selectedIndex,
 }) {
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState(selectedIndex);
   const [items, setItems] = useState(buttons);
+
+  useEffect(() => {
+    if (selectedButton !== selectedIndex) setSelectedButton(selectedIndex);
+  }, [selectedIndex]);
 
   useEffect(() => {
     if (setSelectedButtonIndex !== undefined) {

@@ -26,6 +26,7 @@ export default function WishGeneologyTree({
   onResetRequested,
   showBackButton,
   onSearchClicked,
+  loading,
 }) {
   // const [isRotated, setIsRotated] = useState(
   //   reverse !== undefined ? reverse : false
@@ -148,7 +149,10 @@ export default function WishGeneologyTree({
               e.stopPropagation();
               e.preventDefault();
 
-              onClicked(node?.distId, node?.isActionNode);
+              onClicked(
+                node?.isActionNode ? node?.parentDistId : node?.distId,
+                node?.isActionNode
+              );
             }}
           >
             {node?.name}
@@ -356,7 +360,12 @@ export default function WishGeneologyTree({
                           // e.preventDefault();
                           // e.stopPropagation();
 
-                          onClicked(treenode?.distId, treenode?.isActionNode);
+                          onClicked(
+                            treenode?.isActionNode
+                              ? treenode?.parentDistId
+                              : treenode?.distId,
+                            treenode?.isActionNode
+                          );
                         }}
                         details={treenode}
                         hide={treenode.hide}
@@ -376,7 +385,12 @@ export default function WishGeneologyTree({
                                   // e.preventDefault();
                                   // e.stopPropagation();
 
-                                  onClicked(node?.distId, node?.isActionNode);
+                                  onClicked(
+                                    node?.isActionNode
+                                      ? node?.parentDistId
+                                      : node?.distId,
+                                    node?.isActionNode
+                                  );
                                 }}
                                 details={node}
                                 hide={node.hide}

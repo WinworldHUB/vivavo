@@ -2,6 +2,7 @@ import _ from "lodash";
 import { useState } from "react";
 import { useEffect } from "react";
 import useLocalStorage from "react-use-localstorage";
+import APIUtils from "./APIUtils";
 import useAPI from "./useAPI";
 
 const MastersModel = {
@@ -9,32 +10,28 @@ const MastersModel = {
 };
 
 const useMasters = () => {
-  const [ranksList, ranksError, { getData }] = useAPI();
-  const [masters, setMasters] = useLocalStorage("masters", "");
-  const [mastersData, setMastersData] = useState(_.cloneDeep(MastersModel));
+  const [ranks, setRanks] = useLocalStorage("ranks", null);
+  const [ranksList, setRanksList] = useState(null);
+  const [mastersError, setError] = useState(null);
 
-  useEffect(() => { 
-    if (masters !== "" && !masters.ranks) {
-      getData("/enrollment/fetch-rank-list");
-    } 
+  useEffect(() => {
+    if (ranks && ranks !== "") {
+      const ranksFromLocalStorage = JSON.parse(ranks);
+
+      setRanksList(ranksFromLocalStorage);
+    } else {
+      APIUtils.getData(
+        "/enrollment/fetch-rank-list",
+        (ranksData) => {
+          setRanksList(ranksData);
+          setRanks(JSON.stringify(ranksData));
+        },
+        setError
+      );
+    }
   }, []);
 
-  useEffect(() => {
-    if (ranksList) {
-      console.log(ranksList.data);
-      mastersData.ranks = Array.from(ranksList.data);
-    } else {
-      console.log("No ranks found");
-    }
-  }, [ranksList]);
-
-  useEffect(() => {
-    if (mastersData) {
-      setMasters(JSON.stringify(mastersData));
-    }
-  }, [mastersData]);
-
-  return mastersData;
+  return { ranksList, mastersError };
 };
 
 export default useMasters;

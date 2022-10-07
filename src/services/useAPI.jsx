@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { BASE_URL } from "./Constants";
 
-const useAPI = () => {
+const useAPI = (url, inputData) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  const postData = (url, inputData) => {
+  const postData = () => {
     try {
       //console.log(url);
       resetError();
@@ -28,30 +28,7 @@ const useAPI = () => {
     }
   };
 
-  const postData2 = (url, inputData) => {
-    try {
-      //console.log(url);
-      resetError();
-      fetch(BASE_URL.concat(url), {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputData ?? {}),
-      })
-        .then((res) => res.json())
-        .then((data) => setData(data))
-        .catch((error) => {
-          setError(error);
-        });
-    } catch (error) {
-      setError(error);
-      console.log("In catch");
-    }
-  };
-
-  const getData = (url = String, inputData = Object) => {
+  const getData = () => {
     try {
       resetError();
       fetch(BASE_URL.concat(url), {
@@ -73,23 +50,11 @@ const useAPI = () => {
     }
   };
 
-  // const getDataWithPromise = (url = String, inputData = Object) => {
-  //   resetError();
-  //   return fetch(BASE_URL.concat(url), {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(inputData ?? {}),
-  //   }).then((res) => res.json());
-  // };
-
   const resetError = () => {
     setError(null);
   };
 
-  return [data, error, { postData, getData, postData2 }];
+  return [data, error, { postData, getData }];
 };
 
 export default useAPI;

@@ -21,6 +21,20 @@ export default function Tree({
 }) {
   const [filterText, setFilterText] = useState("");
 
+  const onButtonClicked = (e) => {
+
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    $("#dlgSearch").modal("hide");
+    if (filterText !== "") {
+      onSearchClick && onSearchClick(filterText);
+      setFilterText("");
+    }
+  };
+
   return (
     <div className="table-responsive text-center">
       <ul
@@ -65,23 +79,15 @@ export default function Tree({
                   className="form-control"
                   placeholder="Search distributor id ..."
                   value={filterText}
+                  onKeyUp={(e) => {
+                    if (e.key === "Enter") onButtonClicked(null);
+                  }}
                   onChange={(e) => {
                     setFilterText(e.target.value.trim());
                   }}
                 />
                 <div className="input-group-append">
-                  <button
-                    className="btn btn-primary"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      $("#dlgSearch").modal("hide");
-                      if (filterText !== "") {
-                        onSearchClick && onSearchClick(filterText);
-                        //setShowBackButton(true);
-                      } 
-                    }}
-                  >
+                  <button className="btn btn-primary" onClick={onButtonClicked}>
                     Go
                   </button>
                 </div>

@@ -1,14 +1,41 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import useLocalStorage from "react-use-localstorage";
 import PageLayout from "../../components/PageLayout";
 import WishFlexBox from "../../components/WishFlexBox";
 import WishModal from "../../components/WishModal";
 import WishSimpleCard from "../../components/WishSimpleCard";
 import pageConfig from "../../data/config.json";
 import { AppUtils } from "../../services/AppUtils";
+import useGenealogySettings from "../../services/useGenealogySettings";
 
 export default function GenealogySettings() {
+  const [distributor, setDistributor] = useLocalStorage("distributor", null);
+  const [loggedInDistributor, setLoggedInDistributor] = useState(null);
+  const { preferences, settingsError, fetchPreferences } =
+    useGenealogySettings(loggedInDistributor);
+
+  useEffect(() => {
+    if (distributor) {
+      const distributorFromLocalStorage = JSON.parse(distributor);
+
+      setLoggedInDistributor(distributorFromLocalStorage.distributor_id);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loggedInDistributor) {
+      fetchPreferences();
+    }
+  }, [loggedInDistributor]);
+
+  useEffect(() => { 
+    if (preferences) {
+      
+    }
+  }, [preferences]);
+
   const [orgs, setOrgs] = useState([
     ...pageConfig.mygenealogySettings.organizations,
   ]);

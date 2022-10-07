@@ -11,3 +11,8 @@ export const EMPTY_CREDENTIALS = "Invalid / Empty Credentials";
 
 export const SUCCESS = "success";
 export const ERROR = "error";
+
+export const LOAD_EXTREME_LEFT = "load-extreme-left";
+export const LOAD_EXTREME_RIGHT = "load-extreme-right";
+export const LOAD_PREFERRED_LEFT = "load-prefered-extreme-left";
+export const LOAD_PREFERRED_RIGHT = "load-prefered-extreme-right";
