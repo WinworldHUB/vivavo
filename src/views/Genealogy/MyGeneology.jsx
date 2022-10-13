@@ -31,6 +31,7 @@ import {
   LOAD_PREFERRED_LEFT,
   LOAD_PREFERRED_RIGHT,
 } from "../../services/Constants";
+import useMasters from "../../services/useMasters";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(null);
@@ -49,6 +50,8 @@ export default function MyGeneology() {
   //const [masters, setMasters] = useLocalStorage("masters", "");
   //const [ranks, setRanks] = useState([]);
 
+  const { loggedInUser } = useMasters();
+
   const {
     genealogyError,
     ranks,
@@ -60,7 +63,7 @@ export default function MyGeneology() {
     enrollDistributor,
     navigateTreeTo,
     loading,
-  } = useGenealogy();
+  } = useGenealogy(loggedInUser);
   const [selectedDistributor, setSelectedDistributor] = useState(-1);
   const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
   const placementStructure = {
@@ -84,7 +87,6 @@ export default function MyGeneology() {
     if (distributor !== "") {
       const distributorFromLocalStorage = JSON.parse(distributor);
 
-      setLoggedInDistributor(distributorFromLocalStorage.distributor_id);
       setSelectedDistributor(distributorFromLocalStorage.distributor_id);
       setTreeNavigationHistory([
         String(distributorFromLocalStorage.distributor_id),

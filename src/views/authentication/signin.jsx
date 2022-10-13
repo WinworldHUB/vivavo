@@ -14,6 +14,7 @@ import { EMPTY_CREDENTIALS } from "../../services/Constants";
 import { maskEmail } from "react-email-mask";
 import WishFlexBox from "../../components/WishFlexBox";
 import useMasters from "../../services/useMasters";
+import LoadingNote from "../../components/LoadingNote";
 
 const SignIn = () => {
   const masters = useMasters();
@@ -223,14 +224,7 @@ const SignIn = () => {
                         }
                       >
                         {isProcessing ? (
-                          <WishFlexBox justifyContent="center">
-                            <span
-                              className="spinner-border spinner-border-sm"
-                              role="status"
-                              aria-hidden="true"
-                            ></span>
-                            <strong>&nbsp; Processing</strong>
-                          </WishFlexBox>
+                          <LoadingNote />
                         ) : (
                           <>Sign In</>
                         )}

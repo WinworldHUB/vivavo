@@ -38,13 +38,8 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
 
   useEffect(() => {
     if (logoutResponse) {
-      if (logoutResponse.status === SUCCESS) {
-        setDistributor("");
-        navigateTo("/signin");
-      } else if (logoutResponse.status === ERROR) {
-        updateMessage(logoutResponse.message);
-        toggle();
-      }
+      setDistributor("");
+      navigateTo("/signin");
     }
   }, [logoutResponse]);
 

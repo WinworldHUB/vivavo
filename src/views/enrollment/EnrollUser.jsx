@@ -16,6 +16,11 @@ import "json-loader";
 import data from "../../data/Data.json";
 import WishToaster from "../../components/WishToaster";
 import WishColoredBar from "../../components/WishColoredBar";
+import useMasters from "../../services/useMasters";
+import useEnrollment from "../../services/useEnrollment";
+import { useEffect } from "react";
+import WishSelect from "../../components/WishFormComponents/WishSelect";
+import LoadingNote from "../../components/LoadingNote";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -29,6 +34,13 @@ export default function EnrollUser() {
   const [pancard, setPancard] = useState("");
   const [gstConsent, setGSTConsent] = useState(false);
   const [gstnumber, setGSTNumber] = useState("");
+
+  const { loggedInUser } = useMasters();
+  const [
+    enrollmentError,
+    enrollmentLoading,
+    { enrollmentMasterData, locationDetails, getLocationDetails },
+  ] = useEnrollment(loggedInUser);
 
   const breadcrumbs = [];
   const navigations = [
@@ -48,6 +60,12 @@ export default function EnrollUser() {
   const [filterText, setFilterText] = useState("");
 
   const [treeNodes, setTreeNodes] = useState(data.treeData);
+
+  useEffect(() => {
+    if (enrollmentMasterData) {
+      console.log(enrollmentMasterData);
+    }
+  }, [enrollmentMasterData]);
 
   const navigationBar = function () {
     var currentProgress = ((currentPage + 1) / totalPages) * 100;
@@ -215,17 +233,17 @@ export default function EnrollUser() {
             Title
           </label>
           <div className="col-8">
-            <select
-              id="ddTitle"
-              name="ddTitle"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="Mr.">Mr.</option>
-              <option defaultValue="Mrs.">Mrs.</option>
-              <option defaultValue="Ms.">Ms.</option>
-              <option defaultValue="Dr.">Dr.</option>
-            </select>
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.titles ?? []).map(
+                    (x) => x.title_name
+                  ),
+                ]}
+              />
+            )}
           </div>
         </div>
         <div className="form-group row">
@@ -282,48 +300,31 @@ export default function EnrollUser() {
             Preferred Language
           </label>
           <div className="col-8">
-            <select
-              id="ddLanguage"
-              name="ddLanguage"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="1">English</option>
-              <option defaultValue="2">Marathi</option>
-              <option defaultValue="3">Hindi</option>
-              <option defaultValue="4">Gujarati</option>
-            </select>
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.languages ?? []).map(
+                    (x) => x.title_name
+                  ),
+                ]}
+              />
+            )}
           </div>
         </div>
         <div className="form-group row">
           <label className="col-4">Gender</label>
           <div className="col-8">
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                name="rdGender"
-                id="rdGender_0"
-                type="radio"
-                className="custom-control-input"
-                defaultValue="male"
-                required="required"
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.gender ?? []).map((x) => x.title),
+                ]}
               />
-              <label htmlFor="rdGender_0" className="custom-control-label">
-                Male
-              </label>
-            </div>
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                name="rdGender"
-                id="rdGender_1"
-                type="radio"
-                className="custom-control-input"
-                defaultValue="female"
-                required="required"
-              />
-              <label htmlFor="rdGender_1" className="custom-control-label">
-                Female
-              </label>
-            </div>
+            )}
           </div>
         </div>
         <div className="form-group row">
@@ -331,15 +332,17 @@ export default function EnrollUser() {
             Maritial Status
           </label>
           <div className="col-8">
-            <select
-              id="ddMartiaialStatus"
-              name="ddMartiaialStatus"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="1">Married</option>
-              <option defaultValue="2">Widowed</option>
-            </select>
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.marital_status ?? []).map(
+                    (x) => x.title_name
+                  ),
+                ]}
+              />
+            )}
           </div>
         </div>
         <div className="form-group row">
@@ -347,17 +350,17 @@ export default function EnrollUser() {
             Profession
           </label>
           <div className="col-8">
-            <select
-              id="ddProfession"
-              name="ddProfession"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="business">Businessmen</option>
-              <option defaultValue="professional">Professional</option>
-              <option defaultValue="housewife">Housewife</option>
-              <option defaultValue="management">Management</option>
-            </select>
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.profession ?? []).map(
+                    (x) => x.title_name
+                  ),
+                ]}
+              />
+            )}
           </div>
         </div>
 
@@ -366,18 +369,17 @@ export default function EnrollUser() {
             Monhtly Income
           </label>
           <div className="col-8">
-            <select
-              id="ddMonthlyIncome"
-              name="ddMonthlyIncome"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="0">Less than 5,000</option>
-              <option defaultValue="1">5,001 - 15,000</option>
-              <option defaultValue="2">15,001 - 25,000</option>
-              <option defaultValue="3">25,001 - 50,000</option>
-              <option defaultValue="4">More than 50,000</option>
-            </select>
+            {enrollmentLoading ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[
+                  ...(enrollmentMasterData?.monthly_income ?? []).map(
+                    (x) => x.title_name
+                  ),
+                ]}
+              />
+            )}
           </div>
         </div>
 
@@ -563,43 +565,38 @@ export default function EnrollUser() {
               type="text"
               className="form-control"
               required="required"
+              onBlur={() => {
+                getLocationDetails("313001");
+              }}
             />
           </div>
         </div>
 
         <div className="form-group row">
           <label htmlFor="ddCity" className="col-4 col-form-label">
-            District
+            Location
           </label>
           <div className="col-8">
-            <select
-              id="ddCity"
-              name="ddCity"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="nashik">Nashik</option>
-              <option defaultValue="bhiwadi">Bhiwadi</option>
-            </select>
+            {!locationDetails ? (
+              <LoadingNote />
+            ) : (
+              `${locationDetails[0]?.city_name}, ${locationDetails[0]?.district_name}, ${locationDetails[0]?.state_name}, ${locationDetails[0]?.country_name}`
+            )}
           </div>
         </div>
 
         <div className="form-group row">
           <label htmlFor="ddDistrict" className="col-4 col-form-label">
-            City
+            Post Name
           </label>
           <div className="col-8">
-            <select
-              id="ddDistrict"
-              name="ddDistrict"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="mumbai">Nashik</option>
-              <option defaultValue="chandigarh">Chandigarh</option>
-            </select>
+            {!locationDetails ? (
+              <LoadingNote />
+            ) : (
+              <WishSelect
+                data={[...(locationDetails ?? []).map((x) => x.post_name)]}
+              />
+            )}
           </div>
         </div>
 

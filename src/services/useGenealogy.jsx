@@ -50,7 +50,7 @@ export const actionNode = {
   selected: false,
 };
 
-const useGenealogy = () => {
+const useGenealogy = (loggedInUserId) => {
   const [treeData, setTreeData] = useState(null);
   const [genealogyData, setGenealogyData] = useState(null);
   const [genealogyError, setError] = useState(null);
@@ -59,6 +59,54 @@ const useGenealogy = () => {
   const [pendingEnrolleesList, setPendingEnrolleesList] = useState(null);
   const [placementPositions, setPlacementPositions] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [distributorStats, setDistributorStats] = useState(null);
+  const [distributorGVStats, setDistributorGVStats] = useState(null);
+  const [distributorMemberStats, setDistributorMemberStats] = useState(null);
+
+  useEffect(() => {
+    if (loggedInUserId) {
+      setLoading(true);
+      APIUtils.postData(
+        "/reports/fetch-geneology-details-activity-details",
+        {
+          distributor_id: loggedInUserId.distributor_id,
+        },
+        (stats) => {
+          resetError();
+          setDistributorStats(stats);
+          console.log(stats);
+        },
+        setError
+      );
+
+      APIUtils.postData(
+        "/reports/fetch-geneology-details-team-count",
+        {
+          distributor_id: loggedInUserId.distributor_id,
+        },
+        (stats) => {
+          resetError();
+          setDistributorMemberStats(stats);
+          console.log(stats);
+        },
+        setError
+      );
+
+      APIUtils.postData(
+        "/reports/fetch-geneology-details-group-volume",
+        {
+          distributor_id: loggedInUserId.distributor_id,
+        },
+        (stats) => {
+          resetError();
+          setDistributorGVStats(stats);
+          console.log(stats);
+        },
+        setError
+      );
+    }
+  }, [loggedInUserId]);
 
   useEffect(() => {
     if (ranksList) setRanks(ranksList);
@@ -208,7 +256,10 @@ const useGenealogy = () => {
     placementPositions,
     enrollDistributor,
     navigateTreeTo,
-    loading
+    loading,
+    distributorStats,
+    distributorMemberStats,
+    distributorGVStats
   };
 };
 
