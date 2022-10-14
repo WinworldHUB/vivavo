@@ -30,7 +30,7 @@ export default function WishTabs({ tabs, children, smallTitle, actions }) {
               return (
                 <li className="nav-item" key={index}>
                   <a
-                    class={
+                    className={
                       "nav-link " + (index === selectedTab ? " active " : "")
                     }
                     id={elementId + "base-tab" + index}
@@ -52,12 +52,12 @@ export default function WishTabs({ tabs, children, smallTitle, actions }) {
         </ul>
         {actions}
       </div>
-      <div class="tab-content px-1 pt-1">
+      <div className="tab-content px-1 pt-1">
         {tabs &&
           tabs.map((tab, index) => {
             return (
               <div
-                class={
+                className={
                   "tab-pane animate__animated " +
                   (index === selectedTab
                     ? " animate__fadeIn active "

@@ -215,7 +215,7 @@ export default function ProfileDashboard() {
   function RenderMyCards() {
     return (
       <WishSimpleCard
-        header={<h4 class="card-title">My Cards</h4>}
+        header={<h4 className="card-title">My Cards</h4>}
         cardBodyClassName="p-0"
       >
         <KYCDocuments
@@ -232,7 +232,7 @@ export default function ProfileDashboard() {
       <WishSimpleCard
         header={
           <div className="d-flex justify-content-between align-items-center">
-            <h4 class="card-title">Co-Applicant Profile</h4>
+            <h4 className="card-title">Co-Applicant Profile</h4>
             <h4>
               <a
                 className="clickable text-primary"
@@ -269,7 +269,7 @@ export default function ProfileDashboard() {
   function RenderVOTMMembership() {
     return (
       <WishSimpleCard
-        header={<h4 class="card-title">VOTM Membership</h4>}
+        header={<h4 className="card-title">VOTM Membership</h4>}
         footer={
           <Link
             className="card-link text-primary link-dotted ml-auto"

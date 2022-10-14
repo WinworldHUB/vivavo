@@ -10,13 +10,13 @@ export default function RankJourney() {
       </div>
       <div className="col-md-3 bg-white text-center">
         <img
-          class="w-50 pb-4"
+          className="w-50 pb-4"
           src="../assets/app-assets/images/badges/idealDistributor.jpg"
           alt="Ideal Distributor"
         />
         <br />
         <img
-          class="w-75 pb-2"
+          className="w-75 pb-2"
           src="../assets/app-assets/images/badges/presidentialclub.jpg"
           alt="Ideal Distributor"
         />

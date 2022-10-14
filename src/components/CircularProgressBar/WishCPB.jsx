@@ -3,15 +3,15 @@ import "./cpb.css";
 
 export default function WishCPB({ value = 60 }) {
   return (
-    <div class="circle-wrap">
-      <div class="circle">
-        <div class="mask full">
-          <div class="fill"></div>
+    <div className="circle-wrap">
+      <div className="circle">
+        <div className="mask full">
+          <div className="fill"></div>
         </div>
-        <div class="mask half">
-          <div class="fill"></div>
+        <div className="mask half">
+          <div className="fill"></div>
         </div>
-        <div class="inside-circle"> {value}% </div>
+        <div className="inside-circle"> {value}% </div>
       </div>
     </div>
   );

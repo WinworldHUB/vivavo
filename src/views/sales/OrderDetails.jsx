@@ -13,39 +13,39 @@ export default function OrderDetails() {
       activeSideMenu="2"
       pageTitle={"Order No.: " + currentOrder.orderNo}
     >
-      <section class="card">
-        <div id="invoice-template" class="card-body">
-          <div id="invoice-company-details" class="row">
-            <div class="col-md-6 col-sm-12 text-left text-md-left">
+      <section className="card">
+        <div id="invoice-template" className="card-body">
+          <div id="invoice-company-details" className="row">
+            <div className="col-md-6 col-sm-12 text-left text-md-left">
               <img
                 src="./assets/app-assets/images/logo/logo-80x80.png"
                 alt="company logo"
-                class="mb-2"
+                className="mb-2"
                 width="70"
               />
-              <ul class="px-0 list-unstyled">
-                <li class="text-bold-700">
+              <ul className="px-0 list-unstyled">
+                <li className="text-bold-700">
                   Shipping Address: {currentOrder.customer.name}
                 </li>
                 <li>{currentOrder.deliveryAddress}</li>
               </ul>
             </div>
-            <div class="col-md-6 col-sm-12 text-center text-md-right">
+            <div className="col-md-6 col-sm-12 text-center text-md-right">
               <h2>Order#</h2>
               <p>{currentOrder.orderNo}</p>
               <p>Order Date: {moment(currentOrder.date).format("DD-MMM-YY")}</p>
-              <p class="text-muted">(123) 456 789</p>
-              <p class="text-muted">email@yourcompany.com</p>
+              <p className="text-muted">(123) 456 789</p>
+              <p className="text-muted">email@yourcompany.com</p>
             </div>
           </div>
 
-          <div id="invoice-customer-details" class="row pt-2">
+          <div id="invoice-customer-details" className="row pt-2">
             <div className="col-12">
               <hr />
-              <p class="text-muted text-bold-700">Distributor details:</p>
+              <p className="text-muted text-bold-700">Distributor details:</p>
             </div>
             <div className="col-12 d-flex justify-content-between">
-              <p class="">
+              <p className="">
                 {currentOrder.otherInformation.distributor} (
                 {currentOrder.otherInformation.distributorId})
               </p>
@@ -60,10 +60,10 @@ export default function OrderDetails() {
             <div className="col-12">
               <hr />
             </div>
-            {/* <div class="col-md-6 col-sm-12 text-center text-md-right">
-              <p class="text-muted">Distributor details:</p>
-              <ul class="px-0 list-unstyled">
-                <li class="text-bold-700">
+            {/* <div className="col-md-6 col-sm-12 text-center text-md-right">
+              <p className="text-muted">Distributor details:</p>
+              <ul className="px-0 list-unstyled">
+                <li className="text-bold-700">
                   {currentOrder.otherInformation.distributor} (
                   {currentOrder.otherInformation.distributorId})
                 </li>
@@ -80,17 +80,17 @@ export default function OrderDetails() {
             </div> */}
           </div>
 
-          <div id="invoice-items-details" class="pt-2">
-            <div class="row">
-              <div class="table-responsive col-sm-12">
-                <table class="table table-bordered">
+          <div id="invoice-items-details" className="pt-2">
+            <div className="row">
+              <div className="table-responsive col-sm-12">
+                <table className="table table-bordered">
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>Item & Description</th>
-                      <th class="text-right">Quantity</th>
-                      <th class="text-right">PV</th>
-                      <th class="text-right">Amount</th>
+                      <th className="text-right">Quantity</th>
+                      <th className="text-right">PV</th>
+                      <th className="text-right">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -100,11 +100,11 @@ export default function OrderDetails() {
                           <th scope="row">{index + 1}</th>
                           <td>
                             <p>{item.name}</p>
-                            <p class="text-muted">{item.description}</p>
+                            <p className="text-muted">{item.description}</p>
                           </td>
-                          <td class="text-right">{item.quantity}</td>
-                          <td class="text-right">{item.PV}</td>
-                          <td class="text-right">
+                          <td className="text-right">{item.quantity}</td>
+                          <td className="text-right">{item.PV}</td>
+                          <td className="text-right">
                             INR.{" "}
                             {parseInt(item.unitPrice) * parseInt(item.quantity)}
                           </td>
@@ -115,16 +115,16 @@ export default function OrderDetails() {
                 </table>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-7 col-sm-12 text-center text-md-left">
-                <p class="lead">Payment Details:</p>
-                <div class="row">
-                  <div class="col-md-8">
-                    <table class="table table-borderless table-sm">
+            <div className="row">
+              <div className="col-md-7 col-sm-12 text-center text-md-left">
+                <p className="lead">Payment Details:</p>
+                <div className="row">
+                  <div className="col-md-8">
+                    <table className="table table-borderless table-sm">
                       <tbody>
                         <tr>
                           <td>Payment Date:</td>
-                          <td class="text-right">
+                          <td className="text-right">
                             {moment(currentOrder.paymentDetails.date).format(
                               "DD-MMM-YY"
                             )}
@@ -132,13 +132,13 @@ export default function OrderDetails() {
                         </tr>
                         <tr>
                           <td>Transaction#:</td>
-                          <td class="text-right">
+                          <td className="text-right">
                             {currentOrder.paymentDetails.transactionId}
                           </td>
                         </tr>
                         <tr>
                           <td>Amount Paid:</td>
-                          <td class="text-right">
+                          <td className="text-right">
                             INR {currentOrder.paymentDetails.amount}
                           </td>
                         </tr>
@@ -147,14 +147,14 @@ export default function OrderDetails() {
                   </div>
                 </div>
               </div>
-              <div class="col-md-5 col-sm-12">
-                <p class="lead">Order Status</p>
-                <div class="table-responsive">
-                  <table class="table">
+              <div className="col-md-5 col-sm-12">
+                <p className="lead">Order Status</p>
+                <div className="table-responsive">
+                  <table className="table">
                     <tbody>
                       <tr>
                         <td>Order Placed On</td>
-                        <td class="text-right">
+                        <td className="text-right">
                           {moment(currentOrder.paymentDetails.date).format(
                             "DD-MMM-YY"
                           )}
@@ -162,11 +162,11 @@ export default function OrderDetails() {
                       </tr>
                       <tr>
                         <td>Order Status</td>
-                        <td class="text-right">{currentOrder.status}</td>
+                        <td className="text-right">{currentOrder.status}</td>
                       </tr>
                       <tr>
-                        <td class="text-bold-800">Delivered On</td>
-                        <td class="text-bold-800 text-right">
+                        <td className="text-bold-800">Delivered On</td>
+                        <td className="text-bold-800 text-right">
                           {moment(currentOrder.date).format("DD-MMM-YY")}
                         </td>
                       </tr>
@@ -176,7 +176,7 @@ export default function OrderDetails() {
               </div>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12">
                 <WishColoredBar bgcolor="success">
                   <WishFlexBox>

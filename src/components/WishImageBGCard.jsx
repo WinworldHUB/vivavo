@@ -42,18 +42,18 @@ export default function WishImageBGCard({
 
   return (
     <div
-      class="card box-shadow-0 border-3 border-left-primary"
+      className="card box-shadow-0 border-3 border-left-primary"
       style={{ marginLeft: "-12px", width: "103%"}}
     >
-      <div class="card-content collapse show">
+      <div className="card-content collapse show">
         <div className="card-header">
           <div className="d-flex justify-content-between align-items-start">
-            <h4 class="card-title">{title}</h4>
+            <h4 className="card-title">{title}</h4>
             {renderEditButton()}
           </div>
         </div>
         <div
-          class="card-body"
+          className="card-body"
           style={{
             background:
               "url('../assets/app-assets/images/backgrounds/" + image + "')",

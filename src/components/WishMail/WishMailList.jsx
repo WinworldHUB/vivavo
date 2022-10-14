@@ -5,7 +5,7 @@ import WishMailMessage from "./WishMailMessage";
 export default function WishMailList({ messages = [], onMessageClicked }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   return (
-    <div class="list-group">
+    <div className="list-group">
       {messages &&
         messages.map((message, index) => {
           return (

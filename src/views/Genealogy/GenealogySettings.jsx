@@ -24,15 +24,15 @@ export default function GenealogySettings() {
     }
   }, []);
 
-  useEffect(() => {
-    if (loggedInDistributor) {
-      fetchPreferences();
-    }
-  }, [loggedInDistributor]);
+  // useEffect(() => {
+  //   if (loggedInDistributor) {
+  //     fetchPreferences();
+  //   }
+  // }, [loggedInDistributor]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (preferences) {
-      
+      console.log(preferences);
     }
   }, [preferences]);
 
@@ -86,41 +86,41 @@ export default function GenealogySettings() {
         title="Edit Preferences"
         finishTitle="Update"
       >
-        <div class="form-group row">
-          <label for="txtDistributorID" class="col col-form-label">
+        <div className="form-group row">
+          <label for="txtDistributorID" className="col col-form-label">
             Preferred Distributor ID
           </label>
-          <div class="col-6">
+          <div className="col-6">
             <input
               id="txtDistributorID"
               name="txtDistributorID"
               type="text"
-              class="form-control"
+              className="form-control"
             />
           </div>
         </div>
-        <div class="form-group row">
-          <label for="txtDistributorName" class="col col-form-label">
+        <div className="form-group row">
+          <label for="txtDistributorName" className="col col-form-label">
             Preferred Distributor Name
           </label>
-          <div class="col-6">
+          <div className="col-6">
             <input
               id="txtDistributorName"
               name="txtDistributorName"
               type="text"
-              class="form-control"
+              className="form-control"
             />
           </div>
         </div>
-        <div class="form-group row">
-          <label for="ddPreferredSide" class="col col-form-label">
+        <div className="form-group row">
+          <label for="ddPreferredSide" className="col col-form-label">
             Preferred Side
           </label>
-          <div class="col-6">
+          <div className="col-6">
             <select
               id="ddPreferredSide"
               name="ddPreferredSide"
-              class="custom-select"
+              className="custom-select"
             >
               <option value="left">Left</option>
               <option value="right">Right</option>

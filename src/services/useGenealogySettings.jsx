@@ -7,25 +7,39 @@ const useGenealogySettings = (distributorId) => {
   const [loggedInDistributor, setLoggedInDistributor] = useState(null);
   const [preferences, setPreferences] = useState(null);
   const [settingsError, setError] = useState(null);
-
-  useMemo(() => {
-    setLoggedInDistributor(distributorId);
-  }, [distributorId]);
+  const [loading, setLoading] = useState(false);
 
   const fetchPreferences = () => {
     if (loggedInDistributor) {
+      setLoading(true);
       APIUtils.postData(
         "/enrollment/fetch-dist-preferences",
         {
           distributor_id: loggedInDistributor,
         },
-        setPreferences,
+        (data) => {
+          setLoading(false);
+          setPreferences(data);
+        },
         setError
       );
     } else {
       setError("Invalid distributor Id");
     }
   };
+
+  useEffect(() => {
+    if (settingsError) {
+      setLoading(false);
+    }
+  }, [settingsError]);
+
+  useMemo(() => {
+    if (distributorId) {
+      setLoggedInDistributor(distributorId);
+      fetchPreferences();
+    }
+  }, [distributorId]);
 
   return { preferences, settingsError, fetchPreferences };
 };

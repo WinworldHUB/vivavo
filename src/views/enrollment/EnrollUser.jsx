@@ -21,6 +21,7 @@ import useEnrollment from "../../services/useEnrollment";
 import { useEffect } from "react";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
 import LoadingNote from "../../components/LoadingNote";
+import { useRef } from "react";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -34,6 +35,8 @@ export default function EnrollUser() {
   const [pancard, setPancard] = useState("");
   const [gstConsent, setGSTConsent] = useState(false);
   const [gstnumber, setGSTNumber] = useState("");
+
+  const page1Ref = useRef(null);
 
   const { loggedInUser } = useMasters();
   const [
@@ -184,6 +187,8 @@ export default function EnrollUser() {
   const validatePage = function () {
     switch (currentPage) {
       case 0:
+        console.clear();
+        console.log(new FormData(page1Ref.current).get("txtFirstname"));
         if (
           (pancard === "" && pancardConsent === false) ||
           (gstnumber === "" && gstConsent === false)
@@ -227,243 +232,245 @@ export default function EnrollUser() {
 
   const page1 = function () {
     return (
-      <div>
-        <div className="form-group row">
-          <label htmlFor="ddTitle" className="col-4 col-form-label">
-            Title
-          </label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.titles ?? []).map(
-                    (x) => x.title_name
-                  ),
-                ]}
+      <form id="frmPage1" ref={page1Ref}>
+        <div>
+          <div className="form-group row">
+            <label htmlFor="ddTitle" className="col-4 col-form-label">
+              Title
+            </label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.titles ?? []).map(
+                      (x) => x.title_name
+                    ),
+                  ]}
+                />
+              )}
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="txtFirstname" className="col-4 col-form-label">
+              First Name
+            </label>
+            <div className="col-8">
+              <input
+                id="txtFirstname"
+                name="txtFirstname"
+                placeholder="First Name"
+                type="text"
+                required="required"
+                className="form-control"
               />
-            )}
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtFirstname" className="col-4 col-form-label">
-            First Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtFirstname"
-              name="txtFirstname"
-              placeholder="First Name"
-              type="text"
-              required="required"
-              className="form-control"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtLastname" className="col-4 col-form-label">
-            Last Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtLastname"
-              name="txtLastname"
-              placeholder="Last Name"
-              type="text"
-              required="required"
-              className="form-control"
-            />
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="projectinput3" className="col-4 col-form-label">
-            Date of birth
-          </label>
-          <div className="col-8">
-            <input
-              type="date"
-              id="projectinput3"
-              className="form-control"
-              name="dateopened"
-              data-toggle="tooltip"
-              data-trigger="hover"
-              data-placement="top"
-              data-title="Date of birth"
-            />
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddLanguage" className="col-4 col-form-label">
-            Preferred Language
-          </label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.languages ?? []).map(
-                    (x) => x.title_name
-                  ),
-                ]}
+          <div className="form-group row">
+            <label htmlFor="txtLastname" className="col-4 col-form-label">
+              Last Name
+            </label>
+            <div className="col-8">
+              <input
+                id="txtLastname"
+                name="txtLastname"
+                placeholder="Last Name"
+                type="text"
+                required="required"
+                className="form-control"
               />
-            )}
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label className="col-4">Gender</label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.gender ?? []).map((x) => x.title),
-                ]}
-              />
-            )}
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="ddMartiaialStatus" className="col-4 col-form-label">
-            Maritial Status
-          </label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.marital_status ?? []).map(
-                    (x) => x.title_name
-                  ),
-                ]}
-              />
-            )}
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="ddProfession" className="col-4 col-form-label">
-            Profession
-          </label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.profession ?? []).map(
-                    (x) => x.title_name
-                  ),
-                ]}
-              />
-            )}
-          </div>
-        </div>
 
-        <div className="form-group row">
-          <label htmlFor="ddMonthlyIncome" className="col-4 col-form-label">
-            Monhtly Income
-          </label>
-          <div className="col-8">
-            {enrollmentLoading ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[
-                  ...(enrollmentMasterData?.monthly_income ?? []).map(
-                    (x) => x.title_name
-                  ),
-                ]}
+          <div className="form-group row">
+            <label htmlFor="projectinput3" className="col-4 col-form-label">
+              Date of birth
+            </label>
+            <div className="col-8">
+              <input
+                type="date"
+                id="projectinput3"
+                className="form-control"
+                name="dateopened"
+                data-toggle="tooltip"
+                data-trigger="hover"
+                data-placement="top"
+                data-title="Date of birth"
               />
-            )}
+            </div>
           </div>
-        </div>
 
-        <div className="form-group row">
-          <label htmlFor="txtAadharCard" className="col-4 col-form-label">
-            Aadhar Card
-          </label>
-          <div className="col-8">
-            <input
-              id="txtAadharCard"
-              name="txtAadharCard"
-              placeholder="(Optional)"
-              type="text"
-              className="form-control"
-            />
+          <div className="form-group row">
+            <label htmlFor="ddLanguage" className="col-4 col-form-label">
+              Preferred Language
+            </label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.languages ?? []).map(
+                      (x) => x.title_name
+                    ),
+                  ]}
+                />
+              )}
+            </div>
           </div>
-        </div>
+          <div className="form-group row">
+            <label className="col-4">Gender</label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.gender ?? []).map((x) => x.title),
+                  ]}
+                />
+              )}
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="ddMartiaialStatus" className="col-4 col-form-label">
+              Maritial Status
+            </label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.marital_status ?? []).map(
+                      (x) => x.title_name
+                    ),
+                  ]}
+                />
+              )}
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="ddProfession" className="col-4 col-form-label">
+              Profession
+            </label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.profession ?? []).map(
+                      (x) => x.title_name
+                    ),
+                  ]}
+                />
+              )}
+            </div>
+          </div>
 
-        <div className="form-group row">
-          <label htmlFor="txtfAadharCard" className="col-4 col-form-label">
-            Aadhar Card (Attachment)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfAadharCard"
-              name="txtfAadharCard"
-              placeholder="(Optional)"
-              type="file"
-              className="form-control"
-            />
+          <div className="form-group row">
+            <label htmlFor="ddMonthlyIncome" className="col-4 col-form-label">
+              Monhtly Income
+            </label>
+            <div className="col-8">
+              {enrollmentLoading ? (
+                <LoadingNote />
+              ) : (
+                <WishSelect
+                  data={[
+                    ...(enrollmentMasterData?.monthly_income ?? []).map(
+                      (x) => x.title_name
+                    ),
+                  ]}
+                />
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="form-group row">
-          <label htmlFor="txtGST" className="col-4 col-form-label">
-            GST Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtGST"
-              name="txtGST"
-              placeholder="(Optional)"
-              type="text"
-              className="form-control"
-              defaultValue={gstnumber}
-              onChange={(e) => {
-                setGSTNumber(e.target.value);
-              }}
-            />
+          <div className="form-group row">
+            <label htmlFor="txtAadharCard" className="col-4 col-form-label">
+              Aadhar Card
+            </label>
+            <div className="col-8">
+              <input
+                id="txtAadharCard"
+                name="txtAadharCard"
+                placeholder="(Optional)"
+                type="text"
+                className="form-control"
+              />
+            </div>
+          </div>
+
+          <div className="form-group row">
+            <label htmlFor="txtfAadharCard" className="col-4 col-form-label">
+              Aadhar Card (Attachment)
+            </label>
+            <div className="col-8">
+              <input
+                id="txtfAadharCard"
+                name="txtfAadharCard"
+                placeholder="(Optional)"
+                type="file"
+                className="form-control"
+              />
+            </div>
+          </div>
+
+          <div className="form-group row">
+            <label htmlFor="txtGST" className="col-4 col-form-label">
+              GST Number
+            </label>
+            <div className="col-8">
+              <input
+                id="txtGST"
+                name="txtGST"
+                placeholder="(Optional)"
+                type="text"
+                className="form-control"
+                defaultValue={gstnumber}
+                onChange={(e) => {
+                  setGSTNumber(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="txtPAN" className="col-4 col-form-label">
+              PAN
+            </label>
+            <div className="col-8">
+              <input
+                id="txtPAN"
+                name="txtPAN"
+                placeholder="(Optional)"
+                type="text"
+                className="form-control"
+                defaultValue={pancard}
+                onChange={(e) => {
+                  setPancard(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="txtfPAN" className="col-4 col-form-label">
+              PAN (Attachment)
+            </label>
+            <div className="col-8">
+              <input
+                id="txtfPAN"
+                name="txtfPAN"
+                placeholder="(Optional)"
+                type="file"
+                className="form-control"
+              />
+            </div>
           </div>
         </div>
-        <div className="form-group row">
-          <label htmlFor="txtPAN" className="col-4 col-form-label">
-            PAN
-          </label>
-          <div className="col-8">
-            <input
-              id="txtPAN"
-              name="txtPAN"
-              placeholder="(Optional)"
-              type="text"
-              className="form-control"
-              defaultValue={pancard}
-              onChange={(e) => {
-                setPancard(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtfPAN" className="col-4 col-form-label">
-            PAN (Attachment)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfPAN"
-              name="txtfPAN"
-              placeholder="(Optional)"
-              type="file"
-              className="form-control"
-            />
-          </div>
-        </div>
-      </div>
+      </form>
     );
   };
 
@@ -916,7 +923,7 @@ export default function EnrollUser() {
           </div>
         </div>
 
-        <div class="form-group row">
+        <div className="form-group row">
           <label htmlFor="txtdob" className="col-4 col-form-label">
             Date of birth
           </label>
@@ -1810,24 +1817,24 @@ export default function EnrollUser() {
           You did not provide PAN Card / Aadhar Card details. Please provide
           your consent for non-provision of PAN Card / GST Number
         </WishColoredBar>
-        <div class="form-group row">
+        <div className="form-group row">
           {pancard === "" ? (
             <>
-              <div class="col-12 pb-2">
+              <div className="col-12 pb-2">
                 <h5>PAN Card Consent</h5>
-                <div class="custom-control custom-checkbox custom-control-inline">
+                <div className="custom-control custom-checkbox custom-control-inline">
                   <input
                     name="checkbox"
                     id="checkbox_0"
                     type="checkbox"
                     checked={pancardConsent === false ? "" : "checked"}
-                    class="custom-control-input"
+                    className="custom-control-input"
                     value="pancard"
                     onClick={() => {
                       setPancardConsent(!pancardConsent);
                     }}
                   />
-                  <label for="checkbox_0" class="custom-control-label">
+                  <label for="checkbox_0" className="custom-control-label">
                     I hereby undertake that I am not an ASSESSEE as defined
                     under the provisions of Income Tax, 1961. I do not have
                     income exceeding the limit on which tax is required to be
@@ -1843,7 +1850,7 @@ export default function EnrollUser() {
                   </label>
                 </div>
               </div>
-              <div class="col-12">
+              <div className="col-12">
                 <hr />
               </div>
             </>
@@ -1852,21 +1859,21 @@ export default function EnrollUser() {
           )}
 
           {gstnumber === "" ? (
-            <div class="col-12 pt-2">
+            <div className="col-12 pt-2">
               <h5>GST Number Consent</h5>
-              <div class="custom-control custom-checkbox custom-control-inline">
+              <div className="custom-control custom-checkbox custom-control-inline">
                 <input
                   name="checkbox"
                   id="checkbox_1"
                   type="checkbox"
                   checked={gstConsent === false ? "" : "checked"}
-                  class="custom-control-input"
+                  className="custom-control-input"
                   value="gstnumber"
                   onClick={() => {
                     setGSTConsent(!gstConsent);
                   }}
                 />
-                <label for="checkbox_1" class="custom-control-label">
+                <label for="checkbox_1" className="custom-control-label">
                   I hereby undertake that I am not a supplier as defined under
                   the provisions of Goods and Services Tax, 2017 requiring
                   registration. I do not have turnover during the current and

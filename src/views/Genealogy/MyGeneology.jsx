@@ -53,16 +53,19 @@ export default function MyGeneology() {
   const { loggedInUser } = useMasters();
 
   const {
+    distributorGVStats,
+    distributorMemberStats,
+    distributorStats,
+    enrollDistributor,
     genealogyError,
+    getPendingEnrolleesFor,
+    getTreeData,
+    loading,
+    navigateTreeTo,
+    pendingEnrolleesList,
+    placementPositions,
     ranks,
     treeData,
-    getTreeData,
-    pendingEnrolleesList,
-    getPendingEnrolleesFor,
-    placementPositions,
-    enrollDistributor,
-    navigateTreeTo,
-    loading,
   } = useGenealogy(loggedInUser);
   const [selectedDistributor, setSelectedDistributor] = useState(-1);
   const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
@@ -81,6 +84,19 @@ export default function MyGeneology() {
   const [selectedPositionIndex, setSelectedPositionIndex] = useState(null);
 
   const [selectedEnrolleeIndex, setSelectedEnrolleeIndex] = useState(null);
+
+  const WORDS = [
+    "First",
+    "Second",
+    "Third",
+    "Fourth",
+    "Fifth",
+    "Sixth",
+    "Seventh",
+    "Eighth",
+    "Ninth",
+    "Tenth",
+  ];
 
   useEffect(() => {
     //console.log(distributor);
@@ -240,9 +256,9 @@ export default function MyGeneology() {
         >
           <i className="las la-route"></i>&nbsp;Navigation
         </button>
-        <div class="dropdown-menu">
+        <div className="dropdown-menu">
           <a
-            class="dropdown-item"
+            className="dropdown-item"
             href="#"
             onClick={() => {
               navigateTreeTo(LOAD_EXTREME_LEFT, selectedDistributor);
@@ -251,7 +267,7 @@ export default function MyGeneology() {
             To Extreme Left
           </a>
           <a
-            class="dropdown-item"
+            className="dropdown-item"
             href="#"
             onClick={() => {
               navigateTreeTo(LOAD_EXTREME_RIGHT, selectedDistributor);
@@ -260,7 +276,7 @@ export default function MyGeneology() {
             To Extreme Right
           </a>
           <a
-            class="dropdown-item"
+            className="dropdown-item"
             href="#"
             onClick={() => {
               navigateTreeTo(LOAD_PREFERRED_LEFT, selectedDistributor);
@@ -269,7 +285,7 @@ export default function MyGeneology() {
             To Preferred Extreme Left
           </a>
           <a
-            class="dropdown-item"
+            className="dropdown-item"
             href="#"
             onClick={() => {
               navigateTreeTo(LOAD_PREFERRED_RIGHT, selectedDistributor);
@@ -278,7 +294,7 @@ export default function MyGeneology() {
             To Preferred Extreme Right
           </a>
           <a
-            class="dropdown-item"
+            className="dropdown-item"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -313,7 +329,7 @@ export default function MyGeneology() {
     return (
       <div className={addTopPadding ? "pt-1" : ""}>
         <div className="border border-light p-1 rounded-lg onhover-shadow">
-          <label className="text-primary card-title ">{details.title}</label>
+          <label className="text-primary card-title ">{details.title} Organization</label>
           <WishFlexBox>
             <span className="lead">{details.subTitle}</span>
             <span className="lead font-weight-bold d-flex align-items-center">
@@ -333,7 +349,7 @@ export default function MyGeneology() {
                 (details.direction === "up" ? "text-success" : "text-danger")
               }
             >
-              {details.percentage}
+              {details.percentage}%
             </span>
           </WishFlexBox>
         </div>
@@ -401,11 +417,18 @@ export default function MyGeneology() {
             cardBodyClassName="flex-none overflow-auto"
           >
             <div className="" style={{ minHeight: "400px" }}>
-              {pageConfig.mygenealogy.topStats.map((info, index) => {
-                //console.log(info);
+              {distributorGVStats.map((info, index) => {
+                const GVTileInfo = {
+                  title: WORDS[index],
+                  subTitle: "GV",
+                  direction: info.is_increase ? "up" : "down",
+                  PV: info.cw_gv ?? 0,
+                  percentage: info.percentage ?? 0,
+                };
+
                 return (
                   <RenderGroupVolumeTile
-                    details={info}
+                    details={GVTileInfo}
                     addTopPadding={index !== 0}
                   />
                 );
@@ -422,21 +445,32 @@ export default function MyGeneology() {
                 header={<h5>Activation PV</h5>}
               >
                 <WishFlexBox className="row-fluid">
-                  <label className="fs-2 col-4 pl-0 d-block">200 PV</label>
+                  <label className="fs-2 col-4 pl-0 d-block">
+                    {distributorStats?.current_pv_active ?? 0} PV
+                  </label>
                   <WishFlexBox className="border border-light p-0 rounded-lg col-8 bg-danger bg-lighten-4">
                     <div className="col-6 border-right text-center">
-                      <label className="fs-2 d-block">150</label>
+                      <label className="fs-2 d-block">
+                        {distributorStats?.retail_activation_pv ?? 0}
+                      </label>
                       <label>Retail PV</label>
                     </div>
                     <div className="col-6 text-center">
-                      <label className="fs-2 d-block">50</label>
+                      <label className="fs-2 d-block">
+                        {distributorStats?.sponsor_activation_pv ?? 0}
+                      </label>
                       <label>Sponsor PV</label>
                     </div>
                   </WishFlexBox>
                 </WishFlexBox>
                 <WishFlexBox className="pt-2">
-                  <label className="text-info">17 days left</label>
-                  <label className="">Next activation week 265</label>
+                  <label className="text-info">
+                    {distributorStats?.comment ?? ""}
+                  </label>
+                  <label className="">
+                    Next activation week{" "}
+                    {distributorStats?.next_activation_week ?? 0}
+                  </label>
                 </WishFlexBox>
               </WishSimpleCard>
             </div>

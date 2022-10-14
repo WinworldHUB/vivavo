@@ -10,8 +10,8 @@ export default function Notifications() {
       <div className="row">
         <div className="col-12">
           <WishSimpleCard>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item py-0 px-2 trackable">
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item py-0 px-2 trackable">
                 <WishFlexBox justifyContent="start">
                   <i className="las la-bell la-2x"></i>
                   <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -22,7 +22,7 @@ export default function Notifications() {
                   <small className="ml-auto text-right">3 hours ago</small>
                 </WishFlexBox>
               </li>
-              <li class="list-group-item py-0 px-2 trackable">
+              <li className="list-group-item py-0 px-2 trackable">
                 <WishFlexBox justifyContent="start">
                   <i className="las la-bell la-2x"></i>
                   <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -33,7 +33,7 @@ export default function Notifications() {
                   <small className="ml-auto text-right">2 days ago</small>
                 </WishFlexBox>
               </li>
-              <li class="list-group-item py-0 px-2 trackable">
+              <li className="list-group-item py-0 px-2 trackable">
                 <WishFlexBox justifyContent="start">
                   <i className="las la-thumbs-up la-2x"></i>
                   <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -44,7 +44,7 @@ export default function Notifications() {
                   <small className="ml-auto text-right">3 days ago</small>
                 </WishFlexBox>
               </li>
-              <li class="list-group-item py-0 px-2 trackable">
+              <li className="list-group-item py-0 px-2 trackable">
                 <WishFlexBox justifyContent="start">
                   <i className="las la-bell la-2x"></i>
                   <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -55,7 +55,7 @@ export default function Notifications() {
                   <small className="ml-auto text-right">2 October 2022</small>
                 </WishFlexBox>
               </li>
-              <li class="list-group-item py-0 px-2 trackable">
+              <li className="list-group-item py-0 px-2 trackable">
                 <WishFlexBox justifyContent="start">
                   <i className="las la-bell la-2x"></i>
                   <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>

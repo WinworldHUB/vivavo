@@ -10,7 +10,7 @@ export default function PCMMembership() {
 
   return (
     <WishSimpleCard
-      header={<h4 class="card-title">PCM Membership</h4>}
+      header={<h4 className="card-title">PCM Membership</h4>}
       footer={
         availed === false ? (
           <label

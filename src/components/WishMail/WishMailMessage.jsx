@@ -8,18 +8,18 @@ export default function WishMailMessage({
 }) {
   return (
     <a
-      class={
+      className={
         "list-group-item list-group-item-action" + (isSelected ? " active " : " ")
       }
       onClick={() => {
         onClicked && onClicked();
       }}
     >
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{message.subject ?? "Message Subject"}</h5>
+      <div className="d-flex w-100 justify-content-between">
+        <h5 className="mb-1">{message.subject ?? "Message Subject"}</h5>
         <small>{message.timestamp ?? "timelapse"}</small>
       </div>
-      <p class="mb-1 collapse-text">{message.message ?? "Message Body"}</p>
+      <p className="mb-1 collapse-text">{message.message ?? "Message Body"}</p>
       <small>
         {(message.recentMessages && message.recentMessages.length) +
           " more messages" ?? ""}
