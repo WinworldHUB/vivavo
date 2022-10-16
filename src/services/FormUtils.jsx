@@ -26,4 +26,9 @@ export const FormUtills = {
       </>
     );
   },
+
+  getFormData: function (formId) {
+    
+
+  }
 };

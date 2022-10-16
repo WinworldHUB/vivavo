@@ -417,7 +417,7 @@ export default function MyGeneology() {
             cardBodyClassName="flex-none overflow-auto"
           >
             <div className="" style={{ minHeight: "400px" }}>
-              {distributorGVStats.map((info, index) => {
+              {(distributorGVStats ?? []).map((info, index) => {
                 const GVTileInfo = {
                   title: WORDS[index],
                   subTitle: "GV",

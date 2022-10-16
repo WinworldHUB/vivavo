@@ -19,6 +19,7 @@ export default function WishModal({
   hideCancelButton,
   children,
   infoMode,
+  autoDismissOnFinish = true,
 }) {
   const dialogTitle = function () {
     if (infoMode !== undefined) {
@@ -89,7 +90,7 @@ export default function WishModal({
             <button
               type="button"
               className="btn btn-danger"
-              data-dismiss="modal"
+              data-dismiss={autoDismissOnFinish ? "modal" : ""}
               onClick={(e) => onFinish && onFinish(e)}
             >
               {finishTitle ?? "Submit"}

@@ -3,15 +3,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export default function WishSelect({
-  label,
-  data,
-  onSelect,
-  initialValue = 0,
-}) {
+const WishSelect = ({ label, data, onSelect, initialValue }) => {
   const elementId = uuidv4();
 
-  const [selectedItem, setSelectedItem] = useState(initialValue);
+  const [selectedItem, setSelectedItem] = useState(initialValue ?? data[0]);
 
   useEffect(() => {
     setSelectedItem(initialValue);
@@ -27,16 +22,22 @@ export default function WishSelect({
           id={elementId}
           name={elementId}
           className="form-control"
-          defaultValue={selectedItem}
+          // defaultValue={selectedItem}
+          // value={selectedItem}
           onChange={(e) => {
             setSelectedItem(e.target.value);
             onSelect && onSelect(e.target.value);
           }}
+          value={selectedItem}
         >
           {data &&
             data.map((item, index) => {
               return (
-                <option value={index} key={index}>
+                <option
+                  value={item}
+                  key={index}
+                  //selected={item === selectedItem ? "selected" : ""}
+                >
                   {item}
                 </option>
               );
@@ -45,4 +46,6 @@ export default function WishSelect({
       </div>
     </div>
   );
-}
+};
+
+export default WishSelect;

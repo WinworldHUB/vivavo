@@ -1,19 +1,32 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 
-export default function WishSingleLineText({
+const WishSingleLineText = ({
   label,
   initialValue = "",
   placeholder = "",
   required = false,
   verify = false,
   onVerifyClicked,
-}) {
+  readonly = false,
+  onChange,
+}) => {
   const elementId = "txt" + label.replace(" ", "");
+  const [elValue, setElValue] = useState(initialValue ?? label);
+
+  useEffect(() => {
+    setElValue(initialValue ?? label);
+  }, [initialValue]);
 
   const additionalAttributes = function () {
     var opts = {};
     if (required) {
       opts["required"] = "required";
+    }
+
+    if (readonly) {
+      opts["readOnly"] = "readOnly";
     }
 
     return opts;
@@ -28,11 +41,17 @@ export default function WishSingleLineText({
         <input
           id={elementId}
           name={elementId}
-          placeholder={placeholder}
+          placeholder={placeholder ?? label}
           type="text"
           className="form-control"
-          defaultValue={initialValue}
+          //defaultValue={elValue}
+          value={elValue}
+          onChange={(e) => {
+            setElValue(e.target.value);
+            onChange && onChange(e.target.value);
+          }}
           {...additionalAttributes()}
+          //ref={customRef}
         />
       </div>
       {verify === true ? (
@@ -51,4 +70,6 @@ export default function WishSingleLineText({
       )}
     </div>
   );
-}
+};
+
+export default WishSingleLineText;

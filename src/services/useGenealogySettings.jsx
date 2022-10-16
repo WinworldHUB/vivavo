@@ -4,18 +4,17 @@ import { useState } from "react";
 import APIUtils from "./APIUtils";
 
 const useGenealogySettings = (distributorId) => {
-  const [loggedInDistributor, setLoggedInDistributor] = useState(null);
   const [preferences, setPreferences] = useState(null);
   const [settingsError, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const fetchPreferences = () => {
-    if (loggedInDistributor) {
+    if (distributorId) {
       setLoading(true);
       APIUtils.postData(
         "/enrollment/fetch-dist-preferences",
         {
-          distributor_id: loggedInDistributor,
+          distributor_id: distributorId,
         },
         (data) => {
           setLoading(false);
@@ -36,12 +35,24 @@ const useGenealogySettings = (distributorId) => {
 
   useMemo(() => {
     if (distributorId) {
-      setLoggedInDistributor(distributorId);
       fetchPreferences();
     }
   }, [distributorId]);
 
-  return { preferences, settingsError, fetchPreferences };
+  const savePreferences = (newPreferences) => {
+    setLoading(true);
+    APIUtils.postData(
+      "/enrollment/set-dist-preferences",
+      newPreferences,
+      () => {
+        fetchPreferences();
+        setLoading(false);
+      },
+      setError
+    );
+  };
+
+  return { preferences, settingsError, fetchPreferences, savePreferences };
 };
 
 export default useGenealogySettings;
