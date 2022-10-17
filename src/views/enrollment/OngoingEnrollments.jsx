@@ -13,32 +13,37 @@ export default function OngoingEnrollments() {
   breadcrumbs.push({ title: "Enrollment", linkTo: "/enrollment" });
   breadcrumbs.push({ title: "Ongoing Enrollments", linkTo: "/" });
 
-  const progresses = [];
+  const progresses = [
+    "Personal Details",
+    "Contact Details",
+    "Bank Details",
+    "Co-Applicant Details",
+  ];
 
   const { loggedInUser } = useMasters();
   const [enrollmentError, enrollmentLoading, { pendingEnrollments }] =
     useEnrollment(loggedInUser);
 
-  progresses.push({
-    progress: ["Personal Details", "Contact Details", "Bank Details"],
-  });
+  // progresses.push({
+  //   progress: ["Personal Details", "Contact Details", "Bank Details"],
+  // });
 
-  progresses.push({
-    progress: ["Personal Details"],
-  });
+  // progresses.push({
+  //   progress: ["Personal Details"],
+  // });
 
-  progresses.push({
-    progress: ["Personal Details", "Contact Details"],
-  });
+  // progresses.push({
+  //   progress: ["Personal Details", "Contact Details"],
+  // });
 
-  progresses.push({
-    progress: [
-      "Personal Details",
-      "Contact Details",
-      "Bank Details",
-      "Co-Applicant Details",
-    ],
-  });
+  // progresses.push({
+  //   progress: [
+  //     "Personal Details",
+  //     "Contact Details",
+  //     "Bank Details",
+  //     "Co-Applicant Details",
+  //   ],
+  // });
 
   useEffect(() => {
     if (enrollmentError) {
@@ -61,18 +66,28 @@ export default function OngoingEnrollments() {
     );
   };
 
-  const renderProgress = function (progress) {
-    return progress.map((step, index) => {
-      if (index === progress.length - 1) {
+  const renderProgress = function (currProgress) {
+    return progresses.map((step, index) => {
+      if (index === currProgress) {
         return (
           <Link to="/enrolluser" state={{ step: index }}>
-            {step} <i className="la la-angle-right"></i>
+            {step}{" "}
+            {index < progresses.length ? (
+              <i className="la la-angle-right"></i>
+            ) : (
+              ""
+            )}
           </Link>
         );
-      } else {
+      } else if (index < currProgress) {
         return (
           <>
-            {step} <i className="la la-angle-right"></i>
+            {step}{" "}
+            {index < progresses.length ? (
+              <i className="la la-angle-right"></i>
+            ) : (
+              ""
+            )}
           </>
         );
       }
@@ -93,12 +108,15 @@ export default function OngoingEnrollments() {
           </thead>
           <tbody>
             {pendingEnrollments ? (
-              (pendingEnrollments ?? []).map((pendingEnrollment) => {
+              (pendingEnrollments ?? []).map((pendingEnrollment, index) => {
                 return (
                   <tr>
-                    <th scope="row">1</th>
-                    <td>John Doe</td>
-                    <td>{renderProgress(progresses[0].progress)}</td>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      {pendingEnrollment?.first_name}&nbsp;
+                      {pendingEnrollment?.second_name}
+                    </td>
+                    <td>{renderProgress(pendingEnrollment?.section_level)}</td>
                     <td className="text-center">
                       <span className="h4 text-danger">
                         <i className="las la-trash-alt"></i>

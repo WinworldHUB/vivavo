@@ -25,7 +25,7 @@ const useEnrollment = (distributorId) => {
       APIUtils.postData(
         "/enrollment/fetch-pending-enrollee-list",
         {
-          distributor_id: distributorId,
+          distributor_id: distributorId.distributor_id,
           section_level: null,
         },
         setPendingEnrollments,

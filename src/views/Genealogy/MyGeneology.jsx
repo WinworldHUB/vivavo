@@ -32,6 +32,9 @@ import {
   LOAD_PREFERRED_RIGHT,
 } from "../../services/Constants";
 import useMasters from "../../services/useMasters";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import LoadingNote from "../../components/LoadingNote";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(null);
@@ -97,6 +100,65 @@ export default function MyGeneology() {
     "Ninth",
     "Tenth",
   ];
+
+  ChartJS.register(ArcElement, Tooltip, Legend);
+
+  const data = {
+    labels: ["Active Members", "Inactive Members", "Other Members"],
+    datasets: [
+      {
+        data: [
+          distributorMemberStats?.Active,
+          distributorMemberStats?.Inactive,
+          distributorMemberStats?.Others,
+        ],
+        backgroundColor: ["green", "orange", "red"],
+        borderColor: ["green", "orange", "red"],
+        borderWidth: 0,
+        cutout: "70%",
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  const plugin = {
+    id: "custom_text",
+    beforeDraw: (chart) => {
+      const { ctx } = chart;
+      ctx.save();
+      ctx.font = "22px comfortaa";
+      ctx.fillStyle = "grey";
+
+      var line1 = distributorMemberStats?.Active ?? 0,
+        line1X = Math.round((chart.width - ctx.measureText(line1).width) / 2),
+        line1Y = chart.height / 2 - 25;
+      ctx.fillText(line1, line1X, line1Y + 2);
+
+      ctx.font = "14px comfortaa";
+      var line2 = "Active members",
+        line2X = Math.round((chart.width - ctx.measureText(line2).width) / 2),
+        line2Y = chart.height / 2;
+      ctx.fillText(line2, line2X, line2Y + 2);
+
+      ctx.font = "14px comfortaa";
+      var line3 =
+          "of " +
+          (parseInt(distributorMemberStats?.Active) +
+            parseInt(distributorMemberStats?.Inactive) +
+            parseInt(distributorMemberStats?.Others)),
+        line3X = Math.round((chart.width - ctx.measureText(line3).width) / 2),
+        line3Y = chart.height / 2 + 25;
+      ctx.fillText(line3, line3X, line3Y + 2);
+      ctx.restore();
+    },
+  };
 
   useEffect(() => {
     //console.log(distributor);
@@ -329,7 +391,9 @@ export default function MyGeneology() {
     return (
       <div className={addTopPadding ? "pt-1" : ""}>
         <div className="border border-light p-1 rounded-lg onhover-shadow">
-          <label className="text-primary card-title ">{details.title} Organization</label>
+          <label className="text-primary card-title ">
+            {details.title} Organization
+          </label>
           <WishFlexBox>
             <span className="lead">{details.subTitle}</span>
             <span className="lead font-weight-bold d-flex align-items-center">
@@ -485,47 +549,66 @@ export default function MyGeneology() {
                 }
                 cardBodyClassName="pt-0 wish-speedometer"
               >
-                <ReactSpeedometer
-                  forceRender={true}
-                  needleHeightRatio={0}
-                  needleColor={"transparent"}
-                  needleTransition={"easeCircleInOut"}
-                  maxSegmentLabels={3}
-                  segments={3}
-                  customSegmentStops={[1, 3, 4, 5]}
-                  minValue={1} //<---here
-                  maxValue={5} //<---here
-                  segmentColors={["mediumseagreen", "orange", "red"]}
-                  value={4}
-                  textColor={"transparent"}
-                  height={150}
-                  width={300}
-                  ringWidth={30}
-                />
-                <label
-                  className="progress-label"
-                  style={{
-                    position: "relative",
-                    left: "45%",
-                    bottom: "40px",
-                  }}
-                >
-                  65%
-                </label>
-                <WishFlexBox>
-                  <small>
-                    <i className="las la-square-full text-success"></i> Active
-                    Members
-                  </small>
-                  <small>
-                    <i className="las la-square-full text-warning"></i> Inactive
-                    Members
-                  </small>
-                  <small>
-                    <i className="las la-square-full text-danger"></i> Will be
-                    inactive by week 236
-                  </small>
-                </WishFlexBox>
+                <div className="text-center">
+                  <div
+                    style={{
+                      height: "200px",
+                      width: "200px",
+                    }}
+                  >
+                    {!distributorMemberStats ? (
+                      <LoadingNote />
+                    ) : (
+                      <Doughnut
+                        id="dgTeamMemberStatus"
+                        data={data}
+                        options={options}
+                        plugins={distributorMemberStats ? [plugin] : []}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <table width="100%">
+                    <thead>
+                      <tr>
+                        <th className="text-center">
+                          {distributorMemberStats?.Active}
+                        </th>
+                        <th className="text-center">
+                          {" "}
+                          {distributorMemberStats?.Inactive}
+                        </th>
+                        <th className="text-center">
+                          {" "}
+                          {distributorMemberStats?.Others}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td
+                          className="text-center text-white"
+                          style={{ backgroundColor: "green" }}
+                        >
+                          Active
+                        </td>
+                        <td
+                          className="text-center text-white"
+                          style={{ backgroundColor: "orange" }}
+                        >
+                          Inactive
+                        </td>
+                        <td
+                          className="text-center text-white"
+                          style={{ backgroundColor: "red" }}
+                        >
+                          Others
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </WishSimpleCard>
             </div>
           </div>
@@ -550,7 +633,7 @@ export default function MyGeneology() {
               navigation={true}
               grabCursor={true}
             >
-              {(ranks ?? []).reverse().map((badge, index) => {
+              {(ranks ?? []).map((badge, index) => {
                 return (
                   <SwiperSlide>
                     <div className="text-center">
