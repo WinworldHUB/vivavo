@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import useLocalStorage from "react-use-localstorage";
 import APIUtils from "./APIUtils";
 
-const useEnrollment = (loggedInUser) => {
+const useEnrollment = (distributorId) => {
   const [enrollmentMasterData, setEnrollmentMasterData] = useState(null);
   const [enrollmentError, setError] = useState(null);
   const [enrollmentLoading, setLoading] = useState(false);
   const [locationDetails, setLocationDetaills] = useState(null);
+  const [pendingEnrollments, setPendingEnrollments] = useState(null);
 
   useEffect(() => {
-    if (loggedInUser) {
+    if (distributorId) {
       setLoading(true);
       // Load all init data here
       APIUtils.getData(
@@ -21,8 +21,18 @@ const useEnrollment = (loggedInUser) => {
         },
         setError
       );
+
+      APIUtils.postData(
+        "/enrollment/fetch-pending-enrollee-list",
+        {
+          distributor_id: distributorId,
+          section_level: null,
+        },
+        setPendingEnrollments,
+        setError
+      );
     }
-  }, [loggedInUser]);
+  }, [distributorId]);
 
   useEffect(() => {
     if (enrollmentError) {
@@ -42,12 +52,15 @@ const useEnrollment = (loggedInUser) => {
     );
   };
 
-
-  
   return [
     enrollmentError,
     enrollmentLoading,
-    { enrollmentMasterData, locationDetails, getLocationDetails },
+    {
+      enrollmentMasterData,
+      getLocationDetails,
+      locationDetails,
+      pendingEnrollments,
+    },
   ];
 };
 

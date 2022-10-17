@@ -1,17 +1,34 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-export default function WishFileControl({
+const WishFileControl = ({
   label,
   initialValue = "",
   placeholder = "",
   required = false,
-}) {
-  const elementId = "txt" + label.replace(" ", "");
+  verify = false,
+  onVerifyClicked,
+  readonly = false,
+  onChange,
+  id,
+}) => {
+  const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
+  const [elValue, setElValue] = useState(initialValue ?? label);
+
+  useEffect(() => {
+    setElValue(initialValue ?? label);
+  }, [initialValue]);
 
   const additionalAttributes = function () {
     var opts = {};
     if (required) {
       opts["required"] = "required";
+    }
+
+    if (readonly) {
+      opts["readOnly"] = "readOnly";
     }
 
     return opts;
@@ -22,17 +39,39 @@ export default function WishFileControl({
       <label htmlFor={elementId} className="col-4 col-form-label">
         {label}
       </label>
-      <div className="col-8">
+      <div className={verify === false ? "col-8" : "col-5"}>
         <input
-          type="file"
           id={elementId}
-          className="form-control"
           name={elementId}
-          placeholder={placeholder}
-          defaultValue={initialValue}
+          placeholder={placeholder ?? label}
+          type="file"
+          className="form-control"
+          //defaultValue={elValue}
+          value={elValue}
+          onChange={(e) => {
+            setElValue(e.target.value);
+            onChange && onChange(e.target.value);
+          }}
           {...additionalAttributes()}
+          //ref={customRef}
         />
       </div>
+      {verify === true ? (
+        <div className="col-3">
+          <button
+            className="btn btn-primary btn-block"
+            onClick={(e) => {
+              onVerifyClicked && onVerifyClicked(e);
+            }}
+          >
+            Verify
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
-}
+};
+
+export default WishFileControl;

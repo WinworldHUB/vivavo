@@ -22,6 +22,8 @@ import { useEffect } from "react";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
 import LoadingNote from "../../components/LoadingNote";
 import { useRef } from "react";
+import WishSingleLineText from "../../components/WishFormComponents/WishSingleLineText";
+import WishFileControl from "../../components/WishFormComponents/WishFileControl";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -234,25 +236,29 @@ export default function EnrollUser() {
     return (
       <form id="frmPage1" ref={page1Ref}>
         <div>
-          <div className="form-group row">
-            <label htmlFor="ddTitle" className="col-4 col-form-label">
-              Title
-            </label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.titles ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
+          <div className="hidden">
+            <WishSingleLineText
+              label="distributor_id"
+              initialValue={loggedInUser?.distributor_id}
+            />
+            <WishSingleLineText label="dist_temp_id" initialValue="" />
           </div>
-          <div className="form-group row">
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="title_id"
+              label="title"
+              data={[
+                ...(enrollmentMasterData?.titles ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+          <WishSingleLineText id="first_name" label="First Name" />
+          <WishSingleLineText id="second_name" label="Last Name" />
+          {/* <div className="form-group row">
             <label htmlFor="txtFirstname" className="col-4 col-form-label">
               First Name
             </label>
@@ -266,8 +272,8 @@ export default function EnrollUser() {
                 className="form-control"
               />
             </div>
-          </div>
-          <div className="form-group row">
+          </div> */}
+          {/* <div className="form-group row">
             <label htmlFor="txtLastname" className="col-4 col-form-label">
               Last Name
             </label>
@@ -281,8 +287,7 @@ export default function EnrollUser() {
                 className="form-control"
               />
             </div>
-          </div>
-
+          </div> */}
           <div className="form-group row">
             <label htmlFor="projectinput3" className="col-4 col-form-label">
               Date of birth
@@ -290,9 +295,9 @@ export default function EnrollUser() {
             <div className="col-8">
               <input
                 type="date"
-                id="projectinput3"
+                id="dob"
                 className="form-control"
-                name="dateopened"
+                name="dob"
                 data-toggle="tooltip"
                 data-trigger="hover"
                 data-placement="top"
@@ -300,8 +305,20 @@ export default function EnrollUser() {
               />
             </div>
           </div>
-
-          <div className="form-group row">
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="language_id"
+              label="Language"
+              data={[
+                ...(enrollmentMasterData?.languages ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+          {/* <div className="form-group row">
             <label htmlFor="ddLanguage" className="col-4 col-form-label">
               Preferred Language
             </label>
@@ -318,8 +335,22 @@ export default function EnrollUser() {
                 />
               )}
             </div>
-          </div>
-          <div className="form-group row">
+          </div> */}
+
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="gender_id"
+              label="Gender"
+              data={[
+                ...(enrollmentMasterData?.gender ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+          {/* <div className="form-group row">
             <label className="col-4">Gender</label>
             <div className="col-8">
               {enrollmentLoading ? (
@@ -327,13 +358,15 @@ export default function EnrollUser() {
               ) : (
                 <WishSelect
                   data={[
-                    ...(enrollmentMasterData?.gender ?? []).map((x) => x.title),
+                    ...(enrollmentMasterData?.gender ?? []).map(
+                      (x) => x.title_name
+                    ),
                   ]}
                 />
               )}
             </div>
-          </div>
-          <div className="form-group row">
+          </div> */}
+          {/* <div className="form-group row">
             <label htmlFor="ddMartiaialStatus" className="col-4 col-form-label">
               Maritial Status
             </label>
@@ -350,8 +383,49 @@ export default function EnrollUser() {
                 />
               )}
             </div>
-          </div>
-          <div className="form-group row">
+          </div> */}
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="marital_status_id"
+              label="Martial Status"
+              data={[
+                ...(enrollmentMasterData?.marital_status ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="profession_id"
+              label="Profession"
+              data={[
+                ...(enrollmentMasterData?.profession ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+
+          {enrollmentLoading ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              id="monthly_income_id"
+              label="Monthly Income"
+              data={[
+                ...(enrollmentMasterData?.monthly_income ?? []).map(
+                  (x) => x.title_name
+                ),
+              ]}
+            />
+          )}
+          {/* <div className="form-group row">
             <label htmlFor="ddProfession" className="col-4 col-form-label">
               Profession
             </label>
@@ -368,9 +442,8 @@ export default function EnrollUser() {
                 />
               )}
             </div>
-          </div>
-
-          <div className="form-group row">
+          </div> */}
+          {/* <div className="form-group row">
             <label htmlFor="ddMonthlyIncome" className="col-4 col-form-label">
               Monhtly Income
             </label>
@@ -387,9 +460,9 @@ export default function EnrollUser() {
                 />
               )}
             </div>
-          </div>
+          </div> */}
 
-          <div className="form-group row">
+          {/* <div className="form-group row">
             <label htmlFor="txtAadharCard" className="col-4 col-form-label">
               Aadhar Card
             </label>
@@ -402,9 +475,16 @@ export default function EnrollUser() {
                 className="form-control"
               />
             </div>
-          </div>
-
-          <div className="form-group row">
+          </div> */}
+          <WishSingleLineText id="aadhar_no" label="Aadhar Number" />
+          <WishFileControl
+            id="aadhar_file"
+            label="Aadhar Document (Attachment)"
+          />
+          <WishSingleLineText id="pan_no" label="PAN Number" />
+          <WishFileControl id="pan_file" label="PAN Document (Attachment)" />
+          <WishSingleLineText id="gst_no" label="GST Number" />
+          {/* <div className="form-group row">
             <label htmlFor="txtfAadharCard" className="col-4 col-form-label">
               Aadhar Card (Attachment)
             </label>
@@ -417,9 +497,8 @@ export default function EnrollUser() {
                 className="form-control"
               />
             </div>
-          </div>
-
-          <div className="form-group row">
+          </div> */}
+          {/* <div className="form-group row">
             <label htmlFor="txtGST" className="col-4 col-form-label">
               GST Number
             </label>
@@ -468,7 +547,7 @@ export default function EnrollUser() {
                 className="form-control"
               />
             </div>
-          </div>
+          </div>*/}
         </div>
       </form>
     );

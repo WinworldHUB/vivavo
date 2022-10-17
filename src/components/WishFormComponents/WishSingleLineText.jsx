@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const WishSingleLineText = ({
   label,
@@ -11,8 +12,9 @@ const WishSingleLineText = ({
   onVerifyClicked,
   readonly = false,
   onChange,
+  id
 }) => {
-  const elementId = "txt" + label.replace(" ", "");
+  const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
   const [elValue, setElValue] = useState(initialValue ?? label);
 
   useEffect(() => {

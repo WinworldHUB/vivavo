@@ -68,7 +68,7 @@ export default function GenealogySettings() {
       preferences.map((organization) => {
         const newOrg = {
           title: "Organization " + organization.position_id,
-          distributorId: organization.preferred_distrinutor_id,
+          distributorId: organization.preferred_distributor_id,
           distributorName: organization.preferred_distributor_name,
           side: organizationSide(organization.preferred_position_id),
           positionId: organization?.position_id,

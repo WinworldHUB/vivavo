@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const WishSelect = ({ label, data, onSelect, initialValue }) => {
-  const elementId = uuidv4();
+const WishSelect = ({ label, data, onSelect, initialValue, id }) => {
+  const elementId = id ? id : (label ? label?.replace(" ", "") : uuidv4());
 
   const [selectedItem, setSelectedItem] = useState(initialValue ?? data[0]);
 
@@ -15,7 +15,9 @@ const WishSelect = ({ label, data, onSelect, initialValue }) => {
   return (
     <div className="form-group row d-flex align-items-center">
       <div className={"" + (label !== undefined ? " col-4 " : " hidden ")}>
-        <label htmlFor={elementId}>{label}</label>
+        <label htmlFor={elementId} className="text-capitalize">
+          {label}
+        </label>
       </div>
       <div className={"" + (label !== undefined ? " col-8 " : " col-12 ")}>
         <select
