@@ -65,6 +65,7 @@ export default function MyGeneology() {
     getTreeData,
     loading,
     navigateTreeTo,
+    navigateTreeToOneLevelUp,
     pendingEnrolleesList,
     placementPositions,
     ranks,
@@ -361,18 +362,22 @@ export default function MyGeneology() {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              //treeNavigationHistory.pop();
-              if (treeNavigationHistory.length > 1) {
-                const currentElement = treeNavigationHistory[0];
 
-                if (selectedDistributor === currentElement)
-                  treeNavigationHistory.shift();
+              const rootDistributor = treeNodes.root.distId;
 
-                setSelectedDistributor(treeNavigationHistory.shift());
+              if (
+                rootDistributor &&
+                parseInt(rootDistributor) !==
+                  parseInt(loggedInUser.distributor_id)
+              ) {
+                navigateTreeToOneLevelUp(rootDistributor);
               } else {
-                setSelectedDistributor(
-                  treeNavigationHistory[treeNavigationHistory.length - 1]
-                );
+                WishToaster({
+                  toastMessage:
+                    "You are already at the top of your organization tree.",
+                  toastType: "error",
+                });
+                setTreeNavigationHistory([loggedInUser.distributor_id]);
               }
             }}
           >

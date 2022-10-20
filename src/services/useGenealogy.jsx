@@ -241,25 +241,36 @@ const useGenealogy = (loggedInUserId) => {
     );
   };
 
+  const navigateTreeToOneLevelUp = (rootDistributor) => {
+    getTreeData(
+      {
+        root_distributor_id: rootDistributor,
+        depth: 2,
+      },
+      "load-one-level-up"
+    );
+  };
+
   const resetError = () => {
     setLoading(false);
     setError(null);
   };
 
   return {
+    distributorGVStats,
+    distributorMemberStats,
+    distributorStats,
+    enrollDistributor,
     genealogyError,
+    getPendingEnrolleesFor,
+    getTreeData,
+    loading,
+    navigateTreeTo,
+    navigateTreeToOneLevelUp,
+    pendingEnrolleesList,
+    placementPositions,
     ranks,
     treeData,
-    getTreeData,
-    pendingEnrolleesList,
-    getPendingEnrolleesFor,
-    placementPositions,
-    enrollDistributor,
-    navigateTreeTo,
-    loading,
-    distributorStats,
-    distributorMemberStats,
-    distributorGVStats
   };
 };
 
