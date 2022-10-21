@@ -3,8 +3,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const WishSelect = ({ label, data, onSelect, initialValue, id }) => {
-  const elementId = id ? id : (label ? label?.replace(" ", "") : uuidv4());
+const WishSelect = ({
+  label,
+  data = [],
+  dataKey = "id",
+  dataValue = "title_name",
+  onSelect,
+  initialValue,
+  id,
+}) => {
+  const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
 
   const [selectedItem, setSelectedItem] = useState(initialValue ?? data[0]);
 
@@ -36,11 +44,11 @@ const WishSelect = ({ label, data, onSelect, initialValue, id }) => {
             data.map((item, index) => {
               return (
                 <option
-                  value={item}
+                  value={item[dataKey]}
                   key={index}
                   //selected={item === selectedItem ? "selected" : ""}
                 >
-                  {item}
+                  {item[dataValue]}
                 </option>
               );
             })}

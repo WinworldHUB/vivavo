@@ -38,6 +38,35 @@ const APIUtils = {
     }
   },
 
+  postFormData: (url, inputData, onSuccess, onFailure) => {
+    try {
+      fetch(BASE_URL.concat(url), {
+        method: "POST",
+        body: inputData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.status === "success") {
+            onSuccess && onSuccess(data.data);
+            return;
+          }
+          if (data && data.status === "error") {
+            onFailure && onFailure(data.message);
+            return;
+          }
+        })
+        .catch((error) => {
+          if (error) onFailure && onFailure(error);
+        });
+    } catch (error) {
+      if (error) {
+        onFailure && onFailure(error);
+        console.log("In catch");
+        console.log(error);
+      }
+    }
+  },
+
   getData: (url, onSuccess, onFailure) => {
     try {
       fetch(BASE_URL.concat(url), {
@@ -47,6 +76,41 @@ const APIUtils = {
           "Content-Type": "application/json",
         },
         //body: JSON.stringify(inputData ?? {}),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.status === "success") {
+            onSuccess && onSuccess(data.data);
+            return;
+          }
+          if (data && data.status === "error") {
+            onFailure && onFailure(data.message);
+            return;
+          }
+        })
+        .catch((error) => {
+          if (error) onFailure && onFailure(error);
+        });
+    } catch (error) {
+      if (error) {
+        onFailure && onFailure(error);
+        console.log("In catch");
+        console.log(error);
+      }
+    }
+  },
+
+  getExternalData: (url, onSuccess, onFailure) => {
+    try {
+      fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Headers": "Authorization, Content-Type",
+          "Access-Control-Allow-Origin": "*",
+        },
+        mode: "cors",
       })
         .then((res) => res.json())
         .then((data) => {

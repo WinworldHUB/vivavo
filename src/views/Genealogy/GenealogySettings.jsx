@@ -1,8 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
-import useLocalStorage from "react-use-localstorage";
+import React, { useEffect, useState } from "react";
 import PageLayout from "../../components/PageLayout";
 import WishFlexBox from "../../components/WishFlexBox";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
@@ -13,30 +9,17 @@ import WishToaster from "../../components/WishToaster";
 import pageConfig from "../../data/config.json";
 import { AppUtils } from "../../services/AppUtils";
 import useGenealogySettings from "../../services/useGenealogySettings";
+import useMasters from "../../services/useMasters";
 
 export default function GenealogySettings() {
-  const [distributor, setDistributor] = useLocalStorage("distributor", null);
-  const [loggedInDistributor, setLoggedInDistributor] = useState(null);
+  const { loggedInUser } = useMasters();
   const { preferences, settingsError, savePreferences } =
-    useGenealogySettings(loggedInDistributor);
+    useGenealogySettings(loggedInUser);
 
   const [orgs, setOrgs] = useState([]);
   const [selectedOrgIndex, setSelectedOrgIndex] = useState(-1);
 
   const [newDistributorPosition, setNewDistributorPosition] = useState(null);
-
-  useEffect(() => {
-    if (distributor) {
-      const distributorFromLocalStorage = JSON.parse(distributor);
-
-      setLoggedInDistributor(distributorFromLocalStorage.distributor_id);
-    } else {
-      WishToaster({
-        toastMessage: "Distributor not found",
-        toastType: "error",
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (settingsError) {
@@ -130,7 +113,7 @@ export default function GenealogySettings() {
         finishTitle="Update"
         onFinish={() => {
           const newPreferences = {
-            distributor_id: loggedInDistributor,
+            distributor_id: loggedInUser.distributor_id,
             position_id: orgs[selectedOrgIndex]?.positionId,
             preferred_distributor_id: orgs[selectedOrgIndex]?.distributorId,
             preferred_distributor_name: orgs[selectedOrgIndex]?.distributorName,

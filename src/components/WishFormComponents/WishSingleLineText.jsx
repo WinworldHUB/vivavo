@@ -6,13 +6,14 @@ import { v4 as uuidv4 } from "uuid";
 const WishSingleLineText = ({
   label,
   initialValue = "",
-  placeholder = "",
+  placeholder,
   required = false,
   verify = false,
   onVerifyClicked,
   readonly = false,
   onChange,
-  id
+  onBlurred,
+  id,
 }) => {
   const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
   const [elValue, setElValue] = useState(initialValue ?? label);
@@ -52,6 +53,7 @@ const WishSingleLineText = ({
             setElValue(e.target.value);
             onChange && onChange(e.target.value);
           }}
+          onBlur={onBlurred}
           {...additionalAttributes()}
           //ref={customRef}
         />

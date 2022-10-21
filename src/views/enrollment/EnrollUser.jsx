@@ -17,13 +17,22 @@ import data from "../../data/Data.json";
 import WishToaster from "../../components/WishToaster";
 import WishColoredBar from "../../components/WishColoredBar";
 import useMasters from "../../services/useMasters";
-import useEnrollment from "../../services/useEnrollment";
+import useEnrollment, {
+  BankDetails,
+  CoAppDetails,
+  ContactDetails,
+  PersonalDetails,
+} from "../../services/useEnrollment";
 import { useEffect } from "react";
 import WishSelect from "../../components/WishFormComponents/WishSelect";
 import LoadingNote from "../../components/LoadingNote";
 import { useRef } from "react";
 import WishSingleLineText from "../../components/WishFormComponents/WishSingleLineText";
 import WishFileControl from "../../components/WishFormComponents/WishFileControl";
+import _ from "lodash";
+import moment from "moment/moment";
+import WishFlexBox from "../../components/WishFlexBox";
+import useLocalStorage from "react-use-localstorage";
 
 export default function EnrollUser() {
   const location = useLocation();
@@ -33,18 +42,19 @@ export default function EnrollUser() {
   const [currentPage, setCurrentPage] = useState(step ?? 0);
   const [termsAgreed, setTermsAgreed] = useState(false);
 
-  const [pancardConsent, setPancardConsent] = useState(false);
-  const [pancard, setPancard] = useState("");
-  const [gstConsent, setGSTConsent] = useState(false);
-  const [gstnumber, setGSTNumber] = useState("");
-
-  const page1Ref = useRef(null);
-
   const { loggedInUser } = useMasters();
   const [
     enrollmentError,
     enrollmentLoading,
-    { enrollmentMasterData, locationDetails, getLocationDetails },
+    {
+      enrollmentMasterData,
+      locationDetails,
+      getLocationDetails,
+      saveEnrolleeDetails,
+      tempDistId,
+      getBankBranchDetails,
+      getCoAppRelationships,
+    },
   ] = useEnrollment(loggedInUser);
 
   const breadcrumbs = [];
@@ -53,6 +63,7 @@ export default function EnrollUser() {
     "Contact Details",
     "Bank Details",
     "Co-Applicant Details",
+    "Preview",
   ];
 
   breadcrumbs.push({ title: "Home", linkTo: "/" });
@@ -61,16 +72,115 @@ export default function EnrollUser() {
 
   const [isRotated, setIsRotated] = useState(true);
   const [filterApplied, applyFilter] = useState(false);
+  const [isCurrentPageDirty, setIsCurrentPageDirty] = useState(false);
+  const [paPincode, setPAPincode] = useState("");
+  const [caPincode, setCAPincode] = useState("");
+
+  const [personalDetails, updatePersonalDetails] = useState(
+    _.cloneDeep(PersonalDetails)
+  );
+  const [contactDetails, updateContactDetails] = useState(
+    _.cloneDeep(ContactDetails)
+  );
+  const [bankDetails, updateBankDetails] = useState(_.cloneDeep(BankDetails));
+  const [coAppDetails, updateCoAppDetails] = useState(
+    _.cloneDeep(CoAppDetails)
+  );
+
+  const [paLocationDetails, setPALocationDetails] = useState(null);
+  const [caLocationDetails, setCALocationDetails] = useState(null);
+  const [coAppRelationshipDetails, setCoAppRelationshipDetails] =
+    useState(null);
+
+  const [currentEnrolleeData, setCurrentEnrolleeData] = useState({
+    distributor_id: null,
+    dist_temp_id: null,
+    section_level: null,
+  });
+
+  const [currentEnrolleeDetails, saveCurrentEnrolleeDetails] = useLocalStorage(
+    "enrollee",
+    null
+  );
 
   const [filterText, setFilterText] = useState("");
 
   const [treeNodes, setTreeNodes] = useState(data.treeData);
 
+  const [validationError, setValidationError] = useState(null);
+  const validationRef = useRef(null);
+
+  useEffect(() => {
+    if (currentEnrolleeDetails) {
+      const enrolleeDetailsFromLocalStorage = JSON.parse(
+        currentEnrolleeDetails
+      );
+      setCurrentEnrolleeData(enrolleeDetailsFromLocalStorage);
+
+      //if (enrolleeDetailsFromLocalStorage.section_level)
+    }
+  }, []);
+
+  useEffect(() => {
+    if (enrollmentError) {
+      WishToaster({ toastMessage: enrollmentError.message });
+    }
+  }, [enrollmentError]);
+
   useEffect(() => {
     if (enrollmentMasterData) {
       console.log(enrollmentMasterData);
+
+      updatePersonalDetails({
+        ...personalDetails,
+        title_id: enrollmentMasterData?.titles[0]?.id,
+        gender_id: enrollmentMasterData?.gender[0]?.id,
+        language_id: enrollmentMasterData?.languages[0]?.id,
+        marital_status_id: enrollmentMasterData?.marital_status[0]?.id,
+        profession_id: enrollmentMasterData?.profession[0]?.id,
+        monthly_income_id: enrollmentMasterData?.monthly_income[0]?.id,
+      });
     }
   }, [enrollmentMasterData]);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      updatePersonalDetails({
+        ...personalDetails,
+        distributor_id: loggedInUser.distributor_id,
+        dist_temp_id: "",
+      });
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    if (tempDistId) {
+      updatePersonalDetails({ ...personalDetails, dist_temp_id: tempDistId });
+      setCurrentEnrolleeData({
+        ...currentEnrolleeData,
+        distributor_id: personalDetails.distributor_id,
+        dist_temp_id: tempDistId,
+      });
+      saveCurrentEnrolleeDetails(JSON.stringify(currentEnrolleeData));
+    }
+  }, [tempDistId]);
+
+  useEffect(() => {
+    setValidationError(null);
+  }, [isCurrentPageDirty]);
+
+  useEffect(() => {
+    //alert(moment(personalDetails.dob).format("DD/MM/YYYY"));
+    if (personalDetails && personalDetails.dob) {
+      //alert(personalDetails.dob);
+    }
+  }, [personalDetails]);
+
+  useEffect(() => {
+    if (validationError && validationRef) {
+      validationRef.current.scrollIntoView();
+    }
+  }, [validationError]);
 
   const navigationBar = function () {
     var currentProgress = ((currentPage + 1) / totalPages) * 100;
@@ -166,6 +276,9 @@ export default function EnrollUser() {
         >
           <i className="las la-angle-left"></i> BACK
         </a>
+        <p className="text-danger" ref={validationRef}>
+          {validationError ?? ""}
+        </p>
         <a
           className={
             "card-link lead d-flex align-items-baseline text-primary ml-auto " +
@@ -182,22 +295,181 @@ export default function EnrollUser() {
     );
   };
 
+  const RenderCommunicationAddress = () => {
+    return (
+      <>
+        <WishSingleLineText
+          label="Address Line 1"
+          initialValue={contactDetails?.communication_address_line1}
+          onChange={(value) => {
+            updateContactDetails({
+              ...contactDetails,
+              communication_address_line1: value,
+            });
+          }}
+        />
+
+        <WishSingleLineText
+          label="Address Line 2"
+          initialValue={contactDetails?.communication_address_line2}
+          onChange={(value) => {
+            updateContactDetails({
+              ...contactDetails,
+              communication_address_line2: value,
+            });
+          }}
+        />
+
+        <WishSingleLineText
+          id="caPincode"
+          label="Pincode"
+          initialValue={caPincode}
+          onChange={(value) => {
+            setCAPincode(value);
+          }}
+          onBlurred={() => {
+            if (caPincode.trim() !== "") {
+              getLocationDetails(caPincode, (locationDetails) => {
+                setCALocationDetails(locationDetails);
+                updateContactDetails({
+                  ...contactDetails,
+                  communication_city_id: locationDetails[0]?.city_id,
+                  communication_district_id: locationDetails[0]?.district_id,
+                  communication_state_id: locationDetails[0]?.state_id,
+                  communication_country_id: locationDetails[0]?.country_id,
+                  communication_postalcode_id:
+                    locationDetails[0]?.postalcode_id,
+                });
+              });
+            } else {
+              WishToaster({ toastMessage: "Kindly enter a valid pincode " });
+            }
+          }}
+        />
+
+        {caLocationDetails && (
+          <div className="form-group row">
+            <label htmlFor="ddCity" className="col-4 col-form-label">
+              Location (City, District, State, Country)
+            </label>
+            <div className="col-8 col-form-label">
+              {!caLocationDetails ? (
+                <LoadingNote />
+              ) : (
+                `${caLocationDetails[0]?.city_name}, ${caLocationDetails[0]?.district_name}, ${caLocationDetails[0]?.state_name}, ${caLocationDetails[0]?.country_name}`
+              )}
+            </div>
+          </div>
+        )}
+
+        {caLocationDetails &&
+          (!caLocationDetails ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              label="Post Name"
+              initialValue={contactDetails.communication_postalcode_id}
+              data={caLocationDetails ?? []}
+              dataKey="postalcode_id"
+              dataValue="post_name"
+              onSelect={(value) => {
+                updateContactDetails({
+                  ...contactDetails,
+                  communication_postalcode_id: value,
+                });
+              }}
+            />
+          ))}
+      </>
+    );
+  };
+
   const gotoNextPage = function () {
-    if (validatePage()) setCurrentPage(currentPage + 1);
+    let payload = {};
+    switch (currentPage) {
+      case 0:
+        payload = personalDetails;
+        break;
+
+      case 1:
+        payload = contactDetails;
+        break;
+
+      case 2:
+        payload = bankDetails;
+        break;
+
+      case 3:
+        payload = bankDetails;
+        break;
+
+      default:
+        break;
+    }
+
+    if (validatePage()) {
+      saveEnrolleeDetails(currentPage, payload, () => {
+        setCurrentPage(currentPage + 1);
+      });
+    }
   };
 
   const validatePage = function () {
     switch (currentPage) {
       case 0:
-        console.clear();
-        console.log(new FormData(page1Ref.current).get("txtFirstname"));
         if (
-          (pancard === "" && pancardConsent === false) ||
-          (gstnumber === "" && gstConsent === false)
+          (personalDetails.pan_no.trim() === "" &&
+            personalDetails.pan_declaration1 === false) ||
+          (personalDetails.gst_no.trim() === "" &&
+            personalDetails.gst_declaration1 === false)
         ) {
           AppUtils.showDialog("dlgConsent");
           return false;
         }
+
+        var ageDifMs = Date.now() - (personalDetails?.dob ?? Date.now());
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        if (Math.abs(ageDate.getUTCFullYear() - 1970) < 18) {
+          setValidationError("Year must be 18 years or before");
+          return false;
+        }
+
+        updateContactDetails({
+          ...contactDetails,
+          distributor_id: personalDetails.distributor_id,
+          dist_temp_id: personalDetails.dist_temp_id,
+        });
+
+        getCoAppRelationships(
+          personalDetails.gender_id,
+          personalDetails.marital_status_id,
+          (details) => {
+            setCoAppRelationshipDetails(details);
+          }
+        );
+        break;
+
+      case 1:
+        if (contactDetails.is_addresses_same === 1) {
+          updateContactDetails({
+            ...contactDetails,
+            communication_address_line1: contactDetails.permanent_address_line1,
+            communication_address_line2: contactDetails.permanent_address_line2,
+            communication_city_id: contactDetails.permanent_city_id,
+            communication_district_id: contactDetails.permanent_district_id,
+            communication_state_id: contactDetails.permanent_state_id,
+            communication_country_id: contactDetails.permanent_country_id,
+            communication_postalcode_id: contactDetails.permanent_postalcode_id,
+          });
+        }
+        break;
+
+      case 2:
+        updateBankDetails({
+          ...bankDetails,
+          distributor_id: personalDetails.distributor_id,
+          dist_temp_id: personalDetails.dist_temp_id,
+        });
         break;
 
       default:
@@ -234,14 +506,43 @@ export default function EnrollUser() {
 
   const page1 = function () {
     return (
-      <form id="frmPage1" ref={page1Ref}>
+      <form id="frmPage1">
         <div>
-          <div className="hidden">
+          <div className="">
             <WishSingleLineText
               label="distributor_id"
-              initialValue={loggedInUser?.distributor_id}
+              initialValue={personalDetails.distributor_id}
             />
-            <WishSingleLineText label="dist_temp_id" initialValue="" />
+            <WishSingleLineText
+              label="dist_temp_id"
+              initialValue={personalDetails.dist_temp_id}
+            />
+            <input
+              type="checkbox"
+              name="pan_declaration"
+              id="pan_declaration"
+              checked={personalDetails.pan_declaration1}
+              onChange={() => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  pan_declaration1: !personalDetails.pan_declaration1,
+                });
+              }}
+            />
+            <input
+              type="checkbox"
+              name="gst_declaration"
+              id="gst_declaration"
+              checked={personalDetails.gst_declaration1}
+              onChange={() => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  gst_declaration1: !personalDetails.gst_declaration1,
+                });
+              }}
+            />
           </div>
           {enrollmentLoading ? (
             <LoadingNote />
@@ -249,45 +550,40 @@ export default function EnrollUser() {
             <WishSelect
               id="title_id"
               label="title"
-              data={[
-                ...(enrollmentMasterData?.titles ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.title_id}
+              data={enrollmentMasterData?.titles ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-          <WishSingleLineText id="first_name" label="First Name" />
-          <WishSingleLineText id="second_name" label="Last Name" />
-          {/* <div className="form-group row">
-            <label htmlFor="txtFirstname" className="col-4 col-form-label">
-              First Name
-            </label>
-            <div className="col-8">
-              <input
-                id="txtFirstname"
-                name="txtFirstname"
-                placeholder="First Name"
-                type="text"
-                required="required"
-                className="form-control"
-              />
-            </div>
-          </div> */}
-          {/* <div className="form-group row">
-            <label htmlFor="txtLastname" className="col-4 col-form-label">
-              Last Name
-            </label>
-            <div className="col-8">
-              <input
-                id="txtLastname"
-                name="txtLastname"
-                placeholder="Last Name"
-                type="text"
-                required="required"
-                className="form-control"
-              />
-            </div>
-          </div> */}
+          <WishSingleLineText
+            id="first_name"
+            label="First Name"
+            initialValue={personalDetails.first_name}
+            onChange={(value) => {
+              updatePersonalDetails({
+                ...personalDetails,
+                first_name: value,
+              });
+            }}
+          />
+          <WishSingleLineText
+            id="second_name"
+            label="Last Name"
+            initialValue={personalDetails.second_name}
+            onChange={(value) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                second_name: value,
+              });
+            }}
+          />
           <div className="form-group row">
             <label htmlFor="projectinput3" className="col-4 col-form-label">
               Date of birth
@@ -302,6 +598,14 @@ export default function EnrollUser() {
                 data-trigger="hover"
                 data-placement="top"
                 data-title="Date of birth"
+                defaultValue={personalDetails?.dob}
+                onChange={(e) => {
+                  setIsCurrentPageDirty(true);
+                  updatePersonalDetails({
+                    ...personalDetails,
+                    dob: e.target.valueAsDate,
+                  });
+                }}
               />
             </div>
           </div>
@@ -311,243 +615,150 @@ export default function EnrollUser() {
             <WishSelect
               id="language_id"
               label="Language"
-              data={[
-                ...(enrollmentMasterData?.languages ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.language_id}
+              data={enrollmentMasterData?.languages ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-          {/* <div className="form-group row">
-            <label htmlFor="ddLanguage" className="col-4 col-form-label">
-              Preferred Language
-            </label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.languages ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
-          </div> */}
-
           {enrollmentLoading ? (
             <LoadingNote />
           ) : (
             <WishSelect
               id="gender_id"
               label="Gender"
-              data={[
-                ...(enrollmentMasterData?.gender ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.gender_id}
+              data={enrollmentMasterData?.gender ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-          {/* <div className="form-group row">
-            <label className="col-4">Gender</label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.gender ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
-          </div> */}
-          {/* <div className="form-group row">
-            <label htmlFor="ddMartiaialStatus" className="col-4 col-form-label">
-              Maritial Status
-            </label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.marital_status ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
-          </div> */}
           {enrollmentLoading ? (
             <LoadingNote />
           ) : (
             <WishSelect
               id="marital_status_id"
               label="Martial Status"
-              data={[
-                ...(enrollmentMasterData?.marital_status ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.marital_status_id}
+              data={enrollmentMasterData?.marital_status ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-
           {enrollmentLoading ? (
             <LoadingNote />
           ) : (
             <WishSelect
               id="profession_id"
               label="Profession"
-              data={[
-                ...(enrollmentMasterData?.profession ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.profession_id}
+              data={enrollmentMasterData?.profession ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-
           {enrollmentLoading ? (
             <LoadingNote />
           ) : (
             <WishSelect
               id="monthly_income_id"
               label="Monthly Income"
-              data={[
-                ...(enrollmentMasterData?.monthly_income ?? []).map(
-                  (x) => x.title_name
-                ),
-              ]}
+              initialValue={personalDetails.monthly_income_id}
+              data={enrollmentMasterData?.monthly_income ?? []}
+              onSelect={(value) => {
+                setIsCurrentPageDirty(true);
+                updatePersonalDetails({
+                  ...personalDetails,
+                  title_id: value,
+                });
+              }}
             />
           )}
-          {/* <div className="form-group row">
-            <label htmlFor="ddProfession" className="col-4 col-form-label">
-              Profession
-            </label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.profession ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
-          </div> */}
-          {/* <div className="form-group row">
-            <label htmlFor="ddMonthlyIncome" className="col-4 col-form-label">
-              Monhtly Income
-            </label>
-            <div className="col-8">
-              {enrollmentLoading ? (
-                <LoadingNote />
-              ) : (
-                <WishSelect
-                  data={[
-                    ...(enrollmentMasterData?.monthly_income ?? []).map(
-                      (x) => x.title_name
-                    ),
-                  ]}
-                />
-              )}
-            </div>
-          </div> */}
 
-          {/* <div className="form-group row">
-            <label htmlFor="txtAadharCard" className="col-4 col-form-label">
-              Aadhar Card
-            </label>
-            <div className="col-8">
-              <input
-                id="txtAadharCard"
-                name="txtAadharCard"
-                placeholder="(Optional)"
-                type="text"
-                className="form-control"
-              />
-            </div>
-          </div> */}
-          <WishSingleLineText id="aadhar_no" label="Aadhar Number" />
+          <WishSingleLineText
+            id="aadhar_no"
+            label="Aadhar Number"
+            initialValue={personalDetails.aadhar_no}
+            onChange={(value) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                aadhar_no: value,
+              });
+            }}
+          />
           <WishFileControl
             id="aadhar_file"
             label="Aadhar Document (Attachment)"
+            initialValue={personalDetails.aadhar_filename}
+            onChange={(filename, fileObject) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                aadhar_file: fileObject,
+                aadhar_filename: filename,
+              });
+            }}
           />
-          <WishSingleLineText id="pan_no" label="PAN Number" />
-          <WishFileControl id="pan_file" label="PAN Document (Attachment)" />
-          <WishSingleLineText id="gst_no" label="GST Number" />
-          {/* <div className="form-group row">
-            <label htmlFor="txtfAadharCard" className="col-4 col-form-label">
-              Aadhar Card (Attachment)
-            </label>
-            <div className="col-8">
-              <input
-                id="txtfAadharCard"
-                name="txtfAadharCard"
-                placeholder="(Optional)"
-                type="file"
-                className="form-control"
-              />
-            </div>
-          </div> */}
-          {/* <div className="form-group row">
-            <label htmlFor="txtGST" className="col-4 col-form-label">
-              GST Number
-            </label>
-            <div className="col-8">
-              <input
-                id="txtGST"
-                name="txtGST"
-                placeholder="(Optional)"
-                type="text"
-                className="form-control"
-                defaultValue={gstnumber}
-                onChange={(e) => {
-                  setGSTNumber(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="txtPAN" className="col-4 col-form-label">
-              PAN
-            </label>
-            <div className="col-8">
-              <input
-                id="txtPAN"
-                name="txtPAN"
-                placeholder="(Optional)"
-                type="text"
-                className="form-control"
-                defaultValue={pancard}
-                onChange={(e) => {
-                  setPancard(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="txtfPAN" className="col-4 col-form-label">
-              PAN (Attachment)
-            </label>
-            <div className="col-8">
-              <input
-                id="txtfPAN"
-                name="txtfPAN"
-                placeholder="(Optional)"
-                type="file"
-                className="form-control"
-              />
-            </div>
-          </div>*/}
+          <WishSingleLineText
+            id="pan_no"
+            label="PAN Number"
+            initialValue={personalDetails.pan_no}
+            onChange={(value) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                pan_no: value,
+                pan_declaration1: value.trim() !== "",
+              });
+            }}
+          />
+          <WishFileControl
+            id="pan_file"
+            label="PAN Document (Attachment)"
+            initialValue={personalDetails.pan_filename}
+            onChange={(filename, fileObject) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                pan_file: fileObject,
+                pan_filename: filename,
+              });
+            }}
+          />
+          <WishSingleLineText
+            id="gst_no"
+            label="GST Number"
+            initialValue={personalDetails.gst_no}
+            onChange={(value) => {
+              setIsCurrentPageDirty(true);
+              updatePersonalDetails({
+                ...personalDetails,
+                gst_no: value,
+                gst_declaration1: value.trim() !== "",
+              });
+            }}
+          />
         </div>
       </form>
     );
@@ -556,186 +767,127 @@ export default function EnrollUser() {
   const page2 = function () {
     return (
       <div>
-        <div className="form-group row">
-          <label htmlFor="txtDistiName" className="col-4 col-form-label">
-            Full Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtDistiName"
-              name="txtDistiName"
-              placeholder="Primary Applicant Fullname"
-              type="text"
-              className="form-control"
-              disabled="disabled"
-              defaultValue="John Doe"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Full Name"
+          readonly
+          initialValue={`${personalDetails.first_name} ${personalDetails.second_name}`}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtMobile" className="col-4 col-form-label">
-            Mobile Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtMobile"
-              name="txtMobile"
-              placeholder="Mobile Number"
-              type="text"
-              className="form-control"
-              aria-describedby="txtMobileHelpBlock"
-              required="required"
-            />
-            <span id="txtMobileHelpBlock" className="form-text text-muted">
-              Please do not append country code
-            </span>
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Mobile Number"
+          initialValue={contactDetails?.phone}
+          onChange={(value) => {
+            updateContactDetails({ ...contactDetails, phone: value });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtEmail" className="col-4 col-form-label">
-            Email
-          </label>
-          <div className="col-8">
-            <input
-              id="txtEmail"
-              name="txtEmail"
-              placeholder="Primary Applicant Fullname"
-              type="email"
-              className="form-control"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Email"
+          initialValue={contactDetails?.email}
+          onChange={(value) => {
+            updateContactDetails({ ...contactDetails, email: value });
+          }}
+        />
 
         <p className="lead border-bottom text-primary pt-2">
           Permanent Address
         </p>
 
-        <div className="form-group row">
-          <label htmlFor="txtAddressLine1" className="col-4 col-form-label">
-            Address Line 1
-          </label>
-          <div className="col-8">
-            <input
-              id="txtAddressLine1"
-              name="txtAddressLine1"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtAddressLine2" className="col-4 col-form-label">
-            Address Line 2
-          </label>
-          <div className="col-8">
-            <input
-              id="txtAddressLine2"
-              name="txtAddressLine2"
-              type="text"
-              className="form-control"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Address Line 1"
+          initialValue={contactDetails?.permanent_address_line1}
+          onChange={(value) => {
+            updateContactDetails({
+              ...contactDetails,
+              permanent_address_line1: value,
+            });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtPincode" className="col-4 col-form-label">
-            Pincode
-          </label>
-          <div className="col-8">
-            <input
-              id="txtPincode"
-              name="txtPincode"
-              type="text"
-              className="form-control"
-              required="required"
-              onBlur={() => {
-                getLocationDetails("313001");
+        <WishSingleLineText
+          label="Address Line 2"
+          initialValue={contactDetails?.permanent_address_line2}
+          onChange={(value) => {
+            updateContactDetails({
+              ...contactDetails,
+              permanent_address_line2: value,
+            });
+          }}
+        />
+
+        <WishSingleLineText
+          id="paPincode"
+          label="Pincode"
+          initialValue={paPincode}
+          onChange={(value) => {
+            setPAPincode(value);
+          }}
+          onBlurred={() => {
+            if (paPincode.trim() !== "") {
+              getLocationDetails(paPincode, (locationDetails) => {
+                setPALocationDetails(locationDetails);
+                updateContactDetails({
+                  ...contactDetails,
+                  permanent_city_id: locationDetails[0]?.city_id,
+                  permanent_district_id: locationDetails[0]?.district_id,
+                  permanent_state_id: locationDetails[0]?.state_id,
+                  permanent_country_id: locationDetails[0]?.country_id,
+                  permanent_postalcode_id: locationDetails[0]?.postalcode_id,
+                });
+              });
+            } else {
+              setPALocationDetails(null);
+              WishToaster({ toastMessage: "Kindly enter a valid pincode " });
+            }
+          }}
+        />
+
+        {paLocationDetails && (
+          <div className="form-group row">
+            <label htmlFor="ddCity" className="col-4 col-form-label">
+              Location (City, District, State, Country)
+            </label>
+            <div className="col-8 col-form-label">
+              {!paLocationDetails ? (
+                <LoadingNote />
+              ) : (
+                `${paLocationDetails[0]?.city_name}, ${paLocationDetails[0]?.district_name}, ${paLocationDetails[0]?.state_name}, ${paLocationDetails[0]?.country_name}`
+              )}
+            </div>
+          </div>
+        )}
+
+        {paLocationDetails &&
+          (!locationDetails ? (
+            <LoadingNote />
+          ) : (
+            <WishSelect
+              label="Post Name"
+              initialValue={contactDetails.permanent_postalcode_id}
+              data={paLocationDetails ?? []}
+              dataKey="postalcode_id"
+              dataValue="post_name"
+              onSelect={(value) => {
+                updateContactDetails({
+                  ...contactDetails,
+                  permanent_postalcode_id: value,
+                });
               }}
             />
-          </div>
-        </div>
+          ))}
 
-        <div className="form-group row">
-          <label htmlFor="ddCity" className="col-4 col-form-label">
-            Location
-          </label>
-          <div className="col-8">
-            {!locationDetails ? (
-              <LoadingNote />
-            ) : (
-              `${locationDetails[0]?.city_name}, ${locationDetails[0]?.district_name}, ${locationDetails[0]?.state_name}, ${locationDetails[0]?.country_name}`
-            )}
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddDistrict" className="col-4 col-form-label">
-            Post Name
-          </label>
-          <div className="col-8">
-            {!locationDetails ? (
-              <LoadingNote />
-            ) : (
-              <WishSelect
-                data={[...(locationDetails ?? []).map((x) => x.post_name)]}
-              />
-            )}
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddState" className="col-4 col-form-label">
-            State
-          </label>
-          <div className="col-8">
-            <select
-              id="ddState"
-              name="ddState"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="rajasthan">Rajasthan</option>
-              <option defaultValue="maharashtra">Maharashtra</option>
-              <option defaultValue="gujarat">Gujarat</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddCountry" className="col-4 col-form-label">
-            Country
-          </label>
-          <div className="col-8">
-            <select
-              id="ddCountry"
-              name="ddCountry"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="rajasthan">India</option>
-              <option defaultValue="maharashtra">UAE</option>
-              <option defaultValue="gujarat">Kenya</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-group row pt-1">
-          <label htmlFor="txtfAddressProof" className="col-4 col-form-label">
-            Address Proof (Attachment)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfAddressProof"
-              name="txtfAddressProof"
-              type="file"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
+        <WishFileControl
+          label="Address Proof (Attachment)"
+          id="address_proof_file"
+          initialValue={contactDetails.address_proof_filename}
+          onChange={(filename, fileObject) => {
+            updateContactDetails({
+              ...contactDetails,
+              address_proof_filename: filename,
+              address_proof_file: fileObject,
+            });
+          }}
+        />
 
         <div className="form-row border-bottom pt-2">
           <p className="lead col-4 text-primary">Communication Address</p>
@@ -745,7 +897,45 @@ export default function EnrollUser() {
                 type="checkbox"
                 className="custom-control-input"
                 id="customSwitch1"
-                defaultChecked=""
+                defaultChecked={contactDetails.is_addresses_same === 1}
+                onChange={(e) => {
+                  if (e.target.checked === true) {
+                    updateContactDetails({
+                      ...contactDetails,
+                      is_addresses_same: 1,
+                      communication_address_line1:
+                        contactDetails.permanent_address_line1,
+                      communication_address_line2:
+                        contactDetails.permanent_address_line2,
+                      communication_city_id: contactDetails.permanent_city_id,
+                      communication_district_id:
+                        contactDetails.permanent_district_id,
+                      communication_state_id: contactDetails.permanent_state_id,
+                      communication_country_id:
+                        contactDetails.permanent_country_id,
+                      communication_postalcode_id:
+                        contactDetails.permanent_postalcode_id,
+                    });
+
+                    setCAPincode(paPincode);
+                    setCALocationDetails(paLocationDetails);
+                  } else {
+                    updateContactDetails({
+                      ...contactDetails,
+                      is_addresses_same: 0,
+                      communication_address_line1: "",
+                      communication_address_line2: "",
+                      communication_city_id: null,
+                      communication_district_id: null,
+                      communication_state_id: null,
+                      communication_country_id: null,
+                      communication_postalcode_id: null,
+                    });
+
+                    setCAPincode("");
+                    setCALocationDetails(null);
+                  }
+                }}
               />
               <label className="custom-control-label" htmlFor="customSwitch1">
                 Same as Permanent Address
@@ -754,120 +944,11 @@ export default function EnrollUser() {
           </div>
         </div>
 
-        <div className="form-group row pt-1">
-          <label htmlFor="txtCAddressLine1" className="col-4 col-form-label">
-            Address Line 1
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCAddressLine1"
-              name="txtCAddressLine1"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtCAddressLine2" className="col-4 col-form-label">
-            Address Line 2
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCAddressLine2"
-              name="txtCAddressLine2"
-              type="text"
-              className="form-control"
-            />
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="txtCPincode" className="col-4 col-form-label">
-            Pincode
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCPincode"
-              name="txtCPincode"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddCCity" className="col-4 col-form-label">
-            District
-          </label>
-          <div className="col-8">
-            <select
-              id="ddCCity"
-              name="ddCCity"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="nashik">Nashik</option>
-              <option defaultValue="bhiwadi">Bhiwadi</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddCDistrict" className="col-4 col-form-label">
-            City
-          </label>
-          <div className="col-8">
-            <select
-              id="ddCDistrict"
-              name="ddCDistrict"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="udaipur">Udaipur</option>
-              <option defaultValue="mumbai">Nashik</option>
-              <option defaultValue="chandigarh">Chandigarh</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddCState" className="col-4 col-form-label">
-            State
-          </label>
-          <div className="col-8">
-            <select
-              id="ddCState"
-              name="ddCState"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="rajasthan">Rajasthan</option>
-              <option defaultValue="maharashtra">Maharashtra</option>
-              <option defaultValue="gujarat">Gujarat</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-group row">
-          <label htmlFor="ddCCountry" className="col-4 col-form-label">
-            Country
-          </label>
-          <div className="col-8">
-            <select
-              id="ddCCountry"
-              name="ddCCountry"
-              className="custom-select"
-              required="required"
-            >
-              <option defaultValue="rajasthan">India</option>
-              <option defaultValue="maharashtra">UAE</option>
-              <option defaultValue="gujarat">Kenya</option>
-            </select>
-          </div>
-        </div>
+        {contactDetails.is_addresses_same === 0 ? (
+          <RenderCommunicationAddress />
+        ) : (
+          <></>
+        )}
       </div>
     );
   };
@@ -875,107 +956,74 @@ export default function EnrollUser() {
   const page3 = function () {
     return (
       <div>
-        <div className="form-group row">
-          <label htmlFor="txtAccountHolder" className="col-4 col-form-label">
-            Account Holder
-          </label>
-          <div className="col-8">
-            <input
-              id="txtAccountHolder"
-              name="txtAccountHolder"
-              placeholder="Fullname"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtAccNumber" className="col-4 col-form-label">
-            Account Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtAccNumber"
-              name="txtAccNumber"
-              placeholder="Account Number"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtConfirmAccNumber" className="col-4 col-form-label">
-            Confirm Account Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtConfirmAccNumber"
-              name="txtConfirmAccNumber"
-              placeholder="Account Number"
-              type="password"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtIFSCCode" className="col-4 col-form-label">
-            IFSC Code
-          </label>
-          <div className="col-8">
-            <input
-              id="txtIFSCCode"
-              name="txtIFSCCode"
-              placeholder="IFSC Code"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtBankName" className="col-4 col-form-label">
-            Bank Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtBankName"
-              name="txtBankName"
-              type="text"
-              className="form-control"
-              disabled="disabled"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtBankBranch" className="col-4 col-form-label">
-            Bank Branch
-          </label>
-          <div className="col-8">
-            <input
-              id="txtBankBranch"
-              name="txtBankBranch"
-              type="text"
-              className="form-control"
-              disabled="disabled"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtfBankProof" className="col-4 col-form-label">
-            Bank (<span className="font-italic">Proof of address</span>)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfBankProof"
-              name="txtfBankProof"
-              type="file"
-              className="form-control"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Account Holder"
+          initialValue={BankDetails?.account_name}
+          onChange={(value) => {
+            updateBankDetails({ ...bankDetails, account_name: value });
+          }}
+        />
+        <WishSingleLineText
+          label="Account Number"
+          initialValue={BankDetails?.account_no}
+          onChange={(value) => {
+            updateBankDetails({ ...bankDetails, account_no: value });
+          }}
+        />
+        <WishSingleLineText
+          label="Confirm Account Number"
+          initialValue={BankDetails?.confirm_account_no}
+          onChange={(value) => {
+            updateBankDetails({ ...bankDetails, confirm_account_no: value });
+          }}
+          onBlurred={() => {
+            if (bankDetails.confirm_account_no !== bankDetails.account_no) {
+              WishToaster({
+                toastMessage:
+                  "Accounts numbers do not match. Must be same as entered above",
+              });
+              updateBankDetails({ ...bankDetails, confirm_account_no: "" });
+            }
+          }}
+        />
+        <WishSingleLineText
+          label="IFSC Code"
+          initialValue={BankDetails?.ifsc}
+          onChange={(value) => {
+            updateBankDetails({ ...bankDetails, ifsc: value });
+          }}
+          onBlurred={() => {
+            // getBankBranchDetails(bankDetails.ifsc, (branchDetails) => {
+            //   alert(branchDetails);
+            // });
+            updateBankDetails({
+              ...bankDetails,
+              bank_name: "Delhi Nagrik Sehkari Bank",
+              branch_name: "Delhi Nagrik Sehkari Bank IMPS",
+            });
+          }}
+        />
+        <WishSingleLineText
+          label="Bank Name"
+          readonly
+          initialValue={bankDetails?.bank_name}
+        />
+        <WishSingleLineText
+          label="Bank Branch"
+          readonly
+          initialValue={bankDetails?.branch_name}
+        />
+        <WishFileControl
+          label="Bank (proof of address)"
+          initialValue={BankDetails?.bank_proof_filename}
+          onChange={(filename, fileObject) => {
+            updateBankDetails({
+              ...bankDetails,
+              bank_proof_filename: filename,
+              bank_proof_file: fileObject,
+            });
+          }}
+        />
       </div>
     );
   };
@@ -983,24 +1031,13 @@ export default function EnrollUser() {
   const page4 = function () {
     return (
       <div>
-        <div className="form-group row">
-          <label htmlFor="txtCoApplicant" className="col-4 col-form-label">
-            Co-Applicant Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCoApplicant"
-              name="txtCoApplicant"
-              type="text"
-              required="required"
-              className="form-control"
-              aria-describedby="txtCoApplicantHelpBlock"
-            />
-            <span id="txtCoApplicantHelpBlock" className="form-text text-muted">
-              If unmarried Mother/Father
-            </span>
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Co-Applicant Name"
+          initialValue={coAppDetails?.coapplicant_name}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, coapplicant_name: value });
+          }}
+        />
 
         <div className="form-group row">
           <label htmlFor="txtdob" className="col-4 col-form-label">
@@ -1009,85 +1046,73 @@ export default function EnrollUser() {
           <div className="col-8">
             <input
               type="date"
-              id="txtdob"
+              id="txtCodob"
               className="form-control"
               name="dateopened"
               data-toggle="tooltip"
               data-trigger="hover"
               data-placement="top"
               data-title="Date of birth"
+              onChange={(e) => {
+                updateCoAppDetails({
+                  ...coAppDetails,
+                  coapplicant_dob: e.target.value,
+                });
+              }}
             />
           </div>
         </div>
 
-        <div className="form-group row">
-          <label className="col-4">Gender</label>
-          <div className="col-8">
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                name="rdGender1"
-                id="rdGender1_0"
-                type="radio"
-                className="custom-control-input"
-                defaultValue="male"
-                required="required"
-              />
-              <label htmlFor="rdGender1_0" className="custom-control-label">
-                Male
-              </label>
-            </div>
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                name="rdGender1"
-                id="rdGender1_1"
-                type="radio"
-                className="custom-control-input"
-                defaultValue="female"
-                required="required"
-              />
-              <label htmlFor="rdGender1_1" className="custom-control-label">
-                Female
-              </label>
-            </div>
-          </div>
-        </div>
+        {enrollmentLoading ? (
+          <LoadingNote />
+        ) : (
+          <WishSelect
+            id="co_gender_id"
+            label="Gender"
+            initialValue={coAppDetails.gender_id}
+            data={enrollmentMasterData?.gender ?? []}
+            onSelect={(value) => {
+              setIsCurrentPageDirty(true);
+              updateCoAppDetails({
+                ...coAppDetails,
+                gender_id: value,
+              });
+            }}
+          />
+        )}
 
-        <div className="form-group row">
-          <label htmlFor="txtCOMobile" className="col-4 col-form-label">
-            Mobile Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOMobile"
-              name="txtCOMobile"
-              placeholder="Mobile Number"
-              type="text"
-              className="form-control"
-              aria-describedby="txtMobileHelpBlock"
-              required="required"
-            />
-            <span id="txtMobileHelpBlock" className="form-text text-muted">
-              Please do not append country code
-            </span>
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Mobile Number"
+          initialValue={coAppDetails?.coapplicant_phone}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, coapplicant_phone: value });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtCOEmail" className="col-4 col-form-label">
-            Email
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOEmail"
-              name="txtCOEmail"
-              placeholder="Primary Applicant Fullname"
-              type="email"
-              className="form-control"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Email"
+          initialValue={coAppDetails?.coapplicant_email}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, coapplicant_email: value });
+          }}
+        />
 
-        <div className="form-group row">
+        {coAppRelationshipDetails && (
+          <WishSelect
+            label="Relationship"
+            data={coAppRelationshipDetails?.relationships}
+            dataValue="title"
+            initialValue={coAppDetails?.coapplicant_relationship_id}
+            onChange={(value) => {
+              updateCoAppDetails({
+                ...coAppDetails,
+                coapplicant_relationship_id: value,
+              });
+            }}
+          />
+        )}
+
+        {/* <div className="form-group row">
           <label htmlFor="ddRelationship" className="col-4 col-form-label">
             Relationship
           </label>
@@ -1120,163 +1145,117 @@ export default function EnrollUser() {
               With Primary Applicant
             </span>
           </div>
-        </div>
+        </div> */}
 
-        <div className="form-group row">
-          <label htmlFor="txtCOPAN" className="col-4 col-form-label">
-            PAN
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOPAN"
-              name="txtCOPAN"
-              placeholder="PAN Number"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="PAN Number"
+          initialValue={coAppDetails?.coapplicant_pan_no}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, coapplicant_pan_no: value });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtfCOPAN" className="col-4 col-form-label">
-            PAN (Attachment)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfCOPAN"
-              name="txtfCOPAN"
-              placeholder="PAN Attachment"
-              type="file"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
+        <WishFileControl
+          label="PAN (Attachment)"
+          initialValue={coAppDetails?.coapp_pan_filename}
+          onChange={(filename, fileObject) => {
+            updateCoAppDetails({
+              ...coAppDetails,
+              coapp_pan_filename: filename,
+              coapp_pan_file: fileObject,
+            });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtCOAccountHolder" className="col-4 col-form-label">
-            Account Holder
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOAccountHolder"
-              name="txtCOAccountHolder"
-              placeholder="Fullname"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtCOAccNumber" className="col-4 col-form-label">
-            Account Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOAccNumber"
-              name="txtCOAccNumber"
-              placeholder="Account Number"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label
-            htmlFor="txtCOConfirmAccNumber"
-            className="col-4 col-form-label"
-          >
-            Confirm Account Number
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOConfirmAccNumber"
-              name="txtCOConfirmAccNumber"
-              placeholder="Account Number"
-              type="password"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtCOIFSCCode" className="col-4 col-form-label">
-            IFSC Code
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOIFSCCode"
-              name="txtCOIFSCCode"
-              placeholder="IFSC Code"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtCOBankName" className="col-4 col-form-label">
-            Bank Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOBankName"
-              name="txtCOBankName"
-              type="text"
-              className="form-control"
-              disabled="disabled"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="txtCOBankBranch" className="col-4 col-form-label">
-            Bank Branch
-          </label>
-          <div className="col-8">
-            <input
-              id="txtCOBankBranch"
-              name="txtCOBankBranch"
-              type="text"
-              className="form-control"
-              disabled="disabled"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Account Name"
+          initialValue={coAppDetails?.coapplicant_account_name}
+          onChange={(value) => {
+            updateCoAppDetails({
+              ...coAppDetails,
+              coapplicant_account_name: value,
+            });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtfCOBank" className="col-4 col-form-label">
-            Bank (Proof of address)
-          </label>
-          <div className="col-8">
-            <input
-              id="txtfCOBank"
-              name="txtfCOBank"
-              placeholder="Proof of address"
-              type="file"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
+        <WishSingleLineText
+          label="Account Number"
+          initialValue={coAppDetails?.coapplicant_account_no}
+          onChange={(value) => {
+            updateCoAppDetails({
+              ...coAppDetails,
+              coapplicant_account_no: value,
+            });
+          }}
+        />
 
-        <div className="form-group row">
-          <label htmlFor="txtBeneficiary" className="col-4 col-form-label">
-            Nominee Name
-          </label>
-          <div className="col-8">
-            <input
-              id="txtBeneficiary"
-              name="txtBeneficiary"
-              type="text"
-              className="form-control"
-              required="required"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
+        <WishSingleLineText
+          label="Confirm Account Number"
+          initialValue={coAppDetails?.coapplicant_confirm_account_name}
+          onChange={(value) => {
+            updateCoAppDetails({
+              ...coAppDetails,
+              coapplicant_confirm_account_name: value,
+            });
+          }}
+        />
+
+        <WishSingleLineText
+          label="IFSC Code"
+          initialValue={coAppDetails?.coapplicant_ifsc}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, coapplicant_ifsc: value });
+          }}
+        />
+
+        <WishSingleLineText
+          label="Bank Name"
+          initialValue={coAppDetails?.coapplicant_bank_name}
+          readonly
+        />
+
+        <WishSingleLineText
+          label="Branch Name"
+          initialValue={coAppDetails?.coapplicant_branch_name}
+          readonly
+        />
+
+        <WishFileControl
+          label="BANK (Proof of address)"
+          initialValue={coAppDetails?.coapp_bank_proof_filename}
+          onChange={(filename, fileObject) => {
+            updateCoAppDetails({
+              ...coAppDetails,
+              coapp_bank_proof_filename: filename,
+              coapp_bank_proof_file: fileObject,
+            });
+          }}
+        />
+
+        <WishSingleLineText
+          label="Nominee Name"
+          initialValue={coAppDetails?.nominee}
+          onChange={(value) => {
+            updateCoAppDetails({ ...coAppDetails, nominee: value });
+          }}
+        />
+
+        {coAppRelationshipDetails && (
+          <WishSelect
+            label="Nominee Relationship"
+            data={coAppRelationshipDetails?.relationships}
+            dataValue="title"
+            initialValue={coAppDetails?.nominee_mrelationship_id}
+            onChange={(value) => {
+              updateCoAppDetails({
+                ...coAppDetails,
+                nominee_mrelationship_id: value,
+              });
+            }}
+          />
+        )}
+
+        {/* <div className="form-group row">
           <label htmlFor="ddRelationship" className="col-4 col-form-label">
             Nominee Relationship
           </label>
@@ -1305,7 +1284,7 @@ export default function EnrollUser() {
               <option value="52">Friend</option>
             </select>
           </div>
-        </div>
+        </div>*/}
       </div>
     );
   };
@@ -1889,7 +1868,8 @@ export default function EnrollUser() {
         modalSize="modal-xl"
         title="You are seeing this because"
         onFinish={() => {
-          gotoNextPage();
+          //savePersonalDetails(personalDetails);
+          //gotoNextPage();
         }}
       >
         <WishColoredBar bgcolor="danger">
@@ -1897,7 +1877,7 @@ export default function EnrollUser() {
           your consent for non-provision of PAN Card / GST Number
         </WishColoredBar>
         <div className="form-group row">
-          {pancard === "" ? (
+          {personalDetails.pan_no === "" ? (
             <>
               <div className="col-12 pb-2">
                 <h5>PAN Card Consent</h5>
@@ -1906,11 +1886,14 @@ export default function EnrollUser() {
                     name="checkbox"
                     id="checkbox_0"
                     type="checkbox"
-                    checked={pancardConsent === false ? "" : "checked"}
+                    checked={personalDetails.pan_declaration1}
                     className="custom-control-input"
                     value="pancard"
-                    onClick={() => {
-                      setPancardConsent(!pancardConsent);
+                    onChange={() => {
+                      updatePersonalDetails({
+                        ...personalDetails,
+                        pan_declaration1: !personalDetails.pan_declaration1,
+                      });
                     }}
                   />
                   <label for="checkbox_0" className="custom-control-label">
@@ -1937,7 +1920,7 @@ export default function EnrollUser() {
             <></>
           )}
 
-          {gstnumber === "" ? (
+          {personalDetails.gst_no === "" ? (
             <div className="col-12 pt-2">
               <h5>GST Number Consent</h5>
               <div className="custom-control custom-checkbox custom-control-inline">
@@ -1945,11 +1928,14 @@ export default function EnrollUser() {
                   name="checkbox"
                   id="checkbox_1"
                   type="checkbox"
-                  checked={gstConsent === false ? "" : "checked"}
+                  checked={personalDetails.gst_declaration1}
                   className="custom-control-input"
                   value="gstnumber"
-                  onClick={() => {
-                    setGSTConsent(!gstConsent);
+                  onChange={() => {
+                    updatePersonalDetails({
+                      ...personalDetails,
+                      gst_declaration1: !personalDetails.gst_declaration1,
+                    });
                   }}
                 />
                 <label for="checkbox_1" className="custom-control-label">

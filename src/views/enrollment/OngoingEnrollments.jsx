@@ -18,6 +18,7 @@ export default function OngoingEnrollments() {
     "Contact Details",
     "Bank Details",
     "Co-Applicant Details",
+    "Preview",
   ];
 
   const { loggedInUser } = useMasters();

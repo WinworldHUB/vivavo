@@ -16,5 +16,15 @@ export const AppUtils = {
     }
 
     return null;
-  }
+  },
+
+  createFormData: function (object) {
+    const formData = new FormData();
+    Object.keys(object).forEach((key) => formData.append(key, object[key]));
+    return formData;
+  },
+
+  getValueFromArray: function (valueArray, matchField, matchValue, value) {
+    return valueArray.filter((x) => x[matchField] === matchValue)[0][value];
+  },
 };
