@@ -13,8 +13,9 @@ import useMasters from "../../services/useMasters";
 
 export default function GenealogySettings() {
   const { loggedInUser } = useMasters();
-  const { preferences, settingsError, savePreferences } =
-    useGenealogySettings(loggedInUser);
+  const { preferences, settingsError, savePreferences } = useGenealogySettings(
+    loggedInUser?.distributor_id
+  );
 
   const [orgs, setOrgs] = useState([]);
   const [selectedOrgIndex, setSelectedOrgIndex] = useState(-1);
@@ -30,18 +31,22 @@ export default function GenealogySettings() {
     }
   }, [settingsError]);
 
-  const ORGANIZATION_POSITIONS = ["Left", "Right", "Other"];
+  const ORGANIZATION_POSITIONS = [
+    { id: 1, title_name: "Left" },
+    { id: 2, title_name: "Right" },
+    { id: 3, title_name: "Other" },
+  ];
 
   const organizationSide = (index) => {
     switch (index) {
       case 1:
-        return ORGANIZATION_POSITIONS[0];
+        return ORGANIZATION_POSITIONS[0].title_name;
 
       case 2:
-        return ORGANIZATION_POSITIONS[1];
+        return ORGANIZATION_POSITIONS[1].title_name;
 
       default:
-        return ORGANIZATION_POSITIONS[2];
+        return ORGANIZATION_POSITIONS[2].title_name;
     }
   };
   useEffect(() => {
@@ -117,8 +122,7 @@ export default function GenealogySettings() {
             position_id: orgs[selectedOrgIndex]?.positionId,
             preferred_distributor_id: orgs[selectedOrgIndex]?.distributorId,
             preferred_distributor_name: orgs[selectedOrgIndex]?.distributorName,
-            preferred_position_id:
-              ORGANIZATION_POSITIONS.indexOf(newDistributorPosition) + 1,
+            preferred_position_id: newDistributorPosition,
           };
 
           savePreferences(newPreferences);
@@ -128,18 +132,16 @@ export default function GenealogySettings() {
           label="Preferred Distributor ID"
           initialValue={orgs[selectedOrgIndex]?.distributorId}
           placeholder="Preferred Distributor ID"
-          readonly
         />
         <WishSingleLineText
           label="Preferred Distributor Name"
           initialValue={orgs[selectedOrgIndex]?.distributorName}
           placeholder="Preferred Distributor Name"
-          readonly
         />
         <WishSelect
           label="Preferred Side"
           data={ORGANIZATION_POSITIONS}
-          initialValue={orgs[selectedOrgIndex]?.side}
+          initialValue={orgs[selectedOrgIndex]?.id}
           onSelect={setNewDistributorPosition}
         />
       </WishModal>
