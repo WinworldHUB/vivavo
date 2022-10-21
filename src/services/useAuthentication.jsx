@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { useEffect } from "react";
 import { useState } from "react";
 import APIUtils from "./APIUtils";
 import { BASE_URL } from "./Constants";
@@ -25,43 +26,63 @@ const useAuthentication = () => {
   //const authenticationAPIs = APIUtils.create();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const login = (credentials = authenticationModel) => {
+  useEffect(() => {
+    if (response || error) {
+      setLoading(false);
+    }
+  }, [response, error]);
+
+  const login = (credentials = authenticationModel, onSuccess) => {
     const userCredentials = _.cloneDeep(authenticationModel);
     userCredentials.user_name = credentials.user_name;
     userCredentials.password = credentials.password;
     userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
 
+    setLoading(true);
     APIUtils.postData(
       "/enrollment/login",
       userCredentials,
-      setResponse,
+      (data) => {
+        setResponse(data);
+        onSuccess(data);
+      },
       setError
     );
   };
 
-  const changePassword = (changePasswordDetails = changePasswordModel) => {
+  const changePassword = (changePasswordDetails, onSuccess) => {
+    setLoading(true);
     APIUtils.postData(
       "/enrollment/forgot-user-password",
       changePasswordDetails,
-      setResponse,
+      (data) => {
+        setResponse(data);
+        onSuccess(data);
+      },
       setError
     );
   };
 
-  const logout = (credentials = authenticationModel) => {
+  const logout = (credentials = authenticationModel, onSuccess) => {
     const userCredentials = _.cloneDeep(authenticationModel);
     userCredentials.user_name = credentials.user_name;
     userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
+
+    setLoading(true);
     APIUtils.postData(
       "/enrollment/logout",
       userCredentials,
-      setResponse,
+      (data) => {
+        setResponse(data);
+        onSuccess(data);
+      },
       setError
     );
   };
 
-  return [response, error, { login, changePassword, logout }];
+  return [response, error, { login, changePassword, logout, loading }];
 };
 
 export default useAuthentication;

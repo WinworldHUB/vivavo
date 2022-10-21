@@ -27,7 +27,7 @@ const SignIn = () => {
   );
 
   const [loginResponse, loginError, { login }] = useAuthentication();
-  const [changePasswordResponse, changePasswordError, { changePassword }] =
+  const [changePasswordResponse, changePasswordError, { changePassword, loading }] =
     useAuthentication();
 
   const [distributor, setDistributorDetails] = useLocalStorage(
@@ -35,11 +35,11 @@ const SignIn = () => {
     null
   );
 
-  const [isProcessing, setIsProcessing] = useState(false);
+  //const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (loginResponse) {
-      setIsProcessing(false);
+      //setIsProcessing(false);
 
       setDistributorDetails(JSON.stringify(loginResponse));
       navigate("/");
@@ -47,20 +47,21 @@ const SignIn = () => {
   }, [loginResponse]);
 
   useEffect(() => {
-    if (changePasswordResponse !== null) {
-      setIsProcessing(false);
-      if (changePasswordResponse.status === "error") {
-        setErrorMessage(changePasswordResponse.message);
-      } else if (changePasswordResponse.status === "success") {
-        setMode(2);
-      } else {
-        setErrorMessage(changePasswordResponse.message);
-      }
+    if (changePasswordResponse) {
+      setMode(2);
+      //setIsProcessing(false);
+      // if (changePasswordResponse.status === "error") {
+      //   setErrorMessage(changePasswordResponse.message);
+      // } else if (changePasswordResponse.status === "success") {
+      //   setMode(2);
+      // } else {
+      //   setErrorMessage(changePasswordResponse.message);
+      // }
     }
   }, [changePasswordResponse]);
 
   useEffect(() => {
-    setIsProcessing(false);
+    //setIsProcessing(false);
     if (loginError)
       setErrorMessage(
         loginError === {} ? "Error occurred" : JSON.stringify(loginError)
@@ -78,12 +79,15 @@ const SignIn = () => {
       userCredentials.user_name.trim() !== "" &&
       userCredentials.password.trim() !== ""
     ) {
+      setErrorMessage(null);
       login({
         user_name: userCredentials.user_name,
         password: userCredentials.password,
         isReadyToAuthenticate: true,
+      }, () => { 
+
       });
-      setIsProcessing(true);
+      //setIsProcessing(true);
     } else {
       setErrorMessage(EMPTY_CREDENTIALS);
     }
@@ -91,11 +95,12 @@ const SignIn = () => {
 
   const DoChangePassword = () => {
     if (userCredentials.user_name.trim() !== "") {
+      setErrorMessage(null);
       changePassword({
         user_name: userCredentials.user_name,
         user_type: 1,
       });
-      setIsProcessing(true);
+      //setIsProcessing(true);
     } else {
       setErrorMessage(EMPTY_CREDENTIALS);
     }
@@ -214,20 +219,16 @@ const SignIn = () => {
                     <div className="form-group text-center">
                       <button
                         type="button"
-                        disabled={isProcessing}
+                        disabled={loading}
                         onClick={(e) => {
                           DoLogin();
                         }}
                         className={
                           "btn btn-block text-uppercase " +
-                          (isProcessing ? " btn-secondary" : " btn-success ")
+                          (loading ? " btn-secondary" : " btn-success ")
                         }
                       >
-                        {isProcessing ? (
-                          <LoadingNote />
-                        ) : (
-                          <>Sign In</>
-                        )}
+                        {loading ? <LoadingNote /> : <>Sign In</>}
                       </button>
                     </div>
                   </div>
@@ -264,7 +265,7 @@ const SignIn = () => {
                     <div className="form-group text-center">
                       <button
                         type="button"
-                        disabled={isProcessing}
+                        disabled={loading}
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -272,10 +273,10 @@ const SignIn = () => {
                         }}
                         className={
                           "btn btn-block text-uppercase " +
-                          (isProcessing ? " btn-secondary" : " btn-success ")
+                          (loading ? " btn-secondary" : " btn-success ")
                         }
                       >
-                        {isProcessing ? (
+                        {loading ? (
                           <WishFlexBox justifyContent="center">
                             <span
                               className="spinner-border spinner-border-sm"
@@ -308,7 +309,7 @@ const SignIn = () => {
                     </h1>
                     <h3>Check your email</h3>
                     <p className="lead pb-3">
-                      {maskEmail(changePasswordResponse.data)}
+                      {maskEmail(changePasswordResponse)}
                     </p>
                     <a
                       className="card-link link-dotted text-primary"
