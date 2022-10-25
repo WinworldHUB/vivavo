@@ -66,6 +66,10 @@ const Settings = () => {
         new_password: newPassword,
       },
       (response) => {
+        WishToaster({
+          toastMessage: "Password successfully updated",
+          toastType: "success",
+        });
         setError(null);
         setCurrentPassword("");
         setNewPassword("");

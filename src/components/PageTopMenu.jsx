@@ -78,8 +78,9 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
                     <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
                       <strong className="d-block">{notification.body}</strong>
                       <small className="d-block">
-                        Expires on{" "}
-                        {moment(notification.valid_upto).endOf("day").fromNow()}
+                        {moment(notification.valid_from)
+                          .startOf("day")
+                          .fromNow()}
                       </small>
                     </p>
                   </WishFlexBox>

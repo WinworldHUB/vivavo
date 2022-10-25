@@ -50,9 +50,8 @@ export default function Notifications() {
                           </span>
                         </p>
                         <small className="d-block text-right">
-                          Expires
-                          {moment(notification.valid_upto)
-                            .endOf("day")
+                          {moment(notification.valid_from)
+                            .startOf("day")
                             .fromNow()}
                         </small>
                       </WishFlexBox>
