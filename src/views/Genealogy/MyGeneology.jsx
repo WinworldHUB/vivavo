@@ -35,6 +35,8 @@ import useMasters from "../../services/useMasters";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import LoadingNote from "../../components/LoadingNote";
+import { useRef } from "react";
+import EmptyNote from "../../components/EmptyNote";
 
 export default function MyGeneology() {
   const [treeNodes, setTreeNodes] = useState(null);
@@ -70,6 +72,7 @@ export default function MyGeneology() {
     placementPositions,
     ranks,
     treeData,
+    fetchDistributorDetails,
   } = useGenealogy(loggedInUser);
   const [selectedDistributor, setSelectedDistributor] = useState(-1);
   const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
@@ -102,7 +105,8 @@ export default function MyGeneology() {
     "Tenth",
   ];
 
-  ChartJS.register(ArcElement, Tooltip, Legend);
+  //const doughnutRef = useRef(null);
+  ChartJS.register(ArcElement, Tooltip);
 
   const data = {
     labels: ["Active Members", "Inactive Members", "Other Members"],
@@ -179,6 +183,9 @@ export default function MyGeneology() {
         distributor_id: selectedDistributor,
         depth: 2,
       });
+
+      //Load data for selected node
+      fetchDistributorDetails(selectedDistributor);
     }
   }, [selectedDistributor]);
 
@@ -203,6 +210,14 @@ export default function MyGeneology() {
       });
     }
   }, [genealogyError]);
+
+  useEffect(() => {
+    if (distributorMemberStats) {
+      //ChartJS.register(ArcElement, Tooltip);
+
+      //doughnutRef.current?.update();
+    }
+  }, [distributorMemberStats]);
 
   const showAll = function () {
     applyFilter(false);
@@ -486,7 +501,7 @@ export default function MyGeneology() {
             cardBodyClassName="flex-none overflow-auto"
           >
             <div className="" style={{ minHeight: "400px" }}>
-              {(distributorGVStats ?? []).map((info, index) => {
+              {(distributorGVStats ? distributorGVStats.map((info, index) => {
                 const GVTileInfo = {
                   title: WORDS[index],
                   subTitle: "GV",
@@ -501,7 +516,7 @@ export default function MyGeneology() {
                     addTopPadding={index !== 0}
                   />
                 );
-              })}
+              }): <EmptyNote />)}
             </div>
           </WishSimpleCard>
         </div>
@@ -569,6 +584,7 @@ export default function MyGeneology() {
                         data={data}
                         options={options}
                         plugins={distributorMemberStats ? [plugin] : []}
+                        //ref={doughnutRef}
                       />
                     )}
                   </div>

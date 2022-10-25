@@ -26,6 +26,8 @@ export const treeNode = {
   rankBadge: (String, "Black Diamond Ambassador.png"),
   expanded: (Boolean, false),
   selected: (Boolean, false),
+  isBerthEnabled: (Boolean, false),
+  relation: (Number, 0),
 };
 
 export const treeModel = {
@@ -48,6 +50,8 @@ export const actionNode = {
   rankBadge: "AddNode.png",
   expanded: false,
   selected: false,
+  isBerthEnabled: false,
+  relation: 0,
 };
 
 const useGenealogy = (loggedInUserId) => {
@@ -67,44 +71,7 @@ const useGenealogy = (loggedInUserId) => {
   useEffect(() => {
     if (loggedInUserId) {
       setLoading(true);
-      APIUtils.postData(
-        "/reports/fetch-geneology-details-activity-details",
-        {
-          distributor_id: loggedInUserId.distributor_id,
-        },
-        (stats) => {
-          resetError();
-          setDistributorStats(stats);
-          console.log(stats);
-        },
-        setError
-      );
-
-      APIUtils.postData(
-        "/reports/fetch-geneology-details-team-count",
-        {
-          distributor_id: loggedInUserId.distributor_id,
-        },
-        (stats) => {
-          resetError();
-          setDistributorMemberStats(stats);
-          console.log(stats);
-        },
-        setError
-      );
-
-      APIUtils.postData(
-        "/reports/fetch-geneology-details-group-volume",
-        {
-          distributor_id: loggedInUserId.distributor_id,
-        },
-        (stats) => {
-          resetError();
-          setDistributorGVStats(stats);
-          console.log(stats);
-        },
-        setError
-      );
+      fetchDistributorDetails(loggedInUserId.distributor_id);
     }
   }, [loggedInUserId]);
 
@@ -121,6 +88,51 @@ const useGenealogy = (loggedInUserId) => {
   useEffect(() => {
     if (genealogyError) setLoading(false);
   }, [genealogyError]);
+
+  const fetchDistributorDetails = (selectedDistributorId) => {
+    setDistributorGVStats(null);
+    setDistributorMemberStats(null);
+    setDistributorStats(null);
+    //alert(selectedDistributorId);
+    APIUtils.postData(
+      "/reports/fetch-geneology-details-activity-details",
+      {
+        distributor_id: selectedDistributorId,
+      },
+      (stats) => {
+        resetError();
+        setDistributorStats(stats);
+        console.log(stats);
+      },
+      setError
+    );
+
+    APIUtils.postData(
+      "/reports/fetch-geneology-details-team-count",
+      {
+        distributor_id: selectedDistributorId,
+      },
+      (stats) => {
+        resetError();
+        setDistributorMemberStats(stats);
+        console.log(stats);
+      },
+      setError
+    );
+
+    APIUtils.postData(
+      "/reports/fetch-geneology-details-group-volume",
+      {
+        distributor_id: selectedDistributorId,
+      },
+      (stats) => {
+        resetError();
+        setDistributorGVStats(stats);
+        console.log(stats);
+      },
+      setError
+    );
+  };
 
   const getTreeData = (payload, direction = null) => {
     setLoading(true);
@@ -139,7 +151,8 @@ const useGenealogy = (loggedInUserId) => {
 
   const processGenealogyData = (treeNodes = []) => {
     if (treeNodes.length > 0) {
-      //console.clear();
+      console.clear();
+      console.log(treeNodes);
       // console.log(ranksList);
 
       const processedNodes = [];
@@ -157,6 +170,7 @@ const useGenealogy = (loggedInUserId) => {
           const rankBadgeImage = foundRank.title + ".png";
 
           const newNode = _.clone(treeNode);
+          newNode.isBerthEnabled = currentNodeProperties.isBerthEnabled;
           newNode.id = distId;
           newNode.distId = distId;
           newNode.name = name;
@@ -164,6 +178,7 @@ const useGenealogy = (loggedInUserId) => {
           newNode.achievedRankId = achievedRankId;
           newNode.rankBadge = rankBadgeImage;
           newNode.isRoot = currentNodeEdges.length === 0;
+          //newNode.relation = currentNodeEdges
 
           if (currentNodeEdges.length > 0) {
             newNode.parentDistId =
@@ -271,6 +286,7 @@ const useGenealogy = (loggedInUserId) => {
     placementPositions,
     ranks,
     treeData,
+    fetchDistributorDetails,
   };
 };
 

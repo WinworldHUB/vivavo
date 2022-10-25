@@ -1,21 +1,22 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
+import WishToaster from "../components/WishToaster";
 import useDashboard from "../services/useDashboard";
+import useMaster from "../services/useMasters";
 
 export default function Dashboard() {
-  const dashboard = useDashboard();
+  const { loggedInUser } = useMaster();
+  const [dashboardError] = useDashboard(loggedInUser);
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (!dashboard.isUserAuthenticated) {
-      //navigateTo("/signin");
-      console.log("User not authenticated");
-    } else {
-      console.log("User is authenticated");
+    if (dashboardError) {
+      WishToaster({ toastMessage: dashboardError });
     }
-  }, [dashboard]);
+  }, [dashboardError]);
 
   const RenderPage = function () {
     return (
@@ -23,7 +24,7 @@ export default function Dashboard() {
         <section className="row">
           <div className="col-12">
             <div className="card">
-              {dashboard.isUserAuthenticated ? (
+              {loggedInUser?.distributor_id ? (
                 <div className="card-body">
                   <h3>Dashboard Content Placeholder</h3>
                   <br />

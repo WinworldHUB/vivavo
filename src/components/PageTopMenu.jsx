@@ -9,13 +9,42 @@ import useNotificationModal from "./useNotificationModal";
 import NotificationModal from "../components/NotificationModal";
 import { useEffect } from "react";
 import useLocalStorage from "react-use-localstorage";
+import useMasters from "../services/useMasters";
+import { useState } from "react";
+import moment from "moment";
 
 export default function PageTopMenu({ className = "", pageTitle = "" }) {
+  const { loggedInUser, getNotifications } = useMasters();
   const navigateTo = useNavigate();
   const [logoutResponse, logoutError, { logout }] = useAuthentication();
   const [distributor, setDistributor] = useLocalStorage("distributor", "");
+  const [notifications, setNotifications] = useState([]);
   const [showNotification, notificationMessage, { toggle, updateMessage }] =
     useNotificationModal();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      getNotifications(loggedInUser?.distributor_id, setNotifications);
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    if (logoutResponse) {
+      setDistributor("");
+      navigateTo("/signin");
+    }
+  }, [logoutResponse]);
+
+  const isNoficationValid = (notification) => {
+    const dateFrom = new Date(notification?.valid_from);
+    const dateTo = new Date(notification?.valid_upto);
+    const today = new Date();
+
+    console.log(dateFrom);
+    console.log(dateTo);
+
+    return dateFrom <= today && today <= dateTo;
+  };
 
   const logoutUser = () => {
     if (distributor === "") {
@@ -36,68 +65,30 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
     }
   };
 
-  useEffect(() => {
-    if (logoutResponse) {
-      setDistributor("");
-      navigateTo("/signin");
-    }
-  }, [logoutResponse]);
-
   const RenderNotifications = function () {
     return (
       <div className="arrow_box_right">
         <ul className="list-group list-group-flush">
-          <li className="list-group-item py-0 px-2 trackable">
-            <WishFlexBox justifyContent="start">
-              <i className="las la-bell la-2x"></i>
-              <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                <strong className="d-block">
-                  Week 222 commission report available
-                </strong>
-                <small className="d-block">3 hours ago</small>
-              </p>
-            </WishFlexBox>
-          </li>
-          <li className="list-group-item py-0 px-2 trackable">
-            <WishFlexBox justifyContent="start">
-              <i className="las la-bell la-2x"></i>
-              <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                <strong className="d-block">Kindly complete your KYC</strong>
-                <small className="d-block">2 hours ago</small>
-              </p>
-            </WishFlexBox>
-          </li>
-          <li className="list-group-item py-0 px-2 trackable">
-            <WishFlexBox justifyContent="start">
-              <i className="las la-thumbs-up la-2x"></i>
-              <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                <strong className="d-block">
-                  Congratulations you have achieved your new rank
-                </strong>
-                <small className="d-block">3 days ago</small>
-              </p>
-            </WishFlexBox>
-          </li>
-          <li className="list-group-item py-0 px-2 trackable">
-            <WishFlexBox justifyContent="start">
-              <i className="las la-bell la-2x"></i>
-              <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                <strong className="d-block">
-                  Week 222 commission report available
-                </strong>
-                <small className="d-block">3 hours ago</small>
-              </p>
-            </WishFlexBox>
-          </li>
-          <li className="list-group-item py-0 px-2 trackable">
-            <WishFlexBox justifyContent="start">
-              <i className="las la-bell la-2x"></i>
-              <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                <strong className="d-block">Kindly complete your KYC</strong>
-                <small className="d-block">2 hours ago</small>
-              </p>
-            </WishFlexBox>
-          </li>
+          {notifications.map((notification) => {
+            if (isNoficationValid(notification)) {
+              return (
+                <li className="list-group-item py-0 px-2 trackable">
+                  <WishFlexBox justifyContent="start">
+                    <i className="las la-bell la-2x"></i>
+                    <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
+                      <strong className="d-block">{notification.body}</strong>
+                      <small className="d-block">
+                        Expires on{" "}
+                        {moment(notification.valid_upto).endOf("day").fromNow()}
+                      </small>
+                    </p>
+                  </WishFlexBox>
+                </li>
+              );
+            }
+
+            return <></>;
+          })}
         </ul>
 
         <div
@@ -164,7 +155,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
                     id="mnuNotifications"
                     style={{ minWidth: "420px" }}
                   >
-                    <RenderNotifications />
+                    {notifications.length > 0 && <RenderNotifications />}
                   </div>
                 </MediaQuery>
                 <MediaQuery maxWidth={420}>

@@ -1,4 +1,5 @@
 import React from "react";
+import WishFlexBox from "./WishFlexBox";
 
 export default function WishSimpleCard({
   background,
@@ -12,7 +13,7 @@ export default function WishSimpleCard({
   cardBodyClassName,
   cardBodyProps = {},
   cardProps = {},
-  changeBorder = true
+  changeBorder = true,
 }) {
   const hasBackground = () => {
     return background !== undefined ? true : false;
@@ -39,7 +40,8 @@ export default function WishSimpleCard({
   return (
     <div
       className={
-        "card " + (changeBorder ? " onhover-change-border " : "") +
+        "card " +
+        (changeBorder ? " onhover-change-border " : "") +
         (hasBackground() && " " + background + " ") +
         (hasShadow() === true ? " " : " box-shadow-0 onhover-shadow ") +
         (className ?? (className && " " + className + " "))
@@ -67,7 +69,9 @@ export default function WishSimpleCard({
         {body ?? children}
       </div>
       {footer && (
-        <div className="card-footer border-top-lighten-5 d-flex">{footer}</div>
+        <WishFlexBox className="card-footer border-top-lighten-5 align-items-baseline">
+          {footer}
+        </WishFlexBox>
       )}
     </div>
   );

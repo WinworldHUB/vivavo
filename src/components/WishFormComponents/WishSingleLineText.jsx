@@ -13,6 +13,7 @@ const WishSingleLineText = ({
   readonly = false,
   onChange,
   onBlurred,
+  passwordField = false,
   id,
 }) => {
   const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
@@ -45,7 +46,7 @@ const WishSingleLineText = ({
           id={elementId}
           name={elementId}
           placeholder={placeholder ?? label}
-          type="text"
+          type={passwordField ? "password" : "text"}
           className="form-control"
           //defaultValue={elValue}
           value={elValue}

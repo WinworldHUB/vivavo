@@ -47,7 +47,24 @@ const useMasters = () => {
     }
   };
 
-  return { ranksList, mastersError, loggedInUser, updateDistributor };
+  const getNotifications = (distributor_id, onSuccess) => {
+    APIUtils.postData(
+      "/enrollment/fetch-dist-notification",
+      { distributor_id: distributor_id ?? 0 },
+      (data) => {
+        onSuccess(data);
+      },
+      setError
+    );
+  };
+
+  return {
+    ranksList,
+    mastersError,
+    loggedInUser,
+    updateDistributor,
+    getNotifications,
+  };
 };
 
 export default useMasters;

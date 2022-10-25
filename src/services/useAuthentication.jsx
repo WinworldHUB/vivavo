@@ -16,7 +16,7 @@ export const authenticationModel = {
   isReadyToAuthenticate: (Boolean, false),
 };
 
-export const changePasswordModel = {
+export const forgotPasswordModel = {
   user_name: (Number, -1),
   user_type: (Number, -1),
 };
@@ -52,7 +52,7 @@ const useAuthentication = () => {
     );
   };
 
-  const changePassword = (changePasswordDetails, onSuccess) => {
+  const forgotPassword = (changePasswordDetails, onSuccess) => {
     setLoading(true);
     APIUtils.postData(
       "/enrollment/forgot-user-password",
@@ -82,7 +82,24 @@ const useAuthentication = () => {
     );
   };
 
-  return [response, error, { login, changePassword, logout, loading }];
+  const changePassword = (payload, onSuccess) => { 
+    setLoading(true);
+    APIUtils.postData(
+      "/enrollment/change-user-password",
+      payload,
+      (data) => {
+        setResponse(data);
+        onSuccess(data);
+      },
+      setError
+    );
+  }
+
+  return [
+    response,
+    error,
+    { login, forgotPassword, logout, loading, changePassword },
+  ];
 };
 
 export default useAuthentication;

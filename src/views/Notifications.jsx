@@ -3,71 +3,65 @@ import PageLayout from "../components/PageLayout";
 import pageConfig from "../data/config.json";
 import WishSimpleCard from "../components/WishSimpleCard";
 import WishFlexBox from "../components/WishFlexBox";
+import { useState } from "react";
+import useMasters from "../services/useMasters";
+import { useEffect } from "react";
+import moment from "moment";
 
 export default function Notifications() {
+  const { loggedInUser, getNotifications } = useMasters();
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      getNotifications(loggedInUser?.distributor_id, setNotifications);
+    }
+  }, [loggedInUser]);
+
+  const isNoficationValid = (notification) => {
+    const dateFrom = new Date(notification?.valid_from);
+    const dateTo = new Date(notification?.valid_upto);
+    const today = new Date();
+
+    console.log(dateFrom);
+    console.log(dateTo);
+
+    return dateFrom <= today && today <= dateTo;
+  };
+
   return (
     <PageLayout {...pageConfig.notificationsDashboard}>
       <div className="row">
         <div className="col-12">
           <WishSimpleCard>
             <ul className="list-group list-group-flush">
-              <li className="list-group-item py-0 px-2 trackable">
-                <WishFlexBox justifyContent="start">
-                  <i className="las la-bell la-2x"></i>
-                  <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                    <strong className="d-block">
-                      Week 222 commission report available
-                    </strong>
-                  </p>
-                  <small className="ml-auto text-right">3 hours ago</small>
-                </WishFlexBox>
-              </li>
-              <li className="list-group-item py-0 px-2 trackable">
-                <WishFlexBox justifyContent="start">
-                  <i className="las la-bell la-2x"></i>
-                  <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                    <strong className="d-block">
-                      Kindly complete your KYC
-                    </strong>
-                  </p>
-                  <small className="ml-auto text-right">2 days ago</small>
-                </WishFlexBox>
-              </li>
-              <li className="list-group-item py-0 px-2 trackable">
-                <WishFlexBox justifyContent="start">
-                  <i className="las la-thumbs-up la-2x"></i>
-                  <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                    <strong className="d-block">
-                      Congratulations you have achieved your new rank
-                    </strong>
-                  </p>
-                  <small className="ml-auto text-right">3 days ago</small>
-                </WishFlexBox>
-              </li>
-              <li className="list-group-item py-0 px-2 trackable">
-                <WishFlexBox justifyContent="start">
-                  <i className="las la-bell la-2x"></i>
-                  <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                    <strong className="d-block">
-                      Week 222 commission report available
-                    </strong>
-                  </p>
-                  <small className="ml-auto text-right">2 October 2022</small>
-                </WishFlexBox>
-              </li>
-              <li className="list-group-item py-0 px-2 trackable">
-                <WishFlexBox justifyContent="start">
-                  <i className="las la-bell la-2x"></i>
-                  <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
-                    <strong className="d-block">
-                      Kindly complete your KYC
-                    </strong>
-                  </p>
-                  <small className="ml-auto  text-right">
-                    21 February 2022
-                  </small>
-                </WishFlexBox>
-              </li>
+              {notifications.map((notification) => {
+                if (isNoficationValid(notification)) {
+                  return (
+                    <li className="list-group-item py-0 px-2 trackable">
+                      <WishFlexBox>
+                        <p>
+                          <i className="las la-bell la-2x"></i>
+                          <span
+                            className="pl-1 pt-1"
+                            style={{ lineHeight: "1.3" }}
+                          >
+                            <strong>{notification.body}</strong>
+                          </span>
+                        </p>
+                        <small className="d-block text-right">
+                          Expires on{" "}
+                          {moment(notification.valid_upto)
+                            .endOf("day")
+                            .fromNow()}
+                        </small>
+                      </WishFlexBox>
+                    </li>
+                  );
+                }
+
+                return <></>;
+              })}
             </ul>
           </WishSimpleCard>
         </div>

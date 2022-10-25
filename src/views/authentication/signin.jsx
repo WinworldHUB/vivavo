@@ -27,8 +27,11 @@ const SignIn = () => {
   );
 
   const [loginResponse, loginError, { login }] = useAuthentication();
-  const [changePasswordResponse, changePasswordError, { changePassword, loading }] =
-    useAuthentication();
+  const [
+    forgotPasswordResponse,
+    forgotPasswordError,
+    { forgotPassword, loading },
+  ] = useAuthentication();
 
   const [distributor, setDistributorDetails] = useLocalStorage(
     "distributor",
@@ -47,7 +50,7 @@ const SignIn = () => {
   }, [loginResponse]);
 
   useEffect(() => {
-    if (changePasswordResponse) {
+    if (forgotPasswordResponse) {
       setMode(2);
       //setIsProcessing(false);
       // if (changePasswordResponse.status === "error") {
@@ -58,7 +61,7 @@ const SignIn = () => {
       //   setErrorMessage(changePasswordResponse.message);
       // }
     }
-  }, [changePasswordResponse]);
+  }, [forgotPasswordResponse]);
 
   useEffect(() => {
     //setIsProcessing(false);
@@ -66,13 +69,13 @@ const SignIn = () => {
       setErrorMessage(
         loginError === {} ? "Error occurred" : JSON.stringify(loginError)
       );
-    else if (changePasswordError)
+    else if (forgotPasswordError)
       setErrorMessage(
-        changePasswordError === {}
+        forgotPasswordError === {}
           ? "Error occurred"
-          : JSON.stringify(changePasswordError)
+          : JSON.stringify(forgotPasswordError)
       );
-  }, [loginError, changePasswordError]);
+  }, [loginError, forgotPasswordError]);
 
   const DoLogin = () => {
     if (
@@ -80,13 +83,14 @@ const SignIn = () => {
       userCredentials.password.trim() !== ""
     ) {
       setErrorMessage(null);
-      login({
-        user_name: userCredentials.user_name,
-        password: userCredentials.password,
-        isReadyToAuthenticate: true,
-      }, () => { 
-
-      });
+      login(
+        {
+          user_name: userCredentials.user_name,
+          password: userCredentials.password,
+          isReadyToAuthenticate: true,
+        },
+        () => {}
+      );
       //setIsProcessing(true);
     } else {
       setErrorMessage(EMPTY_CREDENTIALS);
@@ -96,7 +100,7 @@ const SignIn = () => {
   const DoChangePassword = () => {
     if (userCredentials.user_name.trim() !== "") {
       setErrorMessage(null);
-      changePassword({
+      forgotPassword({
         user_name: userCredentials.user_name,
         user_type: 1,
       });
@@ -309,7 +313,7 @@ const SignIn = () => {
                     </h1>
                     <h3>Check your email</h3>
                     <p className="lead pb-3">
-                      {maskEmail(changePasswordResponse)}
+                      {maskEmail(forgotPasswordResponse)}
                     </p>
                     <a
                       className="card-link link-dotted text-primary"
