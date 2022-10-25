@@ -16,3 +16,4 @@ export const LOAD_EXTREME_LEFT = "load-extreme-left";
 export const LOAD_EXTREME_RIGHT = "load-extreme-right";
 export const LOAD_PREFERRED_LEFT = "load-prefered-extreme-left";
 export const LOAD_PREFERRED_RIGHT = "load-prefered-extreme-right";
+export const NOTIFICATIONS_LIMIT = 5;

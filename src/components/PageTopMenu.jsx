@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import WishFlexBox from "./WishFlexBox";
 import MediaQuery from "@kokojer/react-responsive";
 import useAuthentication from "../services/useAuthentication";
-import { SUCCESS, ERROR } from "../services/Constants";
+import { SUCCESS, ERROR, NOTIFICATIONS_LIMIT } from "../services/Constants";
 import useNotificationModal from "./useNotificationModal";
 import NotificationModal from "../components/NotificationModal";
 import { useEffect } from "react";
@@ -24,7 +24,14 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
 
   useEffect(() => {
     if (loggedInUser) {
-      getNotifications(loggedInUser?.distributor_id, setNotifications);
+      getNotifications(loggedInUser?.distributor_id, (data) => {
+        const dataArray = Array.from(data);
+        if (dataArray.length <= 5) {
+          setNotifications(dataArray);
+        } else {
+          setNotifications(dataArray.slice(0, NOTIFICATIONS_LIMIT));
+        }
+      });
     }
   }, [loggedInUser]);
 
