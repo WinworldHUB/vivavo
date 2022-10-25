@@ -40,9 +40,6 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
     const dateTo = new Date(notification?.valid_upto);
     const today = new Date();
 
-    console.log(dateFrom);
-    console.log(dateTo);
-
     return dateFrom <= today && today <= dateTo;
   };
 

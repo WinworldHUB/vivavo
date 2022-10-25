@@ -183,9 +183,6 @@ export default function MyGeneology() {
         distributor_id: selectedDistributor,
         depth: 2,
       });
-
-      //Load data for selected node
-      fetchDistributorDetails(selectedDistributor);
     }
   }, [selectedDistributor]);
 
@@ -199,6 +196,9 @@ export default function MyGeneology() {
     //console.log(treeData ?? "");
     if (treeData) {
       setTreeNodes(treeData);
+
+      //Load data for selected node
+      fetchDistributorDetails(treeData?.root?.distId ?? 0);
     }
   }, [treeData]);
 
@@ -214,7 +214,6 @@ export default function MyGeneology() {
   useEffect(() => {
     if (distributorMemberStats) {
       //ChartJS.register(ArcElement, Tooltip);
-
       //doughnutRef.current?.update();
     }
   }, [distributorMemberStats]);
@@ -501,22 +500,26 @@ export default function MyGeneology() {
             cardBodyClassName="flex-none overflow-auto"
           >
             <div className="" style={{ minHeight: "400px" }}>
-              {(distributorGVStats ? distributorGVStats.map((info, index) => {
-                const GVTileInfo = {
-                  title: WORDS[index],
-                  subTitle: "GV",
-                  direction: info.is_increase ? "up" : "down",
-                  PV: info.cw_gv ?? 0,
-                  percentage: info.percentage ?? 0,
-                };
+              {distributorGVStats ? (
+                distributorGVStats.map((info, index) => {
+                  const GVTileInfo = {
+                    title: WORDS[index],
+                    subTitle: "GV",
+                    direction: info.is_increase ? "up" : "down",
+                    PV: info.cw_gv ?? 0,
+                    percentage: info.percentage ?? 0,
+                  };
 
-                return (
-                  <RenderGroupVolumeTile
-                    details={GVTileInfo}
-                    addTopPadding={index !== 0}
-                  />
-                );
-              }): <EmptyNote />)}
+                  return (
+                    <RenderGroupVolumeTile
+                      details={GVTileInfo}
+                      addTopPadding={index !== 0}
+                    />
+                  );
+                })
+              ) : (
+                <EmptyNote />
+              )}
             </div>
           </WishSimpleCard>
         </div>
