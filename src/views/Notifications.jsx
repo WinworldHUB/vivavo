@@ -50,7 +50,7 @@ export default function Notifications() {
                           </span>
                         </p>
                         <small className="d-block text-right">
-                          Expires on{" "}
+                          Expires
                           {moment(notification.valid_upto)
                             .endOf("day")
                             .fromNow()}
