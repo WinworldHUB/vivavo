@@ -12,15 +12,11 @@ import useMasters from "../../services/useMasters";
 
 const Settings = () => {
   const { loggedInUser } = useMasters();
-  const [
-    changePasswordResponse,
-    changePasswordError,
-    { changePassword, loading },
-  ] = useAuthentication();
+  const { error, processing, changePassword } = useAuthentication();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [errorMessage, setError] = useState(null);
 
   useEffect(() => {
     if (loggedInUser?.name === "") {
@@ -29,16 +25,14 @@ const Settings = () => {
   }, []);
 
   useEffect(() => {
-    if (error && error !== "") {
-      WishToaster({ toastMessage: error });
-    }
+    setError(error);
   }, [error]);
 
   useEffect(() => {
-    if (changePasswordError) {
-      setError(changePasswordError);
+    if (errorMessage && errorMessage !== "") {
+      WishToaster({ toastMessage: errorMessage });
     }
-  }, [changePasswordError]);
+  }, [errorMessage]);
 
   const header = function () {
     return <h5>Change Password</h5>;
@@ -115,12 +109,12 @@ const Settings = () => {
       <>
         <button
           className="btn btn-primary"
-          disabled={loading}
+          disabled={processing}
           onClick={doChangePassword}
         >
-          {loading ? <LoadingNote /> : "Update"}
+          {processing ? <LoadingNote /> : "Update"}
         </button>
-        <p className="text-right text-danger">{error}</p>
+        <p className="text-right text-danger">{errorMessage}</p>
       </>
     );
   };

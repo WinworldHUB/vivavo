@@ -17,7 +17,6 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
-import useAPI from "../../services/useAPI";
 import { useEffect } from "react";
 import useGenealogy from "../../services/useGenealogy";
 import useLocalStorage from "react-use-localstorage";
@@ -72,10 +71,10 @@ export default function MyGeneology() {
     placementPositions,
     ranks,
     treeData,
-    fetchDistributorDetails,
+    //fetchDistributorDetails,
   } = useGenealogy(loggedInUser);
   const [selectedDistributor, setSelectedDistributor] = useState(-1);
-  const [treeNavigationHistory, setTreeNavigationHistory] = useState([]);
+
   const placementStructure = {
     distributor_id: "",
     placement_distributor_id: "",
@@ -167,15 +166,10 @@ export default function MyGeneology() {
 
   useEffect(() => {
     //console.log(distributor);
-    if (distributor !== "") {
-      const distributorFromLocalStorage = JSON.parse(distributor);
-
-      setSelectedDistributor(distributorFromLocalStorage.distributor_id);
-      setTreeNavigationHistory([
-        String(distributorFromLocalStorage.distributor_id),
-      ]);
+    if (loggedInUser?.distributor_id) {
+      setSelectedDistributor(loggedInUser.distributor_id);
     }
-  }, []);
+  }, [loggedInUser]);
 
   useEffect(() => {
     if (selectedDistributor > -1) {
@@ -187,18 +181,12 @@ export default function MyGeneology() {
   }, [selectedDistributor]);
 
   useEffect(() => {
-    //console.clear();
-    console.log("---- Tree Navigation History ---- ");
-    console.log(treeNavigationHistory);
-  }, [treeNavigationHistory]);
-
-  useEffect(() => {
     //console.log(treeData ?? "");
     if (treeData) {
       setTreeNodes(treeData);
 
       //Load data for selected node
-      fetchDistributorDetails(treeData?.root?.distId ?? 0);
+      //fetchDistributorDetails(treeData?.root?.distId ?? 0);
     }
   }, [treeData]);
 
@@ -281,31 +269,22 @@ export default function MyGeneology() {
   const treeTopIcons = function () {
     return (
       <div className="row pl-2 pr-2">
-        <a
+        <button
           className={"d-flex align-items-center text-primary "}
           onClick={() => {
-            if (distributor !== "") {
-              const distributorFromLocalStorage = JSON.parse(distributor);
-
-              if (
-                !treeNavigationHistory.includes(
-                  distributorFromLocalStorage.distributor_id
-                )
-              )
-                setTreeNavigationHistory([
-                  distributorFromLocalStorage.distributor_id,
-                ]);
-
-              setSelectedDistributor(
-                distributorFromLocalStorage.distributor_id
-              );
+            if (loggedInUser?.distributor_id) {
+              setSelectedDistributor(loggedInUser.distributor_id);
+              // getTreeData({
+              //   distributor_id: selectedDistributor,
+              //   depth: 2,
+              // });
             }
           }}
         >
           <i className="las la-angle-left"></i>&nbsp;Go Back
-        </a>
+        </button>
         &nbsp;&nbsp;
-        <a
+        <button
           className="d-flex align-items-center ml-auto"
           onClick={() => {
             AppUtils.showDialog("dlgSearch");
@@ -313,7 +292,7 @@ export default function MyGeneology() {
           }}
         >
           <i className="las la-search"></i>&nbsp;Search
-        </a>
+        </button>
         &nbsp;&nbsp;
         {/* <a
           className="d-flex align-items-center"
@@ -391,7 +370,6 @@ export default function MyGeneology() {
                     "You are already at the top of your organization tree.",
                   toastType: "error",
                 });
-                setTreeNavigationHistory([loggedInUser.distributor_id]);
               }
             }}
           >
@@ -444,7 +422,7 @@ export default function MyGeneology() {
     <PageLayout {...pageConfig.mygenealogy}>
       <div className="row">
         <div className="col-12">
-          {treeNodes && (
+          {treeNodes ? (
             <WishGeneologyTree
               loading={loading}
               header={treeTopIcons()}
@@ -453,10 +431,6 @@ export default function MyGeneology() {
               showBackButton={filterApplied}
               onNodeSelected={(distributorId, isActionNode) => {
                 if (!isActionNode) {
-                  setTreeNavigationHistory([
-                    distributorId,
-                    ...treeNavigationHistory,
-                  ]);
                   setSelectedDistributor(distributorId);
                 } else {
                   if (distributor !== "") {
@@ -491,6 +465,10 @@ export default function MyGeneology() {
                 }
               }}
             />
+          ) : (
+            <WishSimpleCard noFooter>
+              <LoadingNote />
+            </WishSimpleCard>
           )}
         </div>
         <div className="col-6">

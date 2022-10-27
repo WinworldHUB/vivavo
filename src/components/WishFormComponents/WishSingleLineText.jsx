@@ -15,6 +15,7 @@ const WishSingleLineText = ({
   onBlurred,
   passwordField = false,
   id,
+  icon,
 }) => {
   const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
   const [elValue, setElValue] = useState(initialValue ?? label);
@@ -36,12 +37,34 @@ const WishSingleLineText = ({
     return opts;
   };
 
+  const generateClassForInput = () => {
+    let outputClass = "";
+
+    if (icon) {
+      outputClass += "form-group position-relative has-icon-left ";
+    }
+
+    if (label) {
+      if (verify === false) {
+        outputClass += " col-8 ";
+      } else {
+        outputClass += " col-5 ";
+      }
+    } else {
+      outputClass += " col-12 ";
+    }
+
+    return outputClass;
+  };
+
   return (
     <div className="form-group row">
-      <label htmlFor={elementId} className="col-4 col-form-label">
-        {label}
-      </label>
-      <div className={verify === false ? "col-8" : "col-5"}>
+      {label && (
+        <label htmlFor={elementId} className="col-4 col-form-label">
+          {label}
+        </label>
+      )}
+      <div className={generateClassForInput()}>
         <input
           id={elementId}
           name={elementId}
@@ -58,6 +81,11 @@ const WishSingleLineText = ({
           {...additionalAttributes()}
           //ref={customRef}
         />
+        {icon && (
+          <div className="form-control-position pl-1 ">
+            <i className={icon}></i>
+          </div>
+        )}
       </div>
       {verify === true ? (
         <div className="col-3">

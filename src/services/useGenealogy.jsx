@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import useAPI from "./useAPI";
 //import genealogyData from "../data/temp.json";
 import _ from "lodash";
 import { TreeUtils } from "./TreeUtils";
 import { useState } from "react";
-import APIUtils from "./APIUtils";
-import useLocalStorage from "react-use-localstorage";
+//import APIUtils from "./APIUtils";
 import useMasters from "./useMasters";
-//import useMasters from "./useMasters";
+import useAPIs from "./useAPIs";
 
 export const treeNode = {
   id: String,
@@ -27,7 +25,8 @@ export const treeNode = {
   expanded: (Boolean, false),
   selected: (Boolean, false),
   isBerthEnabled: (Boolean, false),
-  relation: (Number, 0),
+  relation: (String, ""),
+  position: (Number, 0),
 };
 
 export const treeModel = {
@@ -51,10 +50,12 @@ export const actionNode = {
   expanded: false,
   selected: false,
   isBerthEnabled: false,
-  relation: 0,
+  relation: "",
+  position: 0,
 };
 
 const useGenealogy = (loggedInUserId) => {
+  const { apiError, getData, postData } = useAPIs();
   const [treeData, setTreeData] = useState(null);
   const [genealogyData, setGenealogyData] = useState(null);
   const [genealogyError, setError] = useState(null);
@@ -69,9 +70,14 @@ const useGenealogy = (loggedInUserId) => {
   const [distributorMemberStats, setDistributorMemberStats] = useState(null);
 
   useEffect(() => {
+    setLoading(false);
+    setError(apiError);
+  }, [apiError]);
+
+  useEffect(() => {
     if (loggedInUserId) {
       setLoading(true);
-      fetchDistributorDetails(loggedInUserId.distributor_id);
+      //fetchDistributorDetails(loggedInUserId.distributor_id);
     }
   }, [loggedInUserId]);
 
@@ -94,64 +100,61 @@ const useGenealogy = (loggedInUserId) => {
     setDistributorMemberStats(null);
     setDistributorStats(null);
     //alert(selectedDistributorId);
-    APIUtils.postData(
+    postData(
       "/reports/fetch-geneology-details-activity-details",
       {
         distributor_id: selectedDistributorId,
       },
       (stats) => {
-        resetError();
+        //resetError();
         setDistributorStats(stats);
         console.log(stats);
-      },
-      setError
+      }
     );
 
-    APIUtils.postData(
+    postData(
       "/reports/fetch-geneology-details-team-count",
       {
         distributor_id: selectedDistributorId,
       },
       (stats) => {
-        resetError();
+        //resetError();
         setDistributorMemberStats(stats);
         console.log(stats);
-      },
-      setError
+      }
     );
 
-    APIUtils.postData(
+    postData(
       "/reports/fetch-geneology-details-group-volume",
       {
         distributor_id: selectedDistributorId,
       },
       (stats) => {
-        resetError();
+        //resetError();
         setDistributorGVStats(stats);
         console.log(stats);
-      },
-      setError
+      }
     );
   };
 
   const getTreeData = (payload, direction = null) => {
     setLoading(true);
-    APIUtils.postData(
+    postData(
       direction
         ? `/enrollment/${direction}`
         : "/enrollment/load-geneology-redis",
       payload,
       (apiData) => {
-        resetError();
+        //resetError();
         setGenealogyData(Array.from(apiData));
-      },
-      setError
+        fetchDistributorDetails(payload.distributor_id);
+      }
     );
   };
 
   const processGenealogyData = (treeNodes = []) => {
     if (treeNodes.length > 0) {
-      console.clear();
+      //console.clear();
       console.log(treeNodes);
       // console.log(ranksList);
 
@@ -170,7 +173,9 @@ const useGenealogy = (loggedInUserId) => {
           const rankBadgeImage = foundRank.title + ".png";
 
           const newNode = _.clone(treeNode);
-          newNode.isBerthEnabled = currentNodeProperties.isBerthEnabled;
+          newNode.isBerthEnabled = Boolean(
+            currentNodeProperties.isBerthEnabled
+          );
           newNode.id = distId;
           newNode.distId = distId;
           newNode.name = name;
@@ -178,7 +183,13 @@ const useGenealogy = (loggedInUserId) => {
           newNode.achievedRankId = achievedRankId;
           newNode.rankBadge = rankBadgeImage;
           newNode.isRoot = currentNodeEdges.length === 0;
-          //newNode.relation = currentNodeEdges
+          newNode.relation =
+            currentNodeEdges && currentNodeEdges.length > 0
+              ? currentNodeEdges.length > 1
+                ? currentNodeEdges[1].relation
+                : currentNodeEdges[0].relation
+              : "";
+          newNode.position = 0;
 
           if (currentNodeEdges.length > 0) {
             newNode.parentDistId =
@@ -202,48 +213,41 @@ const useGenealogy = (loggedInUserId) => {
 
   const getPendingEnrolleesFor = (distributorId, placement_distributor_id) => {
     setLoading(true);
-    APIUtils.postData(
+    postData(
       "/enrollment/fetch-pending-enrollee-list",
       {
         distributor_id: distributorId,
         section_level: 5,
       },
       (enrolleesList) => {
-        resetError();
+        //resetError();
         console.log(enrolleesList);
         setPendingEnrolleesList(enrolleesList);
-      },
-      setError
+      }
     );
 
-    APIUtils.postData(
+    postData(
       "/enrollment/fetch-available-position",
       {
         placement_distributor_id: placement_distributor_id,
       },
       (positionsList) => {
-        resetError();
+        //resetError();
         console.log(positionsList);
         setPlacementPositions(Array.from(positionsList.valid_position_ist));
-      },
-      setError
+      }
     );
   };
 
   const enrollDistributor = (enrollmentDetails, selectedDistributor) => {
     setLoading(true);
-    APIUtils.postData(
-      "/enrollment/create-new-distributor",
-      enrollmentDetails,
-      () => {
-        resetError();
-        getTreeData({
-          distributor_id: selectedDistributor,
-          depth: 2,
-        });
-      },
-      setError
-    );
+    postData("/enrollment/create-new-distributor", enrollmentDetails, () => {
+      //resetError();
+      getTreeData({
+        distributor_id: selectedDistributor,
+        depth: 2,
+      });
+    });
   };
 
   const navigateTreeTo = (direction, selectedDistributor) => {
@@ -264,11 +268,6 @@ const useGenealogy = (loggedInUserId) => {
       },
       "load-one-level-up"
     );
-  };
-
-  const resetError = () => {
-    setLoading(false);
-    setError(null);
   };
 
   return {

@@ -10,87 +10,58 @@ import useAuthentication, {
 import _ from "lodash";
 import { useEffect } from "react";
 import useLocalStorage from "react-use-localstorage";
-import { EMPTY_CREDENTIALS } from "../../services/Constants";
+import {
+  AUTHENTICATION_MODES,
+  EMPTY_CREDENTIALS,
+} from "../../services/Constants";
 import { maskEmail } from "react-email-mask";
 import WishFlexBox from "../../components/WishFlexBox";
 import useMasters from "../../services/useMasters";
 import LoadingNote from "../../components/LoadingNote";
+import WishSingleLineText from "../../components/WishFormComponents/WishSingleLineText";
+
+const initialCredentials = { user_name: "", password: "" };
 
 const SignIn = () => {
-  const masters = useMasters();
-  const [mode, setMode] = useState(0);
+  const { updateDistributor } = useMasters();
+  const [mode, setMode] = useState(AUTHENTICATION_MODES.sign);
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  const [userCredentials, setUserCredentials] = useState(
-    _.cloneDeep(authenticationModel)
-  );
-
-  const [loginResponse, loginError, { login }] = useAuthentication();
-  const [
-    forgotPasswordResponse,
-    forgotPasswordError,
-    { forgotPassword, loading },
-  ] = useAuthentication();
-
-  const [distributor, setDistributorDetails] = useLocalStorage(
-    "distributor",
-    null
-  );
-
-  //const [isProcessing, setIsProcessing] = useState(false);
-
-  useEffect(() => {
-    if (loginResponse) {
-      //setIsProcessing(false);
-
-      setDistributorDetails(JSON.stringify(loginResponse));
-      navigate("/");
-    }
-  }, [loginResponse]);
-
-  useEffect(() => {
-    if (forgotPasswordResponse) {
-      setMode(2);
-      //setIsProcessing(false);
-      // if (changePasswordResponse.status === "error") {
-      //   setErrorMessage(changePasswordResponse.message);
-      // } else if (changePasswordResponse.status === "success") {
-      //   setMode(2);
-      // } else {
-      //   setErrorMessage(changePasswordResponse.message);
-      // }
-    }
-  }, [forgotPasswordResponse]);
+  const [credentials, setCredentials] = useState(initialCredentials);
+  const [isLoading, setIsLoading] = useState(false);
+  const { error, login, forgotPassword, processing } = useAuthentication();
+  const [forgotPasswordResponse, setForgotPasswordResponse] = useState(null);
 
   useEffect(() => {
     //setIsProcessing(false);
-    if (loginError)
-      setErrorMessage(
-        loginError === {} ? "Error occurred" : JSON.stringify(loginError)
-      );
-    else if (forgotPasswordError)
-      setErrorMessage(
-        forgotPasswordError === {}
-          ? "Error occurred"
-          : JSON.stringify(forgotPasswordError)
-      );
-  }, [loginError, forgotPasswordError]);
+    if (error) {
+      setErrorMessage(error);
+      setCredentials(initialCredentials);
+      setIsLoading(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setErrorMessage(null);
+    setCredentials(initialCredentials);
+    setIsLoading(false);
+  }, [mode]);
+
+  useEffect(() => {
+    setIsLoading(processing);
+  }, [processing]);
 
   const DoLogin = () => {
     if (
-      userCredentials.user_name.trim() !== "" &&
-      userCredentials.password.trim() !== ""
+      credentials.user_name.trim() !== "" &&
+      credentials.password.trim() !== ""
     ) {
       setErrorMessage(null);
-      login(
-        {
-          user_name: userCredentials.user_name,
-          password: userCredentials.password,
-          isReadyToAuthenticate: true,
-        },
-        () => {}
-      );
+      login(credentials, (loginResponse) => {
+        updateDistributor(loginResponse);
+        navigate("/");
+      });
       //setIsProcessing(true);
     } else {
       setErrorMessage(EMPTY_CREDENTIALS);
@@ -98,12 +69,19 @@ const SignIn = () => {
   };
 
   const DoChangePassword = () => {
-    if (userCredentials.user_name.trim() !== "") {
+    if (credentials.user_name.trim() !== "") {
       setErrorMessage(null);
-      forgotPassword({
-        user_name: userCredentials.user_name,
-        user_type: 1,
-      });
+      setIsLoading(false);
+      forgotPassword(
+        {
+          user_name: credentials.user_name,
+          user_type: 1,
+        },
+        (response) => {
+          setForgotPasswordResponse(response);
+          setMode(AUTHENTICATION_MODES.forgotPasswordSuccess);
+        }
+      );
       //setIsProcessing(true);
     } else {
       setErrorMessage(EMPTY_CREDENTIALS);
@@ -112,13 +90,13 @@ const SignIn = () => {
 
   const renderTitle = function () {
     switch (mode) {
-      case 0:
+      case AUTHENTICATION_MODES.sign:
         return "DISTRIBUTOR LOGIN";
 
-      case 1:
+      case AUTHENTICATION_MODES.forgotPassword:
         return "Forgot Password";
 
-      case 2:
+      case AUTHENTICATION_MODES.forgotPasswordSuccess:
         return "Email Sent";
 
       default:
@@ -150,7 +128,24 @@ const SignIn = () => {
               <div className="card-content">
                 {mode === 0 ? (
                   <div className="card-body">
-                    <fieldset className="form-group position-relative has-icon-left">
+                    <WishSingleLineText
+                      placeholder="Distributor Id"
+                      icon="ft-user"
+                      initialValue={credentials.user_name}
+                      onChange={(value) => {
+                        setCredentials({ ...credentials, user_name: value });
+                      }}
+                    />
+                    <WishSingleLineText
+                      placeholder="Your password"
+                      icon="ft-lock"
+                      initialValue={credentials.password}
+                      passwordField
+                      onChange={(value) => {
+                        setCredentials({ ...credentials, password: value });
+                      }}
+                    />
+                    {/* <fieldset className="form-group position-relative has-icon-left">
                       <input
                         type="number"
                         className="form-control"
@@ -186,11 +181,11 @@ const SignIn = () => {
                       <div className="form-control-position">
                         <i className="ft-lock"></i>
                       </div>
-                    </fieldset>
+                    </fieldset> */}
                     <div className="form-group row pb-2">
                       <div className="col-md-6 col-12 text-center text-sm-left">
                         <div className="custom-control custom-checkbox custom-control-inline">
-                          <input
+                          {/* <input
                             name="checkbox"
                             id="checkbox_0"
                             type="checkbox"
@@ -202,7 +197,7 @@ const SignIn = () => {
                             className="custom-control-label"
                           >
                             Remember Me
-                          </label>
+                          </label> */}
                         </div>
                       </div>
                       <div className="col-md-6 col-12 float-sm-left text-center text-sm-right">
@@ -210,7 +205,8 @@ const SignIn = () => {
                           className="card-link link-dotted"
                           onClick={() => {
                             setErrorMessage("");
-                            setMode(1);
+                            setCredentials(initialCredentials);
+                            setMode(AUTHENTICATION_MODES.forgotPassword);
                           }}
                         >
                           Forgot Password?
@@ -223,16 +219,16 @@ const SignIn = () => {
                     <div className="form-group text-center">
                       <button
                         type="button"
-                        disabled={loading}
+                        disabled={isLoading}
                         onClick={(e) => {
                           DoLogin();
                         }}
                         className={
                           "btn btn-block text-uppercase " +
-                          (loading ? " btn-secondary" : " btn-success ")
+                          (isLoading ? " btn-secondary" : " btn-success ")
                         }
                       >
-                        {loading ? <LoadingNote /> : <>Sign In</>}
+                        {isLoading ? <LoadingNote /> : <>Sign In</>}
                       </button>
                     </div>
                   </div>
@@ -242,34 +238,21 @@ const SignIn = () => {
                       Enter Distributor ID below to receive the password reset
                       email
                     </p>
-                    <fieldset className="form-group position-relative has-icon-left">
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="user-name"
-                        placeholder="Your Username"
-                        value={userCredentials.user_name}
-                        onChange={(e) => {
-                          setUserCredentials({
-                            ...userCredentials,
-                            user_name: e.target.value,
-                          });
-                        }}
-                      />
-                      <div className="form-control-position">
-                        <i className="ft-user"></i>
-                      </div>
-                      <div className="invalid-feedback text-danger">
-                        You must provide username to proceed.
-                      </div>
-                    </fieldset>
+                    <WishSingleLineText
+                      placeholder="Distributor Id"
+                      icon="ft-user"
+                      initialValue={credentials.user_name}
+                      onChange={(value) => {
+                        setCredentials({ ...credentials, user_name: value });
+                      }}
+                    />
                     <div className="form-group text-center">
                       <p className="text-danger">{errorMessage}</p>
                     </div>
                     <div className="form-group text-center">
                       <button
                         type="button"
-                        disabled={loading}
+                        disabled={isLoading}
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -277,10 +260,10 @@ const SignIn = () => {
                         }}
                         className={
                           "btn btn-block text-uppercase " +
-                          (loading ? " btn-secondary" : " btn-success ")
+                          (isLoading ? " btn-secondary" : " btn-success ")
                         }
                       >
-                        {loading ? (
+                        {isLoading ? (
                           <WishFlexBox justifyContent="center">
                             <span
                               className="spinner-border spinner-border-sm"
@@ -299,7 +282,8 @@ const SignIn = () => {
                         className="card-link link-dotted text-primary"
                         onClick={() => {
                           setErrorMessage("");
-                          setMode(0);
+                          setCredentials(initialCredentials);
+                          setMode(AUTHENTICATION_MODES.sign);
                         }}
                       >
                         Back to Sign In
@@ -319,7 +303,8 @@ const SignIn = () => {
                       className="card-link link-dotted text-primary"
                       onClick={() => {
                         setErrorMessage("");
-                        setMode(0);
+                        setCredentials(initialCredentials);
+                        setMode(AUTHENTICATION_MODES.sign);
                       }}
                     >
                       Back to Sign In

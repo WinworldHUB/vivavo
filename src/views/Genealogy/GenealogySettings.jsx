@@ -1,88 +1,53 @@
-import React, { useEffect, useState } from "react";
 import PageLayout from "../../components/PageLayout";
-import WishFlexBox from "../../components/WishFlexBox";
-import WishSelect from "../../components/WishFormComponents/WishSelect";
-import WishSingleLineText from "../../components/WishFormComponents/WishSingleLineText";
-import WishModal from "../../components/WishModal";
-import WishSimpleCard from "../../components/WishSimpleCard";
-import WishToaster from "../../components/WishToaster";
 import pageConfig from "../../data/config.json";
-import { AppUtils } from "../../services/AppUtils";
+import WishSimpleCard from "../../components/WishSimpleCard";
 import useGenealogySettings from "../../services/useGenealogySettings";
 import useMasters from "../../services/useMasters";
+import WishFlexBox from "../../components/WishFlexBox";
+import WishModal from "../../components/WishModal";
+import LoadingNote from "../../components/LoadingNote";
+import WishSingleLineText from "../../components/WishFormComponents/WishSingleLineText";
+import WishSelect from "../../components/WishFormComponents/WishSelect";
+import { AppUtils } from "../../services/AppUtils";
+import { useState } from "react";
+import { useEffect } from "react";
+import WishToaster from "../../components/WishToaster";
 
-export default function GenealogySettings() {
+const GenealogySettings = () => {
   const { loggedInUser } = useMasters();
-  const { preferences, settingsError, savePreferences } = useGenealogySettings(
-    loggedInUser?.distributor_id
-  );
-
-  const [orgs, setOrgs] = useState([]);
-  const [selectedOrgIndex, setSelectedOrgIndex] = useState(-1);
-
-  const [newDistributorPosition, setNewDistributorPosition] = useState(null);
+  const { preferences, settingsError, savePreferences, positions } =
+    useGenealogySettings(loggedInUser?.distributor_id);
+  const [selectedOrganization, setSelectedOrganization] = useState(null);
 
   useEffect(() => {
     if (settingsError) {
-      WishToaster({
-        toastMessage: settingsError,
-        toastType: "error",
-      });
+      WishToaster({ toastMessage: settingsError });
     }
   }, [settingsError]);
 
-  const ORGANIZATION_POSITIONS = [
-    { id: 1, title_name: "Left" },
-    { id: 2, title_name: "Right" },
-    { id: 3, title_name: "Other" },
-  ];
-
-  const organizationSide = (index) => {
-    switch (index) {
-      case 1:
-        return ORGANIZATION_POSITIONS[0].title_name;
-
-      case 2:
-        return ORGANIZATION_POSITIONS[1].title_name;
-
-      default:
-        return ORGANIZATION_POSITIONS[2].title_name;
-    }
-  };
-  useEffect(() => {
-    if (preferences) {
-      const organizations = [];
-
-      preferences.map((organization) => {
-        const newOrg = {
-          title: "Organization " + organization.position_id,
-          distributorId: organization.preferred_distributor_id,
-          distributorName: organization.preferred_distributor_name,
-          side: organizationSide(organization.preferred_position_id),
-          positionId: organization?.position_id,
-        };
-
-        organizations.push(newOrg);
-      });
-
-      setOrgs(organizations);
-    }
-  }, [preferences]);
-
-  function RenderOrganization({ organization, index }) {
+  const RenderOrganization = ({ organization }) => {
     return (
       <>
-        <WishFlexBox key={index} className="p-1 border onhover-shadow">
+        <WishFlexBox
+          key={organization.position_id}
+          className="p-1 border onhover-shadow"
+        >
           <div>
             <p>
-              <strong>{organization.title}</strong>
+              <strong>Organization {organization.position_id}</strong>
             </p>
             <p style={{ lineHeight: "1.5" }}>
-              Preferred Distributor ID: {organization.distributorId}
+              Preferred Distributor ID: {organization.preferred_distributor_id}
               <br />
-              Preferred Distributor Name: {organization.distributorName}
+              Preferred Distributor Name:{" "}
+              {organization.preferred_distributor_name}
               <br />
-              Preferred Side: {organization.side}
+              Preferred Side:{" "}
+              {
+                positions?.filter(
+                  (x) => x.id === organization.preferred_position_id
+                )[0].title
+              }
               <br />
             </p>
           </div>
@@ -92,7 +57,17 @@ export default function GenealogySettings() {
               e.preventDefault();
               e.stopPropagation();
 
-              setSelectedOrgIndex(index);
+              const preference = {
+                distributor_id: loggedInUser.distributor_id,
+                position_id: organization.position_id,
+                preferred_distributor_id: organization.preferred_distributor_id,
+                preferred_distributor_name:
+                  organization.preferred_distributor_name,
+                preferred_position_id: organization.preferred_position_id,
+              };
+
+              setSelectedOrganization(preference);
+
               AppUtils.showDialog("dlgEditPreference");
             }}
           >
@@ -102,49 +77,70 @@ export default function GenealogySettings() {
         <br />
       </>
     );
-  }
+  };
+
   return (
     <PageLayout {...pageConfig.mygenealogySettings}>
       <WishSimpleCard>
-        {orgs.map((organization, index) => {
-          return (
-            <RenderOrganization organization={organization} index={index} />
-          );
+        {(preferences ?? []).map((organization, index) => {
+          if (preferences && preferences.length > 0) {
+            return (
+              <RenderOrganization
+                organization={organization}
+                key={organization.position_id}
+              />
+            );
+          } else if (preferences && preferences.length === 0) {
+            <strong>No preferences found</strong>;
+          } else {
+            <LoadingNote />;
+          }
         })}
       </WishSimpleCard>
+
       <WishModal
         id="dlgEditPreference"
         title="Edit Preferences"
         finishTitle="Update"
         onFinish={() => {
-          const newPreferences = {
-            distributor_id: loggedInUser.distributor_id,
-            position_id: orgs[selectedOrgIndex]?.positionId,
-            preferred_distributor_id: orgs[selectedOrgIndex]?.distributorId,
-            preferred_distributor_name: orgs[selectedOrgIndex]?.distributorName,
-            preferred_position_id: newDistributorPosition,
-          };
-
-          savePreferences(newPreferences);
+          savePreferences(selectedOrganization ?? null);
         }}
       >
         <WishSingleLineText
           label="Preferred Distributor ID"
-          initialValue={orgs[selectedOrgIndex]?.distributorId}
-          placeholder="Preferred Distributor ID"
+          initialValue={selectedOrganization?.preferred_distributor_id}
+          onChange={(value) => {
+            setSelectedOrganization({
+              ...selectedOrganization,
+              preferred_distributor_id: value,
+            });
+          }}
         />
         <WishSingleLineText
           label="Preferred Distributor Name"
-          initialValue={orgs[selectedOrgIndex]?.distributorName}
-          placeholder="Preferred Distributor Name"
+          initialValue={selectedOrganization?.preferred_distributor_name}
+          onChange={(value) => {
+            setSelectedOrganization({
+              ...selectedOrganization,
+              preferred_distributor_name: value,
+            });
+          }}
         />
         <WishSelect
           label="Preferred Side"
-          data={ORGANIZATION_POSITIONS}
-          initialValue={orgs[selectedOrgIndex]?.id}
-          onSelect={setNewDistributorPosition}
+          data={positions ?? []}
+          dataValue="title"
+          initialValue={selectedOrganization?.preferred_position_id}
+          onSelect={(id) => {
+            setSelectedOrganization({
+              ...selectedOrganization,
+              preferred_position_id: id,
+            });
+          }}
         />
       </WishModal>
     </PageLayout>
   );
-}
+};
+
+export default GenealogySettings;

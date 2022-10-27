@@ -13,6 +13,7 @@ import "json-loader";
 import data from "../data/Data.json";
 import WishRankTimeline from "./WishTimelines/WishRankTimeline";
 import { useEffect } from "react";
+import WishToaster from "./WishToaster";
 
 export default function WishGeneologyTree({
   tree,
@@ -149,10 +150,13 @@ export default function WishGeneologyTree({
               e.stopPropagation();
               e.preventDefault();
 
-              onClicked(
-                node?.isActionNode ? node?.parentDistId : node?.distId,
-                node?.isActionNode
-              );
+              // onClicked(
+              //   node?.isActionNode && node?.isBerthEnabled
+              //     ? node?.parentDistId
+              //     : node?.distId,
+              //   node?.isActionNode && node?.isBerthEnabled
+              // );
+              handleNodeClick(node);
             }}
           >
             {node?.name}
@@ -314,6 +318,18 @@ export default function WishGeneologyTree({
     );
   };
 
+  const handleNodeClick = (clickedNode) => {
+    if (clickedNode.isActionNode) {
+      if (clickedNode.isBerthEnabled) {
+        onClicked(clickedNode?.parentDistId, clickedNode?.isActionNode);
+      } else {
+        WishToaster({ toastMessage: "Cannot add member in this position." });
+      }
+    } else {
+      onClicked(clickedNode?.distId, clickedNode?.isActionNode);
+    }
+  };
+
   return (
     <>
       <WishSimpleCard
@@ -360,12 +376,13 @@ export default function WishGeneologyTree({
                           // e.preventDefault();
                           // e.stopPropagation();
 
-                          onClicked(
-                            treenode?.isActionNode
-                              ? treenode?.parentDistId
-                              : treenode?.distId,
-                            treenode?.isActionNode
-                          );
+                          // onClicked(
+                          //   node?.isActionNode && node?.isBerthEnabled
+                          //     ? treenode?.parentDistId
+                          //     : treenode?.distId,
+                          //   node?.isActionNode && node?.isBerthEnabled
+                          // );
+                          handleNodeClick(treenode);
                         }}
                         details={treenode}
                         hide={treenode.hide}
@@ -385,12 +402,13 @@ export default function WishGeneologyTree({
                                   // e.preventDefault();
                                   // e.stopPropagation();
 
-                                  onClicked(
-                                    node?.isActionNode
-                                      ? node?.parentDistId
-                                      : node?.distId,
-                                    node?.isActionNode
-                                  );
+                                  // onClicked(
+                                  //   node?.isActionNode && node?.isBerthEnabled
+                                  //     ? node?.parentDistId
+                                  //     : node?.distId,
+                                  //   node?.isActionNode && node?.isBerthEnabled
+                                  // );
+                                  handleNodeClick(node);
                                 }}
                                 details={node}
                                 hide={node.hide}

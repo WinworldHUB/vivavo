@@ -4,23 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import WishFlexBox from "./WishFlexBox";
 import MediaQuery from "@kokojer/react-responsive";
 import useAuthentication from "../services/useAuthentication";
-import { SUCCESS, ERROR, NOTIFICATIONS_LIMIT } from "../services/Constants";
-import useNotificationModal from "./useNotificationModal";
-import NotificationModal from "../components/NotificationModal";
+import { NOTIFICATIONS_LIMIT } from "../services/Constants";
 import { useEffect } from "react";
 import useLocalStorage from "react-use-localstorage";
 import useMasters from "../services/useMasters";
 import { useState } from "react";
 import moment from "moment";
+import WishToaster from "../components/WishToaster";
 
 export default function PageTopMenu({ className = "", pageTitle = "" }) {
   const { loggedInUser, getNotifications } = useMasters();
   const navigateTo = useNavigate();
-  const [logoutResponse, logoutError, { logout }] = useAuthentication();
+  const { error, logout } = useAuthentication();
   const [distributor, setDistributor] = useLocalStorage("distributor", "");
   const [notifications, setNotifications] = useState([]);
-  const [showNotification, notificationMessage, { toggle, updateMessage }] =
-    useNotificationModal();
 
   useEffect(() => {
     if (loggedInUser) {
@@ -35,12 +32,18 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
     }
   }, [loggedInUser]);
 
+  // useEffect(() => {
+  //   if (logoutResponse) {
+  //     setDistributor("");
+  //     navigateTo("/signin");
+  //   }
+  // }, [logoutResponse]);
+
   useEffect(() => {
-    if (logoutResponse) {
-      setDistributor("");
-      navigateTo("/signin");
+    if (error) {
+      WishToaster({ toastMessage: error });
     }
-  }, [logoutResponse]);
+  }, [error]);
 
   const isNoficationValid = (notification) => {
     const dateFrom = new Date(notification?.valid_from);
@@ -64,7 +67,12 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
           isReadyToAuthenticate: true,
         };
 
-        logout(credentials);
+        logout(credentials, (logoutResponse) => {
+          if (logoutResponse) {
+            setDistributor("");
+            navigateTo("/signin");
+          }
+        });
       }
     }
   };
@@ -76,7 +84,7 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
           {notifications.map((notification) => {
             if (isNoficationValid(notification)) {
               return (
-                <li className="list-group-item py-0 px-2 trackable">
+                <li className="list-group-item py-0 px-2 trackable" key={notification.id}>
                   <WishFlexBox justifyContent="start">
                     <i className="las la-bell la-2x"></i>
                     <p className="pl-1 pt-1" style={{ lineHeight: "1.3" }}>
@@ -228,10 +236,6 @@ export default function PageTopMenu({ className = "", pageTitle = "" }) {
           </div>
         </div>
       </div>
-      <NotificationModal
-        isShowing={showNotification}
-        message={notificationMessage}
-      />
     </nav>
   );
 }

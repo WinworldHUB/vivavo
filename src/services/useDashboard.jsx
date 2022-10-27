@@ -1,17 +1,23 @@
+import { useEffect } from "react";
 import { useState } from "react";
-import APIUtils from "./APIUtils";
+import useAPIs from "./useAPIs";
+//import APIUtils from "./APIUtils";
 
 const useDashboard = (distributor) => {
+  const { apiError, postData } = useAPIs();
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    setError(apiError);
+  }, [apiError]);
+
   const getNotifications = (onSuccess) => {
-    APIUtils.postData(
+    postData(
       "/enrollment/fetch-dist-notification",
       { distributor_id: distributor.distributor_id },
       (data) => {
         onSuccess(data);
-      },
-      setError
+      }
     );
   };
 

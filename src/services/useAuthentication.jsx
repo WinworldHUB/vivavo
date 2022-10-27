@@ -1,8 +1,9 @@
 import _ from "lodash";
 import { useEffect } from "react";
 import { useState } from "react";
-import APIUtils from "./APIUtils";
-import { BASE_URL } from "./Constants";
+//import APIUtils from "./APIUtils";
+//import { BASE_URL } from "./Constants";
+import useAPIs from "./useAPIs";
 
 export const authenticationModel = {
   user_name: Number,
@@ -13,7 +14,6 @@ export const authenticationModel = {
   device_token: (String, ""),
   mplatform_id: (Number, 1),
   location: (String, ""),
-  isReadyToAuthenticate: (Boolean, false),
 };
 
 export const forgotPasswordModel = {
@@ -26,42 +26,46 @@ const useAuthentication = () => {
   //const authenticationAPIs = APIUtils.create();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
+  const { apiError, processing, postData } = useAPIs();
 
   useEffect(() => {
-    if (response || error) {
-      setLoading(false);
+    if (response) {
+      //setLoading(false);
     }
-  }, [response, error]);
+  }, [response]);
 
-  const login = (credentials = authenticationModel, onSuccess) => {
+  useEffect(() => {
+    setError(apiError);
+  }, [apiError]);
+
+  const login = (credentials = {}, onSuccess) => {
     const userCredentials = _.cloneDeep(authenticationModel);
     userCredentials.user_name = credentials.user_name;
     userCredentials.password = credentials.password;
-    userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
 
-    setLoading(true);
-    APIUtils.postData(
+    //setLoading(true);
+    postData(
       "/enrollment/login",
       userCredentials,
       (data) => {
         setResponse(data);
         onSuccess(data);
-      },
-      setError
+      }
+      //setError
     );
   };
 
   const forgotPassword = (changePasswordDetails, onSuccess) => {
-    setLoading(true);
-    APIUtils.postData(
+    //setLoading(true);
+    postData(
       "/enrollment/forgot-user-password",
       changePasswordDetails,
       (data) => {
         setResponse(data);
         onSuccess(data);
-      },
-      setError
+      }
+      //setError
     );
   };
 
@@ -70,36 +74,40 @@ const useAuthentication = () => {
     userCredentials.user_name = credentials.user_name;
     userCredentials.isReadyToAuthenticate = credentials.isReadyToAuthenticate;
 
-    setLoading(true);
-    APIUtils.postData(
+    //setLoading(true);
+    postData(
       "/enrollment/logout",
       userCredentials,
       (data) => {
         setResponse(data);
         onSuccess(data);
-      },
-      setError
+      }
+      //setError
     );
   };
 
-  const changePassword = (payload, onSuccess) => { 
-    setLoading(true);
-    APIUtils.postData(
+  const changePassword = (payload, onSuccess) => {
+    //setLoading(true);
+    postData(
       "/enrollment/change-user-password",
       payload,
       (data) => {
         setResponse(data);
         onSuccess(data);
-      },
-      setError
+      }
+      //setError
     );
-  }
+  };
 
-  return [
-    response,
+  return {
     error,
-    { login, forgotPassword, logout, loading, changePassword },
-  ];
+    response,
+    login,
+    forgotPassword,
+    logout,
+    processing,
+    changePassword,
+  };
 };
 
 export default useAuthentication;

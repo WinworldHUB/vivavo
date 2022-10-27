@@ -23,9 +23,6 @@ export default function Notifications() {
     const dateTo = new Date(notification?.valid_upto);
     const today = new Date();
 
-    console.log(dateFrom);
-    console.log(dateTo);
-
     return dateFrom <= today && today <= dateTo;
   };
 
@@ -38,7 +35,7 @@ export default function Notifications() {
               {notifications.map((notification) => {
                 if (isNoficationValid(notification)) {
                   return (
-                    <li className="list-group-item py-0 px-2 trackable">
+                    <li className="list-group-item py-0 px-2 pt-1 trackable" key={notification.id}>
                       <WishFlexBox>
                         <p>
                           <i className="las la-bell la-2x"></i>
