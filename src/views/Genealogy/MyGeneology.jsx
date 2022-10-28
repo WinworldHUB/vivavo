@@ -738,19 +738,22 @@ export default function MyGeneology() {
             )}
 
             {placementPositions && (
-              <WishButtonGroup
-                selectedIndex={selectedPositionIndex}
-                onSelect={(index) => {
-                  setSelectedPositionIndex(index);
-                  const newPosition = _.cloneDeep(selectedPosition);
+              <>
+                <h5 className="pt-2">Select appropriate position below:</h5>
+                <WishButtonGroup
+                  selectedIndex={selectedPositionIndex}
+                  onSelect={(index) => {
+                    setSelectedPositionIndex(index);
+                    const newPosition = _.cloneDeep(selectedPosition);
 
-                  newPosition.placement_position_id =
-                    placementPositions[index].position_id;
+                    newPosition.placement_position_id =
+                      placementPositions[index].position_id;
 
-                  setSelectedPosition(newPosition);
-                }}
-                buttons={placementPositions.map((x) => x.position_title)}
-              />
+                    setSelectedPosition(newPosition);
+                  }}
+                  buttons={placementPositions.map((x) => x.position_title)}
+                />
+              </>
             )}
           </>
         )}
