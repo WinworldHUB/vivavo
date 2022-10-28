@@ -167,9 +167,10 @@ const useGenealogy = (loggedInUserId) => {
         if (currentNodeProperties) {
           const { distId, name, activityStatus, achievedRankId } =
             currentNodeProperties;
-          const foundRank = ranks.filter(
-            (x) => parseInt(x.id) === parseInt(achievedRankId)
-          )[0];
+          const foundRank =
+            ranks.filter(
+              (x) => parseInt(x.id) === parseInt(achievedRankId)
+            )[0] ?? "Independent Distributor";
           const rankBadgeImage = foundRank.title + ".png";
 
           const newNode = _.clone(treeNode);
@@ -211,7 +212,7 @@ const useGenealogy = (loggedInUserId) => {
     }
   };
 
-  const getPendingEnrolleesFor = (distributorId, placement_distributor_id) => {
+  const getPendingEnrolleesFor = (distributorId, placement_distributor_id, onSuccess) => {
     setLoading(true);
     postData(
       "/enrollment/fetch-pending-enrollee-list",
@@ -221,8 +222,9 @@ const useGenealogy = (loggedInUserId) => {
       },
       (enrolleesList) => {
         //resetError();
+        onSuccess(enrolleesList);
         console.log(enrolleesList);
-        setPendingEnrolleesList(enrolleesList);
+        setPendingEnrolleesList(enrolleesList);        
       }
     );
 

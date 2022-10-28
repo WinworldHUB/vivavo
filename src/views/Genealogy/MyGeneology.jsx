@@ -91,6 +91,8 @@ export default function MyGeneology() {
 
   const [selectedEnrolleeIndex, setSelectedEnrolleeIndex] = useState(null);
 
+  const [pageError, setError] = useState(null);
+
   const WORDS = [
     "First",
     "Second",
@@ -191,13 +193,16 @@ export default function MyGeneology() {
   }, [treeData]);
 
   useEffect(() => {
-    if (genealogyError) {
+    setError(genealogyError);
+  }, [genealogyError]);
+
+  useEffect(() => {
+    if (pageError) {
       WishToaster({
-        toastMessage: genealogyError,
-        toastType: "error",
+        toastMessage: pageError,
       });
     }
-  }, [genealogyError]);
+  }, [pageError]);
 
   useEffect(() => {
     if (distributorMemberStats) {
@@ -434,20 +439,39 @@ export default function MyGeneology() {
                   setSelectedDistributor(distributorId);
                 } else {
                   if (distributor !== "") {
-                    const distributorFromLocalStorage = JSON.parse(distributor);
+                    // const distributorFromLocalStorage = JSON.parse(distributor);
                     getPendingEnrolleesFor(
-                      distributorFromLocalStorage.distributor_id,
-                      distributorId
-                    );
-                    setSelectedNodeParentId(distributorId);
-                    const newPosition = _.cloneDeep(placementStructure);
-                    newPosition.dist_temp_id = -1;
-                    newPosition.placement_position_id = -1;
+                      loggedInUser.distributor_id,
+                      distributorId,
+                      (pendingEnrolleesListData) => {
+                        if (
+                          pendingEnrolleesListData &&
+                          pendingEnrolleesListData.length > 0
+                        ) {
+                          setSelectedNodeParentId(distributorId);
+                          const newPosition = _.cloneDeep(placementStructure);
+                          newPosition.dist_temp_id = -1;
+                          newPosition.placement_position_id = -1;
 
-                    setSelectedPosition(newPosition);
-                    setSelectedPositionIndex(null);
-                    setSelectedEnrolleeIndex(null);
-                    AppUtils.showDialog("dlgEnroll");
+                          setSelectedPosition(newPosition);
+                          setSelectedPositionIndex(null);
+                          setSelectedEnrolleeIndex(null);
+                          AppUtils.showDialog("dlgEnroll");
+                        } else {
+                          setError("No pending enrollees found.");
+                          return;
+                        }
+                      }
+                    );
+                    // setSelectedNodeParentId(distributorId);
+                    // const newPosition = _.cloneDeep(placementStructure);
+                    // newPosition.dist_temp_id = -1;
+                    // newPosition.placement_position_id = -1;
+
+                    // setSelectedPosition(newPosition);
+                    // setSelectedPositionIndex(null);
+                    // setSelectedEnrolleeIndex(null);
+                    // AppUtils.showDialog("dlgEnroll");
                   }
                 }
               }}
