@@ -211,6 +211,13 @@ export default function MyGeneology() {
     }
   }, [distributorMemberStats]);
 
+  useEffect(() => {
+    if (placementPositions) {
+      console.clear();
+      console.log(placementPositions);
+    }
+  }, [placementPositions]);
+
   const showAll = function () {
     applyFilter(false);
     setSelectedNode(data.treeData);

@@ -127,7 +127,7 @@ export const TreeUtils = {
           (x) => x.parentDistId === element.distId
         );
 
-        if (secondLevelNodes.length < 2) {
+        if (secondLevelNodes.length < 1) {
           output.root.nodes[index].nodes = [];
           output.root.nodes[index].nodes.push(
             this.generateActionNodeFor(element.distId),

@@ -212,8 +212,14 @@ const useGenealogy = (loggedInUserId) => {
     }
   };
 
-  const getPendingEnrolleesFor = (distributorId, placement_distributor_id, onSuccess) => {
+  const getPendingEnrolleesFor = (
+    distributorId,
+    placement_distributor_id,
+    onSuccess
+  ) => {
     setLoading(true);
+    setPendingEnrolleesList(null);
+    setPlacementPositions(null);
     postData(
       "/enrollment/fetch-pending-enrollee-list",
       {
@@ -221,22 +227,21 @@ const useGenealogy = (loggedInUserId) => {
         section_level: 5,
       },
       (enrolleesList) => {
+        postData(
+          "/enrollment/fetch-available-position",
+          {
+            placement_distributor_id: placement_distributor_id,
+          },
+          (positionsList) => {
+            //resetError();
+            console.log(positionsList);
+            setPlacementPositions(Array.from(positionsList.valid_position_ist));
+            onSuccess(enrolleesList, positionsList);
+            console.log(enrolleesList);
+            setPendingEnrolleesList(enrolleesList);
+          }
+        );
         //resetError();
-        onSuccess(enrolleesList);
-        console.log(enrolleesList);
-        setPendingEnrolleesList(enrolleesList);        
-      }
-    );
-
-    postData(
-      "/enrollment/fetch-available-position",
-      {
-        placement_distributor_id: placement_distributor_id,
-      },
-      (positionsList) => {
-        //resetError();
-        console.log(positionsList);
-        setPlacementPositions(Array.from(positionsList.valid_position_ist));
       }
     );
   };
