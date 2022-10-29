@@ -301,7 +301,7 @@ export default function WishGeneologyTree({
             {ranks &&
               ranks.map((rank, index) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>{rank.title}</td>
                     <td className="text-center">
                       {rank.completed && Math.round(Math.random() * 10)}

@@ -22,34 +22,6 @@ export const TreeUtils = {
     }
   },
 
-  processNodeRelations1: (nodeEdges = []) => {
-    if (nodeEdges && nodeEdges.length > 0) {
-      console.log(nodeEdges.map((x) => x.relation.toLowerCase()));
-      if (
-        !nodeEdges.some((x) =>
-          NODE_POSITIONS.includes(x.relation.toLowerCase())
-        )
-      ) {
-        return 0;
-      } else {
-        const buttonPosition = nodeEdges.findIndex(
-          (x) => x.relation.toLowerCase() === NODE_POSITIONS[0]
-        );
-
-        if (buttonPosition > -1) {
-          console.log("Place button on right");
-          return 2;
-        } else {
-          console.log("Place button on left");
-          return 1;
-        }
-      }
-    } else {
-      console.log("3 buttons required");
-      return 3;
-    }
-  },
-
   prepareTree: function (nodesArray = []) {
     console.log(nodesArray);
 
@@ -70,10 +42,11 @@ export const TreeUtils = {
       return output;
     }
 
-    const firstLevelNodes = nodesArray.filter(
-      (x) => x.parentDistId === output.root.distId
-    );
-
+    const firstLevelNodes = nodesArray
+      .filter((x) => x.parentDistId === output.root.distId)
+      .sort((a, b) => {
+        return a.relationId - b.relationId;
+      }).reverse();
     console.log("First Level Nodes");
     console.log(firstLevelNodes);
 
@@ -119,14 +92,23 @@ export const TreeUtils = {
 
     output.root.nodes = _.cloneDeep(firstLevelNodes);
 
-    for (let index = 0; index < output.root.nodes.length; index++) {
-      const element = output.root.nodes[index];
+    // for (let index = 0; index < output.root.nodes.length; index++) {
+    //   const element = output.root.nodes[index];
 
+    // }
+
+    let index = 0;
+    for (const element of output.root.nodes) {
       if (!element.isActionNode) {
-        const secondLevelNodes = nodesArray.filter(
-          (x) => x.parentDistId === element.distId
-        );
+        const secondLevelNodes = nodesArray
+          .filter((x) => x.parentDistId === element.distId)
+          .sort((a, b) => {
+            return a.relationId - b.relationId;
+          });
 
+        console.log("Second Level Nodes");
+        console.log(secondLevelNodes);
+        
         if (secondLevelNodes.length < 1) {
           output.root.nodes[index].nodes = [];
           output.root.nodes[index].nodes.push(
@@ -137,10 +119,8 @@ export const TreeUtils = {
             this.generateActionNodeFor(element.distId)
           );
         } else {
-          console.log("Second Level Nodes");
-          console.log(secondLevelNodes);
 
-          var totalActionButtons = this.processNodeRelations(secondLevelNodes);
+          const totalActionButtons = this.processNodeRelations(secondLevelNodes);
 
           switch (totalActionButtons) {
             case 1:
@@ -184,6 +164,8 @@ export const TreeUtils = {
           output.root.nodes[index].nodes = _.cloneDeep(secondLevelNodes);
         }
       }
+
+      index++;
     }
 
     return output;

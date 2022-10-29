@@ -26,6 +26,7 @@ export const treeNode = {
   selected: (Boolean, false),
   isBerthEnabled: (Boolean, false),
   relation: (String, ""),
+  relationId: (Number, 0),
   position: (Number, 0),
 };
 
@@ -51,6 +52,7 @@ export const actionNode = {
   selected: false,
   isBerthEnabled: false,
   relation: "",
+  relationId: 0,
   position: 0,
 };
 
@@ -184,12 +186,16 @@ const useGenealogy = (loggedInUserId) => {
           newNode.achievedRankId = achievedRankId;
           newNode.rankBadge = rankBadgeImage;
           newNode.isRoot = currentNodeEdges.length === 0;
-          newNode.relation =
-            currentNodeEdges && currentNodeEdges.length > 0
-              ? currentNodeEdges.length > 1
-                ? currentNodeEdges[1].relation
-                : currentNodeEdges[0].relation
-              : "";
+          const edgeToConsider =
+            currentNodeEdges.length > 0
+              ? currentNodeEdges[currentNodeEdges.length - 1]
+              : null;
+
+          newNode.relation = edgeToConsider ? edgeToConsider.relation : "";
+          newNode.relationId = edgeToConsider
+            ? edgeToConsider.properties.relation_id
+            : 0;
+
           newNode.position = 0;
 
           if (currentNodeEdges.length > 0) {
