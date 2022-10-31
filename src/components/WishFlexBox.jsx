@@ -4,12 +4,15 @@ export default function WishFlexBox({
   children,
   className = "",
   justifyContent = "between",
+  alignItems = "center",
 }) {
   return (
     <div
       className={
-        "d-flex align-items-center justify-content-" +
+        "d-flex justify-content-" +
         justifyContent +
+        " align-items-" +
+        alignItems +
         " " +
         className
       }

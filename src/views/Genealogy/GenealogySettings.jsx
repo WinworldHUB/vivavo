@@ -46,7 +46,7 @@ const GenealogySettings = () => {
               {
                 positions?.filter(
                   (x) => x.id === organization.preferred_position_id
-                )[0].title
+                )[0].title_name
               }
               <br />
             </p>
@@ -129,7 +129,7 @@ const GenealogySettings = () => {
         <WishSelect
           label="Preferred Side"
           data={positions ?? []}
-          dataValue="title"
+          //dataValue="title"
           initialValue={selectedOrganization?.preferred_position_id}
           onSelect={(id) => {
             setSelectedOrganization({

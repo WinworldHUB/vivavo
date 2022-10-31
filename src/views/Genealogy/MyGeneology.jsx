@@ -114,9 +114,9 @@ export default function MyGeneology() {
     datasets: [
       {
         data: [
-          distributorMemberStats?.Active,
-          distributorMemberStats?.Inactive,
-          distributorMemberStats?.Others,
+          distributorMemberStats?.Active ?? 0,
+          distributorMemberStats?.Inactive ?? 0,
+          distributorMemberStats?.Others ?? 0,
         ],
         backgroundColor: ["green", "orange", "red"],
         borderColor: ["green", "orange", "red"],
@@ -286,10 +286,10 @@ export default function MyGeneology() {
           onClick={() => {
             if (loggedInUser?.distributor_id) {
               setSelectedDistributor(loggedInUser.distributor_id);
-              // getTreeData({
-              //   distributor_id: selectedDistributor,
-              //   depth: 2,
-              // });
+              getTreeData({
+                distributor_id: selectedDistributor,
+                depth: 2,
+              });
             }
           }}
         >
@@ -588,16 +588,21 @@ export default function MyGeneology() {
                       width: "200px",
                     }}
                   >
-                    {!distributorMemberStats ? (
-                      <LoadingNote />
-                    ) : (
+                    {distributorMemberStats ? (
                       <Doughnut
                         id="dgTeamMemberStatus"
                         data={data}
                         options={options}
-                        plugins={distributorMemberStats ? [plugin] : []}
+                        plugins={
+                          distributorMemberStats &&
+                          distributorMemberStats?.Active
+                            ? [plugin]
+                            : []
+                        }
                         //ref={doughnutRef}
                       />
+                    ) : (
+                      <LoadingNote />
                     )}
                   </div>
                 </div>

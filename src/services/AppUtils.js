@@ -18,6 +18,16 @@ export const AppUtils = {
     return null;
   },
 
+  getFormDataWithFormObject: function (form) {
+    //var formEl = document.getElementById(formId);
+
+    if (form) {
+      return new FormData(form);
+    }
+
+    return null;
+  },
+
   createFormData: function (object) {
     const formData = new FormData();
     Object.keys(object).forEach((key) => formData.append(key, object[key]));

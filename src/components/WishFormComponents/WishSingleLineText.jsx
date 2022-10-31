@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const WishSingleLineText = ({
@@ -77,7 +75,7 @@ const WishSingleLineText = ({
             setElValue(e.target.value);
             onChange && onChange(e.target.value);
           }}
-          onBlur={onBlurred}
+          onBlur={() => onBlurred(elValue)}
           {...additionalAttributes()}
           //ref={customRef}
         />

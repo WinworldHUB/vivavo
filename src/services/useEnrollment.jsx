@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import APIUtils from "./APIUtils";
-import { AppUtils } from "./AppUtils";
+import { useState, useEffect } from "react";
+import { AppUtils } from "../services/AppUtils";
+import useAPIs from "./useAPIs";
 
 export const PersonalDetails = {
   distributor_id: Number,
@@ -92,6 +91,14 @@ export const CoAppDetails = {
 };
 
 const useEnrollment = (distributorId) => {
+  const {
+    apiError,
+    processing,
+    postData,
+    postFormData,
+    getData,
+    getExternalData,
+  } = useAPIs();
   const [enrollmentMasterData, setEnrollmentMasterData] = useState(null);
   const [enrollmentError, setError] = useState(null);
   const [enrollmentLoading, setLoading] = useState(false);
@@ -100,47 +107,46 @@ const useEnrollment = (distributorId) => {
   const [tempDistId, setTempDistId] = useState("");
 
   useEffect(() => {
-    if (distributorId) {
-      setLoading(true);
-      // Load all init data here
-      APIUtils.getData(
-        "/enrollment/fetch-enrolment-form-master-data",
-        (data) => {
-          setLoading(false);
-          setEnrollmentMasterData(data);
-        },
-        setError
-      );
+    setError(apiError);
+  }, [apiError]);
 
-      APIUtils.postData(
-        "/enrollment/fetch-pending-enrollee-list",
-        {
-          distributor_id: distributorId.distributor_id,
-          section_level: null,
-        },
-        setPendingEnrollments,
-        setError
-      );
+  useEffect(() => {
+    setLoading(processing);
+  }, [processing]);
+
+  useEffect(() => {
+    if (distributorId) {
+      //setLoading(true);
+      // Load all init data here
+      getData("/enrollment/fetch-enrolment-form-master-data", (data) => {
+        //setLoading(false);
+        setEnrollmentMasterData(data);
+      });
+
+      // postData(
+      //   "/enrollment/fetch-pending-enrollee-list",
+      //   {
+      //     distributor_id: distributorId.distributor_id,
+      //     section_level: null,
+      //   },
+      //   setPendingEnrollments
+      // );
     }
   }, [distributorId]);
 
   useEffect(() => {
     if (enrollmentError) {
-      setLoading(false);
+      //setLoading(false);
     }
   }, [enrollmentError]);
 
   const getLocationDetails = (pincode, onSuccess) => {
-    setLoading(true);
-    APIUtils.getData(
-      `/sales/location/list/${pincode}`,
-      (locationDetails) => {
-        setLoading(false);
-        setLocationDetaills(locationDetails);
-        onSuccess(locationDetails);
-      },
-      setError
-    );
+    //setLoading(true);
+    getData(`/sales/location/list/${pincode}`, (locationDetails) => {
+      //setLoading(false);
+      setLocationDetaills(locationDetails);
+      onSuccess(locationDetails);
+    });
   };
 
   const saveEnrolleeDetails = (pageNumber, payload, onSuccess) => {
@@ -163,7 +169,7 @@ const useEnrollment = (distributorId) => {
 
     const formData = AppUtils.createFormData(payload);
     //alert(personalDetailsFormData.get("marital_status_id"));
-    APIUtils.postFormData(
+    postFormData(
       `/enrollment/store-temp-${pages[pageNumber]}`,
       formData,
       (data) => {
@@ -173,45 +179,37 @@ const useEnrollment = (distributorId) => {
         }
 
         onSuccess(data);
-      },
-      setError
+      }
     );
   };
 
   const getBankBranchDetails = (ifscCode, onSuccess) => {
-    APIUtils.getExternalData(
-      `https://ifsc.razorpay.com/${ifscCode}`,
-      (data) => {
-        onSuccess(data);
-      },
-      setError
-    );
+    getExternalData(`https://ifsc.razorpay.com/${ifscCode}`, (data) => {
+      onSuccess(data);
+    });
   };
 
   const getCoAppRelationships = (genderId, maritialStatusId, onSuccess) => {
-    APIUtils.getData(
+    getData(
       `/enrollment/fetch-coapp-relationships-list?gender_id=${genderId}&marital_status_id=${maritialStatusId}`,
       (data) => {
         onSuccess(data);
-      },
-      setError
+      }
     );
   };
 
-  return [
+  return {
     enrollmentError,
     enrollmentLoading,
-    {
-      enrollmentMasterData,
-      getLocationDetails,
-      locationDetails,
-      pendingEnrollments,
-      saveEnrolleeDetails,
-      tempDistId,
-      getBankBranchDetails,
-      getCoAppRelationships,
-    },
-  ];
+    enrollmentMasterData,
+    getLocationDetails,
+    locationDetails,
+    pendingEnrollments,
+    saveEnrolleeDetails,
+    tempDistId,
+    getBankBranchDetails,
+    getCoAppRelationships,
+  };
 };
 
 export default useEnrollment;

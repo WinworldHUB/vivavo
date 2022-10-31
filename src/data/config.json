@@ -1,4 +1,15 @@
 {
+  "enrollUser": {
+    "activeSideMenu": "3",
+    "pageTitle": "Enroll New User",
+    "header": "Enroll User",
+    "extendedHeader": false,
+    "breadcrumbs": [
+      { "title": "Home", "linkTo": "/" },
+      { "title": "Enrollment", "linkTo": "/enrollment" },
+      { "title": "Enroll User", "linkTo": "" }
+    ]
+  },
   "mygenealogy": {
     "activeSideMenu": "4",
     "pageTitle": "My Genealogy",

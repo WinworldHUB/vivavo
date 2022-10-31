@@ -5,6 +5,7 @@ export default function WishDateControl({
   initialValue = "",
   placeholder = "",
   required = false,
+  onChange,
 }) {
   const elementId = "txt" + label.replace(" ", "");
 
@@ -34,6 +35,9 @@ export default function WishDateControl({
           data-placement="top"
           data-title="Date of birth"
           defaultValue={initialValue}
+          onChange={(e) => {
+            onChange && onChange(e.target.value);
+          }}
           {...additionalAttributes()}
         />
       </div>

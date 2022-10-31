@@ -14,7 +14,7 @@ export const TreeUtils = {
     } else if (childNodes.length === 0) {
       return 3;
     } else {
-      if (childNodes[0].relation.toLowerCase() !== NODE_POSITIONS[0]) {
+      if (childNodes[0].relationId === 1) {
         return 1;
       } else {
         return 2;
@@ -104,7 +104,7 @@ export const TreeUtils = {
           .filter((x) => x.parentDistId === element.distId)
           .sort((a, b) => {
             return a.relationId - b.relationId;
-          });
+          }).reverse();
 
         console.log("Second Level Nodes");
         console.log(secondLevelNodes);

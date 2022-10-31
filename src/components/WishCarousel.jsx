@@ -14,17 +14,26 @@ export default function WishCarousel({
   headers,
   showArrows = false,
   showNextPrev = true,
+  onNextClicked,
+  onPreviousClicked,
+  onPageChange,
 }) {
   const currentPageIndex =
     selectedPageIndex === undefined ? 0 : selectedPageIndex;
 
   const totalPages = children === undefined ? 0 : children.length;
 
+  const [previousPage, setPreviousPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(currentPageIndex);
 
   useEffect(() => {
     setCurrentPage(selectedPageIndex);
   }, [selectedPageIndex]);
+
+  useEffect(() => {
+    onPageChange && onPageChange(previousPage, currentPage);
+    setPreviousPage(currentPage);
+  }, [currentPage]);
 
   const calcHeader = function () {
     var value = null;
@@ -56,11 +65,16 @@ export default function WishCarousel({
       <>
         <a
           className={
-            "card-link link-dotted mr-auto d-flex align-items-center " +
+            "card-link lead link-dotted mr-auto d-flex align-items-center text-primary " +
             (currentPage === 0 ? " hidden " : " ")
           }
           onClick={(e) => {
             e.stopPropagation();
+            if (onPreviousClicked) {
+              onPreviousClicked(currentPage);
+              return;
+            }
+
             if (currentPage > 0) setCurrentPage(currentPage - 1);
           }}
         >
@@ -69,11 +83,16 @@ export default function WishCarousel({
         </a>
         <a
           className={
-            "card-link link-dotted ml-auto d-flex align-items-center " +
+            "card-link lead link-dotted ml-auto d-flex align-items-center text-primary " +
             (currentPage === totalPages - 1 ? " hidden " : "")
           }
           onClick={(e) => {
             e.stopPropagation();
+            if (onNextClicked) {
+              onNextClicked(currentPage);
+              return;
+            }
+
             if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
           }}
         >

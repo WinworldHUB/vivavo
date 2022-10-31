@@ -141,15 +141,17 @@ const useGenealogy = (loggedInUserId) => {
 
   const getTreeData = (payload, direction = null) => {
     setLoading(true);
+    setGenealogyData(null);
     postData(
       direction
         ? `/enrollment/${direction}`
         : "/enrollment/load-geneology-redis",
       payload,
       (apiData) => {
-        //resetError();
-        setGenealogyData(Array.from(apiData));
-        fetchDistributorDetails(payload.distributor_id);
+        const receivedData = Array.from(apiData);
+        console.log(receivedData);
+        setGenealogyData(receivedData);
+        fetchDistributorDetails(receivedData[0]._values[0].properties.distId);
       }
     );
   };

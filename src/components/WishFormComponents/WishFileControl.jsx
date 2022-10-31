@@ -14,6 +14,7 @@ const WishFileControl = ({
   readonly = false,
   onChange,
   id,
+  filter,
 }) => {
   const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
   const [elValue, setElValue] = useState(initialValue ?? label);
@@ -30,6 +31,10 @@ const WishFileControl = ({
 
     if (readonly) {
       opts["readOnly"] = "readOnly";
+    }
+
+    if (filter) {
+      opts["accept"] = filter
     }
 
     return opts;
