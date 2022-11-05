@@ -142,19 +142,19 @@ export default function MyGeneology() {
       ctx.font = "22px comfortaa";
       ctx.fillStyle = "grey";
 
-      var line1 = distributorMemberStats?.Active ?? 0,
+      let line1 = distributorMemberStats?.Active ?? 0,
         line1X = Math.round((chart.width - ctx.measureText(line1).width) / 2),
         line1Y = chart.height / 2 - 25;
       ctx.fillText(line1, line1X, line1Y + 2);
 
       ctx.font = "14px comfortaa";
-      var line2 = "Active members",
+      let line2 = "Active members",
         line2X = Math.round((chart.width - ctx.measureText(line2).width) / 2),
         line2Y = chart.height / 2;
       ctx.fillText(line2, line2X, line2Y + 2);
 
       ctx.font = "14px comfortaa";
-      var line3 =
+      let line3 =
           "of " +
           (parseInt(distributorMemberStats?.Active) +
             parseInt(distributorMemberStats?.Inactive) +
@@ -286,10 +286,10 @@ export default function MyGeneology() {
           onClick={() => {
             if (loggedInUser?.distributor_id) {
               setSelectedDistributor(loggedInUser.distributor_id);
-              getTreeData({
-                distributor_id: selectedDistributor,
-                depth: 2,
-              });
+              // getTreeData({
+              //   distributor_id: selectedDistributor,
+              //   depth: 2,
+              // });
             }
           }}
         >
@@ -306,14 +306,6 @@ export default function MyGeneology() {
           <i className="las la-search"></i>&nbsp;Search
         </button>
         &nbsp;&nbsp;
-        {/* <a
-          className="d-flex align-items-center"
-          onClick={() => {
-            setIsRotated(!isRotated);
-          }}
-        >
-          <i className="las la-sync"></i>&nbsp;Rotate
-        </a> */}
         <button
           className="d-flex align-items-center btn btn-primary btn-sm shadow"
           data-toggle="dropdown"

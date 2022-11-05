@@ -41,9 +41,21 @@ const BasicDetailsForm = {
   "GST Number": (String, ""),
 };
 
+const ContactDetailsForm = {
+  "Phone Number": (String, ""),
+  "Email Address": (String, ""),
+  "Address Line 1": (String, ""),
+  "Address Line 2": (String, ""),
+  Pincode: (String, ""),
+  SameCA: (Boolean, true),
+  "CA Address Line 1": (String, ""),
+  "CA Address Line 2": (String, ""),
+  CAPincode: (String, ""),
+};
+
 const initialEnrollmentDetails = {
   basicDetails: _.cloneDeep(BasicDetailsForm),
-  contactDetails: _.cloneDeep(ContactDetails),
+  contactDetails: _.cloneDeep(ContactDetailsForm),
   bankDetails: _.cloneDeep(BankDetails),
   coApplicantDetails: _.cloneDeep(CoAppDetails),
 };
@@ -76,6 +88,9 @@ const EnrollUser = () => {
   );
   const [personalDetails, updatePersonalDetails] = useState(
     initialEnrollmentDetails.basicDetails
+  );
+  const [contactDetails, updateContactDetails] = useState(
+    initialEnrollmentDetails.contactDetails
   );
   const [isSameAddress, setIsSameAddress] = useState(true);
   const { loggedInUser } = useMasters();
@@ -204,10 +219,80 @@ const EnrollUser = () => {
                 setPageError
               ));
 
+          pageIsValid =
+            pageIsValid &&
+            (!ValidationUtils.isEmpty(
+              personalDetails["PAN Number"],
+              "Kindly enter a valid PAN Number",
+              () => {}
+            ) ||
+              ValidationUtils.isValid(
+                personalDetails["PAN Number"],
+                "[A-Z]{5}[0-9]{4}[A-Z]{1}",
+                "Kindly enter a valid PAN Number",
+                setPageError
+              ));
+
+          pageIsValid =
+            pageIsValid &&
+            (!ValidationUtils.isEmpty(
+              personalDetails["GST Number"],
+              "Kindly enter a valid GST Number",
+              () => {}
+            ) ||
+              ValidationUtils.isValid(
+                personalDetails["GST Number"],
+                "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$",
+                "Kindly enter a valid GST Number",
+                setPageError
+              ));
+
           break;
 
         case 1:
-          pageIsValid = true;
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              contactDetails["Phone Number"],
+              "Kindly enter a valid Mobile Number",
+              setPageError
+            ) &&
+            ValidationUtils.isValid(
+              contactDetails["Phone Number"],
+              "^[0-9]{10}$",
+              "Kindly enter a valid Mobile Number",
+              setPageError
+            );
+          
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              contactDetails["Email Address"],
+              "Kindly enter a valid Email Address",
+              setPageError
+            ) &&
+            ValidationUtils.isValid(
+              contactDetails["Email Address"],
+              "^[w-.]+@([w-]+.)+[w-]{2,4}$",
+              "Kindly enter a valid Email Address",
+              setPageError
+            );
+          
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              contactDetails.Pincode,
+              "Kindly enter a valid Pincode",
+              setPageError
+            ) &&
+            ValidationUtils.isValid(
+              contactDetails.Pincode,
+              "^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$",
+              "Kindly enter a valid Pincode",
+              setPageError
+            );
+
+          
           break;
 
         case 2:
@@ -373,12 +458,40 @@ const EnrollUser = () => {
           setIsPageDirty(true);
         }}
       >
-        <WishSingleLineText label="Full Name" readonly />
-        <WishSingleLineText label="Mobile Number" />
-        <WishSingleLineText label="Email Address" />
+        <WishSingleLineText
+          label="Full Name"
+          readonly
+          initialValue={`${personalDetails["First Name"]} ${personalDetails["Last Name"]}`}
+        />
+        <WishSingleLineText
+          label="Mobile Number"
+          initialValue={contactDetails["Phone Number"]}
+          onChange={(newValue) => {
+            contactDetails["Phone Number"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Email Address"
+          initialValue={contactDetails["Email Address"]}
+          onChange={(newValue) => {
+            contactDetails["Email Address"] = newValue;
+          }}
+        />
         <WishFormSection title="Permanent Address" />
-        <WishSingleLineText label="Address Line 1" />
-        <WishSingleLineText label="Address Line 2" />
+        <WishSingleLineText
+          label="Address Line 1"
+          initialValue={contactDetails["Address Line 1"]}
+          onChange={(newValue) => {
+            contactDetails["Address Line 1"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Address Line 2"
+          initialValue={contactDetails["Address Line 2"]}
+          onChange={(newValue) => {
+            contactDetails["Address Line 2"] = newValue;
+          }}
+        />
         <WishSingleLineText
           label="Pincode"
           onBlurred={(value) => {
@@ -387,6 +500,10 @@ const EnrollUser = () => {
                 console.log(locationDetails);
               });
             }
+          }}
+          initialValue={contactDetails.Pincode}
+          onChange={(newValue) => {
+            contactDetails.Pincode = newValue;
           }}
         />
         <WishFormSection

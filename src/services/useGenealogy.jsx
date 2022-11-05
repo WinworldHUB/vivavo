@@ -71,6 +71,8 @@ const useGenealogy = (loggedInUserId) => {
   const [distributorGVStats, setDistributorGVStats] = useState(null);
   const [distributorMemberStats, setDistributorMemberStats] = useState(null);
 
+  const [loadedRootNode, setLoadedRootNode] = useState(null);
+
   useEffect(() => {
     setLoading(false);
     setError(apiError);
