@@ -17,6 +17,7 @@ export default function WishCarousel({
   onNextClicked,
   onPreviousClicked,
   onPageChange,
+  onPageLoad,
 }) {
   const currentPageIndex =
     selectedPageIndex === undefined ? 0 : selectedPageIndex;
@@ -33,6 +34,7 @@ export default function WishCarousel({
   useEffect(() => {
     onPageChange && onPageChange(previousPage, currentPage);
     setPreviousPage(currentPage);
+    onPageLoad && onPageLoad(currentPage);
   }, [currentPage]);
 
   const calcHeader = function () {

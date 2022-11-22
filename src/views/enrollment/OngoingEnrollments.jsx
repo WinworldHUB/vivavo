@@ -22,8 +22,14 @@ export default function OngoingEnrollments() {
   ];
 
   const { loggedInUser } = useMasters();
-  const [enrollmentError, enrollmentLoading, { pendingEnrollments }] =
+  const { getPendingEnrolleeList, pendingEnrollments, enrollmentError } =
     useEnrollment(loggedInUser);
+  
+  useEffect(() => { 
+    if (loggedInUser) {
+      getPendingEnrolleeList(loggedInUser?.distributor_id);
+    }
+  }, [loggedInUser]);
 
   // progresses.push({
   //   progress: ["Personal Details", "Contact Details", "Bank Details"],

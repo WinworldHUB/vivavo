@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function WishModal({

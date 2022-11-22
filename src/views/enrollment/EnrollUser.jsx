@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import PageLayout from "../../components/PageLayout";
 import pageConfig from "../../data/config.json";
 import WishCarousel from "../../components/WishCarousel";
@@ -21,8 +21,12 @@ import WishFormSection from "../../components/WishFormComponents/WishFormSection
 import WishFlexBox from "../../components/WishFlexBox";
 import WishCheckBox from "../../components/WishFormComponents/WishCheckBox";
 import WishPreviewSection from "../../components/WishPreviewSection";
+import WishModal from "../../components/WishModal";
+import WishColoredBar from "../../components/WishColoredBar";
 import { AppUtils } from "../../services/AppUtils";
 import { ValidationUtils } from "../../services/ValidationUtils";
+import { GST_DECLARATION, PAN_DECLARATION } from "../../services/Constants";
+import WishDialog from "../../components/WishDialog";
 
 const BasicDetailsForm = {
   Title: { id: 1, title_name: "Mr." },
@@ -35,29 +39,64 @@ const BasicDetailsForm = {
   Profession: { id: 1, title_name: "Mr." },
   "Monthly Income": { id: 1, title_name: "Mr." },
   "Aadhar Number": (String, ""),
-  "Aadhar Document": (String, ""),
+  "Aadhar Document": (Object, { filename: String, file: File }),
   "PAN Number": (String, ""),
-  "PAN Document": (String, ""),
+  "PAN Document": (Object, { filename: String, file: File }),
   "GST Number": (String, ""),
+  "PAN Consent": (Boolean, false),
+  "GST Consent": (Boolean, false),
 };
 
 const ContactDetailsForm = {
+  "Full Name": (String, ""),
   "Phone Number": (String, ""),
   "Email Address": (String, ""),
   "Address Line 1": (String, ""),
   "Address Line 2": (String, ""),
   Pincode: (String, ""),
+  "Location Details": (String, ""),
+  "Postal Code": (Object, { id: Number, title_name: String }),
+  "Postal Code List": [],
   SameCA: (Boolean, true),
   "CA Address Line 1": (String, ""),
   "CA Address Line 2": (String, ""),
   CAPincode: (String, ""),
+  "CA Location Details": (String, ""),
+  "CA Postal Code": (Object, { id: Number, title_name: String }),
+  "CA Postal Code List": [],
+};
+
+const BankDetailsForm = {
+  "Account Holder": (String, ""),
+  "Account Number": (String, ""),
+  "Confirm Account Number": (String, ""),
+  "IFSC Code": (String, ""),
+  "Bank Name": (String, ""),
+  "Bank Branch": (String, ""),
+};
+
+const CoApplicantDetailsForm = {
+  "Co Applicant Name": (String, ""),
+  "Date of birth": (String, ""),
+  Gender: { id: 1, title_name: "Mr." },
+  "Phone Number": (String, ""),
+  "Email Address": (String, ""),
+  "PAN Number": (String, ""),
+  "Account Name": (String, ""),
+  "Account Number": (String, ""),
+  "Confirm Account Number": (String, ""),
+  "IFSC Code": (String, ""),
+  "Bank Name": (String, ""),
+  "Bank Branch": (String, ""),
+  "Nominee Name": (String, ""),
+  Relationship: { id: 1, title_name: "Mother" },
 };
 
 const initialEnrollmentDetails = {
   basicDetails: _.cloneDeep(BasicDetailsForm),
   contactDetails: _.cloneDeep(ContactDetailsForm),
-  bankDetails: _.cloneDeep(BankDetails),
-  coApplicantDetails: _.cloneDeep(CoAppDetails),
+  bankDetails: _.cloneDeep(BankDetailsForm),
+  coApplicantDetails: _.cloneDeep(CoApplicantDetailsForm),
 };
 
 const EnrollUser = () => {
@@ -92,7 +131,16 @@ const EnrollUser = () => {
   const [contactDetails, updateContactDetails] = useState(
     initialEnrollmentDetails.contactDetails
   );
+  const [bankDetails, updateBankDetails] = useState(
+    initialEnrollmentDetails.bankDetails
+  );
+  const [coApplicantDetails, updateCoApplicantDetails] = useState(
+    initialEnrollmentDetails.coApplicantDetails
+  );
   const [isSameAddress, setIsSameAddress] = useState(true);
+  const [isPANConsent, setIsPANConsent] = useState(false);
+  const [isGSTConsent, setIsGSTConsent] = useState(false);
+  const [showConsentDialog, setShowConsentDialog] = useState(false);
   const { loggedInUser } = useMasters();
   const {
     enrollmentError,
@@ -106,16 +154,6 @@ const EnrollUser = () => {
       WishToaster({ toastMessage: enrollmentError });
     }
   }, [enrollmentError]);
-
-  useEffect(() => {
-    if (personalDetails) {
-      setEnrollmentDetails({
-        ...enrollmentDetails,
-        basicDetails: personalDetails,
-      });
-      console.log(personalDetails);
-    }
-  }, [personalDetails]);
 
   const NavigationBar = () => {
     var currentProgress = ((currentPage + 1) / totalPages) * 100;
@@ -157,6 +195,16 @@ const EnrollUser = () => {
         </div>
       </div>
     );
+  };
+
+  const handlePageLoad = (pageIndex) => {
+    switch (pageIndex) {
+      case 0:
+        break;
+
+      default:
+        break;
+    }
   };
 
   const ErrorSection = () => {
@@ -247,6 +295,37 @@ const EnrollUser = () => {
                 setPageError
               ));
 
+          if (
+            (pageIsValid &&
+              !ValidationUtils.isEmpty(
+                personalDetails["PAN Number"],
+                "",
+                null
+              ) &&
+              !isPANConsent) ||
+            (pageIsValid &&
+              !ValidationUtils.isEmpty(
+                personalDetails["GST Number"],
+                "",
+                null
+              ) &&
+              !isGSTConsent)
+          ) {
+            setIsPANConsent(personalDetails["PAN Consent"]);
+            setIsGSTConsent(personalDetails["GST Consent"]);
+            setShowConsentDialog(true);
+            pageIsValid = false;
+          }
+
+          if (pageIsValid) {
+            contactDetails[
+              "Full Name"
+            ] = `${personalDetails["First Name"]} ${personalDetails["Last Name"]}`;
+            bankDetails[
+              "Account Holder"
+            ] = `${personalDetails["First Name"]} ${personalDetails["Last Name"]}`;
+          }
+
           break;
 
         case 1:
@@ -263,7 +342,7 @@ const EnrollUser = () => {
               "Kindly enter a valid Mobile Number",
               setPageError
             );
-          
+
           pageIsValid =
             pageIsValid &&
             ValidationUtils.isEmpty(
@@ -273,11 +352,19 @@ const EnrollUser = () => {
             ) &&
             ValidationUtils.isValid(
               contactDetails["Email Address"],
-              "^[w-.]+@([w-]+.)+[w-]{2,4}$",
+              "[a-z0-9]+@[a-z]+.[a-z]{2,3}",
               "Kindly enter a valid Email Address",
               setPageError
             );
-          
+
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              contactDetails["Address Line 1"],
+              "Kindly enter a valid address in Address Line 1",
+              setPageError
+            );
+
           pageIsValid =
             pageIsValid &&
             ValidationUtils.isEmpty(
@@ -287,16 +374,82 @@ const EnrollUser = () => {
             ) &&
             ValidationUtils.isValid(
               contactDetails.Pincode,
-              "^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$",
+              "^[1-9]{1}[0-9]{5}$",
               "Kindly enter a valid Pincode",
               setPageError
             );
 
-          
+          if (contactDetails.SameCA === false) {
+            pageIsValid =
+              pageIsValid &&
+              !ValidationUtils.isEmpty(
+                contactDetails["CA Address Line 1"],
+                "Kindly enter a valid address in Communication Address Line 1",
+                setPageError
+              );
+
+            pageIsValid =
+              pageIsValid &&
+              ValidationUtils.isEmpty(
+                contactDetails.CAPincode,
+                "Kindly enter a valid Pincode",
+                setPageError
+              ) &&
+              ValidationUtils.isValid(
+                contactDetails.CAPincode,
+                "^[1-9]{1}[0-9]{5}$",
+                "Kindly enter a valid Communication Address Pincode",
+                setPageError
+              );
+          }
+
           break;
 
         case 2:
-          pageIsValid = true;
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              bankDetails["Account Holder"],
+              "Kindly enter a valid account name holder",
+              setPageError
+            );
+
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              bankDetails["Account Number"],
+              "Kindly enter a valid account number",
+              setPageError
+            );
+
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              bankDetails["Confirm Account Number"],
+              "Kindly enter the same account number",
+              setPageError
+            ) &&
+            ValidationUtils.isSame(
+              bankDetails["Account Number"],
+              bankDetails["Confirm Account Number"],
+              "Kindly enter the same account number",
+              setPageError
+            );
+
+          pageIsValid =
+            pageIsValid &&
+            ValidationUtils.isEmpty(
+              bankDetails["IFSC Code"],
+              "Kindly enter a valid IFSC Code",
+              setPageError
+            ) &&
+            ValidationUtils.isValid(
+              bankDetails["IFSC Code"],
+              "^[A-Z]{4}0[A-Z0-9]{6}$",
+              "Kindly enter a valid IFSC Code",
+              setPageError
+            );
+
           break;
 
         case 3:
@@ -340,11 +493,7 @@ const EnrollUser = () => {
           label="First Name"
           initialValue={personalDetails["First Name"]}
           onChange={(newValue) => {
-            //personalDetails["First Name"] = newValue;
-            updatePersonalDetails({
-              ...personalDetails,
-              ["First Name"]: newValue,
-            });
+            personalDetails["First Name"] = newValue;
           }}
         />
         <WishSingleLineText
@@ -419,10 +568,14 @@ const EnrollUser = () => {
           }}
         />
         <WishFileControl
+          filter="image/png, image/jpg, image/jpeg"
           label="Aadhar Document (attachment)"
-          initialValue={personalDetails["Aadhar Document"]}
+          initialValue={personalDetails["Aadhar Document"].filename}
           onChange={(fileName, fileObject) => {
-            personalDetails["Aadhar Document"] = fileName;
+            personalDetails["Aadhar Document"] = {
+              filename: fileName,
+              file: fileObject,
+            };
           }}
         />
         <WishSingleLineText
@@ -435,9 +588,12 @@ const EnrollUser = () => {
         <WishFileControl
           filter="image/png, image/jpg, image/jpeg"
           label="PAN Document (attachment)"
-          initialValue={personalDetails["PAN Document"]}
+          initialValue={personalDetails["PAN Document"].filename}
           onChange={(fileName, fileObject) => {
-            personalDetails["PAN Document"] = fileName;
+            personalDetails["PAN Document"] = {
+              filename: fileName,
+              file: fileObject,
+            };
           }}
         />
         <WishSingleLineText
@@ -461,7 +617,7 @@ const EnrollUser = () => {
         <WishSingleLineText
           label="Full Name"
           readonly
-          initialValue={`${personalDetails["First Name"]} ${personalDetails["Last Name"]}`}
+          initialValue={contactDetails["Full Name"]}
         />
         <WishSingleLineText
           label="Mobile Number"
@@ -494,11 +650,19 @@ const EnrollUser = () => {
         />
         <WishSingleLineText
           label="Pincode"
+          placeholder="City, District, State, Country"
           onBlurred={(value) => {
-            if (value.trim()) {
+            if (value.trim() !== "") {
               getLocationDetails(value, (locationDetails) => {
-                console.log(locationDetails);
+                const firstLocation = locationDetails?.[0];
+                contactDetails[
+                  "Location Details"
+                ] = `${firstLocation.city_name}, ${firstLocation.district_name}, ${firstLocation.state_name}, ${firstLocation.country_name}`;
+                contactDetails["Postal Code List"] = locationDetails;
               });
+            } else {
+              contactDetails["Location Details"] = "";
+              contactDetails["Postal Code List"] = [];
             }
           }}
           initialValue={contactDetails.Pincode}
@@ -506,19 +670,26 @@ const EnrollUser = () => {
             contactDetails.Pincode = newValue;
           }}
         />
+        <WishSingleLineText
+          label="Location details"
+          readonly={true}
+          initialValue={contactDetails["Location Details"]}
+        />
         <WishFormSection
           title={
             <WishFlexBox>
               <span>Communications Address</span>
               <WishCheckBox
                 label="Same as Permanent Address"
-                initialValue={isSameAddress}
-                onChange={setIsSameAddress}
+                initialValue={contactDetails.SameCA}
+                onChange={(newValue) => {
+                  updateContactDetails({ ...contactDetails, SameCA: newValue });
+                }}
               />
             </WishFlexBox>
           }
         />
-        {isSameAddress ? (
+        {contactDetails.SameCA === true ? (
           <></>
         ) : (
           <>
@@ -548,12 +719,47 @@ const EnrollUser = () => {
           setIsPageDirty(true);
         }}
       >
-        <WishSingleLineText label="Account Holder" />
-        <WishSingleLineText label="Account Number" />
-        <WishSingleLineText label="Confirm Account Number" />
-        <WishSingleLineText label="IFSC Code" />
-        <WishSingleLineText label="Bank Name" readonly />
-        <WishSingleLineText label="Bank Branch" readonly />
+        <WishSingleLineText
+          label="Account Holder"
+          initialValue={bankDetails["Account Holder"]}
+          onChange={(newValue) => {
+            bankDetails["Account Holder"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Account Number"
+          initialValue={bankDetails["Account Number"]}
+          onChange={(newValue) => {
+            bankDetails["Account Number"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Confirm Account Number"
+          initialValue={bankDetails["Confirm Account Number"]}
+          onChange={(newValue) => {
+            bankDetails["Confirm Account Number"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="IFSC Code"
+          initialValue={bankDetails["IFSC Code"]}
+          onChange={(newValue) => {
+            bankDetails["IFSC Code"] = newValue;
+          }}
+          onBlurred={(ifscCode) => {
+            // Fetch Bank Details
+          }}
+        />
+        <WishSingleLineText
+          label="Bank Name"
+          readonly
+          initialValue={bankDetails["Bank Name"]}
+        />
+        <WishSingleLineText
+          label="Bank Branch"
+          readonly
+          initialValue={bankDetails["Bank Branch"]}
+        />
         <WishFileControl label="Bank (proof of address)" />
         <ErrorSection />
       </div>
@@ -566,31 +772,119 @@ const EnrollUser = () => {
           setIsPageDirty(true);
         }}
       >
-        <WishSingleLineText label="Co Applicant Name" />
-        <WishDateControl label="Date of birth" id="caDOB" />
+        <WishSingleLineText
+          label="Co Applicant Name"
+          initialValue={coApplicantDetails["Co Applicant Name"]}
+          onChange={(newValue) => {
+            bankDetails["Co Applicant Name"] = newValue;
+          }}
+        />
+        <WishDateControl
+          label="Date of birth"
+          id="caDOB"
+          initialValue={coApplicantDetails["Date of birth"]}
+          onChange={(newValue) => {
+            bankDetails["Date of birth"] = newValue;
+          }}
+        />
         <WishSelect
           data={enrollmentMasterData?.gender}
           label="Gender"
           id="caGender"
+          initialValue={coApplicantDetails.Gender.id}
+          onSelect={(newValue) => {
+            coApplicantDetails.Gender.id = newValue;
+            coApplicantDetails.Gender.title_name =
+              enrollmentMasterData?.gender[newValue - 1].title_name;
+          }}
         />
-        <WishSingleLineText label="Mobile Number" id="caMobile" />
-        <WishSingleLineText label="Email Address" id="caEmail" />
-        <WishSingleLineText label="PAN Number" id="caPan" />
+        <WishSingleLineText
+          label="Mobile Number"
+          id="caMobile"
+          initialValue={coApplicantDetails["Phone Number"]}
+          onChange={(newValue) => {
+            bankDetails["Phone Number"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Email Address"
+          id="caEmail"
+          initialValue={coApplicantDetails["Email Address"]}
+          onChange={(newValue) => {
+            bankDetails["Email Address"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="PAN Number"
+          id="caPan"
+          initialValue={coApplicantDetails["PAN Number"]}
+          onChange={(newValue) => {
+            bankDetails["PAN Number"] = newValue;
+          }}
+        />
         <WishFileControl label="PAN Document (attachment)" id="caPANDoc" />
-        <WishSingleLineText label="Account Name" id="caAccName" />
-        <WishSingleLineText label="Account Number" id="caAccNumber" />
+        <WishSingleLineText
+          label="Account Name"
+          id="caAccName"
+          initialValue={coApplicantDetails["Account Name"]}
+          onChange={(newValue) => {
+            bankDetails["Account Name"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Account Number"
+          id="caAccNumber"
+          initialValue={coApplicantDetails["Account Number"]}
+          onChange={(newValue) => {
+            bankDetails["Account Number"] = newValue;
+          }}
+        />
         <WishSingleLineText
           label="Confirm Account Number"
           id="caConfirmAccNumber"
+          initialValue={coApplicantDetails["Confirm Account Number"]}
+          onChange={(newValue) => {
+            bankDetails["Confirm Account Number"] = newValue;
+          }}
         />
-        <WishSingleLineText label="IFSC Code" id="caIFSC" />
-        <WishSingleLineText label="Bank Name" readonly id="caBankName" />
-        <WishSingleLineText label="Bank Branch" readonly id="caBankBranch" />
+        <WishSingleLineText
+          label="IFSC Code"
+          id="caIFSC"
+          initialValue={coApplicantDetails["IFSC Code"]}
+          onChange={(newValue) => {
+            bankDetails["IFSC Code"] = newValue;
+          }}
+        />
+        <WishSingleLineText
+          label="Bank Name"
+          readonly
+          id="caBankName"
+          initialValue={coApplicantDetails["Bank Name"]}
+        />
+        <WishSingleLineText
+          label="Bank Branch"
+          readonly
+          id="caBankBranch"
+          initialValue={coApplicantDetails["Bank Branch"]}
+        />
         <WishFileControl label="Bank (proof of address)" id="caBankDoc" />
-        <WishSingleLineText label="Nominee Name" id="caNomineeName" />
+        <WishSingleLineText
+          label="Nominee Name"
+          id="caNomineeName"
+          initialValue={coApplicantDetails["Nominee Name"]}
+          onChange={(newValue) => {
+            bankDetails["Nominee Name"] = newValue;
+          }}
+        />
         <WishSelect
           label="Nominee Relationship"
           data={enrollmentMasterData.relationship}
+          initialValue={coApplicantDetails.Relationship.id}
+          onSelect={(newValue) => {
+            coApplicantDetails.Relationship.id = newValue;
+            coApplicantDetails.Relationship.title_name =
+              enrollmentMasterData?.relationship[newValue - 1].title_name;
+          }}
         />
         <ErrorSection />
       </div>
@@ -618,6 +912,65 @@ const EnrollUser = () => {
     );
   };
 
+  const ConsentDialog = ({ show }) => {
+    return (
+      <WishDialog
+        show={show}
+        id="dlgConsent"
+        size="modal-xl"
+        title="You are seeing this because"
+        onClose={(isSaveClicked) => {
+          if (isSaveClicked) {
+            personalDetails["PAN Consent"] = isPANConsent;
+            personalDetails["GST Consent"] = isGSTConsent;
+            validatePage();
+          } else {
+            setIsPANConsent(personalDetails["PAN Consent"]);
+            setIsGSTConsent(personalDetails["GST Consent"]);
+          }
+
+          setShowConsentDialog(false);
+        }}
+      >
+        <WishColoredBar bgcolor="danger">
+          You did not provide PAN Card / GST details. Please provide your
+          consent for non-provision of PAN Card / GST Number
+        </WishColoredBar>
+        <div className="form-group row">
+          <div className="col-12 pb-2">
+            <h5>PAN Card Consent</h5>
+            <WishCheckBox
+              id="pan_declaration"
+              label={PAN_DECLARATION}
+              initialValue={isPANConsent}
+              onChange={(value) => {
+                setIsPANConsent(value);
+              }}
+            />
+          </div>
+          <div className="col-12">
+            <hr />
+          </div>
+
+          <div className="col-12 pb-2">
+            <h5>GST Number Consent</h5>
+            <WishCheckBox
+              id="gst_declaration"
+              label={GST_DECLARATION}
+              initialValue={isGSTConsent}
+              onChange={(value) => {
+                setIsGSTConsent(value);
+              }}
+            />
+          </div>
+          <div className="col-12">
+            <hr />
+          </div>
+        </div>
+      </WishDialog>
+    );
+  };
+
   return (
     <PageLayout {...pageConfig.enrollUser}>
       <NavigationBar />
@@ -634,6 +987,7 @@ const EnrollUser = () => {
           validatePage(currentPage - 1);
         }}
         title={<h5>{PageTitles[currentPage]}</h5>}
+        onPageLoad={handlePageLoad}
       >
         {enrollmentLoading ? <LoadingNote /> : <BasicDetailsPage />}
         {enrollmentLoading ? <LoadingNote /> : <ContactDetailsPage />}
@@ -641,6 +995,7 @@ const EnrollUser = () => {
         {enrollmentLoading ? <LoadingNote /> : <CoApplicantDetailsPage />}
         {enrollmentLoading ? <LoadingNote /> : <PreviewPage />}
       </WishCarousel>
+      <ConsentDialog show={showConsentDialog} />
     </PageLayout>
   );
 };

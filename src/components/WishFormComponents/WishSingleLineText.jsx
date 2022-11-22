@@ -75,7 +75,7 @@ const WishSingleLineText = ({
             setElValue(e.target.value);
             onChange && onChange(e.target.value);
           }}
-          onBlur={() => onBlurred(elValue)}
+          onBlur={() => onBlurred && onBlurred(elValue)}
           {...additionalAttributes()}
           //ref={customRef}
         />

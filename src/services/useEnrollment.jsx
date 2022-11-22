@@ -198,17 +198,29 @@ const useEnrollment = (distributorId) => {
     );
   };
 
+  const getPendingEnrolleeList = (distributorId) => {
+    postData(
+      "/enrollment/fetch-pending-enrollee-list",
+      {
+        distributor_id: distributorId,
+        section_level: null,
+      },
+      setPendingEnrollments
+    );
+  };
+
   return {
     enrollmentError,
     enrollmentLoading,
     enrollmentMasterData,
+    getBankBranchDetails,
+    getCoAppRelationships,
     getLocationDetails,
+    getPendingEnrolleeList,
     locationDetails,
     pendingEnrollments,
     saveEnrolleeDetails,
     tempDistId,
-    getBankBranchDetails,
-    getCoAppRelationships,
   };
 };
 

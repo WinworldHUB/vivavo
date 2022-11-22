@@ -176,6 +176,7 @@ export default function MyGeneology() {
   useEffect(() => {
     if (selectedDistributor > -1) {
       getTreeData({
+        logged_in_distributor_id: loggedInUser.distributor_id,
         distributor_id: selectedDistributor,
         depth: 2,
       });

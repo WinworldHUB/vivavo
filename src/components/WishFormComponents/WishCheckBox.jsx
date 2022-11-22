@@ -4,17 +4,17 @@ import WishFlexBox from "../WishFlexBox";
 
 const WishCheckBox = ({
   label,
-  initialValue = false,
+  initialValue,
   required = false,
   readonly = false,
   onChange,
   id,
 }) => {
   const elementId = id ? id : label ? label?.replace(" ", "") : uuidv4();
-  const [elValue, setElValue] = useState(initialValue ?? false);
+  const [elValue, setElValue] = useState(initialValue);
 
   useEffect(() => {
-    setElValue(initialValue ?? false);
+    setElValue(initialValue);
   }, [initialValue]);
 
   const additionalAttributes = function () {
@@ -30,36 +30,24 @@ const WishCheckBox = ({
     return opts;
   };
 
-  const generateClassForInput = () => {
-    let outputClass = "";
-
-    if (label) {
-      outputClass += " col-8 ";
-    } else {
-      outputClass += " col-12 ";
-    }
-
-    return outputClass;
-  };
-
   return (
     <WishFlexBox>
       <input
         id={elementId}
         name={elementId}
         type="checkbox"
-        //className="form-control"
-        //defaultValue={elValue}
         checked={elValue}
         onChange={(e) => {
-          setElValue(e.target.checked);
+          e.preventDefault();
+          e.stopPropagation();
+          setElValue(!elValue);
           onChange && onChange(e.target.checked);
         }}
         {...additionalAttributes()}
-        //ref={customRef}
-      />&nbsp;
+      />
+      &nbsp;
       {label && (
-        <label htmlFor={elementId} className="col-form-label">
+        <label htmlFor={elementId} className="col-form-label text-justify ">
           {label}
         </label>
       )}
